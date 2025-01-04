@@ -1,0 +1,507 @@
+﻿
+#####################################################################
+# EFFECT LIST
+#####################################################################
+# !!! Remember to add all new effects with a short description here !!!
+
+#new_acquaintance_effect		- Sets acquaintance relation
+
+#####################################################################
+# EFFECTS
+#####################################################################
+
+character_deception_effect = {
+
+	if = {
+		limit = {
+				NOT = {has_game_rule = masking_disabled}
+				NOT = {has_character_flag = has_deceived}
+				NOT = {probably_unintelligent_trigger = yes}
+				NOT = {has_trait = lunatic}
+				NOT = {has_character_flag = had_medium_level_report}
+				sum_of_all_skills_value >= 25
+				is_capable_adult_ai = yes
+				deception_time >= 3
+				NOT = {any_player = {
+					is_close_family_of = prev
+						}}
+				NOT = {any_player = {
+					is_consort_of = prev
+						}
+					}}
+
+		if = {
+			limit = {obf_humble_character = yes}
+			add_character_flag = {
+				flag = humble_character
+				months = deception_time
+					}
+			add_character_flag = has_deceived
+			}
+		else_if = {
+			limit = {obf_illusory_diplomat = yes}
+			add_character_flag = {
+				flag = illusory_diplomat
+				months = deception_time
+					}
+				add_character_flag = {
+				flag = has_deceived
+				years = 5
+					}
+			}
+		else_if = {
+			limit = {obf_illusory_administrator = yes}
+			add_character_flag = {
+				flag = illusory_administrator
+				months = deception_time
+					}
+				add_character_flag = {
+				flag = has_deceived
+				years = 5
+					}
+			}
+		else_if = {
+			limit = {obf_illusory_intriguer = yes}
+			add_character_flag = {
+				flag = illusory_intriguer
+				months = deception_time
+					}
+				add_character_flag = {
+				flag = has_deceived
+				years = 5
+					}
+			}
+		else_if = {
+			limit = {obf_illusory_scholar = yes}
+			add_character_flag = {
+				flag = illusory_scholar
+				months = deception_time
+					}
+				add_character_flag = {
+				flag = has_deceived
+				years = 5
+					}
+			}
+		else_if = {
+			limit = {obf_illusory_warrior = yes}
+			add_character_flag = {
+				flag = illusory_warrior
+				months = deception_time
+					}
+				add_character_flag = {
+				flag = has_deceived
+				years = 5
+					}
+				}
+			}
+		}
+		
+character_known_effect = {
+				
+			if = {
+				limit = {exists = scope:player_character
+					exists = var:years_known}
+				if = {
+				limit = {is_at_same_location = scope:player_character} ### same location
+				change_variable = {
+						name = years_known
+						add = 4
+					}
+				}
+				else_if = {
+				limit = {is_vassal_of = scope:player_character} ### vassal
+				change_variable = {
+						name = years_known
+						add = 1
+					}
+				}
+				else_if = {
+				limit = {top_liege = scope:player_character.top_liege} ### same_realm
+				change_variable = {
+						name = years_known
+						add = 0.5
+					}
+				}
+				else_if = {
+				limit = {NOT = {top_liege = scope:player_character.top_liege}} ### Not in same realm
+				change_variable = {
+						name = years_known
+						add = 0.25
+					}
+				}
+			}
+			else_if = {
+				limit = {exists = var:years_known}
+				change_variable = {
+						name = years_known
+						add = 0.75
+					}
+			}
+			else = {
+				set_variable = {
+						name = years_known
+						value = 0
+					}
+			}
+			if = {
+				limit = {revelation_score >= 90}
+			
+			add_character_flag = {
+				flag = partially_spied
+				years = 15
+					}
+			add_character_flag = {
+				flag = partially_spied_2
+				years = 12
+					}
+			add_character_flag = {
+				flag = partially_spied_3
+				years = 8
+					}
+			}
+			else = {
+			
+			add_character_flag = {
+				flag = partially_spied
+				years = 8
+					}
+			add_character_flag = {
+				flag = partially_spied_2
+				years = 5
+					}
+			add_character_flag = {
+				flag = partially_spied_3
+				years = 3
+					}
+			
+			}
+			
+}
+
+character_barely_known_effect = {
+			add_character_flag = {
+				flag = partially_spied
+				years = 5
+					}
+			add_character_flag = {
+				flag = partially_spied_2
+				years = 2
+					}
+			if = {
+				limit = {exists = scope:player_character
+					exists = var:years_known}
+				if = {
+				limit = {is_at_same_location = scope:player_character} ### same location
+				change_variable = {
+						name = years_known
+						add = 1
+					}
+				}
+				else_if = {
+				limit = {is_vassal_of = scope:player_character} ### vassal
+				change_variable = {
+						name = years_known
+						add = 0.25
+					}
+				}
+				else_if = {
+				limit = {top_liege = scope:player_character.top_liege} ### same_realm
+				change_variable = {
+						name = years_known
+						add = 0.125
+					}
+				}
+				else_if = {
+				limit = {NOT = {top_liege = scope:player_character.top_liege}} ### Not in same realm
+				change_variable = {
+						name = years_known
+						add = 0.06
+					}
+				}
+			}
+			else_if = {
+				limit = {exists = var:years_known}
+				change_variable = {
+						name = years_known
+						add = 0.2
+					}
+			}
+			else = {
+				set_variable = {
+						name = years_known
+						value = 0
+					}
+			}
+}
+
+character_met_effect = {
+			add_character_flag = {
+				flag = partially_spied
+				years = 3
+					}
+}
+
+# Needs CHARACTER 
+#Sets relation to acquaintance
+new_acquaintance_effect_feast = {
+	
+			send_interface_message = {
+			type = event_generic_neutral
+			title = new_acquaintance_at_feast
+			left_icon = root
+			right_icon = $CHARACTER$
+				custom_tooltip = met_at_feast_generic
+			}
+
+		}
+
+new_acquaintance_effect_wedding = {
+	
+			send_interface_message = {
+			type = event_generic_neutral
+			title = new_acquaintance_at_wedding
+			left_icon = root
+			right_icon = $CHARACTER$
+				custom_tooltip = met_at_wedding_generic
+			}
+
+		}
+new_acquaintance_effect_university = {
+	
+			send_interface_message = {
+			type = event_generic_neutral
+			title = new_acquaintance_at_university
+			right_icon = root
+				custom_tooltip = met_at_university_generic
+			}
+
+		}
+
+new_acquaintance_effect_playdate = {
+	
+			send_interface_message = {
+			type = event_generic_neutral
+			title = new_acquaintance_at_playdate
+			left_icon = root
+			right_icon = $CHARACTER$
+				custom_tooltip = met_at_playdate_generic
+			}
+
+		}
+		
+new_acquaintance_effect_tour = {
+	
+			send_interface_message = {
+			type = event_generic_neutral
+			title = new_acquaintance_at_tour
+			left_icon = root
+			right_icon = $CHARACTER$
+				custom_tooltip = met_at_tour_generic
+			}
+
+		}
+		
+
+new_acquaintance_effect_for_target = {
+	
+			set_relation_acquaintance = $CHARACTER$
+			send_interface_message = {
+			type = event_generic_neutral
+			title = new_acquaintance_generic_for_target
+			left_icon = scope:target
+			right_icon = $CHARACTER$
+				custom_tooltip = got_to_know_each_other_generic_for_target
+			}
+			$CHARACTER$ = { save_scope_as = owner }
+
+		}
+
+requested_report_ready = {
+	
+			send_interface_message = {
+			type = msg_intel_reports
+			title = requested_report_arrives
+			right_icon = scope:recipient
+				custom_tooltip = report_arrived
+			}
+
+		}
+requested_report_ready_faction = {
+	
+			send_interface_message = {
+			type = msg_intel_reports
+			title = requested_report_arrives
+			right_icon = scope:recipient
+				custom_tooltip = report_arrived_faction
+			}
+
+		}
+requested_report_death = {
+	
+			send_interface_message = {
+			type = event_generic_neutral
+			title = death_of_recipient
+				custom_tooltip = report_arrived_with_death
+			}
+
+		}
+		
+add_spy_network_modifiers = {
+	
+	if = {
+		limit = {OR = {NOT = {has_variable = spy_network}
+							var:spy_network <= 0}}
+			remove_character_modifier = building_intel_network_modifier
+	}
+	else = {
+			remove_character_modifier = building_intel_network_modifier
+			add_character_modifier = {
+			modifier = building_intel_network_modifier
+			}
+		
+	}
+}
+		
+send_emissary_gift_cost_effect = {
+	scope:actor = {
+		# Small cost.
+		if = {
+			limit = { always = scope:send_emissary_small_gift }
+			pay_short_term_gold = {
+				target = scope:recipient
+				gold = {
+					value = minor_gold_value
+					multiply = 0.25
+					if = {
+						limit = {scope:actor = {is_landless_adventurer = yes}}
+						multiply = 10
+						}
+					}
+			} 
+		}
+		# Medium cost; we do this last as a fallback.
+		else_if = {
+			limit = { always = scope:send_emissary_medium_gift }
+			pay_short_term_gold = {
+				target = scope:recipient
+				gold =  {
+					value = minor_gold_value
+					multiply = 0.5
+					if = {
+						limit = {scope:actor = {is_landless_adventurer = yes}}
+						multiply = 10
+						}
+					}
+			}
+		}
+		# Large cost.
+		else_if = {
+			limit = { always = scope:send_emissary_large_gift }
+			pay_short_term_gold = {
+				target = scope:recipient
+				gold =  {
+					value = minor_gold_value
+					multiply = 0.75
+					if = {
+						limit = {scope:actor = {is_landless_adventurer = yes}}
+						multiply = 10
+						}
+					}
+			}
+		}
+		
+	}
+}
+
+guest_shared_info_on_ruler_effect = {
+	
+			send_interface_message = {
+			type = event_generic_neutral
+			title = info_on_ruler
+			right_icon = scope:visited_ruler
+				custom_tooltip = got_info_on_ruler
+			}
+
+		}
+guest_shared_info_on_ruler_and_court_effect = {
+	
+			send_interface_message = {
+			type = event_generic_neutral
+			title = info_on_ruler
+			right_icon = scope:visited_ruler
+				custom_tooltip = got_info_on_ruler_and_court
+			}
+
+		}
+guest_leaves_court_effect = {
+	
+			send_interface_message = {
+			type = event_generic_bad
+			title = courtier_or_guest_leaves
+			right_icon = scope:recipient
+				custom_tooltip = courtier_or_guest_leaves_your_court
+			}
+
+		}
+		
+
+request_report_effect = {
+	scope:actor = {
+		# Small cost - low level report
+		if = {
+			limit = { 
+			exists = scope:request_low_level_report_cost
+			always = scope:request_low_level_report_cost }
+			remove_short_term_gold = low_level_report_cost
+			} 
+		# Medium cost; we do this last as a fallback.
+		else_if = {
+			limit = { 
+			exists = scope:request_medium_level_report_cost
+			always = scope:request_medium_level_report_cost }
+			remove_short_term_gold = medium_level_report_cost
+		}
+		# Large cost.
+		else_if = {
+			limit = { 
+			exists = scope:request_high_level_report_cost
+			always = scope:request_high_level_report_cost }
+			remove_short_term_gold = high_level_report_cost
+		}
+	}	
+}
+	
+low_level_report_effect = {
+	add_character_flag = {
+			flag = had_low_level_report
+			years = 2
+			}
+}
+
+medium_level_report_effect = {
+	add_character_flag = {
+			flag = had_low_level_report
+			years = 2
+			}
+	add_character_flag = {
+			flag = had_medium_level_report
+			years = 2
+			}
+}
+
+high_level_report_effect = {
+	add_character_flag = {
+			flag = had_low_level_report
+			years = 2
+			}
+	add_character_flag = {
+			flag = had_medium_level_report
+			years = 2
+			}
+	add_character_flag = {
+			flag = had_high_level_report
+			years = 2
+			}
+}
+
+

@@ -1,0 +1,60 @@
+﻿types obf_window_trigger_types {
+
+    type obf_button_known_character_large = button_icon {
+        name = "known_character_button"
+        tooltip = "KNOWN_CHARACTERS"
+		size = {100 100}
+		alpha = 0.3
+		
+		state = {
+				name = _mouse_enter
+				alpha = 1
+				duration = 0.3
+				using = Animation_Curve_Default
+			}
+
+		state = {
+				name = _mouse_leave
+				alpha = 0.3
+				duration = 3
+				using = Animation_Curve_Default
+			}
+			
+        background = {
+
+            texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+        }
+        modify_texture = {
+				color = { 0.1 0 0 0.5 }
+				blend_mode = normal
+					}
+
+        texture = "gfx/interface/icons/gw_effect_friendly_diplomacy.dds"                        
+                     
+        using = tooltip_ne
+
+		
+        onclick = "[GetScriptedGui('obf_toggle_reset').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+		
+		
+		
+		
+    }
+
+}
+widget = {
+    name = "obf_known_character_button_large"
+	visible = "[And(Not(KnownListShortcutBottomDisabled),Not(KnownListIsDisabled))]"
+    parentanchor = bottom|right
+    widgetanchor = bottom|right
+    position = { -650 -5}
+    size = { 55 55 }
+    layer = middle
+
+    obf_button_known_character_large = {
+        size = { 50 50 }
+    
+        
+    }
+}
+

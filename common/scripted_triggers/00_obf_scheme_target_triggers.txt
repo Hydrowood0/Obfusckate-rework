@@ -1,0 +1,1605 @@
+﻿
+#####
+
+is_married_unlanded_trigger = {
+is_playable_character = no
+is_married = yes 
+}
+
+target_is_in_owner_court_trigger = {
+exists = scope:target.court_owner
+scope:owner = scope:target.court_owner
+}
+
+is_owner_courtier_or_vassal_or_below = {
+	OR = {
+	AND = {
+		exists = liege
+		liege = {is_vassal_or_below_of = scope:owner}}
+	is_courtier_of = scope:owner
+	is_vassal_or_below_of = scope:owner}
+}
+
+is_target_courtier_or_vassal_or_below = {
+	OR = {
+	is_courtier_of = scope:target
+	is_vassal_or_below_of = scope:target}
+}
+
+
+related_to_liege_trigger = {
+	is_ruler = no
+	exists = court_owner
+	OR = {
+		is_spouse_of = court_owner
+		is_close_family_of = court_owner
+		is_heir_of = court_owner
+		is_councillor_of = court_owner
+	}
+}
+
+is_at_distance_17500 = {
+	exists = capital_province
+	capital_province = {
+		save_temporary_scope_as = my_capital
+	}
+	$CHARACTER$ = {
+		capital_province = {
+			squared_distance = {
+				target = scope:my_capital
+				value < 200000
+			}
+		}
+	}
+}
+
+agent_willing_to_help_without_spymaster_trigger = { 
+			OR = {
+				AND = { exists = scope:target.court_owner
+				scope:owner = scope:target.court_owner}
+				scope:owner = {has_council_position = councillor_spymaster}
+				is_at_same_location = scope:owner
+				has_relation_to = scope:owner
+				is_allied_to = scope:owner
+				scope:owner = {has_hook = prev}
+				is_owner_courtier_or_vassal_or_below = yes
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = legitimized_my_child_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = legitimized_my_children_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = legitimized_me_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = charming_crush_on_me_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = bothersome_crush_on_me_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = guardian_of_heir_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = guardian_of_relative_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = optimistic_about_friendship_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = friend_gave_major_gift_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = friend_gave_good_gift_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = supported_my_war_opinion}	
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = supported_my_enemy_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = confided_in_me_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = successfull_intercession_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = friend_interceded_for_me_opinion}	
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = passed_favor_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = comrades_in_arms_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = trusted_judgement_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = stood_by_me_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = flirty_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = friendliness_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = love_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = romance_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = given_luxuries_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = kept_promise}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = helped_me_in_time_of_need}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = was_spared}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = grateful_ward_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = forgiven_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = murder_partner_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = befriended_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = strengthened_friendship_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = mentored_me_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = mentored_my_heir_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = helpful_vassal_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = trusting_liege_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = helped_me_against_tyrant_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = sided_with_tyrant_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = courtly_friends_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = released_from_prison}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = ransomed_from_prison}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = merciful_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = befriend_common_enemy_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = faction_common_goals_opinion}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = romance_scheme_courtship_opinion}
+					}
+				
+}
+
+target_knows_about_owner_trigger = { 
+			OR = {
+				AND = {
+				scope:target = {
+				exists = court_owner
+				exists = location}
+				scope:owner = {exists = capital_county}
+				scope:target = {
+					exists = court_owner
+					court_owner = {
+						capital_county = { squared_distance = { target = scope:owner.capital_county value < 17500}}}}}
+				AND = {
+				scope:target = {
+				highest_held_title_tier <= tier_barony
+				exists = liege
+				exists = location}
+				scope:owner = {exists = capital_county}
+				scope:target = {
+					liege = {
+						capital_county = { squared_distance = { target = scope:owner.capital_county value < 17500}}}}}
+				AND = {
+				scope:target = {
+				exists = court_owner
+				exists = location}
+				scope:owner = {
+							exists = capital_county
+							highest_held_title_tier = tier_county
+							tier_difference = {
+									target = scope:target
+									value >= 0}}
+				scope:target = {
+					court_owner = {
+						capital_county = { squared_distance = { target = scope:owner.capital_county value < 35000}}}}}
+				AND = {
+				scope:target = {
+				highest_held_title_tier <= tier_barony
+				exists = liege
+				exists = location}
+				scope:owner = {
+							exists = capital_county
+							highest_held_title_tier = tier_county
+							tier_difference = {
+									target = scope:target
+									value >= 0}}
+				scope:target = {
+					liege = {
+						capital_county = { squared_distance = { target = scope:owner.capital_county value < 35000}}}}}
+				AND = {
+				scope:target = {
+				exists = court_owner
+				exists = location}
+				scope:owner = {
+							exists = capital_county
+							highest_held_title_tier = tier_duchy
+							tier_difference = {
+									target = scope:target
+									value >= 0}}
+				scope:target = {
+					court_owner = {
+						capital_county = { squared_distance = { target = scope:owner.capital_county value < 70000}}}}}
+				AND = {
+				scope:target = {
+				highest_held_title_tier <= tier_barony
+				exists = liege
+				exists = location}
+				scope:owner = {
+							exists = capital_county
+							highest_held_title_tier = tier_duchy
+							tier_difference = {
+									target = scope:target
+									value >= 0}}
+				scope:target = {
+					liege = {
+						capital_county = { squared_distance = { target = scope:owner.capital_county value < 70000}}}}}
+					scope:owner = {is_at_same_location = scope:target}
+					scope:owner = {is_vassal_of = scope:target}
+					scope:owner = {piety_level > 3}
+					scope:owner = {prestige_level >= 3}
+					scope:owner = {has_relation_to = scope:target}
+					scope:target = {has_relation_to = scope:owner}
+				AND = {
+				scope:target = {exists = liege}
+				scope:owner = {exists = liege}
+				scope:owner.liege = scope:target.liege
+				OR = {  scope:target = {is_councillor = yes}
+						scope:target = {is_ruler = yes}}}
+				AND = {
+				scope:target = {exists = liege}
+				scope:owner = {is_councillor_of = scope:target.liege}
+				}
+				scope:owner = {is_vassal_of = scope:target}
+				scope:owner = {is_allied_to = scope:target}
+				scope:owner = {has_hook = scope:target}
+				scope:target = {has_hook = scope:owner}
+				scope:target = {any_known_secret = { secret_owner = scope:owner}}
+				scope:owner = {highest_held_title_tier >= tier_kingdom}
+				scope:owner = { any_memory = {	any_memory_participant = {this = scope:target}}}
+				scope:target = { any_memory = {	any_memory_participant = {this = scope:owner}}}
+				scope:target = {is_owner_courtier_or_vassal_or_below = yes}
+				AND = {
+				scope:target = {exists = court_owner}
+				scope:target.court_owner = {is_vassal_or_below_of = scope:owner}
+				}
+				AND = {
+				scope:target = {exists = liege}
+				scope:target.liege = {is_vassal_or_below_of = scope:owner}
+				}
+				scope:target.dynasty = scope:owner.dynasty
+				
+				scope:target = {has_character_flag = partially_spied_2}
+				scope:target = {has_character_flag = partially_spied_3}
+				}
+				
+}
+target_has_heard_or_has_been_introduced_to_owner = { 
+					OR = {
+				scope:target = {has_character_flag = emissary_sent}
+				scope:owner = {is_allied_to = scope:target}
+				scope:owner = {has_hook = scope:target}
+				scope:target = {
+									is_ruler = yes
+									any_truce_holder = {this = scope:owner}}
+					scope:owner = {any_truce_holder = {this = scope:target}}
+				scope:target = {has_character_flag = partially_spied}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = attempted_murder_opinion}}	
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = murdered_close_family_crime}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = attempted_murder_close_family_crime}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = attempted_murder_me_crime}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = murdered_close_relation_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = murdered_someone_close_to_me_crime}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = hurt_someone_close_to_me_crime}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = murdered_my_vassal_crime}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = executed_close_family}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = executed_close_family_crime}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = executed_dynasty_member}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = executed_close_relation_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = executed_my_countryman_modifier}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = executed_guest_modifier}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = attempted_to_steal_artifact_from_me}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = stole_artifact_from_me}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = fabricate_hook_threatened_me}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = sent_great_courtier_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = holy_order_founder_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheming_against_me}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = schemed_against_me}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = blackmailing_me_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = forced_to_scheme_against_friend_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_refused_my_advice_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = opinion_scheme_refused_to_stop_spying}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = opinion_scheme_refused_to_stop_murder}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = opinion_scheme_spied_on_me}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = opinion_scheme_wanted_to_murder_close_relation}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = extorted_me_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = meritocracy_claimed_my_throne_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = intrigue_used_as_test_subject_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = intrigue_used_as_risky_test_subject_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = did_not_tell_my_secret}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = belittled_my_enemy}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = renewed_attention}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = broke_betrothal_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = refused_alliance_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = gave_up_on_learn_commander_trait_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = taught_me_commander_trait_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = suspicion_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = disappointed_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = gift_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = gift_artifact_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = sc_negotiator_improved_relations_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = loved_one_dungeon_death}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = imprisoned_family_member}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = imprisoned_family_member_dungeon}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = family_moved_to_dungeon_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = murder_personal_grudge_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = declined_guardianship_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = claimant_faction_claimant_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = claimant_faction_member_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = kicked_relative_from_court}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = ensures_my_safety_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = peasant_affair_rejected_lover_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = peasant_affair_rejected_acknowledgement_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = sent_poem_romance_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = sent_poem_mourning_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = sent_poem_grateful_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = sent_poem_humiliated_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = requested_money_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = donated_to_church_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = friend_of_rival_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = killed_my_child}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = slept_with_spouse_exposed_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = unfaithful_spouse_exposed_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = unfaithful_spouse_discovered_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = slept_with_spouse_discovered_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = adulterer_advances_on_relevant_character}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = fornicator_advances_on_relevant_character}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = incestuous_advances_on_relevant_character}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = sodomite_advances_on_relevant_character}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = sent_charming_envoy_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = heard_praise_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = heard_of_foolishness_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = laughingstock_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = seduce_bad_time_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = seduce_refused_to_end_seduction_spouse_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = seduce_loss_of_trust_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = seduce_permanent_blocker_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = sway_misunderstanding_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = sway_good_rumors_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = sway_blocker_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = horrifying_discovery_cannibalism_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = stress_unceremoniously_dismissed_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = usurped_title}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = destroyed_title}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = pressed_my_claim}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = declared_war}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = declared_war_on_son_daughter}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = contributed_in_war}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = seduce_regular_cooldown_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = spied_on_family_member_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = spied_on_spouse_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = spying_on_us_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = spied_on_other_vassal_opinion}}
+				scope:target = { 
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = is_spying_on_me_opinion}}
+
+					}
+				
+}
+####AI PERSONALITIES
+
+is_annoying_trigger = {
+	OR = {
+		has_trait = drunkard
+		has_trait = lunatic
+		has_trait = possessed
+		has_trait = irritable
+	}
+}
+is_a_dishonorable_person_trigger = {
+					ai_honor <= -30
+}
+
+is_a_honorable_person_trigger = {
+					ai_honor >= 30
+}
+
+is_a_vengeful_person_trigger = {
+					ai_vengefulness >= 30
+}
+
+is_a_forgiving_person_trigger = {
+				ai_vengefulness <= -30
+	}
+	
+is_a_greedy_person_trigger = {
+				ai_greed >= 30
+}
+
+is_a_energetic_person_trigger = {
+				ai_energy >= 30
+}
+is_not_an_energetic_person_trigger = {
+				ai_energy <= -30
+		}
+
+is_a_sociable_person_trigger = {
+				ai_sociability >= 30
+}
+
+is_not_a_sociable_person_trigger = {
+				ai_sociability <= -30
+}
+
+is_an_uncompassionate_person_trigger = {
+				ai_compassion <= -30
+}
+is_a_compassionate_person_trigger = {
+				ai_compassion >= 30
+}
+
+is_a_zealous_person_trigger = {
+				ai_zeal >= 30
+				NOR = {
+					has_character_modifier = known_non_believer
+					has_character_modifier = ultimate_blasphemer_modifier
+					any_secret = {secret_type = secret_non_believer}
+					}
+					
+			}
+is_cynical_or_non_believer_person_trigger = {
+				ai_zeal <= -30
+				OR = {
+					has_character_modifier = known_non_believer
+					has_character_modifier = ultimate_blasphemer_modifier
+					any_secret = {secret_type = secret_non_believer}					
+					}
+}
+
+######OTHER
+
+target_is_near = {
+			scope:target.court_owner.capital_county = { squared_distance = { target = scope:owner.capital_county value < 70000}}
+			NOT = { scope:target.court_owner.top_liege = scope:owner.top_liege }
+			
+		}
+		
+target_is_foreign_trigger = {
+			NOT = { scope:target.court_owner.top_liege = scope:owner.top_liege }
+		}
+		
+target_is_foreign_and_not_same_culture_trigger = {
+			NOT = { scope:target.court_owner.top_liege = scope:owner.top_liege }
+			NOT = { scope:target.culture = scope:owner.culture}
+		}
+
+target_is_land_neighbor_trigger = {
+			OR= {any_county = { holder = {this = scope:target.court_owner } any_title_to_title_neighboring_county = {holder = {this = scope:owner}}}
+			any_duchy = { holder = {this = scope:target.court_owner } any_title_to_title_neighboring_county = {holder = {this = scope:owner}}}
+			}
+		}
+target_is_land_or_across_water_neighbor_trigger = {
+			OR = {any_county = { holder = {this = scope:target.court_owner } any_title_to_title_neighboring_and_across_water_county = {holder = {this = scope:owner}}}
+			any_duchy = { holder = {this = scope:target.court_owner } any_title_to_title_neighboring_and_across_water_county = {holder = {this = scope:owner}}}
+			}
+		}
+		
+target_is_independent_neighbor_with_superior_army_trigger = {
+			scope:owner.max_military_strength > 0
+			2 <= {add = scope:target.max_military_strength divide = scope:owner.max_military_strength}
+			scope:owner = {NOT = {is_allied_to = scope:target}}
+			scope:target = {is_independent_ruler = yes}
+			scope:owner = {is_independent_ruler = yes}
+			scope:target = {character_is_realm_neighbor = scope:owner}
+			
+		}
+		
+target_is_independent_neighbor_with_inferior_army_trigger = {
+			scope:target.max_military_strength > 0
+			2 <= {add = scope:owner.max_military_strength divide = scope:target.max_military_strength}
+			scope:owner = {NOT = {is_allied_to = scope:target}}
+			scope:target = {is_independent_ruler = yes}
+			scope:owner = {is_independent_ruler = yes}
+			scope:target = {character_is_realm_neighbor = scope:owner}
+			
+		}
+		
+owner_is_a_faction_member_against_target_trigger = {
+				scope:target = {any_targeting_faction = {any_faction_member = { this = scope:owner }}}
+				scope:owner = {is_vassal_of = scope:target}
+		}
+owner_is_a_faction_leader_against_target_trigger = {
+		scope:target = {any_targeting_faction = {faction_leader = scope:owner}}
+		scope:owner = {is_vassal_of = scope:target}
+		}		
+		
+target_is_a_faction_member_against_owner_trigger = {
+		scope:owner = {any_targeting_faction = {any_faction_member = {this = scope:target} faction_target = scope:owner}}
+		scope:target = {is_vassal_of = scope:owner}
+		}
+target_is_a_faction_leader_against_owner_trigger = {
+		scope:owner = {any_targeting_faction = {faction_leader = scope:target}}
+		scope:target = {is_vassal_of = scope:owner}
+		}
+		
+target_has_hostile_scheme_against_owner_trigger = {
+		scope:target = {
+				any_scheme = {
+					hostile_scheme_trigger = yes
+					scheme_target_character = scope:owner
+						}
+				}
+		}
+		
+target_is_ally_not_spouse_trigger = {
+			scope:owner = {is_allied_to = scope:target}
+			scope:target = {NOT = {is_consort_of = scope:owner}}
+		}
+
+target_is_diplomatic_friendly_trigger = {
+			scope:target = {
+			NOT = { is_allied_to = scope:owner }
+			NOT = { scope:target.court_owner.top_liege = scope:owner.top_liege }
+			ai_diplomacy_stance = {
+				target = scope:owner
+				stance = friend
+				}
+		}
+	}
+	
+is_at_war_with_target_and_its_lieges = {
+		scope:owner = {is_at_war = yes}
+		OR = {
+		scope:target = {is_at_war_with = scope:owner}
+		trigger_if = {
+			limit = {scope:target = { exists = top_liege }}
+				scope:target = {
+					top_liege = {
+						is_at_war_with = scope:owner}
+					}
+				}
+		trigger_if = {
+			limit = {scope:target = { 
+						is_landed = no
+						exists = liege }}
+				scope:target = {
+					liege = {
+						is_at_war_with = scope:owner}
+					}
+				}
+		trigger_if = {
+			limit = {scope:target = { 
+						is_landed = no
+						exists = court_owner }}
+				scope:target = {
+					court_owner = {
+						is_at_war_with = scope:owner}
+					}
+				}
+		trigger_if = {
+			limit = {scope:target = { 
+						is_landed = no
+						exists = court_owner 
+						court_owner = {
+						exists = top_liege}}}
+				scope:target = {
+					court_owner = {
+						top_liege = {
+							is_at_war_with = scope:owner}}
+					}
+				}
+		trigger_if = {
+			limit = {scope:target = { 
+						is_playable_character = yes
+						exists = liege 
+						liege = {
+						exists = top_liege}}}
+				scope:target = {
+					liege = {
+						top_liege = {
+							is_at_war_with = scope:owner}}
+					}
+				}
+				
+		trigger_if = {
+			limit = {scope:target = { 
+						is_playable_character = yes
+						exists = liege }}
+				scope:target = {
+					liege = {
+							is_at_war_with = scope:owner}
+					}
+				}
+		}
+}
+		
+is_available_for_personal_scheme = {
+	has_contagious_deadly_disease_trigger = no
+	NOT = { has_trait = incapable }
+}
+
+both_work_on_same_court = {
+			OR = {
+			AND = {
+				scope:owner = {
+				exists = liege
+				is_councillor_of = scope:owner.liege}
+						OR = {
+						scope:owner.liege = {is_employer_of = scope:target}
+						scope:target = {is_councillor_of = scope:owner.liege}
+						scope:target = {is_courtier_of = scope:owner.liege}
+						scope:target = {is_foreign_court_or_pool_guest_of = scope:owner.liege}
+						scope:target = scope:owner.liege
+						}
+					}
+			scope:target = {is_councillor_of = scope:owner}
+			scope:target = {is_courtier_of = scope:owner}
+			scope:target = {is_knight_of = scope:owner}
+			scope:target = {is_foreign_court_or_pool_guest_of = scope:owner}
+			scope:owner = {is_knight_of = scope:target}
+			scope:target = {is_employer_of = scope:owner}
+			scope:owner = {is_employer_of = scope:target}
+						}
+}
+		
+target_is_diplomatic_hostile_trigger = {
+			scope:target = {
+			OR = {
+					ai_diplomacy_stance = {
+					target = scope:owner
+					stance = enemy
+								}
+				}
+			}
+		}
+target_won_a_war_against_owner_trigger = {
+				 scope:target = { any_memory = {
+						has_memory_type = war_won
+						any_memory_participant = {
+							this = scope:owner
+						}
+					}
+				}
+			}
+target_lost_a_war_against_owner_trigger = {
+				 scope:target = { 
+				 is_ruler = yes
+				 any_memory = {
+						has_memory_type = war_lost
+						any_memory_participant = {
+							this = scope:owner
+						}
+					}
+				}
+			}
+unlanded_target_lost_a_war_against_owner_trigger = {
+				 scope:target = { 
+				 is_ruler = no
+				 any_memory = {
+						has_memory_type = war_lost
+						any_memory_participant = {
+							this = scope:owner
+						}
+					}
+				}
+			}
+target_was_defender_in_war_trigger = {
+				 scope:target = { 
+				 any_memory = {
+						has_memory_type = defensive_war
+						any_memory_participant = {
+							this = scope:owner
+						}
+					}
+				}
+			}
+			
+target_was_imprisoned_by_owner_trigger = {
+				 scope:target = { 
+				 any_memory = {
+						has_memory_type = imprisoned
+						any_memory_participant = {
+							this = scope:owner
+						}
+					}
+				}
+			}
+			
+target_lost_title_to_owner_trigger = {
+				 scope:target = { 
+				 any_memory = {
+						has_memory_type = lost_title_memory
+						any_memory_participant = {
+							this = scope:owner
+						}
+					}
+				}
+			}
+						
+target_lover_taken_or_stolen_by_owner_trigger = {
+				 scope:target = { 
+					any_memory = {
+						has_memory_type = stole_lover
+						any_memory_participant = {
+							this = scope:owner}
+						}
+
+				}
+			}
+			
+target_and_owner_broke_up_trigger = {
+				 OR = {
+				 scope:owner = { 
+					any_memory = {
+					has_memory_type = broke_up_lovers
+					any_memory_participant = {
+							this = scope:target}
+						}}
+				 scope:target = { 
+					any_memory = {
+					has_memory_type = broke_up_lovers
+					any_memory_participant = {
+							this = scope:owner}
+						}}
+					
+					}
+				}
+target_and_owner_had_sex_trigger = {
+				 OR = {
+				 scope:target = { 
+					any_memory = {
+					has_memory_type = had_sex
+					any_memory_participant = {
+							this = scope:owner}}}
+				scope:owner = { 
+					any_memory = {
+					has_memory_type = had_sex
+					any_memory_participant = {
+							this = scope:target}}}
+					
+					
+				}
+			}
+target_lost_a_duel_trigger = {
+				 scope:target = { 
+				 OR = {
+					any_memory = {
+					has_memory_type = lost_duel
+					any_memory_participant = {
+							this = scope:owner}
+						}
+					
+					
+				}
+			}
+		}
+target_is_a_bishop_or_religious_head_trigger = {
+					scope:target = { 
+									OR = { is_theocratic_lessee = yes
+									faith = {exists = religious_head
+									religious_head = {this = scope:target}
+									}
+								is_theological_character_trigger = yes
+								}
+							}
+						}
+target_is_religious_head = {
+scope:target = {
+				faith = scope:owner.faith
+				faith = {
+					exists = religious_head
+					religious_head = {
+			 			this = scope:target
+			 		} 
+				}
+			}
+}
+						
+target_considers_fornication_and_adultery_as_crime_trigger = {
+			scope:target = {NOT = {has_trait = adulterer}
+							NOT = {has_trait = fornicator}
+							NOT = {any_secret = {secret_type = secret_lover}}}
+			scope:target.faith = { OR = { has_doctrine = doctrine_adultery_women_crime 
+										 has_doctrine = doctrine_adultery_women_shunned
+										 has_doctrine = doctrine_adultery_men_crime 
+										 has_doctrine = doctrine_adultery_men_shunned}}
+			}
+			
+target_intolerant_to_fornication_and_adultery_trigger = {
+scope:target = { OR = {
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = adulterer_crime}
+					
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = adulterer_intolerant}
+					
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = fornicator_crime}
+					
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = fornicator_intolerant}}}
+}
+
+target_considers_incest_as_crime_trigger = {
+			scope:target = {NOT = {has_trait = incestuous}
+							NOT = {any_secret = {secret_type = secret_incest}}}
+			scope:target.faith = { NOT = { has_doctrine = doctrine_consanguinity_unrestricted }}
+			}
+			
+target_intolerant_to_incest_trigger = {
+scope:target = {	has_opinion_modifier = {
+					target = scope:owner
+					modifier = incest_intolerant}}
+}
+			
+target_considers_sodomy_as_crime_trigger = {
+			scope:target = {NOT = {has_trait = sodomite}
+							NOT = {any_secret = {secret_type = secret_homosexual}}}
+			scope:target.faith = { OR = {has_doctrine = doctrine_homosexuality_crime
+										has_doctrine = doctrine_homosexuality_shunned }}
+
+			}
+
+target_intolerant_to_sodomy_trigger = {
+scope:target = {OR = {has_opinion_modifier = {
+					target = scope:owner
+					modifier = sodomite_crime}
+					
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = sodomite_intolerant}}}
+}			
+
+target_considers_deviancy_as_crime_trigger = {
+			scope:target = {NOT = {has_trait = deviant}
+					NOT = {any_secret = {secret_type = secret_deviant}}}
+			scope:target.faith = { OR = {has_doctrine = doctrine_deviancy_crime
+										has_doctrine = doctrine_deviancy_shunned }}
+
+			}
+			
+target_intolerant_to_deviancy_trigger = {
+scope:target = {OR = {has_opinion_modifier = {
+					target = scope:owner
+					modifier = deviant_crime}
+					
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = deviant_intolerant}}}
+}		
+
+target_considers_cannibalism_as_crime_trigger = {
+			scope:target = {NOT = {has_trait = cannibal}
+							NOT = {any_secret = {secret_type = secret_deviant}}}
+			scope:target.faith = { NOT = {has_doctrine = tenet_ritual_cannibalism}}
+
+			}	
+
+target_intolerant_to_cannibalism_trigger = {
+scope:target = {has_opinion_modifier = {
+					target = scope:owner
+					modifier = cannibal_crime}}
+}				
+			
+target_considers_kinslaying_as_crime_trigger = {
+			scope:target = {NOT = {has_trait = kinslayer}}
+			scope:target.faith = { 
+					OR = {
+				NOT = {has_doctrine = doctrine_kinslaying_accepted}
+				has_doctrine = doctrine_kinslaying_shunned
+				has_doctrine = doctrine_kinslaying_any_dynasty_member_crime
+				has_doctrine = doctrine_kinslaying_extended_family_crime
+				has_doctrine = doctrine_kinslaying_close_kin_crime
+				
+						}
+					}
+
+			}
+			
+target_intolerant_to_kinslaying_trigger = {
+scope:target = {OR = {has_opinion_modifier = {
+					target = scope:owner
+					modifier = kinslayer_intolerant}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = kinslayer_crime_dynasty}}}
+}
+
+target_considers_witchcraft_as_crime_trigger = {
+			scope:target = {NOT = {has_trait = witch}
+							NOT = {any_secret = {secret_type = secret_witch}}}
+			scope:target.faith = { 
+					OR = {	has_doctrine = doctrine_witchcraft_crime 
+							has_doctrine = doctrine_witchcraft_shunned}	}
+
+			}
+			
+target_intolerant_to_witchcraft_trigger = {
+scope:target = {OR = {has_opinion_modifier = {
+					target = scope:owner
+					modifier = witchcraft_crime}
+					has_opinion_modifier = {
+					target = scope:owner
+					modifier = witchcraft_intolerant}}}
+}
+			
+target_considers_same_faith_excommunicated_as_crime_trigger = {
+			scope:target = {NOT = {has_trait = excommunicated}}
+			scope:owner.faith = scope:target.faith
+			scope:target.faith = { has_doctrine = tenet_communion }
+
+			}
+			
+target_intolerant_to_excommunication_trigger = {
+scope:target = {has_opinion_modifier = {
+					target = scope:owner
+					modifier = tenet_excommunicated_crime}}
+					
+}
+			
+target_has_same_lifestyle_trigger = {
+		OR = {
+			AND = {
+			scope:owner = {has_lifestyle = martial_lifestyle}
+			scope:target = {has_lifestyle = martial_lifestyle}
+			}
+			AND = {
+			scope:owner = {has_lifestyle = stewardship_lifestyle}
+			scope:target = {has_lifestyle = stewardship_lifestyle}
+			}
+			AND = {
+			scope:owner = {has_lifestyle = intrigue_lifestyle}
+			scope:target = {has_lifestyle = intrigue_lifestyle}
+			}
+			AND = {
+			scope:owner = {has_lifestyle = learning_lifestyle}
+			scope:target = {has_lifestyle = learning_lifestyle}
+			}
+			AND = {
+			scope:owner = {has_lifestyle = diplomacy_lifestyle}
+			scope:target = {has_lifestyle = diplomacy_lifestyle}
+			}
+		}
+	}
+
+target_liege_has_bad_traits_trigger = {
+			scope:owner = { OR = {
+							has_trait = arbitrary
+							has_trait = shy
+							has_trait = greedy
+							has_trait = sadistic
+							has_trait = callous
+												}}
+			scope:target = {is_owner_courtier_or_vassal_or_below = yes}
+		}
+		
+target_is_also_peasant_leader_trigger = {
+			scope:owner = { has_trait = peasant_leader }
+			scope:target = { has_trait = peasant_leader }
+			}
+			
+owner_is_peasant_leader_and_target_is_ruler_who_hates_owner_liege_trigger = { 
+			scope:owner = { has_trait = peasant_leader }
+			scope:owner = { is_independent_ruler = no }
+			scope:target = { highest_held_title_tier >= tier_kingdom }
+			scope:target = {opinion = {target = scope:owner.liege value <= -50}}
+			}
+			
+target_is_ruler_and_hates_peasant_leaders_trigger = {
+			scope:owner = { has_trait = peasant_leader }
+			scope:target = { highest_held_title_tier >= tier_kingdom }
+			scope:target = {opinion = {target = scope:owner.liege value > -50}}
+			scope:target = { NOT = {has_trait = peasant_leader} }
+			}
+			
+owner_is_not_rightful_liege_trigger = { 
+				scope:target = {is_vassal_or_below_of = scope:owner}
+				scope:target = {is_ruler = yes}
+				NOT = {
+					scope:owner = { is_rightful_liege_of = scope:target }
+			}
+		}
+
+is_or_was_victim_of_scheme_trigger = {
+				OR = {
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = schemed_against_me
+				}
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = blackmailing_me_opinion
+				}
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = forced_to_scheme_against_friend_opinion
+				}
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = attempted_to_remove_agent_opinion
+				}
+				has_opinion_modifier = {
+					modifier = spied_on_family_member_opinion
+					target = scope:owner
+				}
+				has_opinion_modifier = {
+					modifier = spied_on_spouse_opinion
+					target = scope:owner
+				}
+				has_opinion_modifier = {
+					modifier = is_spying_on_me_opinion
+					target = scope:owner
+				}
+				has_opinion_modifier = {
+					modifier = liege_scheming_against_me_opinion
+					target = scope:owner
+				}
+				has_opinion_modifier = {
+					modifier = scheming_against_me
+					target = scope:owner
+				}
+				has_opinion_modifier = {
+					modifier = opinion_scheme_spied_on_me
+					target = scope:owner
+				}
+				has_opinion_modifier = {
+					modifier = opinion_scheme_refused_to_stop_spying
+					target = scope:owner
+				}
+				has_opinion_modifier = {
+					modifier = spied_on_other_vassal_opinion
+					target = scope:owner
+				}
+				has_opinion_modifier = {
+					modifier = spied_on_me_opinion
+					target = scope:owner
+				}
+				has_opinion_modifier = {
+					modifier = intrusive_liege_opinion
+					target = scope:owner
+				}
+				has_opinion_modifier = {
+					modifier = voyeur_opinion
+					target = scope:owner
+				}
+				has_opinion_modifier = {
+					modifier = spying_on_us_opinion
+					target = scope:owner
+				}
+				has_opinion_modifier = {
+					modifier = treachery_opinion
+					target = scope:owner
+				}
+				has_opinion_modifier = {
+					modifier = attempted_murder_opinion
+					target = scope:owner
+				}
+				has_opinion_modifier = {
+					modifier = spying_on_liege_opinion
+					target = scope:owner
+				}
+				has_opinion_modifier = {
+					modifier = attempted_abduction_opinion
+					target = scope:owner
+				}
+				has_opinion_modifier = {
+					modifier = attempted_elopement_opinion
+					target = scope:owner
+				}
+				has_opinion_modifier = {
+					modifier = elopement_opinion
+					target = scope:owner
+				}
+				has_opinion_modifier = {
+					modifier = murdered_close_family_crime
+					target = scope:owner
+				}
+				has_opinion_modifier = {
+					modifier = attempted_murder_close_family_crime
+					target = scope:owner
+				}
+				has_opinion_modifier = {
+					modifier = attempted_murder_me_crime
+					target = scope:owner
+				}
+				has_opinion_modifier = {
+					modifier = murdered_close_relation_opinion
+					target = scope:owner
+				}
+				has_opinion_modifier = {
+					modifier = murdered_someone_close_to_me_crime
+					target = scope:owner
+				}
+				has_opinion_modifier = {
+					modifier = attempted_to_steal_artifact_from_me
+					target = scope:owner
+				}
+				has_opinion_modifier = {
+					modifier = stole_artifact_from_me
+					target = scope:owner
+				}
+				has_opinion_modifier = {
+					modifier = executed_close_family
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = slept_with_spouse_discovered_opinion
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = slept_with_spouse_exposed_opinion
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = unfaithful_spouse_discovered_opinion
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = unfaithful_spouse_exposed_opinion
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = refused_to_renounce_lover_opinion
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = betrayed_our_promise
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = botched_my_treatment_crime_opinion
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = botched_treatment_of_kin_crime_opinion
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = smeared_opinion
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = insulted_opinion
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = mocked_me_in_time_of_need
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = loved_one_dungeon_death
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = abandoned_me_opinion
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = reason_child_died
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = falsely_accused
+					target = scope:target
+				}
+
+			}
+		}
+		
+wants_revenge_from_target_trigger = {
+			OR = {
+				has_opinion_modifier = {
+					modifier = murdered_close_family_crime
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = attempted_murder_close_family_crime
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = executed_close_family
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = slept_with_spouse_discovered_opinion
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = slept_with_spouse_exposed_opinion
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = unfaithful_spouse_discovered_opinion
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = unfaithful_spouse_exposed_opinion
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = refused_to_renounce_lover_opinion
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = betrayed_our_promise
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = botched_my_treatment_crime_opinion
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = botched_treatment_of_kin_crime_opinion
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = smeared_opinion
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = insulted_opinion
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = mocked_me_in_time_of_need
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = loved_one_dungeon_death
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = abandoned_me_opinion
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = reason_child_died
+					target = scope:target
+				}
+				has_opinion_modifier = {
+					modifier = falsely_accused
+					target = scope:target
+				}
+			}
+}
+	

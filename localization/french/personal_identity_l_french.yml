@@ -1,0 +1,16 @@
+﻿l_english:
+
+personal_identity_discovery_decision:0 "Exploration de l'Identité Personnelle"
+personal_identity_discovery_decision_desc:0 "Parmi les tapisseries de l'identité, vous vous tenez au seuil d'une révélation personnelle, prêt(e) à dénouer les fils de vos désirs et inclinations. Le chemin de la découverte de soi vous appelle, vous invitant à embrasser votre véritable essence et à faire un choix décisif concernant la nature de vos affections."
+personal_identity_discovery_decision_tooltip: "Embrassez un moment de découverte de soi : Réfléchissez à vos sentiments les plus profonds et parcourez le chemin de la prise de conscience de soi, prenant une décision sincère qui façonne votre compréhension de l'affection et du désir."
+personal_identity_discovery_decision_selection_tooltip: "Embrassez un moment de découverte de soi : Réfléchissez à vos sentiments les plus profonds et parcourez le chemin de la prise de conscience de soi, prenant une décision sincère qui façonne votre compréhension de l'affection et du désir."
+personal_identity_discovery_decision_confirm: "Découverte de Soi"
+ 
+  
+set_sexuality.0001.t:0 "Découverte de Soi"
+set_sexuality.0001.desc:0 "En cette période de réflexion, votre personnage se retrouve à explorer sa propre identité et ses préférences personnelles. Les sentiments et les émotions se mêlent alors qu'il tente de mieux se comprendre lui-même et ses attirances. Cette décision personnelle et profonde déterminera la voie qu'il choisira dans ses relations futures, reflétant ainsi son authenticité et sa véritable nature. C'est un moment de découverte et d'acceptation, où la compréhension de soi-même éclaire le chemin à suivre."
+set_sexuality.0001.a:0 "Vous réalisez que vous êtes asexuel"
+set_sexuality.0001.b:0 "Vous réalisez que vous êtes bisexuel"
+set_sexuality.0001.c:0 "Vous réalisez que vous êtes homosexuel"
+set_sexuality.0001.d:0 "Vous réalisez que vous êtes heterosexuel"
+set_sexuality.0001.e:0 "En paix avec qui vous êtes, votre cœur trouve la sérénité."

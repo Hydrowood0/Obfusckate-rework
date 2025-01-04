@@ -1,0 +1,442 @@
+﻿#personality_triggers
+###########DECEPTIVE CHARACTERS#########
+# Humble Character - A character who is humble, modest, and self-effacing, not seeking recognition or fame.
+obf_humble_character = {
+	ai_greed <= -50         
+    ai_honor >= 50  
+	 ai_compassion >= 50 
+	 NOT = {has_trait = ambitious}
+	  NOT = {has_trait = arrogant}
+	   
+}
+
+# Illusory Diplomat - A character who wants to appear skilled in diplomacy, motivated by ambition or deceit.
+obf_illusory_diplomat = {
+OR = {
+	ai_greed >= 50         # Deceived
+    ai_honor <= -50  
+	AND = {
+	ai_boldness >= -25
+    ai_rationality > 0			 # Perceived	   
+    ai_sociability >= 25}
+}
+	
+	NOT = {any_player = {
+				has_trait_rank = {
+					trait = education_diplomacy
+					character > prev
+				}
+			}}
+			
+
+    has_trait_rank = {
+					trait = education_diplomacy
+					rank > 1
+				}           # Inclined towards the Diplomacy lifestyle.
+}
+
+# Illusory Administrator - A character who wants to appear skilled in stewardship, motivated by ambition or deceit.
+obf_illusory_administrator = {
+	
+OR = {
+	ai_greed >= 50         # Deceived
+    ai_honor <= -50  
+	AND = {                   # Perceived
+	ai_greed > 25 
+	ai_compassion < 0       
+    ai_rationality > 0}}						      
+	
+	NOT = {any_player = {
+				has_trait_rank = {
+					trait = education_stewardship
+					character > prev
+				}
+			}}
+	
+
+
+     has_trait_rank = {
+					trait = education_stewardship
+					rank > 1
+				}          # Inclined towards the Stewardship lifestyle.
+}
+
+# Illusory Intriguer - A character who wants to appear skilled in intrigue, motivated by ambition or deceit.
+obf_illusory_intriguer = {
+
+OR = {
+	ai_greed >= 50         # Deceived
+    ai_honor <= -50  
+	AND = {
+	ai_boldness >= -25
+    ai_compassion < 0       # Perceived
+    ai_rationality > 0 }}
+	
+	NOT = {any_player = {
+				has_trait_rank = {
+					trait = education_intrigue
+					character > prev
+				}
+			}}
+
+
+     has_trait_rank = {
+					trait = education_intrigue
+					rank > 1
+				}              # Inclined towards the Intrigue lifestyle.
+}
+
+# Illusory Scholar - A character who wants to appear skilled in learning, motivated by ambition or deceit.
+obf_illusory_scholar = {
+
+OR = {
+	ai_greed >= 50         # Deceived
+    ai_honor <= -50  
+	ai_rationality > 0
+	probably_intelligent_trigger = yes}		#Perceived
+
+	
+	NOT = {any_player = {
+				has_trait_rank = {
+					trait = education_learning
+					character > prev
+				}
+			}}
+
+		sum_of_all_skills_value >= 35
+    has_trait_rank = {
+					trait = education_learning
+					rank > 2
+				}             # Inclined towards the Learning lifestyle.
+}
+
+# Illusory Warrior - A character who wants to appear skilled in personal combat, motivated by ambition or deceit.
+obf_illusory_warrior = {
+OR = {
+	ai_greed >= 50         # Deceived
+    ai_honor <= -50  
+	AND = {
+	ai_boldness >= 25       # Perceived.
+    ai_compassion < 0
+	ai_vengefulness > 0	
+	ai_rationality >= -25}}
+	
+	NOT = {any_player = {
+				has_trait_rank = {
+					trait = education_martial
+					character > prev
+				}
+			}}
+
+
+    has_trait_rank = {
+					trait = education_martial
+					rank > 1
+				}               # Inclined towards the Martial lifestyle.
+}
+
+#########TRIGGERS FOR GATHERING KNOWLEDGE ABOUT SOMEONE
+
+obf_will_openly_talk_char_info_trigger = {
+    ai_sociability > 25
+    OR = {    
+        ai_boldness > 75
+        ai_sociability > 75
+        ai_honor > 75
+        ai_compassion > 75
+        
+        AND = {
+            ai_sociability > 35
+            ai_compassion > 25
+            ai_rationality < 50
+        }
+        
+        AND = {
+            ai_sociability > 35
+            ai_rationality < 50
+            ai_honor > 25
+        }
+        
+        AND = {
+		OR = {has_trait = trusting
+			has_trait = gregarious
+			 NOT = {has_trait = paranoid}}}
+    }
+}
+
+obf_will_hardly_talk_char_info_trigger = {
+    ai_sociability < -25
+    ai_rationality > -25
+    OR = {
+        
+        # Highly introverted and calculating
+        AND = {
+            ai_sociability < -50
+            ai_rationality > 50
+            OR = {
+                ai_honor < -25
+                ai_compassion < -25
+            }
+        }
+        
+        # Very low honor and sociability, reluctant to share
+        AND = {
+            ai_honor < -75
+            OR = {
+                ai_sociability < -25
+                ai_compassion < -25
+                ai_rationality > 35
+            }
+        }
+
+        # Very low sociability and compassion, guarded nature
+        AND = {
+            ai_sociability < -75
+            OR = {
+                ai_honor < -25
+                ai_compassion < -25
+                ai_rationality > 35
+            }
+        }
+
+        # Strongly reserved in honor, compassion, and sociability
+        AND = {
+            ai_sociability < -25
+            ai_honor < -25
+            ai_compassion < -25
+        }
+
+        # Severe introversion or rationality in conjunction with other values
+        AND = {
+            ai_sociability < -50
+            OR = {
+                ai_honor < -50
+                ai_compassion < -50
+                ai_rationality > 50
+            }
+        }
+
+        AND = {
+			NOT = {has_trait = trusting}
+			OR = {has_trait = shy
+				has_trait = deceitful}
+			OR = {has_trait = callous
+			has_trait = paranoid}}
+		
+		AND = {has_trait = shy
+				has_trait = deceitful}
+    }
+}
+
+
+# Pope John Paul II - Represents the traits and characteristics of Pope John Paul II.
+# This trigger reflects Pope John Paul II's qualities such as compassion, honor, and sociability while placing less emphasis on boldness and greed.
+
+obf_pope_john_paul_ii_trigger = {
+	ai_boldness = { min = -50 max = 0 }
+	ai_compassion = { min = 50 max = 100 }
+	ai_greed = { min = -100 max = -50 }
+	ai_honor = { min = 50 max = 100 }
+	ai_rationality = { min = 0 max = 50 }
+	ai_sociability = { min = 50 max = 100 }
+	ai_vengefulness = { min = -100 max = -50 }
+	ai_zeal = { min = 50 max = 100 }
+}
+
+# Mahatma Gandhi - Represents the traits and characteristics of Mahatma Gandhi, emphasizing his philosophy of nonviolence and peaceful resistance.
+# This trigger reflects Gandhi's qualities such as compassion, nonviolence, and determination while placing less emphasis on boldness and vengefulness.
+
+obf_gandhi_trigger = {
+	ai_boldness = { min = -50 max = 0 }
+	ai_compassion = { min = 50 max = 100 }
+	ai_greed = { min = -100 max = -50 }
+	ai_honor = { min = 50 max = 100 }
+	ai_rationality = { min = 0 max = 50 }
+	ai_sociability = { min = 50 max = 100 }
+	ai_vengefulness = { min = -100 max = -50 }
+	ai_zeal = { min = 50 max = 100 }
+}
+
+# obf_charlemagne_trigger - Represents the traits and characteristics of Charlemagne, reflecting his ambition and military prowess.
+# This trigger reflects Charlemagne's qualities such as boldness, dominance, and honor while placing less emphasis on compassion and vengefulness.
+
+obf_charlemagne_trigger = {
+	ai_boldness = { min = 50 max = 100 }
+	ai_compassion = { min = -100 max = -50 }
+	ai_greed = { min = 0 max = 50 }
+	ai_honor = { min = 50 max = 100 }
+	ai_rationality = { min = -50 max = 0 }
+	ai_sociability = { min = -50 max = 0 }
+	ai_vengefulness = { min = -100 max = -50 }
+	ai_zeal = { min = 50 max = 100 }
+}
+
+# obf_churchill_trigger - Represents the traits and characteristics of Winston Churchill, reflecting his leadership and resilience.
+# This trigger reflects Churchill's qualities such as boldness, honor, and rationality while placing less emphasis on vengefulness and compassion.
+
+obf_churchill_trigger = {
+	ai_boldness = { min = 50 max = 100 }
+	ai_compassion = { min = -50 max = 0 }
+	ai_greed = { min = -50 max = 0 }
+	ai_honor = { min = 50 max = 100 }
+	ai_rationality = { min = 50 max = 100 }
+	ai_sociability = { min = 0 max = 50 }
+	ai_vengefulness = { min = -50 max = 0 }
+	ai_zeal = { min = 0 max = 50 }
+}
+
+# obf_shakespeare_trigger - Represents the traits and characteristics of William Shakespeare, reflecting his creativity and wit.
+# This trigger reflects Shakespeare's qualities such as rationality, sociability, and intelligence.
+
+obf_shakespeare_trigger = {
+	ai_boldness = { min = -50 max = 0 }
+	ai_compassion = { min = -50 max = 0 }
+	ai_greed = { min = -50 max = 0 }
+	ai_honor = { min = -50 max = 0 }
+	ai_rationality = { min = 0 max = 50 }
+	ai_sociability = { min = 50 max = 100 }
+	ai_vengefulness = { min = -50 max = 0 }
+	ai_zeal = { min = -50 max = 0 }
+}
+
+# obf_washington_trigger - Represents the traits and characteristics of George Washington, reflecting his leadership and honor.
+# This trigger reflects Washington's qualities such as boldness, honor, and rationality.
+
+obf_washington_trigger = {
+	ai_boldness = { min = 0 max = 50 }
+	ai_compassion = { min = -50 max = 0 }
+	ai_greed = { min = -50 max = 0 }
+	ai_honor = { min = 0 max = 50 }
+	ai_rationality = { min = 0 max = 50 }
+	ai_sociability = { min = -50 max = 0 }
+	ai_vengefulness = { min = -50 max = 0 }
+	ai_zeal = { min = 0 max = 50 }
+}
+
+# obf_luther_trigger - Represents the traits and characteristics of Martin Luther, reflecting his religious convictions and determination.
+# This trigger reflects Luther's qualities such as zeal, honor, and boldness.
+
+obf_luther_trigger = {
+	ai_boldness = { min = 0 max = 50 }
+	ai_compassion = { min = -50 max = 0 }
+	ai_greed = { min = -50 max = 0 }
+	ai_honor = { min = 0 max = 50 }
+	ai_rationality = { min = -50 max = 0 }
+	ai_sociability = { min = -50 max = 0 }
+	ai_vengefulness = { min = -50 max = 0 }
+	ai_zeal = { min = 0 max = 50 }
+}
+
+# obf_socrates_trigger - Represents the traits and characteristics of Socrates, reflecting his wisdom and philosophical mindset.
+# This trigger reflects Socrates' qualities such as rationality, sociability, and intelligence.
+
+obf_socrates_trigger = {
+	ai_boldness = { min = -50 max = 0 }
+	ai_compassion = { min = -50 max = 0 }
+	ai_greed = { min = -50 max = 0 }
+	ai_honor = { min = -50 max = 0 }
+	ai_rationality = { min = 0 max = 50 }
+	ai_sociability = { min = 50 max = 100 }
+	ai_vengefulness = { min = -50 max = 0 }
+	ai_zeal = { min = -50 max = 0 }
+}
+
+# Capable of Murder - Represents the traits and characteristics of someone capable of murder.
+# This trigger reflects the qualities such as high vengefulness, low rationality, and low sociability.
+
+obf_capable_of_murder_trigger = {
+
+	NOT = {has_trait = murderer}
+}
+
+# Likely to Have Extramarital Affair - Represents the traits and characteristics of someone likely to have an extramarital affair.
+# This trigger reflects the qualities such as low honor, high sociability, and high greed.
+
+obf_likely_extramarital_affair_trigger = { 
+	has_personality_introverted_trigger = no
+	is_a_unattractive_person_trigger = no
+	is_married = yes
+	trait_is_shunned_or_criminal_in_my_or_lieges_faith_trigger = { TRAIT = adulterer GENDER_CHARACTER = this }
+	trait_is_shunned_or_criminal_in_my_or_lieges_faith_trigger = { TRAIT = fornicator GENDER_CHARACTER = this }
+	any_relation = {
+		type = potential_lover}
+	NOR = {any_relation = {
+					type = lover}
+			any_relation = {
+					type = soulmate}}
+}
+
+# Likely to Hide Sexuality - Represents the traits and characteristics of someone likely to hide their sexuality.
+# This trigger reflects the qualities such as low sociability, low zeal, and low honor.
+
+obf_likely_hide_sexuality_trigger = {
+
+	NOR = {
+		has_trait = celibate
+		has_trait = chaste
+		has_trait = deviant
+		has_trait = sodomite}
+	trait_is_shunned_or_criminal_in_my_or_lieges_faith_trigger = { TRAIT = deviant GENDER_CHARACTER = this }
+	trait_is_shunned_or_criminal_in_my_or_lieges_faith_trigger = { TRAIT = sodomite GENDER_CHARACTER = this }
+}
+
+
+obf_likely_incest_trigger = {
+	has_personality_introverted_trigger = no
+	is_a_unattractive_person_trigger = no
+    
+	NOT = {has_trait = incestuous}
+	trait_is_shunned_or_criminal_in_my_or_lieges_faith_trigger = { TRAIT = incestuous GENDER_CHARACTER = this }
+	
+}
+
+obf_likely_witch_trigger = {
+
+	NOT = {has_trait = witch}
+	trait_is_shunned_or_criminal_in_my_or_lieges_faith_trigger = { TRAIT = witch GENDER_CHARACTER = this }
+}
+
+# Likely to Hide Heritage - Represents the traits and characteristics of someone likely to hide their heritage.
+# This trigger reflects the qualities such as low sociability, low zeal, and low honor.
+
+likely_hide_heritage_trigger = {
+
+	NOR = {has_trait = disputed_heritage
+	has_trait = wild_oat
+	has_trait = legitimized_bastard
+	has_trait = bastard}
+	
+}
+
+# Likely Cynic and Non-Believer - Represents the traits and characteristics of someone likely to be cynical and a non-believer in matters of spiritualism.
+# This trigger reflects the qualities such as low zeal, low compassion, and low vengefulness.
+
+likely_cynic_non_believer_trigger = {
+	NOT = {has_trait = zealous}
+	NOR = {has_trait = witch
+		has_trait = excommunicated
+		has_character_modifier = known_non_believer	}
+}
+
+
+##################TRUE AND FALSE GOOD RUMOURS
+# Likely to Pretend as Brave Fighter - Represents the traits and characteristics of someone likely to pretend as a brave fighter.
+# This trigger reflects the qualities such as high boldness, low honor, and low combat skill.
+
+likely_pretend_brave_fighter_trigger = {
+    ai_boldness > 50
+    ai_honor < -30
+	has_lifestyle = martial_lifestyle
+    prowess < 17
+	prowess >= low_skill_rating
+	is_female = no
+}
+likely_a_brave_fighter_trigger = {
+    ai_boldness > 0
+	has_lifestyle = martial_lifestyle
+	prowess >= 17
+	is_female = no
+}
+
+
+

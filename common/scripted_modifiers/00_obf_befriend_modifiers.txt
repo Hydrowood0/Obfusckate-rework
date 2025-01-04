@@ -1,0 +1,5789 @@
+﻿##################################################
+# BEFRIEND SCHEME SUCCESS modifiers
+########################
+
+###BEFRIEND###
+
+#PERSONAL AND DINASTY PRESTIGE
+befriend_prestige_modifier = {
+
+		#PRESTIGE DIFFERENCE
+		modifier = {
+				NOT = {scope:owner.prestige_level = scope:target.prestige_level}
+			add = {
+				value = 0
+				if = {
+					limit = {
+						scope:owner.prestige_level = 0
+						scope:target.prestige_level > 0 
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:owner.prestige_level > 0
+					}
+					add = {value = scope:owner.prestige_level multiply = 3}
+				}
+				if = {
+					limit = {
+						scope:target.prestige_level > 0 
+					}
+					add = {value = scope:target.prestige_level multiply = -3}
+				}
+			}
+			desc = OBF_prestige_difference
+		}
+		
+		#DYNASTY PRESTIGE DIFFERENCE
+		modifier = {
+				NOT = { scope:owner.dynasty = scope:target.dynasty }
+			add = {
+				value = 0
+				if = {
+					limit = {
+						scope:owner = { has_dynasty = yes }
+						scope:owner.dynasty = { dynasty_prestige_level = 0 }
+						NOT = {scope:target.dynasty = { dynasty_prestige_level = 0 }}
+					}
+					add = -10
+				} 
+				if = {
+					limit = {
+						scope:owner = { has_dynasty = yes }
+						scope:owner.dynasty = { dynasty_prestige_level > 0 }
+					}
+					add = {value = scope:owner.dynasty.dynasty_prestige_level multiply = 7}
+				}
+				if = {
+					limit = {
+						scope:target = { has_dynasty = yes }
+						scope:target.dynasty = { dynasty_prestige_level > 0 }
+					}
+					add = {value = scope:target.dynasty.dynasty_prestige_level multiply = -7}
+				}
+			}
+			desc = OBF_dynasty_prestige_difference
+		}
+		
+}
+		
+#TARGET DIPLOMACY
+befriend_target_diplomacy_modifier = {
+	
+
+		#THEIR DIPLOMACY
+		modifier = {
+			add = {
+				value = 0
+				if = {
+					limit = {
+						scope:target = {diplomacy <= 0}
+					}
+					add = -5
+				}
+				if = {
+					limit = {
+						scope:target = {diplomacy > 0 diplomacy <= 8}
+					}
+					add = {value = 8 multiply = -1 divide = scope:target.diplomacy}
+				}
+				if = {
+					limit = {
+						scope:target = {diplomacy > 16 diplomacy <=32}
+					}
+					add = {value = scope:target.diplomacy multiply = 0.15} 
+				}
+				if = {
+					limit = {
+						scope:target = {diplomacy >32}
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						scope:target = { has_trait = diplomat }
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						scope:target = { has_trait = august }
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						scope:target = { has_trait = education_diplomacy_3 }
+					}
+					add = 2
+				}
+				if = {
+					limit = {
+						scope:target = { has_trait = education_diplomacy_4 }
+					}
+					add = 4
+				}
+				
+			}
+			desc = OBF_their_diplomacy_skill
+		}
+		
+}
+#STRESS LEVELS
+befriend_stress_modifier = {
+
+		#TARGET STRESS
+		modifier = {
+		desc = OBF_their_stress
+			add = {value = scope:target.stress_level multiply = -5}
+				scope:target = { 
+				stress_level > 0
+				}
+			}
+		#OWNER STRESS
+		modifier = {
+		desc = OBF_your_stress
+			add = {value = scope:owner.stress_level multiply = -5}
+				scope:owner = { 
+				stress_level > 0
+				}
+			}
+		}
+
+#LANGUAGE AND CULTURE
+befriend_language_and_culture_modifier = {
+
+
+		#LANGUAGE
+		modifier = {
+			trigger = { 
+						OR = {
+						scope:owner = { knows_language_of_culture = scope:target.culture }
+						scope:owner = { NOT = {knows_language_of_culture = scope:target.culture} }}
+					}
+			add = {
+				value = 0
+					if = { 
+						limit = { scope:owner = { knows_language_of_culture = scope:target.culture }
+						scope:target = {knows_language_of_culture = scope:owner.culture }}
+						add = 10
+					}
+					else_if = { 
+						limit = {
+							scope:owner = { NOT = {knows_language_of_culture = scope:target.culture} }
+							scope:target = {knows_language_of_culture = scope:owner.culture }
+						}
+						add = 5
+					}
+					else_if = { 
+						limit = {
+								scope:target = {NOT = {knows_language_of_culture = scope:owner.culture }}
+								scope:owner = {knows_language_of_culture = scope:target.culture }
+						}
+						add = 5
+					}
+					else = { 
+						add = -10
+					}
+
+				}
+				desc = OBF_language
+			}
+			
+		#CULTURE DISABLED FOR THE AI
+		modifier = {
+			desc = OBF_not_cultural_accepting	
+			add = -15
+			scope:owner = { is_ai = no}
+			target_knows_about_owner_trigger = no
+			NOT = {scope:owner.culture = scope:target.culture }
+		}
+		
+		modifier = {
+		desc = OBF_they_are_isolationists
+			add = -30
+				NOT = {
+					scope:owner.culture = scope:target.culture
+				}
+				scope:target.culture = {
+					has_cultural_tradition = tradition_isolationist
+				}
+			}
+			
+		#PROXIMITY AND AFFINITY
+		modifier = {
+			add = {
+				value = 0
+				if = {#TARGET IS FOREIGN (not same culture)
+					limit = {
+						target_is_foreign_and_not_same_culture_trigger = yes
+					}
+					add = -10
+				}
+				if = {#TARGET IS FOREIGN
+					limit = {
+						target_is_foreign_trigger = yes
+					}
+					add = -5
+				}
+				if = {#NEIGHBORS OR NEAR
+					limit = {
+						scope:target = {character_is_realm_neighbor = scope:owner}
+					}
+					add = 5
+				}
+				if = {#CONNECTED
+					limit = {
+						scope:target = {character_is_land_realm_neighbor = scope:owner}
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						OR = {scope:target.court_owner.top_liege = scope:owner.top_liege
+						scope:target.liege.top_liege = scope:owner.top_liege}
+					}
+					add = 10
+				}
+				
+			}
+			desc = OBF_their_proximity_and_affinity
+		}	
+}
+
+#DIPLOMACY, MILITARY STRENGTH, HOSTILITIES AND CLAIMS
+befriend_hostility_modifier = {
+
+		#ALLY EXCEPT SPOUSE
+		modifier = {
+			trigger = { 
+						target_is_ally_not_spouse_trigger = yes
+					}
+			add = {
+				value = 0
+					if = { 
+						limit = { scope:target = {is_a_honorable_person_trigger = yes}}
+						add = 30
+					}
+					else_if = { 
+						limit = {
+								scope:target = {is_a_dishonorable_person_trigger = yes}
+						}
+						add = 10
+					}
+					else = { 
+						add = 20
+					}
+
+				}
+				desc = OBF_is_ally
+			}
+		
+		#FACTIONS
+		
+		modifier = {
+		add = -25
+		desc = OBF_is_faction_member
+		target_is_a_faction_member_against_owner_trigger = yes
+		}
+		
+		modifier = {
+		add = -35
+		desc = OBF_is_faction_leader
+		target_is_a_faction_leader_against_owner_trigger = yes
+		}
+		
+		#TARGET HAS IMPRISONMENT REASON
+		modifier = {
+		add = -35
+		desc = OBF_they_have_imprisonment_reason
+			scope:target = { has_imprisonment_reason = scope:owner}
+			scope:target = { is_liege_or_above_of = scope:owner}
+		}
+		
+		#OWNER HAS IMPRISONMENT REASON
+		modifier = {
+		add = 30
+		desc = OBF_you_have_imprisonment_reason
+			scope:owner = { has_imprisonment_reason = scope:target}
+			scope:owner = { is_liege_or_above_of = scope:target}
+		}
+		
+		#TARGET HAS CLAIMS
+		
+		modifier = {#DISABLED FOR AI
+			add = -20
+			desc = OBF_they_have_claims
+			scope:owner = { is_ai = no}
+			target_knows_about_owner_trigger = no
+				 scope:target = {any_claim = {holder = scope:owner}}
+				 NOT = {scope:target = scope:owner.player_heir}
+			}
+			
+		modifier = {
+			add = -30
+			desc = OBF_they_have_a_claim_primary_title
+				scope:owner = {highest_held_title_tier >= tier_kingdom}
+				scope:target = {highest_held_title_tier < tier_kingdom}
+				 scope:target = {has_strong_claim_on = scope:owner.primary_title}
+				 NOT = {scope:target = scope:owner.player_heir}
+			}
+			
+		modifier = {
+			add = -20
+			desc = OBF_they_have_a_claim_primary_title
+				scope:owner = {highest_held_title_tier = tier_duchy}
+				scope:target = {highest_held_title_tier < tier_duchy}
+				 scope:target = {has_strong_claim_on = scope:owner.primary_title}
+				 NOT = {scope:target = scope:owner.player_heir}
+			}
+			
+		modifier = {
+			add = -10
+			desc = OBF_they_have_a_claim_primary_title
+				scope:owner = {highest_held_title_tier = tier_county}
+				scope:target = {is_ruler = no}
+				 scope:target = {has_strong_claim_on = scope:owner.primary_title}
+				 NOT = {scope:target = scope:owner.player_heir}
+			}
+			
+		#OWNER HAS CLAIMS
+		modifier = {
+			add = -20
+			desc = OBF_you_have_a_claim_primary_title
+				scope:target = {is_ruler = yes}
+				 scope:owner = {has_strong_claim_on = scope:target.primary_title}
+				 NOT = {scope:owner = scope:target.player_heir}
+			}
+			
+		modifier = {
+			add = -20
+			desc = OBF_you_have_claims
+				 scope:owner = {any_claim = {holder = scope:target}}
+				scope:target = {is_ruler = yes}
+				 NOT = {scope:owner = {has_strong_claim_on = scope:target.primary_title}}
+				 NOT = {scope:owner = scope:target.player_heir}
+			}
+		
+		#WARS AGAINST EACH OTHERS
+		modifier = {
+			trigger = { 
+						unlanded_target_lost_a_war_against_owner_trigger = yes
+						}
+			add = {
+				value = -20
+					if = { 
+						limit = { 
+								scope:target = { is_a_vengeful_person_trigger = yes}		
+								}
+						add = -5
+					}
+					else = { 
+						limit = {
+								scope:target = { is_a_forgiving_person_trigger = yes}
+								}
+						add = 5
+					}
+				}
+				desc = OBF_he_lost_a_war
+			}
+		
+		modifier = {
+			trigger = { 
+						target_lost_a_war_against_owner_trigger = yes
+						}
+			add = {
+				value = -10
+					if = { 
+						limit = { 
+								scope:target = { is_a_vengeful_person_trigger = yes}		
+								}
+						add = -5
+					}
+					else = { 
+						limit = {
+								scope:target = { is_a_forgiving_person_trigger = yes}
+								}
+						add = 5
+					}
+				}
+				desc = OBF_he_lost_a_war
+			}
+		
+		modifier = {
+			trigger = { 
+						target_was_defender_in_war_trigger = yes
+						}
+			add = {
+				value = -20
+					if = { 
+						limit = { 
+								scope:target = { is_a_vengeful_person_trigger = yes}		
+								}
+						add = -10
+					}
+					else = { 
+						limit = {
+								scope:target = { is_a_forgiving_person_trigger = yes}
+								}
+						add = 10
+					}
+				}
+				desc = OBF_he_was_defender_in_a_war
+			}
+			
+		#FOUGHT INDEPENDENCE WAR AGAINST OWNER
+		modifier = { 
+			add = -40
+			desc = OBF_fought_independence_war
+				scope:owner = {
+					exists = var:independence_war_former_liege
+					var:independence_war_former_liege = scope:target
+				}
+			}
+			
+		#TARGET WAS IMPRISONED BY OWNER
+		
+		modifier = {
+			trigger = { 
+						target_was_imprisoned_by_owner_trigger = yes
+						}
+			add = {
+				value = -30
+					if = { 
+						limit = { 
+								scope:target = { is_a_vengeful_person_trigger = yes}		
+								}
+						add = -10
+					}
+					else = { 
+						limit = {
+								scope:target = { is_a_forgiving_person_trigger = yes}
+								}
+						add = 10
+					}
+				}
+				desc = OBF_was_imprisoned
+			}
+			
+		#OTHER MEMORIES
+		modifier = {
+			trigger = { 
+						 target_lost_title_to_owner_trigger = yes
+						}
+			add = {
+				value = -50
+					if = { 
+						limit = { 
+								OR = {
+									scope:target = { is_a_vengeful_person_trigger = yes}
+									scope:target = { is_a_greedy_person_trigger = yes}
+									}		
+								}
+						add = -25
+					}
+				}
+				desc = OBF_lost_a_title
+			}
+			
+		modifier = {
+			trigger = { 
+						  target_lover_taken_or_stolen_by_owner_trigger = yes
+						}
+			add = {
+				value = -45
+					if = { 
+						limit = { 
+								 scope:target = { is_a_vengeful_person_trigger = yes}
+								}
+						add = -15
+					}
+				}
+				desc = OBF_took_their_lover
+			}
+
+		modifier = {
+			add = -15
+			desc = OBF_broke_up
+				 target_and_owner_broke_up_trigger = yes
+			}
+			
+		modifier = {
+			add = 15
+			desc = OBF_had_sex
+			target_and_owner_had_sex_trigger = yes
+		}
+		modifier = {
+			add = -15
+			desc = OBF_lost_duel
+			target_lost_a_duel_trigger = yes
+		}
+
+}
+
+#OTHER REASONS
+befriend_other_reasons_modifier = {
+
+		
+		modifier = {
+				OR = {
+					target_has_hostile_scheme_against_owner_trigger = yes
+					AND = {scope:target = {any_known_secret = { secret_owner = scope:owner}}
+							target_is_a_bishop_or_religious_head_trigger = no}
+					AND = {scope:target = {any_known_secret = { secret_owner = scope:owner}}
+							target_is_a_bishop_or_religious_head_trigger = yes}
+				}
+			add = {
+				value = 0
+				if = { #TREASON
+					limit = {
+						target_has_hostile_scheme_against_owner_trigger = yes
+					}
+					add = -65
+				}
+				if = {
+					limit = { #TARGET KNOWS SECRETS
+						scope:target = {any_known_secret = { secret_owner = scope:owner}}
+						target_is_a_bishop_or_religious_head_trigger = no
+					}
+					add = -20
+				}
+				if = {
+					limit = {#TARGET KNOWS SECRETS
+						scope:target = {any_known_secret = { secret_owner = scope:owner}}
+				target_is_a_bishop_or_religious_head_trigger = yes
+					}
+					add = -30
+				}
+			}
+			desc = OBF_other_reasons
+		}
+
+	}
+
+#RELIGION AND SECRETS
+befriend_religion_modifier = {
+
+		#PIETY LEVEL
+		
+		modifier = {
+			trigger = { 
+						scope:owner.piety_level > 1
+						scope:target = {faith = scope:owner.faith}
+						scope:target = {is_cynical_or_non_believer_person_trigger = no}
+					}
+			add = {
+				value = 0
+					if = { 
+						limit = { 
+								target_is_a_bishop_or_religious_head_trigger = yes
+								scope:target = {is_a_zealous_person_trigger = yes}		
+								}
+						add = {value = 15 multiply = scope:owner.piety_level}
+					}
+					else_if = { 
+						limit = {
+								target_is_a_bishop_or_religious_head_trigger = yes
+								scope:target = {is_a_zealous_person_trigger = no}
+								}
+						add = {value = 10 multiply = scope:owner.piety_level}
+					}
+					else = { 
+						limit = {
+								target_is_a_bishop_or_religious_head_trigger = no
+								scope:target = {is_a_zealous_person_trigger = yes}
+								}
+						add = {value = 5 multiply = scope:owner.piety_level}
+					}
+				}
+				desc = "I_AM_PIOUS"
+			}
+		
+		modifier = {
+			trigger = { 
+						scope:owner.piety_level <= 0
+						scope:target.piety_level > 0
+						scope:target = {faith = scope:owner.faith}
+						scope:target = {is_cynical_or_non_believer_person_trigger = no}
+					}
+			add = {
+				value = -5
+					if = { 
+						limit = { 
+								target_is_a_bishop_or_religious_head_trigger = yes
+								scope:target = {is_a_zealous_person_trigger = yes}		
+								}
+						add = -45
+					}
+					else_if = { 
+						limit = {
+								target_is_a_bishop_or_religious_head_trigger = yes
+								scope:target = {is_a_zealous_person_trigger = no}
+								}
+						add = -30
+					}
+					else = { 
+						limit = {
+								target_is_a_bishop_or_religious_head_trigger = no
+								scope:target = {is_a_zealous_person_trigger = yes}
+								}
+						add = -15
+					}
+				}
+				desc = "I_AM_PIOUS"
+			}
+		
+		#Religious Heads
+		modifier = {
+			add = -60
+			desc = "SCHEME_VS_RELIGIOUS_HEAD"
+			scope:target = {
+				faith = scope:owner.faith
+				faith = {
+					exists = religious_head
+					religious_head = {
+			 			this = scope:target
+			 		} 
+				}
+			}
+		}
+			
+		######RELIGIOUS CRIMES#####SOME DISABLED FOR AI TO SAVE PERFORMANCE
+		
+		modifier = {
+				scope:owner = {
+				is_ai = no
+				OR = {
+				has_trait = fornicator
+				has_trait = adulterer
+				has_trait = incestuous
+				has_trait = sodomite
+				has_trait = deviant
+				has_trait = cannibal
+				has_trait = kinslayer
+				has_trait = witch
+				has_trait = excommunicated
+				has_character_modifier = known_non_believer
+					has_character_modifier = ultimate_blasphemer_modifier 
+					}
+			}
+			add = {
+				value = 0
+				if = {
+					limit = { scope:target.piety_level > 0
+							scope:owner = {OR = {has_trait = fornicator
+												has_trait = adulterer}}
+						target_considers_fornication_and_adultery_as_crime_trigger = yes
+						scope:target = {is_a_zealous_person_trigger = yes}
+						target_knows_about_owner_trigger = yes
+					}
+					add = {value = scope:target.ai_zeal multiply = -0.05}
+				}
+				if = {
+					limit = { scope:target.piety_level > 0
+							scope:owner = {OR = {has_trait = fornicator
+												has_trait = adulterer}}
+						target_considers_fornication_and_adultery_as_crime_trigger = yes
+						target_is_a_bishop_or_religious_head_trigger = yes
+						scope:target = {is_cynical_or_non_believer_person_trigger = no}
+						target_knows_about_owner_trigger = yes
+					}
+					add = -5
+				}
+				if = {
+					limit = { scope:target.piety_level > 0
+						scope:owner = {has_trait = incestuous}
+						target_considers_incest_as_crime_trigger = yes
+						scope:target = {is_a_zealous_person_trigger = yes}
+						target_knows_about_owner_trigger = yes
+					}
+					add = {value = scope:target.ai_zeal multiply = -0.15}
+				}
+				if = {
+					limit = { scope:target.piety_level > 0
+						scope:owner = {has_trait = incestuous}
+						target_considers_incest_as_crime_trigger = yes
+						target_is_a_bishop_or_religious_head_trigger = yes
+						scope:target = {is_cynical_or_non_believer_person_trigger = no}
+						target_knows_about_owner_trigger = yes
+					}
+					add = -15
+				}
+				if = {
+					limit = { scope:target.piety_level > 0
+						scope:owner = {has_trait = incestuous}
+						target_considers_incest_as_crime_trigger = yes
+						scope:target = {is_close_or_extended_family_of = scope:owner}
+						target_knows_about_owner_trigger = yes
+					}
+					add = -15
+				}
+				if = {
+					limit = { scope:target.piety_level > 0
+						scope:owner = {has_trait = sodomite}
+						target_considers_sodomy_as_crime_trigger = yes
+						scope:target = {is_a_zealous_person_trigger = yes}
+						target_knows_about_owner_trigger = yes
+					}
+					add = {value = scope:target.ai_zeal multiply = -0.15}
+				}
+				if = {
+					limit = { scope:target.piety_level > 0
+						scope:owner = {has_trait = sodomite}
+						target_considers_sodomy_as_crime_trigger = yes
+						target_is_a_bishop_or_religious_head_trigger = yes
+						scope:target = {is_cynical_or_non_believer_person_trigger = no}
+						target_knows_about_owner_trigger = yes
+					}
+					add = -15
+				}
+				if = {
+					limit = { scope:target.piety_level > 0
+						scope:owner = {has_trait = deviant}
+						target_considers_deviancy_as_crime_trigger = yes
+						scope:target = {is_a_zealous_person_trigger = yes}
+						target_knows_about_owner_trigger = yes
+					}
+					add = {value = scope:target.ai_zeal multiply = -0.15}
+				}
+				if = {
+					limit = { scope:target.piety_level > 0
+						scope:owner = {has_trait = deviant}
+						target_considers_deviancy_as_crime_trigger = yes
+						target_is_a_bishop_or_religious_head_trigger = yes
+						scope:target = {is_cynical_or_non_believer_person_trigger = no}
+						target_knows_about_owner_trigger = yes
+						
+					}
+					add = -15
+				}
+				if = {
+					limit = {scope:target.piety_level > 0
+						scope:owner = {has_trait = cannibal}
+						target_considers_cannibalism_as_crime_trigger = yes
+						scope:target = {is_a_zealous_person_trigger = yes}
+						target_knows_about_owner_trigger = yes
+					}
+					add = {value = scope:target.ai_zeal multiply = -0.3}
+				}
+				if = {
+					limit = { scope:target.piety_level > 0
+						scope:owner = {has_trait = cannibal}
+						target_considers_cannibalism_as_crime_trigger = yes
+						target_is_a_bishop_or_religious_head_trigger = yes
+						scope:target = {is_cynical_or_non_believer_person_trigger = no}
+						target_knows_about_owner_trigger = yes
+					}
+					add = -30
+				}
+				if = {
+					limit = { scope:target.piety_level > 0
+						scope:owner = {has_trait = kinslayer}
+						target_considers_kinslaying_as_crime_trigger = yes
+						scope:target = {is_a_zealous_person_trigger = yes}
+						target_knows_about_owner_trigger = yes
+					}
+					add = {value = scope:target.ai_zeal multiply = -0.05}
+				}
+				if = {
+					limit = { scope:target.piety_level > 0
+						scope:owner = {has_trait = kinslayer}
+						target_considers_kinslaying_as_crime_trigger = yes
+						target_is_a_bishop_or_religious_head_trigger = yes
+						scope:target = {is_cynical_or_non_believer_person_trigger = no}
+						target_knows_about_owner_trigger = yes
+					}
+					add = -5
+				}
+				if = {
+					limit = { scope:target.piety_level > 0
+						scope:owner = {has_trait = witch}
+						target_considers_witchcraft_as_crime_trigger = yes
+						scope:target = {is_a_zealous_person_trigger = yes}
+						target_knows_about_owner_trigger = yes
+					}
+					add = {value = scope:target.ai_zeal multiply = -0.15}
+				}
+				if = {
+					limit = { scope:target.piety_level > 0
+						scope:owner = {has_trait = witch}
+						target_considers_witchcraft_as_crime_trigger = yes
+						target_is_a_bishop_or_religious_head_trigger = yes
+						scope:target = {is_cynical_or_non_believer_person_trigger = no}
+						target_knows_about_owner_trigger = yes
+					}
+					add = -15
+				}
+				if = {
+					limit = { scope:target.piety_level > 0
+						scope:owner = {has_trait = excommunicated }
+						target_considers_same_faith_excommunicated_as_crime_trigger = yes
+						scope:target = {is_a_zealous_person_trigger = yes}
+					}
+					add = {value = scope:target.ai_zeal multiply = -0.3}
+				}
+				if = {
+					limit = { scope:target.piety_level > 0
+						scope:owner = {has_trait = excommunicated }
+						target_considers_same_faith_excommunicated_as_crime_trigger = yes
+						target_is_a_bishop_or_religious_head_trigger = yes
+						scope:target = {is_cynical_or_non_believer_person_trigger = no}
+					}
+					add = -30
+				}
+				if = {
+					limit = { 
+						scope:owner = {has_trait = excommunicated }
+						target_considers_same_faith_excommunicated_as_crime_trigger = yes
+						target_knows_about_owner_trigger = no
+					}
+					add = -20
+				}
+				if = {
+					limit = { scope:target.piety_level > 0
+						scope:owner = {has_trait = excommunicated }
+						target_considers_same_faith_excommunicated_as_crime_trigger = yes
+						scope:target = {is_cynical_or_non_believer_person_trigger = no}
+					}
+					add = -40
+				}
+				if = {
+					limit = { 
+					target_knows_about_owner_trigger = no
+					scope:owner = { 
+					has_character_modifier = ultimate_blasphemer_modifier 
+					}
+					scope:target.faith = scope:owner.faith
+					}
+					add = -50
+				}
+				if = {
+					limit = { 
+					target_knows_about_owner_trigger = no
+					scope:owner = { 
+					has_character_modifier = ultimate_blasphemer_modifier 
+					}
+					scope:target.faith = scope:owner.faith
+					target_is_religious_head = yes
+					}
+					add = -50
+				}
+				if = {
+					limit = { 
+					scope:owner = { 
+					has_character_modifier = known_non_believer  
+					}
+					scope:target.faith = scope:owner.faith
+					target_is_religious_head = yes
+					}
+					add = -20
+				}
+				if = {
+					limit = { 
+					scope:owner = { 
+					has_character_modifier = known_non_believer  
+					}
+					scope:target.faith = scope:owner.faith
+					scope:target = {is_a_zealous_person_trigger = yes}
+					}
+					add = {value = scope:target.ai_zeal multiply = -0.3}
+				}
+				if = {
+					limit = { 
+					scope:owner = { 
+					has_character_modifier = known_non_believer  
+					}
+					scope:target.faith = scope:owner.faith
+					scope:target = {is_cynical_or_non_believer_person_trigger = no}
+					}
+					add = -20
+				}
+				
+			}
+			desc = OBF_religious_crimes
+		}
+	
+			
+		#DEVOTED OR HERETIC#DISABLED FOR AI TO SAVE PERFORMANCE
+		modifier = {
+				scope:owner = {
+				is_ai = no
+				OR = {
+				has_trait = devoted
+				has_trait = heresiarch
+				has_trait = pilgrim
+				has_trait = crusader_king
+				has_trait = order_member
+				has_trait = faith_warrior
+				has_character_modifier = avenger_of_the_martyrs
+				has_character_modifier = defender_of_the_faith
+					}
+			}
+			add = {
+				value = 0
+				if = {
+					limit = { target_knows_about_owner_trigger = no
+							scope:owner.faith = scope:target.faith
+							scope:owner = {has_trait = devoted}
+					}
+					add = 5
+				}
+				if = {
+					limit = { 
+							scope:owner.faith = scope:target.faith
+							scope:owner = {has_trait = devoted
+											piety_level > 0}
+							scope:target = {has_trait = devoted}
+					}
+					add = 10
+				}
+				if = {
+					limit = { 
+							scope:target = {is_a_zealous_person_trigger = yes}
+							scope:owner.faith = scope:target.faith
+							scope:owner = {has_trait = devoted
+											piety_level > 0}
+							scope:owner = {has_trait = devoted}
+					}
+					add = {value = scope:target.ai_zeal multiply = 0.1}
+				}
+				if = {
+					limit = { 
+							scope:owner = {has_trait = devoted
+											piety_level > 0}
+							scope:owner.faith = scope:target.faith
+							target_is_a_bishop_or_religious_head_trigger = yes
+					}
+					add = {value = scope:owner.piety_level multiply = 10}
+				}
+				if = {
+					limit = { target_knows_about_owner_trigger = no
+							scope:owner.faith = scope:target.faith
+							scope:owner = {has_trait = heresiarch}
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+							scope:owner.faith = scope:target.faith
+							scope:owner = {has_trait = heresiarch
+											piety_level > 0}
+							scope:target = {has_trait = heresiarch}
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+							scope:target = {is_a_zealous_person_trigger = yes}
+							scope:owner.faith = scope:target.faith
+							scope:owner = {has_trait = heresiarch
+											piety_level > 0}
+					}
+					add = {value = scope:target.ai_zeal multiply = 0.15}
+				}
+				if = {
+					limit = {
+							scope:owner.faith = scope:target.faith
+							scope:owner = {has_trait = heresiarch
+											piety_level > 0}
+							target_is_a_bishop_or_religious_head_trigger = yes
+					}
+					add = {value = scope:owner.piety_level multiply = 15}
+				}
+				if = {
+					limit = { target_knows_about_owner_trigger = no
+							scope:owner.faith = scope:target.faith
+							scope:owner = {has_trait = pilgrim}
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+							scope:owner.faith = scope:target.faith
+							scope:owner = {has_trait = pilgrim
+											piety_level > 0}
+							scope:target = {has_trait = pilgrim}
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+							scope:target = {is_a_zealous_person_trigger = yes}
+							scope:owner.faith = scope:target.faith
+							scope:owner = {has_trait = pilgrim
+											piety_level > 0}
+					}
+					add = {value = scope:target.ai_zeal multiply = 0.1}
+				}
+				if = {
+					limit = {
+							scope:owner.faith = scope:target.faith
+							scope:owner = {has_trait = pilgrim
+											piety_level > 0}
+							target_is_a_bishop_or_religious_head_trigger = yes
+					}
+					add = {value = scope:owner.piety_level multiply = 10}
+				}
+				if = {
+					limit = { target_knows_about_owner_trigger = no
+							scope:owner.faith = scope:target.faith
+							scope:owner = {has_trait = crusader_king}
+					}
+					add = 15
+				}
+				if = {
+					limit = { target_knows_about_owner_trigger = no
+							scope:target = {has_trait = crusader_king}
+							scope:owner = {has_trait = crusader_king}
+							scope:owner.faith = scope:target.faith
+					}
+					add = 10
+				}
+				if = {
+					limit = { target_knows_about_owner_trigger = no
+							scope:owner = {has_trait = crusader_king}
+							scope:owner.faith = scope:target.faith
+					}
+					add = 35
+				}
+				if = {
+					limit = {
+							scope:target = {is_a_zealous_person_trigger = yes}
+							scope:owner.faith = scope:target.faith
+							scope:owner = {has_trait = crusader_king
+											piety_level > 0}
+					}
+					add = {value = scope:target.ai_zeal multiply = 0.25}
+				}
+				if = {
+					limit = {
+							scope:owner.faith = scope:target.faith
+							scope:owner = {has_trait = crusader_king
+											piety_level > 0}
+							target_is_a_bishop_or_religious_head_trigger = yes
+					}
+					add = {value = scope:owner.piety_level multiply = 25}
+				}
+				if = {
+					limit = { target_knows_about_owner_trigger = no
+							scope:target = {has_trait = order_member}
+							scope:owner = {has_trait = order_member}
+							scope:owner.faith = scope:target.faith
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+							scope:target = {is_a_zealous_person_trigger = yes}
+							scope:owner.faith = scope:target.faith
+							scope:owner = {has_trait = order_member
+											piety_level > 0}
+					}
+					add = {value = scope:target.ai_zeal multiply = 0.15}
+				}
+				if = {
+					limit = {
+							scope:owner.faith = scope:target.faith
+							scope:owner = {has_trait = order_member
+											piety_level > 0}
+							target_is_a_bishop_or_religious_head_trigger = yes
+					}
+					add = {value = scope:owner.piety_level multiply = 15}
+				}
+				if = {
+					limit = { target_knows_about_owner_trigger = no
+							scope:owner.faith = scope:target.faith
+							scope:owner = {has_trait = faith_warrior}
+					}
+					add = 5
+				}
+				if = {
+					limit = { target_knows_about_owner_trigger = no
+							scope:owner.faith = scope:target.faith
+							scope:owner = {has_trait = faith_warrior}
+							target_is_a_bishop_or_religious_head_trigger = yes
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+							scope:owner.faith = scope:target.faith
+							scope:owner = {has_trait = faith_warrior
+											piety_level > 0}
+							scope:target = {has_trait = faith_warrior}
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+							scope:target = {is_a_zealous_person_trigger = yes}
+							scope:owner.faith = scope:target.faith
+							scope:owner = {has_trait = faith_warrior
+											piety_level > 0}
+					}
+					add = {value = scope:target.ai_zeal multiply = 0.2}
+				}
+				if = {
+					limit = {
+							scope:owner.faith = scope:target.faith
+							scope:owner = {has_trait = faith_warrior
+											piety_level > 0}
+							target_is_a_bishop_or_religious_head_trigger = yes
+					}
+					add = {value = scope:owner.piety_level multiply = 20}
+				}
+				if = {
+					limit = {
+						scope:owner = {
+							target_knows_about_owner_trigger = no
+							has_character_modifier = avenger_of_the_martyrs
+							scope:target.faith = scope:owner.faith
+								}
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						scope:owner = { 
+							target_knows_about_owner_trigger = no
+							has_character_modifier = defender_of_the_faith
+							scope:target.faith = scope:owner.faith
+								}
+					}
+					add = 10
+				}
+		
+			}
+			desc = OBF_dedication_to_the_faith
+		}
+				
+		#FAITH HOSTILITY###DISABLED FOR AI
+		modifier = {
+				scope:owner = {is_ai = no}
+				OR = {
+				scope:target.faith = {faith_hostility_level = { target = scope:owner.faith value = 3 }}
+				scope:target.faith = {faith_hostility_level = { target = scope:owner.faith value = 2 }}
+				scope:target.faith = {faith_hostility_level = { target = scope:owner.faith value = 1 }}
+			}
+			add = {
+				value = 0
+				if = {
+					limit = { target_knows_about_owner_trigger = no
+							scope:target.faith = { has_doctrine = doctrine_pluralism_pluralistic }
+							scope:target.faith = {faith_hostility_level = { target = scope:owner.faith value = 1 }}
+					}
+					add = -5
+				}
+				if = {
+					limit = { target_knows_about_owner_trigger = no
+							scope:target.faith = {NOT = { has_doctrine = doctrine_pluralism_pluralistic }}
+							scope:target.faith = {faith_hostility_level = { target = scope:owner.faith value = 1 }}
+					}
+					add = -10
+				}
+				if = {
+					limit = { 
+							scope:target.faith = {faith_hostility_level = { target = scope:owner.faith value = 1 }}
+							scope:target = {is_a_zealous_person_trigger = yes}
+					}
+					add = {value = scope:target.ai_zeal multiply = -0.20}
+				}
+				if = {
+					limit = { 
+							scope:target.faith = {faith_hostility_level = { target = scope:owner.faith value = 1 }}
+							target_is_a_bishop_or_religious_head_trigger = yes
+					}
+					add = -20
+				}
+				if = {
+					limit = { 
+							scope:target.faith = {faith_hostility_level = { target = scope:owner.faith value = 1 }}
+							scope:target = {is_cynical_or_non_believer_person_trigger = yes}
+					}
+					add = 5
+				}
+				if = {
+					limit = { target_knows_about_owner_trigger = no
+							scope:target.faith = { has_doctrine = doctrine_pluralism_pluralistic }
+							scope:target.faith = {faith_hostility_level = { target = scope:owner.faith value = 2 }}
+					}
+					add = -10
+				}
+				if = {
+					limit = { target_knows_about_owner_trigger = no
+							scope:target.faith = {NOT = { has_doctrine = doctrine_pluralism_pluralistic }}
+							scope:target.faith = {faith_hostility_level = { target = scope:owner.faith value = 2 }}
+					}
+					add = -20
+				}
+				if = {
+					limit = { 
+							scope:target.faith = {faith_hostility_level = { target = scope:owner.faith value = 2 }}
+							scope:target = {is_a_zealous_person_trigger = yes}
+					}
+					add = {value = scope:target.ai_zeal multiply = -0.25}
+				}
+				if = {
+					limit = { 
+							scope:target.faith = {faith_hostility_level = { target = scope:owner.faith value = 2 }}
+							target_is_a_bishop_or_religious_head_trigger = yes
+					}
+					add = -30
+				}
+				if = {
+					limit = { 
+							scope:target.faith = {faith_hostility_level = { target = scope:owner.faith value = 2 }}
+							scope:target = {is_cynical_or_non_believer_person_trigger = yes}
+					}
+					add = 10
+				}
+				if = {
+					limit = { target_knows_about_owner_trigger = no
+							scope:target.faith = { has_doctrine = doctrine_pluralism_pluralistic }
+							scope:target.faith = {faith_hostility_level = { target = scope:owner.faith value = 3 }}
+					}
+					add = -15
+				}
+				if = {
+					limit = { target_knows_about_owner_trigger = no
+							scope:target.faith = {NOT = { has_doctrine = doctrine_pluralism_pluralistic }}
+							scope:target.faith = {faith_hostility_level = { target = scope:owner.faith value = 3 }}
+					}
+					add = -30
+				}
+				if = {
+					limit = { 
+							scope:target.faith = {faith_hostility_level = { target = scope:owner.faith value = 3 }}
+							scope:target = {is_a_zealous_person_trigger = yes}
+					}
+					add = {value = scope:target.ai_zeal multiply = -0.35}
+				}
+				if = {
+					limit = { 
+							scope:target.faith = {faith_hostility_level = { target = scope:owner.faith value = 3 }}
+							target_is_a_bishop_or_religious_head_trigger = yes
+					}
+					add = -35
+				}
+				if = {
+					limit = { 
+							scope:target.faith = {faith_hostility_level = { target = scope:owner.faith value = 3 }}
+							scope:target = {is_cynical_or_non_believer_person_trigger = yes}
+					}
+					add = 15
+				}
+						
+			}
+			desc = OBF_faith_hostility
+		}
+		
+	
+	}
+
+#LIFESTYLE AND EDUCATION
+befriend_lifestyle_and_education_modifier = {
+
+		#SAME LIFESTYLE
+		modifier = {
+		desc = OBF_same_lifestyle
+			add = 25
+			target_has_same_lifestyle_trigger = yes
+		}
+		
+		modifier = {
+			desc = OBF_both_physicians
+			add = 10
+			scope:owner = {is_ai = no}
+			AND = {
+			target_knows_about_owner_trigger = yes
+			scope:owner = { has_trait = lifestyle_physician }
+			scope:target = { has_trait = lifestyle_physician }
+			}
+		}
+		modifier = {
+			desc = OBF_both_blademasters
+			add = 10
+			scope:owner = {is_ai = no}
+			AND = {
+			target_knows_about_owner_trigger = yes
+			scope:owner = { has_trait = lifestyle_blademaster }
+			scope:target = { has_trait = lifestyle_blademaster }
+			}
+		}
+		modifier = {
+			desc = OBF_both_hunters
+			add = 10
+			scope:owner = {is_ai = no}
+			AND = {
+			target_knows_about_owner_trigger = yes
+			scope:owner = { has_trait = lifestyle_hunter }
+			scope:target = { has_trait = lifestyle_hunter }
+			}
+		}
+		
+		#SAME EDUCATION
+		modifier = {
+		desc = OBF_same_education
+			add = 10
+			scope:owner = {has_same_education_trait_as_character_trigger = {CHARACTER = scope:target}}
+		}
+		
+		#OWNER EDUCATION
+		modifier = {
+			add = 4
+			scope:owner = { has_trait = education_diplomacy_3 }
+			desc = "SCHEME_BEFRIEND_MY_EDUCATION"
+		}
+		modifier = {
+			add = 8
+			scope:owner = { has_trait = education_diplomacy_4 }
+			desc = "SCHEME_BEFRIEND_MY_EDUCATION"
+		}
+	}
+
+
+#RELATIONS AND EASE OF CONTACT
+befriend_relation_to_target_modifier = {
+
+		#EMPLOYMENT RELATION
+		modifier = {
+			desc = OBF_work_together
+			add = 15
+			both_work_on_same_court = yes
+			}
+			
+		#OTHER RELATIONS
+		
+		modifier = {
+		desc = OBF_mild_good_relation
+			add = 10
+			scope:owner = { has_any_mild_good_relationship_with_character_trigger = {CHARACTER = scope:target } }
+		}
+		
+		modifier = {
+		desc = OBF_potential_friend
+			add = 20
+			scope:target = { has_relation_potential_friend = scope:owner }
+		}
+		
+		modifier = {
+		desc = OBF_extended_family
+			add = 15
+			scope:owner = {is_extended_family_of = scope:target}
+		}
+			
+		modifier = {
+		desc = OBF_you_are_bastard
+			add = -20
+			scope:owner = { has_any_negative_bastard_trait_trigger = yes}
+			scope:target.dynasty = scope:owner.dynasty
+			scope:target = {NOT = {is_parent_of = scope:owner}}
+		}
+		
+		modifier = {
+		desc = OBF_mild_bad_relation
+			add = -25
+			scope:owner = { has_any_mild_bad_relationship_with_character_trigger = {CHARACTER = scope:target } }
+		}
+		
+		#DYNASTY
+		modifier = {
+			AND = {
+			OR = {
+				scope:target.dynasty = scope:owner.dynasty
+				scope:target = {is_extended_family_of = scope:owner}
+				scope:target = {is_close_or_extended_family_of = scope:owner}
+				scope:target = {is_close_family_of = scope:owner}
+			}
+			OR = {
+				scope:owner = { has_trait = kinslayer_1}
+				scope:owner = { has_trait = kinslayer_2}
+				scope:owner = { has_trait = kinslayer_3}
+			}
+		}
+			add = {
+				value = 0
+				if = {
+					limit = {
+						scope:target.dynasty = scope:owner.dynasty
+						scope:owner = { has_trait = kinslayer_1}
+					}
+					add = -75
+				}
+				if = {
+					limit = {
+					scope:target = {is_close_or_extended_family_of = scope:owner}
+					scope:owner = { has_trait = kinslayer_1}
+					}
+					add = -25
+				}
+				if = {
+					limit = {
+					scope:target = {is_extended_family_of = scope:owner}
+						scope:owner = { has_trait = kinslayer_2}
+					}
+					add = -75
+				}
+				if = {
+					limit = {
+					scope:target = {is_close_family_of = scope:owner}
+					scope:owner = { has_trait = kinslayer_2}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+					scope:target.dynasty = scope:owner.dynasty
+					scope:owner = { has_trait = kinslayer_2}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+					scope:target = {is_close_family_of = scope:owner}
+					scope:owner = { has_trait = kinslayer_3}
+					}
+					add = -75
+				}
+				if = {
+					limit = {
+					scope:target = {is_extended_family_of = scope:owner}
+					scope:owner = { has_trait = kinslayer_3}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+					scope:target.dynasty = scope:owner.dynasty
+					scope:owner = { has_trait = kinslayer_3}
+					}
+					add = -20
+				}
+			}
+			desc = OBF_dynastic_crimes 
+		}
+		
+		#SPOUSE		
+		modifier = {
+		desc = OBF_you_are_adulterer
+		add = -50
+			AND = {
+			scope:owner = {OR = {has_trait = fornicator
+								has_trait = adulterer}}
+			scope:target = {is_consort_of = scope:owner}
+			scope:target = {NOR = {has_trait = fornicator
+								has_trait = adulterer}}
+			}
+		}
+	}
+
+#TYRANNY
+
+befriend_tyranny_modifier = {
+
+		modifier = {
+			scope:owner.tyranny > 0
+			add = {
+				value = 0
+				if = {
+					limit = {
+						scope:target = {has_dread_level_towards = {target = scope:owner level > 1 }}
+						NOT = {scope:owner = {is_liege_or_above_of = scope:target}}
+					}
+					add = {value = scope:owner.tyranny multiply = -0.25}
+				}
+				if = {
+					limit = {
+						scope:target = {has_dread_level_towards = {target = scope:owner level > 0 }}
+						NOT = {scope:owner = {is_liege_or_above_of = scope:target}}
+					}
+					add = {value = scope:owner.tyranny multiply = -0.25}
+				}
+				if = {
+					limit = {
+						scope:target = {has_dread_level_towards = {target = scope:owner level > 1 }}
+						scope:owner = {is_liege_or_above_of = scope:target}
+					}
+					add = {value = scope:owner.tyranny multiply = -0.25}
+				}
+				if = {
+					limit = {
+					scope:target = {has_dread_level_towards = {target = scope:owner level > 0 }}
+					scope:owner = {is_liege_or_above_of = scope:target}
+					}
+					add = {value = scope:owner.tyranny multiply = -0.25}
+				}
+				if = {
+					limit = {
+					scope:target = { is_a_compassionate_person_trigger = yes}
+					NOT = {scope:owner = {is_liege_or_above_of = scope:target}}
+					}
+					add = {value = scope:owner.tyranny multiply = -0.50}
+				}
+				if = {
+					limit = {
+					scope:target = { is_a_compassionate_person_trigger = yes}
+					scope:owner = {is_liege_or_above_of = scope:target}
+					}
+					add = {value = scope:owner.tyranny multiply = -0.50}
+				}
+				if = {
+					limit = {
+					scope:target = {is_an_uncompassionate_person_trigger = yes}
+					NOT = {scope:owner = {is_liege_or_above_of = scope:target}}
+					}
+					add = {value = scope:owner.tyranny multiply = 0.30}
+				}
+				
+			}
+			desc = OBF_your_tyranny 
+		}	
+		
+	}
+
+#CHARACTER_MODIFIERS
+befriend_char_mods_modifier = {
+
+	modifier = {
+			scope:owner = {is_ai = no}
+			target_knows_about_owner_trigger = no
+			add = {
+				value = 0
+				if = {
+					limit = {
+						scope:owner = { 
+							has_character_modifier = attacked_ally 
+								}
+					}
+					add = -25
+				}
+				if = {
+					limit = {
+						scope:owner = { 
+							has_character_modifier = broke_truce
+								}
+					}
+					add = -50
+				}
+				
+			}
+			desc = OBF_your_dishonor
+		}
+	
+	}
+
+#TRAITS AND PERSONALITY
+befriend_traits_and_personality_modifier = {
+
+		#TARGET IS ENERGETIC
+		modifier = {
+		desc = OBF_their_energy
+			add = {value = scope:target.ai_energy multiply = 0.25}
+				scope:target = { is_a_energetic_person_trigger = yes}
+				scope:target = {NOT = { is_at_same_location = scope:owner }}
+
+			}
+		modifier = {
+		desc = OBF_their_energy
+			add = {value = scope:target.ai_energy multiply = 0.25}
+				scope:target = { is_not_an_energetic_person_trigger = yes}
+				scope:target = {NOT = { is_at_same_location = scope:owner }}
+
+			}
+		#TARGET IS SOCIABLE
+		
+		modifier = {
+		desc = OBF_their_sociability
+			add = {value = scope:target.ai_sociability multiply = 0.25}
+				scope:target = { is_a_sociable_person_trigger = yes}
+
+			}
+		modifier = {
+		desc = OBF_their_sociability
+			add = {value = scope:target.ai_sociability multiply = 0.25}
+				scope:target = { is_not_a_sociable_person_trigger = yes}
+
+			}
+		
+		#OWNER AI SOCIABILITY
+		modifier = {
+		desc = OBF_your_sociability
+			add = {value = scope:owner.ai_sociability multiply = 0.25}
+				scope:owner = { is_ai = yes
+				is_a_sociable_person_trigger = yes}
+
+			}
+		modifier = {
+		desc = OBF_your_sociability
+			add = {value = scope:owner.ai_sociability multiply = 0.25}
+				scope:owner = { is_ai = yes
+				is_not_a_sociable_person_trigger = yes}
+
+			}
+			
+		#YOUR SOCIABILITY DISABLED FOR AI ENABLED ABOVE
+		modifier = {
+			scope:owner = {is_ai = no}	
+			add = {
+				value = 0
+				if = {
+					limit = {
+						scope:owner = { has_trait = depressed }
+					}
+					add = -35
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = compassionate }
+					}
+					add = 35
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = callous }
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = rakish }
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = confider }
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = trusting}
+					}
+					add = 35
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = paranoid }
+					}
+					add = -35
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = reclusive }
+					}
+					add = -35
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = content }
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = ambitious }
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = brave }
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = craven }
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = diplomat }
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = family_first }
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:owner = {
+							has_trait = lifestyle_reveler
+							has_trait_xp = {
+									trait = lifestyle_reveler
+								value < 50
+							}
+						}
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+						scope:owner = {
+							has_trait = lifestyle_reveler
+							has_trait_xp = {
+									trait = lifestyle_reveler
+								value >= 50
+							}
+							has_trait_xp = {
+								trait = lifestyle_reveler
+								value < 100
+							}
+						}
+					}
+					add = 30
+				}
+				if = {
+					limit = {
+						scope:owner = {
+							has_trait = lifestyle_reveler
+							has_trait_xp = {
+								trait = lifestyle_reveler
+								value = 100
+							}
+						}
+					}
+					add = 50
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = shy }
+					}
+					add = -100
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = gregarious }
+					}
+					add = 100
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = gallant }
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = seducer }
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = lustful }
+					}
+					add = 35
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = chaste }
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = generous }
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = lazy }
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = arrogant }
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = honest }
+					}
+					add = 20
+				}
+				
+				if = {
+					limit = {
+						scope:owner = { has_trait = lisping }
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = disfigured }
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = stuttering }
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = celibate }
+					}
+					add = -35
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = devoted }
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = poet }
+					}
+					add = 20
+				}
+			max = 100
+			min = -100
+			multiply = 0.25
+				
+			}
+			desc = OBF_your_sociability
+		}
+	
+		#TARGET IS GREEDY
+		modifier = {
+		desc = OBF_their_greed
+			add = 5
+				scope:target = { is_a_greedy_person_trigger = yes}
+				scope:owner = { gold >= 100 }
+				scope:owner = { gold < 150 }
+
+			}
+		modifier = {
+		desc = OBF_their_greed
+			add = 10
+				scope:target = { is_a_greedy_person_trigger = yes}
+				scope:owner = { gold >= 150}
+				scope:owner = { gold < 200}
+			}
+		modifier = {
+		desc = OBF_their_greed
+			add = 15
+				scope:target = { is_a_greedy_person_trigger = yes}
+				scope:owner = { gold >= 200 }
+			}
+		modifier = {
+		desc = OBF_their_greed
+			add = -5
+				scope:target = { is_a_greedy_person_trigger = yes}
+				scope:owner = { gold <= 0 }
+				scope:owner = { gold > -20 }
+			}
+		modifier = {
+		desc = OBF_their_greed
+			add = -20
+				scope:target = { is_a_greedy_person_trigger = yes}
+				scope:owner = { gold <= -20 }
+			}		
+			
+		#FAME TRAITS
+		modifier = {
+		desc = OBF_your_figure
+		add = 10
+			scope:owner = {OR = {has_trait = athletic
+								has_trait = strong
+								has_trait = whole_of_body
+								has_trait = physique_good_1
+								has_trait = physique_good_2
+								has_trait = physique_good_3}}
+						scope:target = { is_a_energetic_person_trigger = yes}
+			}
+		modifier = {
+		desc = OBF_your_figure
+		add = 5
+			scope:owner = {OR = {has_trait = athletic
+								has_trait = strong
+								has_trait = whole_of_body
+								has_trait = physique_good_1
+								has_trait = physique_good_2
+								has_trait = physique_good_3}}
+			scope:target = { is_a_energetic_person_trigger = no}
+			}
+			
+		modifier = {
+		desc = OBF_your_figure
+		add = -10
+			scope:owner = {OR = {has_trait = athletic
+								has_trait = strong
+								has_trait = whole_of_body
+								has_trait = physique_good_1
+								has_trait = physique_good_2
+								has_trait = physique_good_3}}
+			scope:target = { is_not_an_energetic_person_trigger = yes}
+			}
+	
+			
+		modifier = {
+		desc = OBF_both_bastards
+		add = 20
+		AND = {
+			scope:target = {
+			OR = {
+				has_trait = bastard
+				has_trait = legitimized_bastard}}
+			scope:owner = {
+			OR = {
+				has_trait = bastard
+				has_trait = legitimized_bastard}}
+			}
+		}
+			
+		modifier = {
+		desc = OBF_both_anger_easily
+		add = -20
+			scope:owner = {has_trait = irritable}
+			scope:target = {has_trait = irritable}
+			}
+			
+		modifier = {
+		desc = OBF_both_flagellant
+		add = 15
+			scope:owner = {has_trait = flagellant}
+			scope:target = {has_trait = flagellant}
+			}
+			
+		modifier = {
+		add = -15
+		desc = OBF_greed_vs_generous
+			scope:owner = {OR = {has_trait = avaricious
+									has_trait = greedy}}
+			scope:target = {OR = {has_trait = improvident
+								has_trait = profligate
+								has_trait = generous}}
+			}
+					
+		#OWNER IS A TORTURER OR SADISTIC DISABLED FOR AI
+		modifier = {
+			OR = {scope:owner = { has_trait = sadistic }
+			scope:owner = { has_trait = torturer }}
+			scope:owner = { is_ai = no }
+			target_knows_about_owner_trigger = yes
+			add = {
+				value = 0
+				if = {
+					limit = {
+						scope:target = {is_an_uncompassionate_person_trigger = yes}
+						scope:owner = { has_trait = sadistic }
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						scope:target = {is_an_uncompassionate_person_trigger = yes}
+						scope:owner = { has_trait = torturer }
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						scope:target = {is_a_compassionate_person_trigger = yes}
+						scope:owner = { has_trait = sadistic }
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:target = {is_a_compassionate_person_trigger = yes}
+						scope:owner = { has_trait = torturer }
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = torturer}
+						scope:target = { has_trait = sadistic}
+					}
+					add = 20
+				}
+				
+			}
+			desc = OBF_they_like_pain
+		}
+		
+		#OWNER IS A TORTURER OR SADISTIC ENABLED FOR AI
+		modifier = {
+			OR = {scope:owner = { has_trait = sadistic }
+			scope:owner = { has_trait = torturer }}
+			scope:owner = { is_ai = yes }
+			add = {
+				value = 0
+				if = {
+					limit = {
+						scope:target = {is_an_uncompassionate_person_trigger = yes}
+						scope:owner = { has_trait = sadistic }
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						scope:target = {is_an_uncompassionate_person_trigger = yes}
+						scope:owner = { has_trait = torturer }
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						scope:target = {is_a_compassionate_person_trigger = yes}
+						scope:owner = { has_trait = sadistic }
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:target = {is_a_compassionate_person_trigger = yes}
+						scope:owner = { has_trait = torturer }
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:owner = { has_trait = torturer}
+						scope:target = { has_trait = sadistic}
+					}
+					add = 20
+				}
+				
+			}
+			desc = OBF_they_like_pain
+		}
+			
+		modifier = {
+		desc = OBF_he_is_submissive
+		add = 20
+			scope:owner = { has_personality_dominant_trigger = yes }
+			scope:target = { has_personality_submissive_trigger = yes }
+			}
+			
+		modifier = {
+		desc = OBF_he_is_dominant
+		add = -20
+			scope:target = { has_personality_dominant_trigger = yes }
+			scope:owner = { has_personality_submissive_trigger = yes }
+			}
+			
+		modifier = {
+		desc = OBF_he_finds_you_annoying
+		add = -25 
+			scope:owner = {is_annoying_trigger = yes}
+			}
+			
+		#TRAIT SIMILARITY
+		compatibility_modifier = {
+		desc = OBF_compatibility
+			who = scope:target
+			compatibility_target = scope:owner
+			min = -50
+			max = 50
+			multiplier = 1
+		}
+		
+		#GENERIC TRAITS IN COMMON
+	
+		modifier = {
+		desc = OBF_opposite_personalities
+			add = -15
+			scope:owner = { number_of_opposing_personality_traits = {target = scope:target value >= 3}}
+		}
+		modifier = {
+		desc = OBF_similar_personalities
+			add = 15
+			scope:owner = { number_of_personality_traits_in_common = {target = scope:target value >= 3}}
+		}
+		modifier = {#DISABLED FOR AI
+		desc = OBF_doesnt_thrust_you
+			add = -20
+			scope:owner = {is_ai = no}
+			target_knows_about_owner_trigger = yes
+			scope:owner = { OR = {
+					has_trait = deceitful
+					has_trait = arbitrary
+					has_trait = callous
+					has_trait = disloyal}}
+			scope:target = {NOT = {has_trait = trusting}}
+		}
+		
+		modifier = {#ENABLED FOR AI
+		desc = OBF_doesnt_thrust_you
+			add = -20
+			scope:owner = {is_ai = yes}
+			scope:owner = { OR = {
+					has_trait = deceitful
+					has_trait = arbitrary
+					has_trait = callous
+					has_trait = disloyal}}
+			scope:target = {NOT = {has_trait = trusting}}
+		}
+	
+	#INTELLIGENCE
+		modifier = {
+		OR = {scope:owner = { probably_intelligent_trigger = yes }
+		scope:owner = { probably_unintelligent_trigger = yes }}
+			add = {
+				value = 0
+				if = {
+					limit = {
+						scope:owner = { probably_intelligent_trigger = yes }
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+						scope:owner = { probably_unintelligent_trigger = yes }
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:owner = { probably_unintelligent_trigger = yes }
+						scope:target = { probably_intelligent_trigger = yes }
+					}
+					add = -10
+				}
+				
+			}
+			desc = OBF_your_intelligence
+		}
+
+		#MURDERER DISABLED FOR THE AI
+		modifier = {
+			scope:owner = {is_ai = no}
+			target_knows_about_owner_trigger = yes
+			scope:owner = { has_trait = murderer }
+			scope:target = { NOT = {has_trait = murderer}}
+			add = {
+				value = 0
+				if = {
+					limit = {
+						scope:target = { is_a_compassionate_person_trigger = yes}
+						scope:owner = {has_trait = murderer}
+						scope:target = { NOT = {has_trait = murderer}}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = { is_a_honorable_person_trigger = yes}
+						scope:target = { is_a_compassionate_person_trigger = no}
+						scope:target = { is_a_forgiving_person_trigger = no}
+						scope:owner = {has_trait = murderer}
+						scope:target = { NOT = {has_trait = murderer}}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:owner = {has_trait = murderer}
+						target_is_a_bishop_or_religious_head_trigger = yes
+					}
+					add = -10
+				}
+				
+			}
+			desc = OBF_you_are_a_murderer
+		}
+		
+		#MURDERER ENABLED FOR THE AI
+		modifier = {
+			scope:owner = {is_ai = yes}
+			scope:owner = { has_trait = murderer }
+			scope:target = { NOT = {has_trait = murderer}}
+			add = {
+				value = 0
+				if = {
+					limit = {
+						scope:target = { is_a_compassionate_person_trigger = yes}
+						scope:owner = {has_trait = murderer}
+						scope:target = { NOT = {has_trait = murderer}}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = { is_a_honorable_person_trigger = yes}
+						scope:target = { is_a_compassionate_person_trigger = no}
+						scope:target = { is_a_forgiving_person_trigger = no}
+						scope:owner = {has_trait = murderer}
+						scope:target = { NOT = {has_trait = murderer}}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:owner = {has_trait = murderer}
+						target_is_a_bishop_or_religious_head_trigger = yes
+					}
+					add = -10
+				}
+				
+			}
+			desc = OBF_you_are_a_murderer
+		}
+		
+		#BOTH ARE COMMANDERS
+		modifier = {
+		desc = OBF_both_commanders
+			add = 25
+			scope:owner = { OR = {number_of_commander_traits > 1
+									has_trait = lifestyle_blademaster
+									has_trait = education_martial_3
+									has_trait = education_martial_4
+									has_trait = strategist}}
+			scope:target = { OR = {number_of_commander_traits > 1
+									has_trait = lifestyle_blademaster
+									has_trait = education_martial_3
+									has_trait = education_martial_4
+									has_trait = strategist}}
+		}
+		
+		
+		#BOTH ARE POETS
+		modifier = {
+		desc = OBF_both_poets
+			add = 5
+			scope:owner = { has_trait = poet }
+			scope:target = { has_trait = poet }
+		}
+
+		#DISEASES
+		
+		modifier = {
+		desc = OBF_contagious_deadly_diseases
+			add = -1000
+			scope:owner = { has_contagious_deadly_disease_trigger = yes}
+		}
+		
+		modifier = {
+		desc = OBF_diseases
+			add = -50
+			scope:owner = { has_short_disease_trigger = yes}
+		}	
+	}
+#HARD MODIFIERS ON TARGET OPINION OF OWNER 
+befriend_target_opinion_modifier = {
+
+	###########OPINION MODIFIERS##########DISABLED FOR AI
+	
+		
+		modifier = {
+		scope:owner = {is_ai = no}
+		target_knows_about_owner_trigger = no
+			add = {
+				value = 0
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = feast_got_stew_all_over_me
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = feast_had_good_talk
+									}
+								}
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = feast_helped_during_breakin
+									}
+								}
+					}
+					add = 30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = impressed_with_humility_opinion
+									}
+								}
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = disgusted_by_humility_opinion
+									}
+								}
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = annoying_glutton_at_feast_opinion
+									}
+								}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = feast_host_failed_to_appear
+									}
+								}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = feast_showed_sympathy_to_host
+									}
+								}
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = lover_feast_secret_dalliance_opinion
+									}
+								}
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = feast_had_good_time_together_opinion
+									}
+								}
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = feast_sided_with_me_in_my_fight_opinion
+									}
+								}
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = feast_sided_against_me_in_my_fight_opinion 
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = feast_common_burden_opinion
+									}
+								}
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = feast_murdered_someone
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = offered_attention_at_feast_opinion
+									}
+								}
+					}
+					add = 25
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = feast_saved_my_life_opinion
+									}
+								}
+					}
+					add = 40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = feast_threw_me_out_opinion
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = feast_strategic_disagreement_opinion
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = feast_got_taught_a_lesson
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = feast_recieved_amazing_gift
+									}
+								}
+					}
+					add = 30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = feast_purposefully_ruined_gift
+									}
+								}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = feast_lied_to_me_opinion
+									}
+								}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = feast_helped_me_opinion
+									}
+								}
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = opinion_hunt_got_to_take_shot
+									}
+								}
+					}
+					add = 25
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = opinion_hunt_forest_feast
+									}
+								}
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = legitimized_a_bastard_opinion
+									}
+								}
+					}
+					add = -25
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = legitimized_bastard_opinion
+									}
+								}
+					}
+					add = -40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = spoilsport_opinion
+									}
+								}
+					}
+					add = -25
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = claim_my_throne_success_discovered_opinion
+									}
+								}
+					}
+					add = -40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = claim_my_throne_success_undiscovered_opinion
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = claim_my_throne_failure_opinion
+									}
+								}
+					}
+					add = -40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = claim_throne_aiding_liege_opinion
+									}
+								}
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = claim_throne_bought_support_opinion
+									}
+								}
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = claim_throne_self_declared_opinion
+									}
+								}
+					}
+					add = -50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = claim_throne_tricked_peasants_opinion
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = claim_throne_forged_letter_opinion
+									}
+								}
+					}
+					add = -50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = chancellor_task_neighbor_decreased_opinion
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = chancellor_task_neighbor_increased_opinion
+									}
+								}
+					}
+					add = 30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = chancellor_bestow_royal_favor_opinion
+									}
+								}
+					}
+					add = 50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = court_chaplain_fabricated_claim_opinion
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = court_chaplain_fabricated_claim_on_vassal_opinion
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = bad_religious_relations_opinion
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = bonus_religious_relations_opinion
+									}
+								}
+					}
+					add = 30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = court_chaplain_upsetting_claim_fabrication_opinion
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = court_chaplain_vassal_claim_target_upset_modifier
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = steward_convince_dejure_upset_modifier
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = treachery_opinion
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = treasonous_revoke_refusal
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = treasonous_imprison_refusal
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = abductor_opinion
+									}
+								}
+					}
+					add = -40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = attempted_murder_opinion
+									}
+								}
+					}
+					add = -90
+				}
+				
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = theft_opinion
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = murdered_close_family_crime
+									}
+								}
+					}
+					add = -80
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = attempted_murder_close_family_crime
+									}
+								}
+					}
+					add = -70
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = attempted_murder_me_crime
+									}
+								}
+					}
+					add = -100
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = murdered_close_relation_opinion
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = murdered_someone_close_to_me_crime
+									}
+								}
+					}
+					add = -50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = hurt_someone_close_to_me_crime
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = murdered_my_vassal_crime
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = executed_close_family
+									}
+								}
+					}
+					add = -50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = executed_close_family_crime
+									}
+								}
+					}
+					add = -90
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = executed_dynasty_member
+									}
+								}
+					}
+					add = -60
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = executed_close_relation_opinion
+									}
+								}
+					}
+					add = -70
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = executed_family_sun_trial_modifier
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = executed_my_countryman_modifier
+									}
+								}
+					}
+					add = -25
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = tortured_family_member
+									}
+								}
+					}
+					add = -30
+				}
+
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = blinded_family_member
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = castrated_family_member
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = attempted_to_steal_artifact_from_me
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = stole_artifact_from_me
+									}
+								}
+					}
+					add = -50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = sumptuary_violation_opinion
+									}
+								}
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = reformed_holy_roman_empire_opinion
+									}
+								}
+					}
+					add = 50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = implemented_traditional_succession_law_opinion
+									}
+								}
+					}
+					add = 30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = bizarre_claims_opinion
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = disinherited_opinion
+									}
+								}
+					}
+					add = -75
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = denounced_opinion
+									}
+								}
+					}
+					add = -50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = forgave_denounced_opinion
+									}
+								}
+					}
+					add = -25
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = disinherited_house_member_opinion
+									}
+								}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = denounced_house_member_opinion
+									}
+								}
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = restored_inheritance_opinion
+									}
+								}
+					}
+					add = 40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = restored_house_member_inheritance_opinion
+									}
+								}
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = voting_for_me_opinion
+									}
+								}
+					}
+					add = 25
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = voting_for_my_candidate_opinion
+									}
+								}
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = fabricate_hook_threatened_me
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = fabricated_hook_against_court_opinion
+									}
+								}
+					}
+					add = -40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = holy_order_founder_opinion
+									}
+								}
+					}
+					add = 30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = holy_order_patron_opinion
+									}
+								}
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = holy_order_destroyed_order_opinion
+									}
+								}
+					}
+					add = -50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = holy_order_revoked_lease_opinion 
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = scheming_against_me
+									}
+								}
+					}
+					add = -50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = schemed_against_me
+									}
+								}
+					}
+					add = -50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = accused_of_scheming_opinion
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = spied_on_me_agent_opinion
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = liege_scheming_against_me_opinion
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = liege_attempting_to_murder_me_opinion
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = spied_on_me_instigator_opinion
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = blackmailing_me_opinion 
+									}
+								}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = blackmailed_by_agent_opinion 
+									}
+								}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = forced_to_scheme_against_friend_opinion 
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = hero_of_the_moment_opinion
+									}
+								}
+					}
+					add = 25
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = drunkard_attack_opinion
+									}
+								}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = attempted_to_remove_agent_opinion
+									}
+								}
+					}
+					add = -100
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = scheme_refused_my_advice_opinion
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = scheme_followed_my_advice_opinion
+									}
+								}
+					}
+					add = 30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = opinion_scheme_refused_to_stop_spying
+									}
+								}
+					}
+					add = -50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = opinion_scheme_refused_to_stop_murder
+									}
+								}
+					}
+					add = -100
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = opinion_scheme_spied_on_me
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = opinion_scheme_wanted_to_murder_close_relation
+									}
+								}
+					}
+					add = -50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = opinion_scheme_code_rejected
+									}
+								}
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = governance_careful_mapping_of_my_realm_opinion
+									}
+								}
+					}
+					add = 40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = governance_taxed_clergy_when_bankrupt
+									}
+								}
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = governance_taxed_nobles_when_bankrupt
+									}
+								}
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = governance_taxed_cities_when_bankrupt
+									}
+								}
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = governance_fish_pond
+									}
+								}
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = governance_emphasised_authority_opinion 
+									}
+								}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = dismissed_me_opinion
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = meritocracy_claimed_my_throne_opinion
+									}
+								}
+					}
+					add = -80
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = extorted_me_opinion
+									}
+								}
+					}
+					add = -40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = intrigue_used_as_test_subject_opinion
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = intrigue_used_as_risky_test_subject_opinion
+									}
+								}
+					}
+					add = -50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = did_not_tell_my_secret
+									}
+								}
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = intrigue_mind_broken_opinion
+									}
+								}
+					}
+					add = 1000
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = good_adjudicator_opinion
+									}
+								}
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = considerate_liege_opinion
+									}
+								}
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = spell_thief_attempted_opinion
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = renewed_attention
+									}
+								}
+					}
+					add = 25
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = statecraft_family_meaning_opinion
+									}
+								}
+					}
+					add = 25
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = perk_negotiated_alliance_opinion
+									}
+								}
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = broke_betrothal_opinion 
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = refused_alliance_opinion
+									}
+								}
+					}
+					add = -25
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = polygamous_marriage_opinion
+									}
+								}
+					}
+					add = -40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = former_polygamous_marriage_opinion
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = relative_in_blasphemous_union_opinion
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = stole_concubine_opinion
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = forced_family_concubine_marriage_opinion
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = same_sex_with_no_acceptance_opinion
+									}
+								}
+					}
+					add = -40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = former_same_sex_with_no_acceptance_opinion
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = taught_me_commander_trait_opinion
+									}
+								}
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = compliment_opinion
+									}
+								}
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = pious_opinion
+									}
+								}
+					}
+					add = 25
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = impious_opinion
+									}
+								}
+					}
+					add = -25
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = suspicion_opinion
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = weak_opinion
+									}
+								}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = disgusted_opinion
+									}
+								}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = impressed_opinion
+									}
+								}
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = flattered_opinion
+									}
+								}
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = amused_opinion
+									}
+								}
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = bored_opinion
+									}
+								}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = pity_opinion
+									}
+								}
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = scared_opinion
+									}
+								}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = annoyed_opinion
+									}
+								}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = plotting_against_vassals_opinion
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = neglected_opinion
+									}
+								}
+					}
+					add = -15
+				}
+
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = bitter_rivalry_opinion
+									}
+								}
+					}
+					add = -25
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = unfriendly_opinion
+									}
+								}
+					}
+					add = -5
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = gift_opinion
+									}
+								}
+					}
+					add = 30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = gift_artifact_opinion
+									}
+								}
+					}
+					add = 30
+				}
+
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = repentant_opinion
+									}
+								}
+					}
+					add = 25
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = romantic_gesture_opinion
+									}
+								}
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = spilled_wine_on_me 
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = friendly_interaction
+									}
+								}
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = opinion_welcomed_with_tea
+									}
+								}
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = blamed_me_unjustly
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = sc_negotiator_improved_relations_opinion
+									}
+								}
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = loved_one_dungeon_death
+									}
+								}
+					}
+					add = -40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = spied_on_me_opinion
+									}
+								}
+					}
+					add = -25
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = imprisoned_family_member
+									}
+								}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = imprisoned_family_member_dungeon
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = family_moved_to_dungeon_opinion
+									}
+								}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = murder_personal_grudge_opinion
+									}
+								}
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = declined_guardianship_opinion
+									}
+								}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = claimant_faction_claimant_opinion
+									}
+								}
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = claimant_faction_member_opinion
+									}
+								}
+					}
+					add = 60
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = raided_me_opinion
+									}
+								}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = loyal_servant
+									}
+								}
+					}
+					add = 50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = smeared_opinion
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = insulted_opinion
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = pretender_opinion
+									}
+								}
+					}
+					add = -100
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = treacherous_invader_opinion
+									}
+								}
+					}
+					add = -100
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = kicked_relative_from_court
+									}
+								}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = forgot_name_opinion
+									}
+								}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = lost_strong_hook_opinion
+									}
+								}
+					}
+					add = -50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = lost_weak_hook_opinion
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = ensures_my_safety_opinion
+									}
+								}
+					}
+					add = 30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = peasant_affair_rejected_acknowledgement_opinion
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = peasant_affair_rejected_lover_opinion
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = sent_poem_romance_opinion
+									}
+								}
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = sent_poem_mourning_opinion
+									}
+								}
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = sent_poem_grateful_opinion
+									}
+								}
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = sent_poem_humiliated_opinion
+									}
+								}
+					}
+					add = -50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = temporal_condemnation_opinion
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = temporal_condemnation_condemned_me_opinion
+									}
+								}
+					}
+					add = -25
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = resisted_conversion_opinion
+									}
+								}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = illegal_resisted_conversion_opinion
+									} 
+								}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = donated_ghw_money_2
+									}
+								}
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = restored_papacy_opinion
+									}
+								}
+					}
+					add = 40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = destroyed_papacy_opinion
+									}
+								}
+					}
+					add = -40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = established_samarkand_opinion
+									}
+								}
+					}
+					add = 40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = followed_the_chakravarti_opinion
+									}
+								}
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = unpledged_from_ghw_opinion
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = donated_to_church_opinion
+									}
+								}
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = founded_holy_order_opinion
+									}
+								}
+					}
+					add = 30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = religious_freedom_opinion
+									}
+								}
+					}
+					add = 30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = literalist_debate_loser_opinion
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = cavalier_accusations_opinion
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = brought_heretics_to_my_notice_opinion
+									}
+								}
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = slept_with_spouse_exposed_opinion
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = unfaithful_spouse_exposed_opinion
+									}
+								}
+					}
+					add = -60
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = unfaithful_spouse_discovered_opinion
+									}
+								}
+					}
+					add = -60
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = slept_with_spouse_discovered_opinion
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = sent_charming_envoy_opinion
+									}
+								}
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = heard_praise_opinion
+									}
+								}
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = heard_of_foolishness_opinion
+									}
+								}
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = successful_befriending_target_opinion
+									}
+								}
+					}
+					add = 50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = successful_befriending_owner_opinion 
+									}
+								}
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = disastrous_befriend_attempt_opinion
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = was_scolded_opinion 
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = softening_disposition_opinion  
+									}
+								}
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = agitated_opinion  
+									}
+								}
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = laughingstock_opinion  
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = seduce_refused_to_end_seduction_spouse_opinion   
+									}
+								}
+					}
+					add = -40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = seduce_refused_target_spouse_opinion  
+									}
+								}
+					}
+					add = -50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = seduce_continued_seduction_of_my_spouse_opinion  
+									}
+								}
+					}
+					add = -50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = horrifying_discovery_cannibalism_opinion
+									}
+								}
+					}
+					add = -40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = replaced_me_opinion   
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = left_me_to_wolves_opinion  
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = failed_comfort_opinion 
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = usurped_title 
+									}
+								}
+					}
+					add = -50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = tried_to_usurped_title 
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = destroyed_title  
+									}
+								}
+					}
+					add = -25
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = pressed_my_claim  
+									}
+								}
+					}
+					add = 50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = revoked_title 
+									}
+								}
+					}
+					add = -80
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = declared_war 
+									}
+								}
+					}
+					add = -25
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = declared_war_on_son_daughter 
+									}
+								}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = vassal_lost_faction_revolt_war 
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = vassal_wp_faction_revolt_war 
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = peasant_revolt_opinion  
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = contributed_in_war 
+									}
+								}
+					}
+					add = 100
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = warmonger_opinion 
+									}
+								}
+					}
+					add = -50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = primary_heir_replaced_opinion 
+									}
+								}
+					}
+					add = -50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = parent_primary_heir_replaced_opinion 
+									}
+								}
+					}
+					add = -50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = defiled_place_of_worship_opinion 
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = house_feud_opinion 
+									}
+								}
+					}
+					add = -25
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = released_attempted_murderer_opinion 
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = partners_in_crime_opinion  
+									}
+								}
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = ep1_took_advantage_of_kindness_opinion 
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = ep1_rejected_sponsoring_a_feast_opinion  
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = ep1_accepted_sponsoring_a_feast_opinion  
+									}
+								}
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = absolutely_horrified_opinion 
+									}
+								}
+					}
+					add = -100
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = developing_attraction_opinion  
+									}
+								}
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = ep1_disagreed_with_decision_opinion 
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = ep1_disagreed_with_lowborn_adoption_opinion  
+									}
+								}
+					}
+					add = -40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = sumptuary_debate_loser_opinion 
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = king_of_the_north_sea_opinion 
+									}
+								}
+					}
+					add = 50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = queen_of_the_north_sea_opinion 
+									}
+								}
+					}
+					add = 50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = fp1_held_grand_sacrifice_opinion 
+									}
+								}
+					}
+					add = 30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = fp1_held_human_sacrifice_opinion  
+									}
+								}
+					}
+					add = -50
+				}	
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = fp1_rejected_my_sword_opinion  
+									}
+								}
+					}
+					add = -40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = fp1_accepted_my_sword_opinion 
+									}
+								}
+					}
+					add = 30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = fp1_usurped_my_authority_opinion  
+									}
+								}
+					}
+					add = -40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = fp1_saved_me_from_the_mob_opinion 
+									}
+								}
+					}
+					add = 50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = fp1_abandoned_me_to_the_mob_opinion 
+									}
+								}
+					}
+					add = -40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = fp1_honoured_heathen_opinion  
+									}
+								}
+					}
+					add = -40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = fp1_desecrated_corpse_of_loved_one  
+									}
+								}
+					}
+					add = -40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = forgave_me_opinion  
+									}
+								}
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = messed_with_artifact_opinion  
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = fp2_questioned_my_faith_opinion  
+									}
+								}
+					}
+					add = -25
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = fp2_reassured_faith_opinion  
+									}
+								}
+					}
+					add = 25
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = fp2_tolerated_me_opinion  
+									}
+								}
+					}
+					add = 25
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = bizarre_claims_opinion_modifier 
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = absorbed_de_jure_opinion  
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = spied_on_spouse_opinion  
+									}
+								}
+					}
+					add = -25
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = spying_on_us_opinion  
+									}
+								}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = is_spying_on_me_opinion  
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = spied_on_family_member_opinion 
+									}
+								}
+					}
+					add = -25
+				}					
+			}
+			desc = OBF_opinion_modifiers
+		}
+		modifier = {
+		scope:owner = {is_ai = no}
+		target_knows_about_owner_trigger = yes
+			add = {
+				value = 0
+				
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = attempted_murder_opinion
+									}
+								}
+					}
+					add = -70
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = attempted_arrest_opinion
+									}
+								}
+					}
+					add = -40
+				}
+				if = {
+					limit = { 
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = attempted_imprisonment_opinion
+									}
+								}
+					}
+					add = -40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = abducted_me_opinion
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = attempted_abduction_opinion
+									}
+								}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = executed_close_family_crime
+									}
+								}
+					}
+					add = -40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = executed_dynasty_member
+									}
+								}
+					}
+					add = -40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = executed_close_relation_opinion
+									}
+								}
+					}
+					add = -40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = blinded_me
+									}
+								}
+					}
+					add = -40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = castrated_me
+									}
+								}
+					}
+					add = -50
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = banished_me
+									}
+								}
+					}
+					add = -40
+				}
+				if = {
+					limit = {
+						scope:target = { 
+							has_opinion_modifier = {
+									target = scope:owner
+									modifier = demanded_taking_vows
+									}
+								}
+					}
+					add = -20
+				}
+									
+			}
+			desc = OBF_opinion_modifiers
+		}
+	}
+
+#RANK DIFFERENCE 
+befriend_rank_difference_modifier = {
+
+	modifier = {
+			scope:target = {NOT = {is_consort_of = scope:owner}}
+			scope:target = {NOT = {is_close_family_of = scope:owner}}
+			scope:target = {personal_scheme_success_compare_target_liege_tier_trigger = no}
+			scope:owner = {
+				tier_difference = {
+					target = scope:target
+					value >= 1
+				}
+			}
+			add = { 
+				value = 0
+				if = {
+					limit = {
+						scope:target = { 
+							target_is_a_bishop_or_religious_head_trigger = no
+							}
+						scope:owner = {
+								tier_difference = {
+								target = scope:target
+								value >= 3
+									}
+							}
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+						scope:target = {
+							target_is_a_bishop_or_religious_head_trigger = no
+							}
+						scope:owner = {
+								tier_difference = {
+								target = scope:target
+								value >= 2
+									}
+							}
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						scope:target = {
+							target_is_a_bishop_or_religious_head_trigger = no
+							}
+						scope:owner = {
+								tier_difference = {
+								target = scope:target
+								value >= 1
+									}
+							}
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						scope:owner = {highest_held_title_tier >= tier_kingdom}
+						scope:target = {highest_held_title_tier <= tier_duchy}
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						scope:owner = {highest_held_title_tier = tier_empire}	
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						scope:owner = {highest_held_title_tier >= tier_kingdom}
+						scope:target = {highest_held_title_tier <= tier_duchy}
+						target_is_a_bishop_or_religious_head_trigger = yes
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						scope:owner = {highest_held_title_tier = tier_empire}	
+						target_is_a_bishop_or_religious_head_trigger = yes
+					}
+					add = 5
+				}
+			}
+			desc = "HIGHER_RANK_THAN_SCHEME_TARGET"
+		}
+		modifier = {
+			scope:target = {NOT = {is_consort_of = scope:owner}}
+			scope:target = {NOT = {is_close_family_of = scope:owner}}
+			scope:target = {personal_scheme_success_compare_target_liege_tier_trigger = yes}
+			scope:owner = {
+				tier_difference = {
+					target = scope:target.liege
+					value >= 1
+				}
+			}
+			add = {
+				value = 0
+				if = {
+					limit = {
+						scope:target = {
+							target_is_a_bishop_or_religious_head_trigger = no
+							}
+						scope:owner = {
+								tier_difference = {
+								target = scope:target.liege
+								value >= 3
+									}
+							}
+					}
+					add = 20
+				}
+				if = {
+					limit = {
+						scope:target = {
+							target_is_a_bishop_or_religious_head_trigger = no
+							}
+						scope:owner = {
+								tier_difference = {
+								target = scope:target.liege
+								value >= 2
+									}
+							}
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+						scope:target = {
+							target_is_a_bishop_or_religious_head_trigger = no
+							}
+						scope:owner = {
+								tier_difference = {
+								target = scope:target.liege
+								value >= 1
+									}
+							}
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						scope:owner = {highest_held_title_tier >= tier_kingdom}
+						scope:target = {highest_held_title_tier <= tier_duchy}
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						scope:owner = {highest_held_title_tier = tier_empire}	
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						scope:owner = {highest_held_title_tier >= tier_kingdom}
+						scope:target = {highest_held_title_tier <= tier_duchy}
+						target_is_a_bishop_or_religious_head_trigger = yes
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						scope:owner = {highest_held_title_tier = tier_empire}	
+						target_is_a_bishop_or_religious_head_trigger = yes
+					}
+					add = 5
+				}
+			}
+			desc = "HIGHER_RANK_THAN_SCHEME_TARGET_LIEGE"
+		}
+		
+		modifier = {
+			scope:target = {NOT = {is_consort_of = scope:owner}}
+			scope:target = {NOT = {is_close_family_of = scope:owner}}
+			target_is_religious_head = no
+			scope:target = {personal_scheme_success_compare_target_liege_tier_trigger = no}
+			scope:owner = {
+				tier_difference = {
+					target = scope:target
+					value <= -1
+				}
+			}
+			add = {
+				value = 0
+				if = {
+					limit = {
+						scope:target = {
+							target_is_a_bishop_or_religious_head_trigger = no
+							}
+						scope:owner = {
+								tier_difference = {
+								target = scope:target
+								value <= -1
+									}
+							}
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:target = {
+							target_is_a_bishop_or_religious_head_trigger = no
+							}
+						scope:owner = {
+								tier_difference = {
+								target = scope:target
+								value <= -2
+									}
+							}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = {
+							target_is_a_bishop_or_religious_head_trigger = no
+							}
+						scope:owner = {
+								tier_difference = {
+								target = scope:target
+								value <= -3
+									}
+							}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target = {highest_held_title_tier >= tier_kingdom}
+						scope:owner = {highest_held_title_tier <= tier_duchy}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = {highest_held_title_tier = tier_empire}	
+					}
+					add = -15
+				}
+			}
+			desc = "LOWER_RANK_THAN_SCHEME_TARGET"
+		}
+		modifier = {
+			scope:target = {NOT = {is_consort_of = scope:owner}}
+			scope:target = {NOT = {is_close_family_of = scope:owner}}
+			target_is_religious_head = no
+			scope:target = {personal_scheme_success_compare_target_liege_tier_trigger = yes}
+			scope:owner = {
+				tier_difference = {
+					target = scope:target.liege
+					value <= -1
+				}
+			}
+			add = {
+				value = 0
+				if = {
+					limit = {
+						scope:target = {
+							target_is_a_bishop_or_religious_head_trigger = no
+							}
+						scope:owner = {
+								tier_difference = {
+								target = scope:target.liege
+								value <= -1
+									}
+							}
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:target = {
+							target_is_a_bishop_or_religious_head_trigger = no
+							}
+						scope:owner = {
+								tier_difference = {
+								target = scope:target.liege
+								value <= -2
+									}
+							}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:target = {
+							target_is_a_bishop_or_religious_head_trigger = no
+							}
+						scope:owner = {
+								tier_difference = {
+								target = scope:target.liege
+								value <= -3
+									}
+							}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:target.liege = {highest_held_title_tier >= tier_kingdom}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:owner = {highest_held_title_tier >= tier_kingdom}
+					}
+					add = 25
+				}
+				if = {
+					limit = {
+						scope:owner = {highest_held_title_tier >= tier_kingdom}
+						target_is_a_bishop_or_religious_head_trigger = yes
+					}
+					add = 10
+				}
+			}
+			desc = "LOWER_RANK_THAN_SCHEME_TARGET_LIEGE"
+		}
+	
+	
+	}
+

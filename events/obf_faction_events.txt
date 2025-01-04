@@ -1,0 +1,204 @@
+﻿#Events for Find Secrets Task
+
+namespace = obf_faction_event
+
+#######################
+# FACTION DISCOVERED
+#######################
+obf_faction_event.1000 = { 
+	type = character_event
+	title = obf_faction_event.1000.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					exists = scope:faction_leader
+				}
+				desc = obf_faction_event.1000.desc_faction_leader
+			}
+			triggered_desc = {
+				trigger = {
+					NOT = {exists = scope:faction_leader}
+				}
+				desc = obf_faction_event.1000.desc
+			}
+		}
+	}
+	theme = realm
+	override_background = {
+		reference = throne_room
+	}
+	left_portrait = {
+		character = root
+		animation = personality_vengeful
+	}
+	lower_right_portrait = scope:faction_leader
+	
+	trigger = {
+		any_targeting_faction = {
+						exists = yes
+						NOR = {faction_is_type = peasant_faction
+						faction_is_type = populist_faction
+						has_variable = faction_discovered}
+						OR = {faction_can_press_demands = yes
+						AND = {faction_is_type = independence_faction
+						faction_discontent >= 90}
+						AND = {faction_is_type = nation_fracturing_faction
+						faction_discontent >= 85}
+						AND = {faction_is_type = liberty_faction
+						faction_discontent >= 80}
+						AND = {faction_is_type = claimant_faction
+						faction_discontent >= 75}}
+					}
+	}
+	
+	immediate = {
+	play_music_cue = "mx_cue_secret"
+	every_vassal_or_below = {
+			limit = {has_variable = obf_is_a_faction_member
+						is_a_faction_member = no}
+					remove_variable = obf_is_a_faction_member
+				}
+	every_vassal_or_below = {
+			limit = {has_variable = obf_can_be_revealed_as_faction_member
+						is_a_faction_member = no}
+					remove_variable = obf_can_be_revealed_as_faction_member
+				}
+	random_targeting_faction = {
+					limit = {
+						exists = yes
+						NOR = {faction_is_type = peasant_faction
+						faction_is_type = populist_faction
+						has_variable = faction_discovered}
+						OR = {faction_can_press_demands = yes
+						AND = {faction_is_type = independence_faction
+						faction_discontent >= 90}
+						AND = {faction_is_type = nation_fracturing_faction
+						faction_discontent >= 85}
+						AND = {faction_is_type = liberty_faction
+						faction_discontent >= 80}
+						AND = {faction_is_type = claimant_faction
+						faction_discontent >= 75}}}
+						save_scope_as = faction
+					}
+	if = {
+		limit = {scope:faction = { exists = faction_leader}}
+		scope:faction = {
+						faction_leader = {
+						save_scope_as = faction_leader
+						set_variable = {
+						name = obf_is_a_faction_member
+						years = 2}}
+						every_faction_member = {
+						limit = {NOT = {has_variable = obf_is_a_faction_member}}
+						set_variable = {
+						name = obf_can_be_revealed_as_faction_member
+						years = 2}
+						}
+						set_variable = faction_discovered
+					}
+		}
+	else_if = {
+	limit = {scope:faction = { NOT = {exists = faction_leader}}}
+	scope:faction = {
+						random_faction_county_member = {
+						holder = {
+						set_variable = obf_is_a_faction_member}}
+						set_variable = faction_discovered
+					}
+		}
+	}
+
+	option = { 
+		name = obf_faction_event.1000.a
+		custom_tooltip = obf_faction_event.1000.a.effect
+		open_view = factions_window
+	}
+}
+
+obf_faction_event.1001 = { 
+	type = character_event
+	title = obf_faction_event.1001.t
+	hidden = yes
+
+	
+	trigger = {
+		any_targeting_faction = {
+						exists = yes
+						NOR = {has_variable = faction_discovered
+						faction_is_type = independence_faction
+						faction_is_type = nation_fracturing_faction
+						faction_is_type = liberty_faction
+						faction_is_type = claimant_faction}
+						OR = {faction_can_press_demands = yes
+						AND = {faction_is_type = populist_faction
+						faction_discontent >= 60}
+						AND = {faction_is_type = peasant_faction
+						faction_discontent >= 50}}
+					}
+	}
+	
+	immediate = {
+	every_vassal_or_below = {
+			limit = {has_variable = obf_is_a_faction_member
+						is_a_faction_member = no}
+					remove_variable = obf_is_a_faction_member
+				}
+	every_vassal_or_below = {
+			limit = {has_variable = obf_can_be_revealed_as_faction_member
+						is_a_faction_member = no}
+					remove_variable = obf_can_be_revealed_as_faction_member
+				}
+	random_targeting_faction = {
+					limit = {
+						exists = yes
+						NOR = {has_variable = faction_discovered
+						faction_is_type = independence_faction
+						faction_is_type = nation_fracturing_faction
+						faction_is_type = liberty_faction
+						faction_is_type = claimant_faction}
+						OR = {faction_can_press_demands = yes
+						AND = {faction_is_type = populist_faction
+						faction_discontent >= 60}
+						AND = {faction_is_type = peasant_faction
+						faction_discontent >= 50}}}
+						save_scope_as = faction
+					}
+	if = {
+		limit = {scope:faction = { exists = faction_leader}}
+		scope:faction = {
+						faction_leader = {
+						save_scope_as = faction_leader
+						set_variable = {
+						name = obf_is_a_faction_member
+						years = 2}}
+						every_faction_member = {
+						limit = {NOT = {has_variable = obf_is_a_faction_member}}
+						set_variable = {
+						name = obf_can_be_revealed_as_faction_member
+						years = 2}
+						}
+						set_variable = faction_discovered
+					}
+		}
+	else_if = {
+	limit = {scope:faction = { NOT = {exists = faction_leader}}}
+	scope:faction = {
+						random_faction_county_member = {
+						holder = {
+						set_variable = obf_is_a_faction_member}}
+						set_variable = faction_discovered
+					}
+		}
+	}
+
+	option = { 
+		root = {
+		send_interface_message = {
+			type = event_generic_bad
+			title = faction_confirmed 
+			right_icon = root
+				custom_tooltip = obf_faction_event.1000.desc
+			}}
+	}
+}

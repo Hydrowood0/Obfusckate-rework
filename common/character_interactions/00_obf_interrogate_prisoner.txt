@@ -1,0 +1,47 @@
+﻿
+interrogate_prisoner_interaction = {
+	category = interaction_category_hostile
+	icon = faction
+	common_interaction = yes
+	interface_priority = 180
+	desc = interrogate_prisoner_interaction_desc
+	is_highlighted = { scope:recipient = { is_imprisoned_by = scope:actor } }
+	greeting = negative
+	use_diplomatic_range = no
+	
+	is_shown = {
+			NOT = {scope:recipient = scope:actor}
+		
+		scope:actor = {
+		is_ai = no
+		is_imprisoned = no}
+		
+		scope:recipient = {
+			has_variable = obf_is_a_faction_member
+			is_vassal_or_below_of = scope:actor 
+			is_imprisoned_by = scope:actor
+			NAND = {	has_opinion_modifier = {
+							modifier = tortured_me
+							target = scope:actor
+							}
+					has_character_modifier = recently_tortured}
+			NOT = { has_character_flag = is_being_tortured }
+
+			}
+		}
+	
+	cooldown_against_recipient = { years = 1 }
+	auto_accept = yes
+	on_accept = {
+		scope:actor = {
+			add_dread = 10
+				custom_tooltip = { 
+				text = "interrogate_prisoner_interaction_effect"
+					}
+				trigger_event = obf_interaction.0002
+		}
+	}
+	ai_will_do = {
+		base = 0
+		}
+}

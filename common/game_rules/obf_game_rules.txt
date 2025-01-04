@@ -1,0 +1,273 @@
+﻿Show_mod_features = {
+	
+	categories = {
+		obfusCKate
+	}
+	
+	default = Show_mod_features_enabled
+
+	Show_mod_features_enabled = {
+		flag = mod_features_overview_enabled
+		flag = GG_can_change_rule
+	}
+	
+	Show_mod_features_disabled = {
+		flag = mod_features_overview_disabled
+		flag = GG_can_change_rule
+	}
+}
+
+Show_portraits = {
+	
+	categories = {
+		obfusCKate
+	}
+	
+	default = Show_portraits_disabled
+
+	Show_portraits = {
+		flag = Show_portraits_enabled
+		flag = GG_can_change_rule
+	}
+	
+	Show_portraits_disabled = {
+		flag = Show_portraits_disabled
+		flag = GG_can_change_rule
+	}
+}
+
+Characters_opinions = {
+	
+	categories = {
+		obfusCKate
+	}
+	
+	
+	default = opinions_enabled
+
+	opinions_enabled = {
+		flag = opinions_enabled 
+		flag = GG_can_change_rule
+	}
+	
+	opinion_breakdown_disabled = {
+		flag = opinion_breakdown_disabled
+		flag = opinions_enabled 
+		flag = GG_can_change_rule
+	}
+	
+	opinions_disabled = {
+		flag = opinions_disabled
+		flag = GG_can_change_rule
+	}
+	
+	
+}
+
+skill_masking = {
+	
+	categories = {
+		obfusCKate
+	}
+	
+	
+	default = masking_enabled
+
+	masking_enabled = {
+		flag = skill_masking_enabled 
+		flag = GG_can_change_rule
+	}
+	
+	masking_disabled = {
+		flag = skill_masking_disabled
+		flag = GG_can_change_rule
+	}
+	
+	
+}
+
+personality_traits = {
+	
+	categories = {
+		obfusCKate
+	}
+	
+	
+	default = show_traits
+
+	show_traits = {
+		flag = show_traits
+		flag = GG_can_change_rule
+	}
+	
+	hide_traits = {
+		flag = hide_traits
+		flag = GG_can_change_rule
+	}
+}
+
+children_traits_and_personality = {
+	
+	categories = {
+		obfusCKate
+	}
+	
+	
+	default = show_normal
+
+	show_normal = {
+		flag = show_normal
+		flag = GG_can_change_rule
+	}
+	
+	hide_children_traits = {
+		flag = hide_children_traits
+		flag = GG_can_change_rule
+	}
+}
+
+meta_traits = {
+	
+	categories = {
+		obfusCKate
+	}
+	
+	
+	default = show_meta_traits
+
+	show_meta_traits = {
+		flag = show_meta_traits
+		flag = GG_can_change_rule
+		
+	}
+	
+	hide_some_meta_traits = {
+		flag = hide_some_meta_traits
+		flag = GG_can_change_rule
+	}
+	
+	hide_meta_traits = {
+		flag = hide_meta_traits
+		flag = GG_can_change_rule
+	}
+	
+	
+}
+#DISABLED TEMPORARILY
+#Portraits_express_opinion = {
+#	
+#	categories = {
+#		obfusCKate
+#	}
+#	
+#	
+#	default = express_opinion_disabled
+#
+#	express_opinion_enabled = {
+#		flag = express_opinion_enabled
+#		flag = GG_can_change_rule
+#	}
+#	#DISABLED DUE TO CONFLICTS
+#	express_personality_opinion_enabled = {
+#		flag = express_personality_opinion_enabled
+#		flag = express_opinion_enabled
+#		flag = GG_can_change_rule
+#	}
+#
+#	express_opinion_disabled = {
+#		flag = express_opinion_disabled
+#		flag = GG_can_change_rule
+#	}
+#}
+#####DISABLED TEMPORARILY
+#opinion_glow = {
+#	
+#	categories = {
+#		obfusCKate
+#	}
+#	
+#	
+#	default = opinion_glow_disabled
+#
+#	opinion_glow_disabled = {
+#		flag = opinion_glow_disabled
+#		flag = GG_can_change_rule
+#	}
+#	
+#	opinion_glow_enabled = {
+#		flag = opinion_glow_enabled
+#		flag = GG_can_change_rule
+#
+#	}
+#}
+
+sexuality_setting = {
+	
+	categories = {
+		obfusCKate
+	}
+	
+	
+	default = sexuality_setting_enabled
+	
+	sexuality_setting_enabled = {
+		flag = sexuality_setting_enabled
+		flag = GG_can_change_rule
+
+	}
+
+	sexuality_setting_disabled = {
+		flag = sexuality_setting_disabled
+		flag = GG_can_change_rule
+	}
+	
+	
+}
+
+character_search_options = {
+	
+	categories = {
+		obfusCKate
+	}
+	
+	
+	default = default_options
+
+	default_options = {
+		flag = default_options
+		flag = GG_can_change_rule
+	}
+	
+	enable_dropdowns = {
+		flag = enable_dropdowns
+		flag = GG_can_change_rule
+	}
+}
+
+known_character_list_shortcut = {
+	
+	categories = {
+		obfusCKate
+	}
+	
+	default = show_on_character_screen
+
+	only_bottom_bar = {
+	}
+	
+	show_on_character_screen = {
+		flag = enable_shortcut_known_list
+		flag = GG_can_change_rule
+	}
+	
+	not_show_bottom_bar = {
+		flag = disable_shortcut_bottom_known_list
+		flag = GG_can_change_rule
+	}
+	
+	disable_completely = {
+		flag = disable_completely
+		flag = GG_can_change_rule
+	}
+}
+

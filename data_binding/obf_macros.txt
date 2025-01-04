@@ -1,0 +1,213 @@
+﻿
+
+macro = {
+	description = "Rumours interaction Shown"
+	definition = "RumoursShown"
+	replace_with = "Character.IsPlayerInteractionShown('has_heard_rumours_interaction')"
+}
+
+
+macro = {
+	description = "Military Advisors Interaction available"
+	definition = "AskAdvisorsInteractionValid"
+	replace_with = "Character.IsPlayerInteractionValid('ask_advisors_opinion_interaction')"
+}
+
+
+macro = {
+	description = "Portraits are enabled"
+	definition = "PortraitsEnabled"
+	replace_with = "Not(GetGameRules.HasRuleWithFlag('Show_portraits_disabled'))"
+}
+
+macro = {
+	description = "Personality traits are visible condition"
+	definition = "PersonalityTraitsVisible"
+	replace_with = "Not(GetGameRules.HasRuleWithFlag('hide_traits'))"
+}
+
+macro = {
+	description = "Personality traits are visible for children"
+	definition = "PersonalityTraitsVisibleForChildren"
+	replace_with = "And(Not(Character.IsAdult), Not(GetGameRules.HasRuleWithFlag('hide_children_traits')))"
+}
+
+macro = {
+	description = "Portraits are disabled"
+	definition = "PortraitsDisabled"
+	replace_with = "GetGameRules.HasRuleWithFlag('Show_portraits_disabled')"
+}
+
+
+macro = {
+	description = "Express opinions enabled"
+	definition = "ExpressionsEnabled"
+	replace_with = "GetGameRules.HasRuleWithFlag('express_opinion_enabled')"
+}
+
+macro = {
+	description = "Express opinions disabled"
+	definition = "ExpressionsDisabled"
+	replace_with = "Not(GetGameRules.HasRuleWithFlag('express_opinion_enabled'))"
+}
+
+macro = {
+	description = "opinion Glow Enabled"
+	definition = "GlowEnabled"
+	replace_with = "GetGameRules.HasRuleWithFlag('opinion_glow_enabled')"
+}
+
+macro = {
+	description = "Express personality opinions disabled"
+	definition = "ExpressionsPersonalityEnabled"
+	replace_with = "GetGameRules.HasRuleWithFlag('express_personality_opinion_enabled')"
+}
+
+
+macro = {
+	description = "Opinions are disabled"
+	definition = "OpinionsDisabled"
+	replace_with = "GetGameRules.HasRuleWithFlag('opinions_disabled')"
+}
+
+macro = {
+	description = "Opinions breakdown disabled"
+	definition = "OpinionBreakdownEnabled"
+	replace_with = "Not(GetGameRules.HasRuleWithFlag('opinion_breakdown_disabled'))"
+}
+
+
+macro = {
+	description = "I should know my opinion"
+	definition = "ShowMyOpinion"
+	replace_with = "And(And(Character.IsValid, And(Character.IsAlive, Not(Character.IsLocalPlayer))),Or(And(ObjectsEqual(Character.GetLiege,GetPlayer.GetLiege),Or(Character.IsCouncillor,Character.IsRuler)), Or(Or(CharacterIsAcquaintance,CharacterIsKnown),Character.HasRelationTo(GetPlayer))))"
+}
+
+
+macro = {
+	description = "Dropdowns are enabled"
+	definition = "DropdownsEnabled"
+	replace_with = "GetGameRules.HasRuleWithFlag('enable_dropdowns')"
+}
+
+
+macro = {
+	description = "Shortcut on character window"
+	definition = "KnownListShortcutEnabled"
+	replace_with = "GetGameRules.HasRuleWithFlag('enable_shortcut_known_list')"
+}
+
+macro = {
+	description = "Known Characters list disabled"
+	definition = "KnownListShortcutBottomDisabled"
+	replace_with = "GetGameRules.HasRuleWithFlag('disable_shortcut_bottom_known_list')"
+}
+
+macro = {
+	description = "Known Characters list disabled"
+	definition = "KnownListIsDisabled"
+	replace_with = "GetGameRules.HasRuleWithFlag('disable_completely')"
+}
+
+macro = {
+	description = "Meta Traits Are visible"
+	definition = "HideSomeMetaTraits"
+	replace_with = "And(GetGameRules.HasRuleWithFlag('hide_some_meta_traits'), Not(Or(EqualTo_string( Trait.GetKey, 'disloyal' ),Or(EqualTo_string( Trait.GetKey, 'loyal' ),Or(EqualTo_string( Trait.GetKey, 'infertile' ),EqualTo_string( Trait.GetKey, 'fecund' ))))))"
+}
+
+macro = {
+	description = "SomeMeta Traits Are visible"
+	definition = "HideMetaTraits"
+	replace_with = "And(GetGameRules.HasRuleWithFlag('hide_meta_traits'),Not(Or(EqualTo_string( Trait.GetKey, 'intellect_bad_1' ),Or(EqualTo_string( Trait.GetKey, 'intellect_bad_2' ),Or(EqualTo_string( Trait.GetKey, 'intellect_bad_3' ),Or(EqualTo_string( Trait.GetKey, 'intellect_good_1' ),Or(EqualTo_string( Trait.GetKey, 'intellect_good_2' ),Or(EqualTo_string( Trait.GetKey, 'intellect_good_3' ),Or(EqualTo_string( Trait.GetKey, 'disloyal' ),Or(EqualTo_string( Trait.GetKey, 'loyal' ),Or(EqualTo_string( Trait.GetKey, 'infertile' ),EqualTo_string( Trait.GetKey, 'fecund' ))))))))))))"
+}
+
+macro = {
+	description = "Is education trait"
+	definition = "IsEducationTrait"
+	replace_with = "Or(IsEducationLearning,Or(IsEducationIntrigue,Or(IsEducationDiplomacy,Or(IsEducationStewardship,IsEducationMartial))))"
+}
+
+macro = {
+	description = "Is education martial"
+	definition = "IsEducationMartial"
+	replace_with = "Or(EqualTo_string( Trait.GetKey, 'education_martial_5' ),Or(EqualTo_string( Trait.GetKey, 'education_martial_4' ),Or(EqualTo_string( Trait.GetKey, 'education_martial_3' ),Or(EqualTo_string( Trait.GetKey, 'education_martial_2' ),EqualTo_string( Trait.GetKey, 'education_martial_1' )))))"
+}
+
+macro = {
+	description = "Is education trait"
+	definition = "IsEducationStewardship"
+	replace_with = "Or(EqualTo_string( Trait.GetKey, 'education_stewardship_5' ),Or(EqualTo_string( Trait.GetKey, 'education_stewardship_4' ),Or(EqualTo_string( Trait.GetKey, 'education_stewardship_3' ),Or(EqualTo_string( Trait.GetKey, 'education_stewardship_2' ),EqualTo_string( Trait.GetKey, 'education_stewardship_1' )))))"
+}
+
+macro = {
+	description = "Is education trait"
+	definition = "IsEducationDiplomacy"
+	replace_with = "Or(EqualTo_string( Trait.GetKey, 'education_diplomacy_5' ),Or(EqualTo_string( Trait.GetKey, 'education_diplomacy_4' ),Or(EqualTo_string( Trait.GetKey, 'education_diplomacy_3' ),Or(EqualTo_string( Trait.GetKey, 'education_diplomacy_2' ),EqualTo_string( Trait.GetKey, 'education_diplomacy_1' )))))"
+}
+
+macro = {
+	description = "Is education trait"
+	definition = "IsEducationIntrigue"
+	replace_with = "Or(EqualTo_string( Trait.GetKey, 'education_intrigue_5' ),Or(EqualTo_string( Trait.GetKey, 'education_intrigue_4' ),Or(EqualTo_string( Trait.GetKey, 'education_intrigue_3' ),Or(EqualTo_string( Trait.GetKey, 'education_intrigue_2' ),EqualTo_string( Trait.GetKey, 'education_intrigue_1' )))))"
+}
+
+macro = {
+	description = "Is education trait"
+	definition = "IsEducationLearning"
+	replace_with = "Or(EqualTo_string( Trait.GetKey, 'education_learning_5' ),Or(EqualTo_string( Trait.GetKey, 'education_learning_4' ),Or(EqualTo_string( Trait.GetKey, 'education_learning_3' ),Or(EqualTo_string( Trait.GetKey, 'education_learning_2' ),EqualTo_string( Trait.GetKey, 'education_learning_1' )))))"
+}
+
+macro = {
+	description = "shrewd and dull"
+	definition = "ShrewdOrDull"
+	replace_with = "Or(EqualTo_string( Trait.GetKey, 'shrewd' ), EqualTo_string( Trait.GetKey, 'dull' ))"
+}
+
+macro = {
+	description = "Some Meta Traits Are visible"
+	definition = "ShowMetaTraits"
+	replace_with = "Not(Or(GetGameRules.HasRuleWithFlag('hide_meta_traits'),GetGameRules.HasRuleWithFlag('hide_some_meta_traits')))"
+}
+
+macro = {
+	description = "Trait is beauty"
+	definition = "TraitIsFacialBeauty"
+	replace_with = "Or(EqualTo_string( Trait.GetKey, 'beauty_bad_1' ),Or(EqualTo_string( Trait.GetKey, 'beauty_bad_2' ),Or(EqualTo_string( Trait.GetKey, 'beauty_bad_3' ),Or(EqualTo_string( Trait.GetKey, 'beauty_good_1' ),Or(EqualTo_string( Trait.GetKey, 'beauty_good_2' ),EqualTo_string( Trait.GetKey, 'beauty_good_3' ))))))"
+}
+
+macro = {
+	description = "Trait is physical Beauty"
+	definition = "TraitIsPhysicallBeauty"
+	replace_with = "Or(EqualTo_string( Trait.GetKey, 'athletic' ),Or(EqualTo_string( Trait.GetKey, 'physique_bad_1'),Or(EqualTo_string( Trait.GetKey, 'physique_bad_2'),Or(EqualTo_string( Trait.GetKey, 'physique_bad_3'),Or(EqualTo_string( Trait.GetKey, 'physique_good_1'),Or(EqualTo_string( Trait.GetKey, 'physique_good_2'),EqualTo_string( Trait.GetKey, 'physique_good_3')))))))"
+}
+
+macro = {
+	description = "Trait is other physicall trait"
+	definition = "TraitIsOtherPhysicallTrait"
+	replace_with = "Or(EqualTo_string( Trait.GetKey, 'disfigured' ),Or(EqualTo_string( Trait.GetKey, 'weak' ),Or(EqualTo_string( Trait.GetKey, 'strong' ),Or(EqualTo_string( Trait.GetKey, 'eunuch' ),Or(EqualTo_string( Trait.GetKey, 'one_legged'),Or(EqualTo_string( Trait.GetKey, 'one_eyed' ),Or(EqualTo_string( Trait.GetKey, 'scarred' ),Or(EqualTo_string( Trait.GetKey, 'bleeder' ), Or(EqualTo_string( Trait.GetKey, 'spindly' ),Or(EqualTo_string( Trait.GetKey, 'wheezing' ),Or(EqualTo_string( Trait.GetKey, 'hunchbacked' ),Or(EqualTo_string( Trait.GetKey, 'dwarf' ), Or(EqualTo_string( Trait.GetKey, 'clubfooted' ),Or(EqualTo_string( Trait.GetKey, 'scaly' ),Or(EqualTo_string( Trait.GetKey, 'giant' ),Or(EqualTo_string( Trait.GetKey, 'pure_blooded' ),Or(EqualTo_string( Trait.GetKey, 'stuttering' ),Or(EqualTo_string( Trait.GetKey, 'lisping' ),EqualTo_string( Trait.GetKey, 'albino' )))))))))))))))))))"
+}
+
+macro = {
+	description = "Trait is physicall trait"
+	definition = "TraitIsPhysicallTrait"
+	replace_with = "Or(TraitIsFacialBeauty, Or(TraitIsPhysicallBeauty,TraitIsOtherPhysicallTrait))"
+}
+
+
+macro = {
+	description = "Spy Network Low"
+	definition = "SpyNetworkLow"
+	replace_with = "Or(Character.IsPlayerInteractionShown('low_spy_network_coverage_interaction'),Or(Character.IsPlayerInteractionShown('medium_spy_network_coverage_interaction'),Character.IsPlayerInteractionShown('high_spy_network_coverage_interaction')))"
+}
+
+macro = {
+	description = "Spy Network Medium"
+	definition = "SpyNetworkMedium"
+	replace_with = "Or(Character.IsPlayerInteractionShown('medium_spy_network_coverage_interaction'),Character.IsPlayerInteractionShown('high_spy_network_coverage_interaction'))"
+}
+
+macro = {
+	description = "Spy Network High"
+	definition = "SpyNetworkHigh"
+	replace_with = "Character.IsPlayerInteractionShown('high_spy_network_coverage_interaction')"
+}

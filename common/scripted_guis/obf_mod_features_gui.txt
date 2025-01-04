@@ -1,0 +1,41 @@
+﻿
+open_mod_features = {
+
+	is_shown = {
+		NOR = {has_game_rule = Show_mod_features_disabled
+			has_variable = dont_show_features_button}
+				years_from_game_start < 1
+				
+		 
+	}
+	is_valid = {
+	NOT = {has_variable = is_in_features_event}
+	}
+	effect = {
+	set_variable = {
+	name = is_in_features_event
+	value = yes}
+	root = {trigger_event = mod_features.0001}
+
+	}
+}
+
+disable_mod_features_button = {
+
+	is_shown = {
+		NOT = {has_game_rule = Show_mod_features_disabled}
+				years_from_game_start < 1
+				
+		 
+	}
+	is_valid = {
+	NOT = {	has_variable = is_in_features_event}
+	}
+	effect = {
+	set_variable = {
+		name = dont_show_features_button
+		value = yes
+	}
+
+	}
+}

@@ -1,0 +1,186 @@
+﻿
+ask_advisors_opinion_interaction = {
+	category = interaction_category_hostile
+	icon = invasion
+	common_interaction = yes
+	interface_priority = 150
+	desc = ask_advisors_opinion_interaction_desc
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes	
+	send_name = ask_advisors_opinion_dismiss
+	hidden = yes
+	
+	
+	is_valid = {
+		NOT = {
+			scope:recipient = scope:actor
+		}
+		
+		scope:actor = {
+		is_ai = no
+		is_physically_able_adult = yes
+		is_landless_adventurer = no
+		}
+		
+		scope:recipient = {
+			is_playable_character = yes
+			NOT = {has_character_flag = requested_military_info}
+			NOT = {is_vassal_or_below_of = scope:actor}
+			NOT = {has_character_flag = has_been_spied}
+
+			}
+		}
+		
+	
+auto_accept = yes
+	
+	on_accept = {
+		scope:actor = {
+			if = {
+				limit = { scope:recipient = {NOT = {in_diplomatic_range = scope:actor}}}
+				custom_tooltip = { 
+					text = "ask_advisors_enemy_very_far"
+						}
+				}
+			else_if = {
+				limit = { your_combined_martial_skill_value <= 2}
+						custom_tooltip = { 
+							text = "ask_advisors_lack_of_skill"
+						}
+			}
+			else_if = {
+					if = { 
+						limit = { 
+							scope:recipient = { any_sub_realm_county = {is_neighbor_to_realm = scope:actor	}}
+							scope:actor = { 
+								military_ratio_value <= suicidal_ratio_treshold_neighbors
+								}
+							}
+					custom_tooltip = { 
+					text = "ask_advisors_suicidal_effect"
+						}
+					}
+					else_if = { 
+						limit = { scope:recipient = { any_sub_realm_county = {is_neighbor_to_realm = scope:actor	}}
+							scope:actor = { 
+								military_ratio_value > suicidal_ratio_treshold_neighbors
+								military_ratio_value <= weaker_ratio_treshold_neighbors
+								}
+							}
+					custom_tooltip = { 
+					text = "ask_advisors_weaker_effect"
+						}
+					}
+					else_if = { 
+						limit = { scope:recipient = { any_sub_realm_county = {is_neighbor_to_realm = scope:actor	}}
+							scope:actor = { 
+								military_ratio_value > weaker_ratio_treshold_neighbors
+								military_ratio_value <= no_guess_ratio_treshold_neighbors
+								}
+							}
+					custom_tooltip = { 
+					text = "ask_advisors_balanced_effect"
+						}
+					}
+					else_if = { 
+						limit = { scope:recipient = { any_sub_realm_county = {is_neighbor_to_realm = scope:actor	}}
+							scope:actor = { 
+								military_ratio_value > no_guess_ratio_treshold_neighbors
+								military_ratio_value <= stronger_ratio_treshold_neighbors
+								}
+							}
+					custom_tooltip = { 
+					text = "ask_advisors_stronger_effect"
+						}
+					} 
+					else_if = { 
+						limit = { scope:recipient = { any_sub_realm_county = {is_neighbor_to_realm = scope:actor	}}
+							scope:actor = { 
+								military_ratio_value > stronger_ratio_treshold_neighbors
+								}
+							}
+					custom_tooltip = { 
+					text = "ask_advisors_easy_subjugate_effect"
+						}
+					}
+					else_if = { 
+						limit = { 
+							scope:actor = { 
+								military_ratio_value <= suicidal_ratio_treshold
+								}
+							}
+					custom_tooltip = { 
+					text = "ask_advisors_suicidal_effect"
+						}
+					}
+					else_if = { 
+						limit = { 
+							scope:actor = { 
+								military_ratio_value > suicidal_ratio_treshold
+								military_ratio_value <= weaker_ratio_treshold
+								}
+							}
+					custom_tooltip = { 
+					text = "ask_advisors_weaker_effect"
+						}
+					}
+					else_if = { 
+						limit = { 
+							scope:actor = { 
+								military_ratio_value > weaker_ratio_treshold
+								military_ratio_value <= no_guess_ratio_treshold
+								}
+							}
+					custom_tooltip = { 
+					text = "ask_advisors_balanced_effect"
+						}
+					}
+					else_if = { 
+						limit = { 
+							scope:actor = { 
+								military_ratio_value > no_guess_ratio_treshold
+								military_ratio_value <= stronger_ratio_treshold
+								}
+							}
+					custom_tooltip = { 
+					text = "ask_advisors_stronger_effect"
+						}
+					}
+					else_if = { 
+						limit = { 
+							scope:actor = { 
+								military_ratio_value > stronger_ratio_treshold
+								}
+							}
+					custom_tooltip = { 
+					text = "ask_advisors_easy_subjugate_effect"
+						}
+					}
+				}
+
+		if = {
+			limit = {scope:recipient = {in_diplomatic_range = scope:actor}
+						your_combined_martial_skill_value > 2}
+				
+			if = {
+				limit = {scope:recipient = {
+						NOR = {top_liege = scope:actor.top_liege
+						is_at_war_with = scope:actor}
+						is_independent_ruler = no}}
+				custom_tooltip = { 
+					text = "ask_advisors_is_not_independent_effect"
+						}
+				
+			}
+			custom_tooltip = { 
+					text = "ask_advisors_has_allies_effect"
+						}
+			}
+			
+		}
+	}
+
+	ai_will_do = {
+		base = 0
+		}
+}

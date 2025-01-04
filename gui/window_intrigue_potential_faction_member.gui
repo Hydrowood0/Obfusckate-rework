@@ -1,0 +1,355 @@
+window = {
+	name = "potential_faction_member_window"
+	position = { -590 110 }
+	movable = no
+	resizable = no
+	parentanchor = right
+	layer = middle
+	allow_outside = yes
+
+	using = Window_Background
+	using = Window_Decoration_Spike
+	using = Window_Size_CharacterList_Small
+
+	state = {
+		name = _show
+		using = Animation_FadeIn_Quick
+
+		position_x = -590
+
+	}
+
+	state = {
+		name = _hide
+		using = Animation_FadeOut_Quick
+
+		position_x = -560
+	}
+
+	vbox = {
+		using = Window_Margins
+
+		header_pattern = {
+			layoutpolicy_horizontal = expanding
+
+			blockoverride "header_text"
+			{
+				text = "POTENTIAL_FACTION_MEMBERS_HEADER"
+			}
+
+			blockoverride "button_close"
+			{
+				onclick = "[PotentialFactionMemberWindow.Close]"
+			}
+		}
+
+		vbox_character_list = {
+			datacontext = "[PotentialFactionMemberWindow.GetListItems]"
+			layoutpolicy_vertical = expanding
+			layoutpolicy_horizontal = expanding
+
+			blockoverride "skill_sort_buttons" {}
+			blockoverride "item_size" {
+				size = { 480 110 }
+				layoutpolicy_horizontal = expanding
+			}
+
+			blockoverride "button_content"
+			{
+				vbox = {
+					margin = { 10 5 }
+
+					text_single = {
+						name = "name"
+						layoutpolicy_horizontal = expanding
+						autoresize = no
+						text = "[Character.GetUINameNoTooltip]"
+						using = Font_Size_Medium
+					}
+					#########changed by obfusCKate: Start
+					hbox = {
+						layoutpolicy_horizontal = expanding
+						spacing = 8
+						margin_top = 3
+
+						text_single = {
+							name = "opinion_liege"
+							visible = "[GetScriptedGui('gui_show_opinion_about_liege').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+							text = "CHARACTER_WINDOW_OPINION_OF_LIEGE"
+							align = nobaseline
+						}
+
+
+						portrait_opinion = {
+							name = "liege_opinion"
+							visible = "[GetScriptedGui('gui_show_opinion_about_liege').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+						
+							blockoverride "opinion_text"
+					{
+					
+					margin = {22 0}
+					raw_text = "       "
+
+					visible = "[GetScriptedGui('gui_show_opinion_about_liege').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+
+						text_single = {
+			name = "Excellent"
+			visible = "[GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)86')]"
+			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_EXCELLENT"
+			fonttintcolor = "[Character.GetOpinionOfTint( Character.GetLiege )]"
+			default_format = "#true_white"
+
+			margin = {1 -3}
+
+			}
+			text_single = {
+			name = "great"
+			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)85'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)60'))]"
+			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_VERY_GOOD"
+			fonttintcolor = "[Character.GetOpinionOfTint( Character.GetLiege )]"
+			default_format = "#true_white"
+
+			margin = {1 -3}
+			}
+			text_single = {
+			name = "good"
+			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)59'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)30'))]"
+			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_GOOD"
+			fonttintcolor = "[Character.GetOpinionOfTint( Character.GetLiege )]"
+			default_format = "#true_white"
+
+			margin = {10 -3}
+			}
+			text_single = {
+			name = "decent"
+			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)29'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)10'))]"
+			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_DECENT"
+			fonttintcolor = "[Character.GetOpinionOfTint( Character.GetLiege )]"
+			default_format = "#true_white"
+
+			margin = {5 -3}
+			}
+			text_single = {
+			name = "Neutral"
+			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)9'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)-9'))]"
+			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_NEUTRAL"
+			default_format = "#Y"
+
+			margin = {5 -3}
+			}
+			text_single = {
+			name = "poor"
+			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)-10'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)-29'))]"
+			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_POOR"
+			fonttintcolor = "[Character.GetOpinionOfTint( Character.GetLiege )]"
+			default_format = "#true_white"
+
+			margin = {12 -3}
+			}
+			text_single = {
+			name = "awful"
+			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)-30'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)-59'))]"
+			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_AWFUL"
+			fonttintcolor = "[Character.GetOpinionOfTint( Character.GetLiege )]"
+			default_format = "#true_white"
+
+			margin = {10 -3}
+			}
+			text_single = {
+			name = "terrible"
+			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)-60'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)-85'))]"
+			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_TERRIBLE"
+			fonttintcolor = "[Character.GetOpinionOfTint( Character.GetLiege )]"
+			default_format = "#true_white"
+
+			margin = {1 -3}
+			}
+			text_single = {
+			name = "abysmal"
+			visible = "[LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)-86')]"
+			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_ABYSMAL"
+			fonttintcolor = "[Character.GetOpinionOfTint( Character.GetLiege )]"
+			default_format = "#true_white"
+
+			margin = {1 -3}
+			}
+			##########changed by obfusCKate: End
+					}
+
+							blockoverride "ott_heading_text"
+							{
+							############changed by obfusCKate: Start
+					visible = "[GetScriptedGui('gui_show_opinion_about_liege').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+					##########changed by obfusCKate: End
+								text = "[Character.GetOpinionHeadingText( Character.GetLiege  )]"
+							}
+
+							blockoverride "ott_opinion_value_text"
+					{
+					#changed by obfusCKate: Start
+					visible = "[GetScriptedGui('gui_show_opinion_about_liege').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+
+						raw_text = " "
+						margin = {35 0}
+						max_width = 150
+
+					text_single = {
+			name = "Excellent"
+			visible = "[GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)86')]"
+			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_EXCELLENT"
+			fonttintcolor = "[Character.GetOpinionOfTint( Character.GetLiege )]"
+			default_format = "#true_white"
+			using = Font_Size_Medium
+			margin = {6 -2}
+
+			}
+			text_single = {
+			name = "vgood"
+			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)85'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)60'))]"
+			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_VERY_GOOD"
+			fonttintcolor = "[Character.GetOpinionOfTint( Character.GetLiege )]"
+			default_format = "#true_white"
+			using = Font_Size_Medium
+			margin = {-1 -2}
+			}
+			text_single = {
+			name = "good"
+			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)59'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)30'))]"
+			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_GOOD"
+			fonttintcolor = "[Character.GetOpinionOfTint( Character.GetLiege )]"
+			default_format = "#true_white"
+			using = Font_Size_Medium
+			margin = {16 -2}
+			}
+			text_single = {
+			name = "decent"
+			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)29'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)10'))]"
+			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_DECENT"
+			fonttintcolor = "[Character.GetOpinionOfTint( Character.GetLiege )]"
+			default_format = "#true_white"
+			using = Font_Size_Medium
+			margin = {10 -2}
+			}
+			text_single = {
+			name = "Neutral"
+			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)9'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)-9'))]"
+			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_NEUTRAL"
+			default_format = "#Y"
+			using = Font_Size_Medium
+			margin = {7 -2}
+			}
+			text_single = {
+			name = "poor"
+			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)-10'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)-29'))]"
+			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_POOR"
+			fonttintcolor = "[Character.GetOpinionOfTint( Character.GetLiege )]"
+			default_format = "#true_white"
+			using = Font_Size_Medium
+			margin = {20 -2}
+			}
+			text_single = {
+			name = "awful"
+			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)-30'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)-59'))]"
+			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_AWFUL"
+			fonttintcolor = "[Character.GetOpinionOfTint( Character.GetLiege )]"
+			default_format = "#true_white"
+			using = Font_Size_Medium
+			margin = {15 -2}
+			}
+			text_single = {
+			name = "terrible"
+			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)-60'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)-85'))]"
+			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_TERRIBLE"
+			fonttintcolor = "[Character.GetOpinionOfTint( Character.GetLiege )]"
+			default_format = "#true_white"
+			using = Font_Size_Medium
+			margin = {9 -2}
+			}
+			text_single = {
+			name = "abysmal"
+			visible = "[LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)-86')]"
+			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_ABYSMAL"
+			fonttintcolor = "[Character.GetOpinionOfTint( Character.GetLiege )]"
+			default_format = "#true_white"
+			using = Font_Size_Medium
+			margin = {5 -2}
+			}
+			###########changed by obfusCKate: End
+					}
+
+					blockoverride "ott_opinion_breakdown_text"
+					{
+					#changed by obfusCKate: start
+					visible = no
+					#############changed by obfusCKate: end
+						text = "[Character.GetOpinionBreakdownText( Character.GetLiege )]"
+					}
+						}
+
+						expand = {}
+
+					}
+					
+					hbox = {
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+
+						hbox = {
+							###changed by obfusCKate: Start
+							visible = no
+							###changed by obfusCKate: End
+							tooltip = "[CharacterListItem.GetText('military_strength_tooltip')]"
+							layoutpolicy_horizontal = expanding
+							spacing = 5
+
+							icon = {
+								name = "icon_combat_strength"
+								size = { 30 30 }
+								texture = "gfx/interface/icons/icon_soldier.dds"
+							}
+
+							text_single = {
+								name = "military_total_strength"
+								layoutpolicy_horizontal = expanding
+								text = "[CharacterListItem.GetInt('military_strength')]"
+								default_format = "#high"
+								using = Font_Size_Big
+							}
+						}
+
+						text_single = {
+							name = "status"
+							text = "[CharacterListItem.GetText('status')]"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	window_character_filter = {
+		datacontext = "[PotentialFactionMemberWindow.GetListItems]"
+		blockoverride "addition_filter" {
+			filter_item = {
+				layoutpolicy_horizontal = expanding
+				datacontext = "[CharacterSelectionList.GetFilter('religion_filter')]"
+			}
+			filter_item = {
+				layoutpolicy_horizontal = expanding
+				datacontext = "[CharacterSelectionList.GetFilter('culture_filter')]"
+			}
+			filter_item = {
+				layoutpolicy_horizontal = expanding
+				datacontext = "[CharacterSelectionList.GetFilter('hook_filter')]"
+			}
+			filter_item = {
+				layoutpolicy_horizontal = expanding
+				datacontext = "[CharacterSelectionList.GetFilter('imprisoned_filter')]"
+			}
+			filter_item = {
+				layoutpolicy_horizontal = expanding
+				datacontext = "[CharacterSelectionList.GetFilter('adult_filter')]"
+			}
+		}
+	}
+}

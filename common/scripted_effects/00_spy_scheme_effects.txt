@@ -1,0 +1,46 @@
+﻿#Scripted effects relating to Spy scheme
+
+#####################################################################
+# EFFECT LIST
+#####################################################################
+# !!! Remember to add all new effects with a short description here !!!
+#
+#
+#
+######################################################################
+# EFFECTS
+######################################################################
+
+bribed_for_information_while_finding_secrets = { ###USED IN FIND SECRETS
+	
+			send_interface_message = {
+			type = msg_intel_reports
+			title = info_on_ruler
+			right_icon = scope:target_character
+				custom_tooltip = spy_bribed_info_on_ruler_and_court
+			}
+
+		}
+
+spymaster_got_info_on_ruler = { ###USED IN FIND SECRETS
+	
+			send_interface_message = {
+			type = msg_intel_reports
+			title = info_on_ruler
+			right_icon = scope:target_character
+			left_icon = scope:your_spy
+				custom_tooltip = spymaster_got_info_on_ruler_and_court
+			}
+
+		}
+spymaster_got_military_info = { ###USED IN FIND SECRETS
+	
+			send_interface_message = {
+			type = msg_intel_reports
+			title = info_on_ruler
+			right_icon = scope:target_character
+			left_icon = scope:your_spy
+				custom_tooltip = spymaster_got_military_info_on_ruler
+			}
+
+		}

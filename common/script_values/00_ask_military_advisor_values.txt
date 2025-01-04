@@ -1,0 +1,186 @@
+﻿suicidal_ratio_treshold = {
+	value = 0.25
+	if = { 
+		limit = {your_combined_martial_skill_value < 35}
+	subtract = {
+		value = 35
+		subtract = your_combined_martial_skill_value
+		multiply = 0.004
+		}
+	}
+}
+
+weaker_ratio_treshold = {
+	value = 0.65
+	if = { 
+		limit = {your_combined_martial_skill_value < 35}
+	subtract = {
+		value = 35
+		subtract = your_combined_martial_skill_value
+		multiply = 0.01
+		}
+	}
+} 
+
+no_guess_ratio_treshold = {
+	value = 2
+	if = { 
+		limit = {your_combined_martial_skill_value < 35}
+	add = {
+		value = 35
+		subtract = your_combined_martial_skill_value
+		multiply = 0.05
+		}
+	}
+}
+ 
+stronger_ratio_treshold = {
+	value = 4
+	if = { 
+		limit = {your_combined_martial_skill_value < 35}
+	add = {
+		value = 35
+		subtract = your_combined_martial_skill_value
+		multiply = 0.12
+		}
+	}
+}
+
+suicidal_ratio_treshold_neighbors = {
+	value = 0.5
+	if = { 
+		limit = {your_combined_martial_skill_value < 35}
+	subtract = {
+		value = 35
+		subtract = your_combined_martial_skill_value
+		multiply = 0.004
+		}
+	}
+}
+
+weaker_ratio_treshold_neighbors = {
+	value = 0.8
+	if = { 
+		limit = {your_combined_martial_skill_value < 35}
+	subtract = {
+		value = 35
+		subtract = your_combined_martial_skill_value
+		multiply = 0.01
+		}
+	}
+} 
+
+no_guess_ratio_treshold_neighbors = {
+	value = 1.2
+	if = { 
+		limit = {your_combined_martial_skill_value < 35}
+	add = {
+		value = 35
+		subtract = your_combined_martial_skill_value
+		multiply = 0.05
+		}
+	}
+}
+ 
+stronger_ratio_treshold_neighbors = {
+	value = 3
+	if = { 
+		limit = {your_combined_martial_skill_value < 35}
+	add = {
+		value = 35
+		subtract = your_combined_martial_skill_value
+		multiply = 0.12
+		}
+	}
+}
+
+
+
+military_ratio_calculus_value = {
+	value = 0
+	add = scope:actor.max_military_strength
+	divide = scope:recipient.max_military_strength
+
+}
+
+military_ratio_value = {
+	value = 0
+	add = military_ratio_calculus_value
+	if = {
+		limit = { 
+				scope:actor.cp:councillor_marshal.ai_boldness > very_high_positive_ai_value}
+				multiply = 1.3 #Bold Marshal will overestimate strength
+		}
+	if = {
+		limit = { scope:actor.cp:councillor_marshal.ai_boldness < very_high_negative_ai_value}
+				multiply = 0.7 # Cautious Marshal will underestimate strength
+		}
+	if = {
+		limit = { 
+				scope:actor.cp:councillor_marshal.ai_honor > very_high_positive_ai_value}
+				multiply = 0.8 
+		}
+	if = {
+		limit = { scope:actor.cp:councillor_marshal.ai_honor < very_high_negative_ai_value}
+				multiply = 1.2  
+		}
+	if = {
+		limit = { 
+				scope:actor.cp:councillor_marshal.ai_compassion > very_high_positive_ai_value}
+				multiply = 0.6
+		}
+	if = {
+		limit = { scope:actor.cp:councillor_marshal.ai_compassion < very_high_negative_ai_value}
+				multiply = 1.4  
+		}
+	if = {
+		limit = { 
+				scope:actor.cp:councillor_marshal.ai_greed > very_high_positive_ai_value}
+				multiply = 1.25
+		}
+	if = {
+		limit = { scope:actor.cp:councillor_marshal.ai_greed < very_high_negative_ai_value}
+				multiply = 0.85  
+		}
+	if = {
+		limit = { 
+				scope:actor.cp:councillor_marshal.ai_sociability > very_high_positive_ai_value}
+				multiply = 0.75 
+		}
+	if = {
+		limit = { scope:actor.cp:councillor_marshal.ai_sociability < very_high_negative_ai_value}
+				multiply = 1.25  
+		}
+	if = {
+		limit = { scope:actor.cp:councillor_marshal.ai_rationality < very_high_negative_ai_value}
+				multiply = 2 # Irrational Marshal makes exaggerated claims
+		}
+	if = {
+		limit = { scope:recipient = {has_relation_rival = scope:actor.cp:councillor_marshal}
+				scope:actor.cp:councillor_marshal.ai_vengefulness > very_high_positive_ai_value}
+				multiply = 1.75  # Vengeful Marshal doubles the perceived strength against a rival
+		}
+	if = {
+		limit = { NOT = {scope:recipient.faith = scope:actor.cp:councillor_marshal.faith}
+				scope:actor.cp:councillor_marshal.ai_zeal > very_high_positive_ai_value}
+				multiply = 1.5  # Zealous Marshal inflates the strength if target is a different faith
+		}
+}
+
+your_martial_skill_value = {
+	value = 0
+	add = scope:actor.martial
+	divide = 2
+	
+}
+
+your_advisor_skill_value = {
+	value = 0
+	add = scope:actor.cp:councillor_marshal.martial	
+}
+
+your_combined_martial_skill_value = {
+	value = 0
+	add = your_martial_skill_value
+	add = your_advisor_skill_value
+}

@@ -1,0 +1,53 @@
+﻿types obf_music_control_types {
+
+	
+	type obf_open_playlist = button_icon {
+        name = "open_playlist"
+        tooltip = "#italic #EMP #clickable Toggle Music Player#!#!#!"
+		using = tooltip_es
+		size = {100 100}
+		alpha = 0.2
+        modify_texture = {
+				color = { 0 0 0.7 0.4 }
+				blend_mode = normal
+					}
+					
+		state = {
+				name = _mouse_enter
+				alpha = 1
+				duration = 0.3
+				using = Animation_Curve_Default
+			}
+
+		state = {
+				name = _mouse_leave
+				alpha = 0.8
+				duration = 2
+				using = Animation_Curve_Default
+			}
+
+        texture = "gfx/interface/music_player/button_list.dds"                         
+        onclick = "[ToggleMusicPlayer]"
+
+		
+		
+    }
+
+}
+
+widget = {
+    name = "obf_open_playlist"
+    parentanchor = top|right
+    widgetanchor = top|right
+    position = { -650 0}
+    size = { 30 30 }
+    layer = middle
+	
+	
+    obf_open_playlist = {
+        size = { 25 25 }
+        
+    }
+}
+
+

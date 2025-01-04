@@ -1,0 +1,45 @@
+﻿reflect_their_opinion = {
+
+}
+over_12_years_old = {
+
+}
+rumours = {
+
+}
+
+glow_matches_opinion = {
+
+}
+
+skill_masking = {
+
+}
+
+meta_traits = {
+
+}
+
+intel_network = {
+
+}
+
+send_emissary = {
+
+}
+
+ask_guest_info = {
+
+}
+
+ask_advisors = {
+
+}
+
+request_mil_info = {
+
+}
+
+interrogate_prisoner = {
+
+}

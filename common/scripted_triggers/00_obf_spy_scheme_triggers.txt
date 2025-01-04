@@ -1,0 +1,370 @@
+﻿#Spy Scheme triggers
+
+
+#AGENTS SKILLS AND PERSONALITY
+
+#INCAPABLE
+
+is_capable_of_spying_trigger = {
+	NOR = {
+	has_trait = incapable
+	has_trait = wounded_2
+	has_trait = wounded_3
+	has_trait = infirm
+	has_trait = inbred
+	has_trait = ill
+	has_trait = bubonic_plague
+	has_trait = leper
+	has_trait = blind
+	}
+}
+
+agent_can_be_recruited_trigger = {
+NOR = {
+		is_alive = no
+		is_adult = no
+		is_imprisoned = yes 
+		is_available = no
+		highest_held_title_tier >= tier_kingdom
+		}
+}
+
+
+#BEAUTY AND ATTRACTIVENESS
+
+is_a_unattractive_person_trigger = {
+	OR = {
+	attraction <= -25
+	has_trait = chaste
+	has_trait = celibate
+	}
+}
+
+is_a_attractive_person_trigger = {
+	attraction >= 75
+	NOR = {
+	has_trait = chaste
+	has_trait = celibate
+	}
+}
+
+#BAD TRAITS FOR SPYING
+
+has_bad_traits_for_spying_trigger = {
+OR = {
+	has_trait = drunkard
+	has_trait = contrite
+	has_trait = murderer
+	has_trait = irritable
+	has_trait = reclusive
+	}
+}
+
+is_seen_as_mad_or_avoidable_trigger = {
+	OR = {
+		has_trait = lunatic
+		has_trait = possessed
+	}
+}
+
+#DOMINANCE, SUBMISSION
+
+
+is_a_bold_person_trigger = {
+	OR = {
+		has_trait = brave
+		has_trait = ambitious
+		has_trait = wrathful
+		has_trait = diligent
+		has_trait = arrogant
+		has_trait = lunatic
+		has_trait = gallant
+	}
+	NOR = {
+	has_trait = craven
+	has_trait = content
+	}
+}
+
+is_a_coward_person_trigger = {
+	OR = {
+	has_trait = craven
+	has_trait = content
+	}
+}
+
+#BENEVOLENT
+has_malicious_qualities_trigger = {
+	OR = {
+		has_trait = deceitful
+		has_trait = arbitrary
+		has_trait = callous
+		has_trait = sadistic
+		has_trait = disloyal
+		has_trait = vengeful
+	}
+}
+
+has_benevolent_qualities_trigger = {
+	OR = {
+		has_trait = honest
+		has_trait = generous
+		has_trait = just
+		has_trait = compassionate
+		has_trait = forgiving
+		has_trait = loyal
+	}
+}
+
+is_a_malicious_person_trigger = {
+	has_malicious_qualities_trigger = yes
+	has_benevolent_qualities_trigger = no
+}
+
+
+is_a_benevolent_person_trigger = {
+	has_malicious_qualities_trigger = no
+	has_benevolent_qualities_trigger = yes
+}
+
+#PERSUASION AND ELUSIVE
+
+is_a_persuasive_person_trigger = {
+OR = {
+	has_trait = education_diplomacy_3
+	has_trait = education_diplomacy_4
+	}
+
+}
+
+is_a_elusive_person_trigger = {
+OR = {
+	has_trait = education_intrigue_1
+	has_trait = education_intrigue_2
+	}
+}
+
+is_a_very_elusive_person_trigger = {
+OR = {
+	has_trait = education_intrigue_3
+	has_trait = education_intrigue_4
+	}
+}
+
+is_a_amateur_schemer_person_trigger = {
+OR = {
+	has_perk = digging_for_dirt_perk
+	has_perk = a_job_done_right_perk
+	}
+}
+
+is_a_schemer_person_trigger = {
+	has_trait = schemer
+}
+
+###################################
+###BRIBE ACCEPTANCE PERSONALITIES##
+
+will_betray_absolutely_anyone_regardless = { #WILL BETRAY ABSOLUTELY ANYONE WITH ALMOST NO MONEY NEEDED
+is_a_benevolent_person_trigger = no
+will_not_betray = no
+OR = {
+	AND = { ai_honor <= very_high_negative_ai_value
+			ai_compassion <= very_high_negative_ai_value}
+			
+	AND = { ai_honor <= very_high_negative_ai_value
+			ai_compassion <= high_negative_ai_value
+			ai_rationality <= medium_negative_ai_value}
+			
+	AND = { ai_honor <= high_negative_ai_value
+			ai_compassion <= very_high_negative_ai_value
+			ai_rationality <= medium_negative_ai_value}
+	AND = {
+			ai_honor <= high_negative_ai_value
+			ai_compassion <= high_negative_ai_value
+			ai_rationality <= high_negative_ai_value}
+			
+			ai_rationality <= very_high_negative_ai_value
+	}
+
+}
+
+will_betray_anyone_because_needs_money = { #
+is_a_benevolent_person_trigger = no
+will_not_betray = no
+is_ruler = no
+OR = {
+	AND = { has_trait = disloyal
+			ai_rationality <= low_negative_ai_value}
+				
+	AND = { ai_honor <= high_negative_ai_value
+			ai_compassion <= low_negative_ai_value
+			ai_boldness >= medium_negative_ai_value}
+			
+	AND = { ai_honor <= low_negative_ai_value
+			ai_compassion <= high_negative_ai_value
+			ai_boldness >= medium_negative_ai_value}
+			
+	AND = { ai_honor <= medium_negative_ai_value
+			ai_compassion <= medium_negative_ai_value
+			ai_boldness >= medium_negative_ai_value}
+			
+	AND = { ai_honor <= high_negative_ai_value
+			ai_compassion <= high_negative_ai_value}
+	}
+
+}
+
+will_betray_anyone_for_money = { #WILL BETRAY ABSOLUTELY ANYONE FOR SOME MONEY
+is_a_benevolent_person_trigger = no
+will_not_betray = no
+OR = {
+	AND = { has_trait = disloyal
+			ai_greed >= low_positive_ai_value}
+				
+	AND = { ai_honor <= medium_negative_ai_value
+			ai_compassion <= low_negative_ai_value
+			ai_greed >= low_positive_ai_value}
+			
+	AND = { ai_honor <= very_low_negative_ai_value
+			ai_compassion <= high_negative_ai_value
+			ai_greed >= low_positive_ai_value}
+			
+	AND = { ai_honor <= low_negative_ai_value
+			ai_compassion <= low_negative_ai_value
+			ai_greed >= medium_positive_ai_value}
+	}
+
+}
+
+will_betray_close_relation_liking_them_or_not = {
+is_a_benevolent_person_trigger = no
+will_not_betray = no
+OR = {
+	AND = { OR = {
+				has_trait = disloyal
+				ai_rationality <= very_high_negative_ai_value}
+				ai_greed >= low_positive_ai_value}
+				
+	AND = { ai_honor <= high_negative_ai_value
+			ai_compassion <= low_negative_ai_value
+			ai_greed >= medium_positive_ai_value}
+			
+	AND = { ai_honor <= low_negative_ai_value
+			ai_compassion <= very_high_negative_ai_value
+			ai_greed >= medium_positive_ai_value}
+			
+	}
+
+}
+
+will_betray_anyone_he_doesnt_like_except_close_ones = {
+will_not_betray = no
+NOR = {is_consort_of = scope:target_character
+		is_heir_of = scope:target_character
+		is_close_family_of = scope:target_character
+		has_relation_soulmate = scope:target_character
+		has_relation_best_friend = scope:target_character
+		has_secret_relation_soulmate = scope:target_character
+		has_secret_relation_lover = scope:target_character
+		has_relation_lover = scope:target_character
+		has_relation_friend = scope:target_character}
+OR = {
+
+	AND = {ai_vengefulness >= high_positive_ai_value
+			opinion = {
+				target = scope:target_character
+				value < medium_negative_opinion
+				}
+			}
+	AND = {ai_vengefulness >= medium_positive_ai_value
+			opinion = {
+				target = scope:target_character
+				value < high_negative_opinion
+				}
+			}
+			
+	AND = {ai_vengefulness >= very_high_positive_ai_value
+			opinion = {
+				target = scope:target_character
+				value < low_negative_opinion
+				}
+			}
+	
+	}
+
+}
+
+will_betray_close_relation_not_liking_them = {
+is_a_benevolent_person_trigger = no
+will_not_betray = no
+OR = {
+				
+	AND = { ai_rationality < 0
+			ai_vengefulness >= high_positive_ai_value
+			opinion = {
+				target = scope:target_character
+				value < medium_negative_opinion
+				}
+			}
+	AND = { ai_rationality < 0
+			ai_vengefulness >= medium_positive_ai_value
+			opinion = {
+				target = scope:target_character
+				value < high_negative_opinion
+				}
+			}
+	}
+
+}
+
+will_not_betray = {
+is_a_malicious_person_trigger = no
+ai_honor >= 0
+ai_compassion >= 0
+OR = {
+	opinion = {
+				target = scope:target_character
+				value >= high_positive_opinion
+				}
+	
+	AND = {
+		OR = {
+			has_trait = loyal
+			ai_honor >= low_positive_ai_value
+			ai_compassion >= low_positive_ai_value
+			ai_rationality >= medium_positive_ai_value}
+		OR = {
+		is_vassal_of = scope:target_character
+		is_consort_of = scope:target_character
+		is_heir_of = scope:target_character
+		is_close_family_of = scope:target_character
+		has_relation_soulmate = scope:target_character
+		has_relation_best_friend = scope:target_character
+		has_secret_relation_soulmate = scope:target_character
+		has_secret_relation_lover = scope:target_character
+		has_relation_lover = scope:target_character
+		has_relation_friend = scope:target_character}
+	
+	}
+
+	AND = {
+			opinion = {
+				target = scope:target_character
+				value >= low_positive_opinion
+				}
+			ai_honor >= medium_positive_ai_value
+			ai_compassion >= medium_positive_ai_value
+		}
+		
+	AND = {
+			has_dread_level_towards = {
+				target = scope:target_character
+				level >= 1
+				}
+			ai_boldness <= high_negative_ai_value
+		}
+	
+	}
+
+}

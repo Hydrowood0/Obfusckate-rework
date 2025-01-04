@@ -1,0 +1,920 @@
+######################################################
+############## LIST TYPES AND TEMPLATES FOR KNOWN CHARACTER LIST##############
+######################################################
+
+types Lists
+{
+
+	type widget_known_character_list_item_finder = widget {
+		datacontext = "[Scope.GetCharacter]"
+		size = { 200 94 }
+
+		#background = {
+		#	visible = "[CharacterListItem.HasEvenOrderIndex]"
+		#	using = Background_Area_Dark
+		#	margin_top = -4
+		#	margin_bottom = 200
+		#	alpha = 0.5
+		#}
+
+		block "divider" {}
+
+		block "widget" {}
+
+		hbox = {
+			margin_right = 15
+			vbox = {
+				portrait_head_small = {}
+
+				expand = {}
+			}
+
+			block "button_content"
+			{
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+					margin_top = 5
+
+					vbox = {
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+
+						# Name and age
+						hbox = {
+							layoutpolicy_horizontal = expanding
+							margin = { 0 3 }
+							margin_left = 5
+							margin_right = 10
+
+							background = {
+								using = Background_Area_Characterlist
+							}
+
+							background = {
+								using = Background_Area_Dark
+
+								modify_texture = {
+									texture = "gfx/interface/component_masks/mask_fade_vertical.dds"
+									blend_mode = alphamultiply
+									alpha = 1
+									rotate_uv = 90
+									mirror = vertical
+								}
+							}
+
+							hbox = {
+								margin_left = 3
+								layoutpolicy_horizontal = expanding
+								maximumsize = { 338 -1 }
+
+								text_single = {
+									using = Font_Size_Medium
+									layoutpolicy_horizontal = expanding
+									align = nobaseline
+									text = "[Character.GetUINameNoTooltip]"
+									autoresize = no
+									fontsize_min = 12
+								}
+
+								block "character_relation"
+								{
+									hbox = {
+										visible = "[And(Character.HasRelationTo( GetPlayer ), Not(Character.IsPlayer))]"
+										text_single = {
+											raw_text = "•"
+											align = nobaseline
+											margin = { 5 0 }
+										}
+
+										text_single = {
+											name = "character_relation"
+											text = "[Character.GetRelationToString( GetPlayer )]"
+											tooltip = "EXTENDED_RELATIONS_TOOLTIP"
+											default_format = "#low"
+											align = nobaseline
+											fontsize_min = 12
+											max_width = 180
+										}
+									}
+								}
+
+								expand = {}
+							}
+
+							hbox = {
+								using = character_age_or_death_text
+							}
+
+							# Skills
+			hbox_skills_grid = {}
+							hbox = {
+		name = "hbox_skills_grid_character_model"
+		
+		widget = {
+			size = { 32 25 }
+
+			text_single = {
+				name = "value"
+				parentanchor = center
+				margin_bottom = 4
+				align = center
+				text = "SKILL_PROWESS_VALUES_KNOWN_CHARACTER"
+				default_format = "#true_white"
+				visible = "[GetScriptedGui('gui_prowess_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+				tooltip = "prowess_concept"
+			}
+
+			background = {
+				name = "skill_icon_bg"
+				framesize = { 70 26 }
+				margin = { 5 0 }
+
+				frame = 5
+			}
+		}
+	}
+						}
+
+						### BOTTOM ROW ###
+						hbox = {
+							layoutpolicy_horizontal = expanding
+							layoutpolicy_vertical = expanding
+
+							vbox = {
+								layoutpolicy_horizontal = expanding
+								layoutpolicy_vertical = expanding
+
+								block "additional_info_kill_list" {}
+
+								hbox = {
+									layoutpolicy_horizontal = expanding
+									layoutpolicy_vertical = expanding
+
+									# Dynasty
+									widget = {
+										size = { 45 40 }
+
+										coa_house_small = {
+											datacontext = "[Character.GetHouse]"
+											parentanchor = center
+											scale = 0.7
+										}
+									}
+
+									# Traits
+									hbox = {
+										layoutpolicy_vertical = expanding
+										margin = { 10 0 }
+										minimumsize = { 140 0 } #### needed for prison view
+
+										background = {
+											using = Background_Area_Dark
+											alpha = 0.5
+											margin = { 0 2 }
+										}
+
+										hbox = {
+											layoutpolicy_horizontal = expanding
+
+											dynamicgridbox = {
+												name = "traits_grid"
+												datamodel = "[Character.GetTraitIndices]"
+												#Changed by ObfusCKate: Start
+												datamodel_reuse_widgets = no
+												#Changed by ObfusCKate: End 
+												flipdirection = yes
+												layoutpolicy_horizontal = expanding
+												layoutpolicy_vertical = expanding
+
+
+												block "gridbox_items"
+												{
+													min_width = 210
+													datamodel_wrap = 7
+													maxverticalslots = 2
+												}
+
+												item = {
+													icon_trait = {
+														datacontext = "[GetTraitForIndex(int32.GetInt)]"
+														visible = "[Trait.IsValid]"
+														#visible = "[And(Trait.IsValid, GetScriptedGui('gui_show_traits_in_lists').IsValid( GuiScope.SetRoot( #GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
+
+														blockoverride "icon_size"
+														{
+															size = { 30 30 }
+														}
+
+														blockoverride "tooltip_placement"
+														{
+															using = tooltip_se
+														}
+
+														blockoverride "glow_radius"
+														{
+															glow_radius = 3
+														}
+													}
+												}
+											}
+										}
+									}
+
+									expand = {}
+								}
+							}
+
+							vbox = {
+								layoutpolicy_horizontal = expanding
+								layoutpolicy_vertical = expanding
+
+								block "bottom_right_box"
+								{
+									hbox = {
+										layoutpolicy_horizontal = expanding
+										layoutpolicy_vertical = expanding
+										
+										#hbox = {
+										#layoutpolicy_horizontal = expanding
+										#	layoutpolicy_vertical = expanding
+										#	margin_left = -100
+										#	maximumsize = { 0 25 }
+										#	
+										#	
+										#	text_single = {
+										#	visible = no
+										#	text = "KNOWN_LIST_MILITARY_STRENGTH"
+										#	tooltip = "KNOWN_LIST_MILITARY_STRENGTH_TOOLTIP"
+										#	default_format = "#high"
+										#	fontsize = 13
+										#	align = nobaseline
+										#	}
+										#}
+
+										# Religion and culture
+										hbox = {
+											layoutpolicy_horizontal = expanding
+											layoutpolicy_vertical = expanding
+											margin_left = 8
+											margin_right = 4
+											spacing = 5
+											minimumsize = { 110 0 }
+
+											background = {
+												using = Background_Area_Dark
+												alpha = 0.5
+												margin = { 0 2 }
+											}
+
+											icon = {
+												name = "faith_button"
+												size = { 38 38 }
+												datacontext = "[Character.GetFaith]"
+												tooltipwidget = { faith_tooltip = {} }
+												using = tooltip_se
+
+												texture = "[Faith.GetIcon]"
+											}
+
+											hbox = {
+												datacontext = "[Character.GetCulture]"
+												layoutpolicy_horizontal = expanding
+												spacing = 3
+
+												tooltipwidget = {
+													culture_tooltip = {}
+												}
+												using = tooltip_se
+
+												icon = {
+													name = "culture"
+													texture = "gfx/interface/icons/icon_culture.dds"
+													size = { 24 24 }
+												}
+
+												text_single = {
+													layoutpolicy_horizontal = expanding
+													text = "CULTURE_LISTS_WINDOW"
+													autoresize = no
+													align = nobaseline
+												}
+												
+											}
+											hbox = {
+											button_icon = {
+											name = "marry_this_character"
+											size = { 30 30 }
+											visible = "[And(Not(Character.IsTheocraticLessee), GreaterThan_int32(Character.CalcUnusedSpouseSlots, '(int32)0' ))]"
+											onclick = "[Character.OpenPlayerInteraction('arrange_marriage_interaction')]"
+											texture = "gfx/interface/icons/character_interactions/icon_marriage.dds"
+											tooltip = "CAN_ARRANGE_MARRIAGE_FOR_THIS_CHARACTER"
+													}
+											
+											}
+											hbox = {
+											button_pin = {
+											size = { 25 25 }	
+											
+											name = "button_pin"
+											visible = "[Not( Character.IsPinned )]"
+											onclick = "[Character.ToggleCharacterPinned]"
+											tooltip = "PIN_TT"
+											using = tooltip_se
+												}
+											button_unpin = {
+											size = { 25 25 }
+
+											name = "button_unpin"
+											visible = "[Character.IsPinned]"
+											onclick = "[Character.ToggleCharacterPinned]"
+											tooltip = "PIN_TT"
+											using = tooltip_se
+										}	
+											
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	type dropdown_sort_known_character_list = dropDown {
+		name = "sort_options"
+		block "size_button_drop" {   ########### only used for known characters list
+			size = { 225 33 }
+		}
+
+		active_item = {
+			widget = {
+				alwaystransparent = no
+				size = { 100% 100% }
+
+				button_drop = {
+					block "text_button_drop" {
+						text = "[CharacterListSortItem.GetName]"
+					}
+				}
+			}
+		}
+
+		item = {
+			widget = {
+				alwaystransparent = no
+				block "size_dropdown" {
+					size = { 215 33 }
+				}
+
+				button_normal = {
+					size = { 100% 30 }
+					button_trigger = none
+					gfxtype = framedbuttongfx
+					effectname = "NoHighlight"
+					shaderfile = "gfx/FX/pdxgui_pushbutton.shader"
+					upframe = 1
+					overframe = 2
+					downframe = 3
+					disableframe = 1
+					texture = "gfx/interface/buttons/button_interaction_menu.dds"
+					framesize = { 317 30 }
+				}
+
+				button_dropdown = {
+					block "size_dropdown" {
+						size = { 215 33 }
+					}
+					block "text_button_drop" {
+						text = "[CharacterListSortItem.GetName]"
+					}
+
+					default_format = "#clickable"
+				}
+			}
+		}
+
+		list = {
+			scrollarea = {
+				position = { 5 33 }
+				maximumsize = { 215 250 }
+				autoresizescrollarea = yes
+				scrollbarpolicy_horizontal = always_off
+
+				using = Background_DropDown
+
+				scrollwidget = {
+					dynamicgridbox = {
+						alwaystransparent = no
+					}
+				}
+
+				scrollbar_vertical = {
+					using = Scrollbar_Vertical
+				}
+			}
+		}
+	}
+	
+	type hbox_known_character_list_sort_buttons = hbox {
+		name = "sort_buttons"
+		datamodel = "[GetPlayer.MakeScope.GetList('people_you_know')]"
+		block "margins" {
+			margin_left = 30
+			margin_right = 30
+			margin_top = 5
+			spacing = 5
+		}
+		
+		button_standard = {
+			size = { 60 50 } 
+
+			onclick = "[GetScriptedGui('obf_toggle_reset').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+			tooltip = "TOGGLE_CLICK_TO_RESET"
+			using = tooltip_nw
+			text = "TOGGLE"
+			align = nobaseline
+			fontsize = 12
+		}
+
+		
+		vbox = {
+		name = "toggle_gender"
+		button_checkbox_label = {###ADD block
+					max_width = 100
+					layoutpolicy_horizontal = expanding
+					onclick = "[GetScriptedGui('obf_toggle_males').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					onclick = "[GetScriptedGui('obf_player_knows_the_character').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+	
+
+					tooltip = "TOGGLE_MALE"
+					using = tooltip_nw
+					blockoverride "checkbox"
+					{
+						checked = "[GetScriptedGui('obf_toggle_males').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+						onclick = "[GetScriptedGui('obf_player_knows_the_character').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					}
+
+					blockoverride "text"
+					{
+						text = "TOGGLE_MALE"
+						fontsize = 12
+					}
+				}
+			button_checkbox_label = {###ADD block
+					max_width = 100
+					layoutpolicy_horizontal = expanding
+					onclick = "[GetScriptedGui('obf_toggle_females').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					onclick = "[GetScriptedGui('obf_player_knows_the_character').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+	
+
+					tooltip = "TOGGLE_FEMALE"
+					using = tooltip_sw
+					blockoverride "checkbox"
+					{
+						checked = "[GetScriptedGui('obf_toggle_females').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+						onclick = "[GetScriptedGui('obf_player_knows_the_character').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					}
+
+					blockoverride "text"
+					{
+						text = "TOGGLE_FEMALE"
+						fontsize = 12
+					}
+				}
+		}
+		vbox = {
+		name = "toggle_adults"
+		
+		button_checkbox_label = {###ADD block
+					max_width = 100
+					layoutpolicy_horizontal = expanding
+					onclick = "[GetScriptedGui('obf_toggle_adults').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					onclick = "[GetScriptedGui('obf_player_knows_the_character').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+	
+
+					tooltip = "TOGGLE_ADULT"
+					using = tooltip_nw
+					blockoverride "checkbox"
+					{
+						checked = "[GetScriptedGui('obf_toggle_adults').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+						onclick = "[GetScriptedGui('obf_player_knows_the_character').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					}
+
+					blockoverride "text"
+					{
+						text = "TOGGLE_ADULT"
+						fontsize = 12
+					}
+				}
+			button_checkbox_label = {###ADD block
+					max_width = 100
+					layoutpolicy_horizontal = expanding
+					onclick = "[GetScriptedGui('obf_toggle_childs').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					onclick = "[GetScriptedGui('obf_player_knows_the_character').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+	
+
+					tooltip = "TOGGLE_CHILD"
+					using = tooltip_sw
+					blockoverride "checkbox"
+					{
+						checked = "[GetScriptedGui('obf_toggle_childs').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+						onclick = "[GetScriptedGui('obf_player_knows_the_character').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					}
+
+					blockoverride "text"
+					{
+						text = "TOGGLE_CHILD"
+						fontsize = 12
+					}
+				}
+		}
+		vbox = {
+		name = "toggle_landed"
+		button_checkbox_label = {###ADD block
+					max_width = 100
+					layoutpolicy_horizontal = expanding
+					onclick = "[GetScriptedGui('obf_toggle_landed').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					onclick = "[GetScriptedGui('obf_player_knows_the_character').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+	
+
+					tooltip = "TOGGLE_LANDED"
+					using = tooltip_nw
+					blockoverride "checkbox"
+					{
+						checked = "[GetScriptedGui('obf_toggle_landed').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+						onclick = "[GetScriptedGui('obf_player_knows_the_character').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					}
+
+					blockoverride "text"
+					{
+						text = "TOGGLE_LANDED"
+						fontsize = 12
+					}
+				}
+			button_checkbox_label = {###ADD block
+					max_width = 100
+					layoutpolicy_horizontal = expanding
+					onclick = "[GetScriptedGui('obf_toggle_unlanded').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					onclick = "[GetScriptedGui('obf_player_knows_the_character').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+	
+
+					tooltip = "TOGGLE_UNLANDED"
+					using = tooltip_sw
+					blockoverride "checkbox"
+					{
+						checked = "[GetScriptedGui('obf_toggle_unlanded').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+						onclick = "[GetScriptedGui('obf_player_knows_the_character').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					}
+
+					blockoverride "text"
+					{
+						text = "TOGGLE_UNLANDED"
+						fontsize = 12
+					}
+				}
+		}
+		vbox = {
+		name = "toggle_marry_and_dynasty"
+		button_checkbox_label = {###ADD block
+					max_width = 100
+					layoutpolicy_horizontal = expanding
+					onclick = "[GetScriptedGui('obf_toggle_unmarried').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					onclick = "[GetScriptedGui('obf_player_knows_the_character').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+	
+
+					tooltip = "TOGGLE_UNMARRIED"
+					using = tooltip_nw
+					blockoverride "checkbox"
+					{
+						checked = "[GetScriptedGui('obf_toggle_unmarried').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+						onclick = "[GetScriptedGui('obf_player_knows_the_character').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					}
+
+					blockoverride "text"
+					{
+						text = "TOGGLE_UNMARRIED"
+						fontsize = 12
+					}
+				}
+			button_checkbox_label = {###ADD block
+					max_width = 100
+					layoutpolicy_horizontal = expanding
+					onclick = "[GetScriptedGui('obf_toggle_dynastic').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					onclick = "[GetScriptedGui('obf_player_knows_the_character').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+	
+
+					tooltip = "TOGGLE_DYNASTIC"
+					using = tooltip_sw
+					blockoverride "checkbox"
+					{
+						checked = "[GetScriptedGui('obf_toggle_dynastic').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+						onclick = "[GetScriptedGui('obf_player_knows_the_character').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					}
+
+					blockoverride "text"
+					{
+						text = "TOGGLE_DYNASTIC"
+						fontsize = 12
+					}
+				}
+		}
+
+
+		text_single = {
+			visible = "[GetScriptedGui('gui_allow_sort_known_char_list').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End )]"
+			text = "SORT_BY"
+			align = vcenter
+		}	
+		
+		button_tertiary = {
+			visible = "[Not(GetScriptedGui('gui_allow_sort_known_char_list').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End ))]"
+			text = "UNABLE_TO_SORT"
+			tooltip = "UNABLE_TO_SORT_TT"
+			align = nobaseline
+		}	
+			vbox = {
+			
+			layoutpolicy_horizontal = expanding
+			margin = {-3 0}
+			button_standard_hover = {
+					name = "sort_by_age"
+					visible = "[GetScriptedGui('gui_allow_sort_known_char_list').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End )]"
+					size = { 30 30 }
+					
+					icon = {
+						texture = "gfx/interface/icons/law_agnatic_seniority.dds"
+						size = { 30 30 }
+					}
+
+					onclick = "[GetScriptedGui('obf_sort_by_age').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					onclick = "[GetScriptedGui('obf_player_knows_the_character').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+					tooltip = "TOGGLE_SORT_BY_AGE"
+					using = tooltip_nw
+
+					skillitem_sort_icon = {
+						visible = "[GetScriptedGui('obf_sort_by_age').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					}
+				}
+			button_standard_hover = {
+					name = "sort_by_rank"
+					visible = "[GetScriptedGui('gui_allow_sort_known_char_list').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End )]"
+					size = { 30 30 }
+
+					icon = {
+						texture = "gfx/interface/icons/currencies/icon_prestige_01.dds"
+						size = { 30 30 }
+					}
+
+					onclick = "[GetScriptedGui('obf_sort_by_rank').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					onclick = "[GetScriptedGui('obf_player_knows_the_character').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+					tooltip = "TOGGLE_SORT_BY_RANK"
+					using = tooltip_nw
+
+					skillitem_sort_icon = {
+						visible = "[GetScriptedGui('obf_sort_by_rank').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					}
+				}
+			}
+				button_standard_hover = {
+					name = "skill_diplomacy_known_list"
+					visible = "[GetScriptedGui('gui_allow_sort_known_char_list').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End )]"
+					size = { 30 30 }
+
+					icon = {
+						texture = "gfx/interface/icons/icon_skills.dds"
+						size = { 30 30 }
+						framesize = { 60 60 }
+						frame = 1
+					}
+
+					onclick = "[GetScriptedGui('obf_sort_by_diplomacy').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					onclick = "[GetScriptedGui('obf_player_knows_the_character').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+					tooltip = "TOGGLE_SORT_BY_DIPLOMACY"
+					using = tooltip_nw
+
+					skillitem_sort_icon = {
+						visible = "[GetScriptedGui('obf_sort_by_diplomacy').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					}
+				}
+
+				button_standard_hover = {
+					name = "skill_martial_known_list"
+					visible = "[GetScriptedGui('gui_allow_sort_known_char_list').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End )]"
+					size = { 30 30 }
+
+					icon = {
+						texture = "gfx/interface/icons/icon_skills.dds"
+						size = { 30 30 }
+						framesize = { 60 60 }
+						frame = 2
+					}
+
+					onclick = "[GetScriptedGui('obf_sort_by_martial').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					onclick = "[GetScriptedGui('obf_player_knows_the_character').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+					tooltip = "TOGGLE_SORT_BY_MARTIAL"
+					using = tooltip_nw
+
+					skillitem_sort_icon = {
+						visible = "[GetScriptedGui('obf_sort_by_martial').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					}
+				}
+
+				button_standard_hover = {
+					name = "skill_stewardship"
+					visible = "[GetScriptedGui('gui_allow_sort_known_char_list').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End )]"
+					size = { 30 30 }
+
+					icon = {
+						texture = "gfx/interface/icons/icon_skills.dds"
+						size = { 30 30 }
+						framesize = { 60 60 }
+						frame = 3
+					}
+
+					onclick = "[GetScriptedGui('obf_sort_by_stewardship').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					onclick = "[GetScriptedGui('obf_player_knows_the_character').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+					tooltip = "TOGGLE_SORT_BY_STEWARDSHIP"
+					using = tooltip_nw
+
+					skillitem_sort_icon = {
+						visible = "[GetScriptedGui('obf_sort_by_stewardship').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					}
+				}
+
+				button_standard_hover = {
+					name = "skill_intrigue"
+					visible = "[GetScriptedGui('gui_allow_sort_known_char_list').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End )]"
+					size = { 30 30 }
+
+					icon = {
+						texture = "gfx/interface/icons/icon_skills.dds"
+						size = { 30 30 }
+						framesize = { 60 60 }
+						frame = 4
+					}
+
+					onclick = "[GetScriptedGui('obf_sort_by_intrigue').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					onclick = "[GetScriptedGui('obf_player_knows_the_character').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+					tooltip = "TOGGLE_SORT_BY_INTRIGUE"
+					using = tooltip_nw
+
+					skillitem_sort_icon = {
+						visible = "[GetScriptedGui('obf_sort_by_intrigue').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					}
+				}
+
+				button_standard_hover = {
+					name = "skill_learning"
+					visible = "[GetScriptedGui('gui_allow_sort_known_char_list').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End )]"
+					size = { 30 30 }
+
+					icon = {
+						texture = "gfx/interface/icons/icon_skills.dds"
+						size = { 30 30 }
+						framesize = { 60 60 }
+						frame = 5
+					}
+
+					onclick = "[GetScriptedGui('obf_sort_by_learning').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					onclick = "[GetScriptedGui('obf_player_knows_the_character').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+					tooltip = "TOGGLE_SORT_BY_LEARNING"
+					using = tooltip_nw
+
+					skillitem_sort_icon = {
+						visible = "[GetScriptedGui('obf_sort_by_learning').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					}
+				}
+				button_standard_hover = {
+					name = "skill_prowess"
+					visible = "[GetScriptedGui('gui_allow_sort_known_char_list').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End )]"
+					size = { 30 30 }
+
+					icon = {
+						texture = "gfx/interface/icons/icon_skills.dds"
+						size = { 30 30 }
+						framesize = { 60 60 }
+						frame = 6
+					}
+
+					onclick = "[GetScriptedGui('obf_sort_by_prowess').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					onclick = "[GetScriptedGui('obf_player_knows_the_character').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+					tooltip = "TOGGLE_SORT_BY_PROWESS"
+					using = tooltip_nw
+
+					skillitem_sort_icon = {
+						visible = "[GetScriptedGui('obf_sort_by_prowess').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					}
+				}
+
+		expand = {}
+
+
+	}
+
+
+	type vbox_known_character_list = vbox {
+		name = "character_list"
+		spacing = 3
+
+		block "sort_buttons"
+		{
+			hbox_known_character_list_sort_buttons = {
+				layoutpolicy_horizontal = expanding
+
+				blockoverride "margins" {
+					margin_left = 20
+					margin_right = 23
+					margin_top = 5
+					spacing = 5
+				}
+			}
+		}
+
+		block "special_character" {}
+
+		scrollbox = {
+
+			name = "characters_scroll_area"
+			layoutpolicy_vertical = expanding
+			layoutpolicy_horizontal = expanding
+
+			block "scrollbox_properties"
+			{
+			}
+
+			blockoverride "scrollbox_content" {
+
+				block "container_implementation" {
+					vbox = {
+						name = "characters_grid"
+						datamodel = "[CharacterSelectionList.GetList]"
+						visible = "[Not(CharacterSelectionList.IsBuildingList)]"
+						layoutpolicy_horizontal = expanding
+
+						item = {
+							widget_character_list_item = {
+								block "item_size" {
+									size = { 650 110 }
+									layoutpolicy_horizontal = expanding
+								}
+							}
+						}
+					}
+				}
+			}
+
+			blockoverride "scrollbox_empty"
+			{
+				block "scrollbox_empty_visibility"
+				{
+					layoutpolicy_vertical = expanding
+					visible = "[IsDataModelEmpty( CharacterSelectionList.GetList )]"
+					text = "NO_CHARACTERS_TO_SELECT"
+				}
+			}
+		}
+	}
+
+	type fixed_gridbox_known_character_list = vbox_character_list
+	{
+		blockoverride "container_implementation"
+		{
+			fixedgridbox = {
+				name = "characters_grid"
+
+				block "character_gridbox"
+				{
+					addcolumn = 650
+					addrow = 105
+					datamodel_reuse_widgets = yes
+				}
+
+				datamodel = "[GetPlayer.MakeScope.GetList('people_you_know')]"
+				visible = "[Not(CharacterSelectionList.IsBuildingList)]"
+
+				item = {
+					widget_character_list_item = {
+						block "item_size"
+						{
+							size = { 650 110 }
+						}
+					}
+				}
+			}
+		}
+	}
+}
+

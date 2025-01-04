@@ -1,0 +1,5 @@
+﻿gui/000_obf_known_character_finder.gui = obf_known_character_finder_window
+gui/000_obf_known_character_button.gui = obf_known_character_button_large
+gui/000_obf_mod_features_button.gui = obf_button_mod_features_large
+gui/000_obf_mod_features_button.gui = obf_button_disable_mod_features_tiny
+gui/obf_music_controller_button.gui = obf_open_playlist

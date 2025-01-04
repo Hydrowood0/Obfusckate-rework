@@ -1,0 +1,858 @@
+﻿##################################################
+# Send emissary interaction
+########################
+send_emissary_modifier = {
+
+		modifier = {
+			scope:actor = {highest_held_title_tier <= tier_duchy}
+			add = -50
+			desc = BASE_RELUCTANCE
+		}
+		modifier = {
+			scope:recipient = {is_healty = no}
+			add = -25
+		}
+		
+		modifier = {
+			scope:actor = {is_landless_adventurer = yes}
+			scope:actor = {
+				any_character_task_contract = {
+				count >= 1
+				task_contract_employer = scope:recipient
+				} 
+			}
+			add = 1000
+			desc = SEND_EMISSARY_HAS_TASK
+		}
+		
+		modifier = {
+			scope:actor = {is_landless_adventurer = yes}
+			scope:recipient = {is_contact_of = scope:actor}
+			add = 150
+			desc = SEND_EMISSARY_PATRON
+		}
+		
+		
+		
+		#######MY DIPLOMACY#####
+		
+		compare_modifier = {
+			trigger = {scope:actor = {is_landless_adventurer = yes}}
+			desc = SEND_EMISSARY_DIPLOMATIC_SKILLS
+			target = scope:actor
+			value = diplomacy
+			multiplier = 0.5
+		}
+		
+		####YOUR EDUCATION
+		modifier = {
+			scope:actor = {is_landless_adventurer = yes}
+			scope:actor = {
+				OR = {
+					has_trait = diplomat
+					has_trait = august
+				}
+			}
+			add = {
+				value = 0
+				if = {
+					limit = {
+						scope:actor = { has_trait = diplomat }
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						scope:actor = { has_trait = august }
+					}
+					add = 10
+				}
+			}
+			desc = SCHEME_BEFRIEND_MY_LIFESTYLE
+		}
+		
+		####PERKS
+		modifier = {
+			scope:actor = {
+				OR = {
+					has_perk = true_ruler_perk
+					has_perk = befriend_perk
+					has_perk = adaptive_traditions_perk 
+				}
+			}
+			add = {
+				value = 0
+				if = {
+					limit = {
+						scope:actor = { has_perk = true_ruler_perk }
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+						scope:actor = { has_perk = befriend_perk }
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						scope:actor = { has_perk = adaptive_traditions_perk }
+					}
+					add = 10
+				}
+			}
+			desc = SEND_EMISSARY_PERKS 
+		}
+		
+		#####CHANCELLOR DIPLOMACY########
+		modifier = {
+			scope:actor = {is_landless_adventurer = no}
+			add = scope:actor.cp:councillor_chancellor.diplomacy
+			scope:actor = { exists = cp:councillor_chancellor}
+			scope:actor.cp:councillor_chancellor.diplomacy > 9 
+			desc = SEND_EMISSARY_CHANCELLOR_DIPLOMACY
+		}
+		
+		####CHANCELLOR EDUCATION
+		modifier = {
+			scope:actor = {is_landless_adventurer = no}
+			scope:actor = { exists = cp:councillor_chancellor}
+			scope:actor.cp:councillor_chancellor = {
+				OR = {
+					has_trait = diplomat
+					has_trait = august
+				}
+			}
+			add = {
+				value = 0
+				if = {
+					limit = {
+						scope:actor.cp:councillor_chancellor = { has_trait = diplomat }
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						scope:actor.cp:councillor_chancellor = { has_trait = august }
+					}
+					add = 10
+				}
+			}
+			desc = SCHEME_BEFRIEND_MY_LIFESTYLE
+		}
+	
+		#########OPINION##########
+		
+		opinion_modifier = { # Opinion Factor
+			who = scope:recipient
+			opinion_target = scope:actor
+			multiplier = 0.5
+			max = 30
+			min = -30
+			desc = AI_OPINION_REASON
+		}
+		
+		
+		modifier = {
+			add = -20
+			scope:recipient = {
+				has_opinion_modifier = {
+					target = scope:actor
+					modifier = trust_opinion
+					value < 0
+				}
+			}
+			desc = BLACKMAIL_INTERACTION_DISTRUST_ACCEPTANCE
+		}
+		
+		######### PRESTIGE#########
+		# Dynasty Prestige Levels
+		
+		modifier = {
+			add = -10
+			desc = SEND_EMISSARY_PRESTIGE_REASON
+			scope:actor = { prestige_level = 0 }
+		}
+		
+		modifier = {
+			desc = SEND_EMISSARY_PRESTIGE_REASON
+			scope:actor = { prestige_level >= 1 }
+			add = {
+				value = 10
+				if = {
+					limit = {
+						scope:actor = { prestige_level >= 2 }
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						scope:actor = { prestige_level >= 3 }
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						scope:actor = { prestige_level >= 4 }
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						scope:actor = { prestige_level >= 5 }
+					}
+					add = 5
+				}
+			}
+		}
+		
+		modifier = {
+			add = -5
+			desc = AI_DYNASTY_PRESTIGE_REASON
+			scope:actor = { has_dynasty = yes }
+			NOT = { scope:actor.dynasty = scope:recipient.dynasty }
+			scope:actor.dynasty = { dynasty_prestige_level = 0 }
+		}
+		
+		modifier = {
+			desc = AI_DYNASTY_PRESTIGE_REASON
+			scope:actor = { has_dynasty = yes }
+			NOT = { scope:actor.dynasty = scope:recipient.dynasty }
+			scope:actor.dynasty = { dynasty_prestige_level >= 2 }
+			add = {
+				value = 10
+				if = {
+					limit = {
+						scope:actor.dynasty = { dynasty_prestige_level >= 3 }
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						scope:actor.dynasty = { dynasty_prestige_level >= 4 }
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						scope:actor.dynasty = { dynasty_prestige_level >= 5 }
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						scope:actor.dynasty = { dynasty_prestige_level >= 6 }
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						scope:actor.dynasty = { dynasty_prestige_level >= 7 }
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						scope:actor.dynasty = { dynasty_prestige_level >= 8 }
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						scope:actor.dynasty = { dynasty_prestige_level >= 9 }
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						scope:actor.dynasty = { dynasty_prestige_level >= 10 }
+					}
+					add = 5
+				}
+			}
+		}
+		
+		###########RECIPIENT TRAITS########
+		modifier = {
+			desc = SEND_EMISSARY_RECIPIENT_PERSONALITY
+			add = {
+			value = 0
+			if = {
+					limit = {
+						NOT = {scope:recipient.ai_sociability = 0 }
+					}
+					add = {
+					value = scope:recipient.ai_sociability
+					divide = 2
+					}
+				}
+			if = {
+					limit = {
+						NOT = {scope:recipient.ai_boldness = 0 }
+					}
+					add = {
+					value = scope:recipient.ai_boldness
+					divide = 4
+					}
+				}
+			if = {
+					limit = {
+						OR = {always = scope:send_emissary_small_gift 
+						always = scope:send_emissary_medium_gift
+						always = scope:send_emissary_large_gift}
+						NOT = {scope:recipient.ai_greed < 0 }
+					}
+					add = {
+					value = ai_greed
+					divide = 2
+					}
+				}
+			}
+		}
+
+		############CLAIMS##############
+		
+		#Actor has claims on recipient's titles.
+		modifier = {
+			scope:actor = {
+				any_claim = {
+					holder = scope:recipient
+				}
+			}
+			add = 25
+			desc = IS_CLAIMANT_TO_RECIPIENT_TITLES
+		}
+		
+		modifier = { #Claimant modifier.
+			desc = offer_vassalization_interaction_aibehavior_claimant_tt
+			trigger = {
+				scope:actor.primary_title = {
+					scope:recipient = {
+						has_claim_on = prev
+					}
+				}
+			}
+			add = -20
+		}
+	
+		#########CULTURE###############
+		
+		modifier = { # Cultural Acceptance
+			add = offer_vassalage_acceptance_value
+			desc = cultural_acceptance_interaction_reason
+			trigger = {
+				scope:actor = {
+					NOT = { has_same_culture_as = scope:recipient }
+					culture = {
+						cultural_acceptance = { target = scope:recipient.culture value <= 90 }
+					}
+				}
+			}
+		}
+		modifier = { # Isolationist tradition
+			desc = isolationist_reason
+			trigger = {
+				NOT = {
+					scope:actor.culture = scope:recipient.culture
+				}
+				scope:recipient.culture = {
+					has_cultural_tradition = tradition_isolationist
+				}
+			}
+			add = -35
+		}
+
+		################# FAITH
+		
+		modifier = { # Priests care about Piety Level
+			add = {
+				add = 5
+				multiply = scope:actor.piety_level
+			}
+			desc = "I_AM_PIOUS"
+			scope:actor.piety_level > 1
+			scope:recipient = {
+				is_theocratic_lessee = yes
+			}
+		}
+		modifier = { # Priests care about Piety Level
+			add = -50
+			desc = "I_AM_PIOUS"
+			scope:actor.piety_level < 0
+			scope:recipient = {
+				is_theocratic_lessee = yes
+			}
+		}
+		
+		modifier = { #Different faith, no pluralism.
+			desc = offer_vassalization_interaction_aibehavior_differentfaith_tt
+			trigger = {
+				scope:recipient = {
+					NOR = { #Of two different faiths AND the potential vassal's faith is not pluralistic.
+						faith = scope:actor.faith
+						faith = { has_doctrine = doctrine_pluralism_pluralistic }
+					}
+				}
+			}
+			add = {
+				value = -30
+				if = {
+					limit = {
+						scope:recipient.faith = {
+							faith_hostility_level = {
+								target = scope:actor.faith
+								value >= faith_hostile_level
+							}
+						}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:recipient.faith = {
+							faith_hostility_level = {
+								target = scope:actor.faith
+								value >= faith_evil_level
+							}
+						}
+					} 
+					add = -30
+				}
+			}
+		}
+		
+		modifier = { #Different faith, pluralism.
+			desc = offer_vassalization_interaction_aibehavior_differentfaith_tt
+			trigger = {
+				scope:recipient = {
+					NOT = {
+						faith = scope:actor.faith
+					} 
+					NOT = {
+						scope:actor.faith = { has_doctrine = doctrine_pluralism_pluralistic }
+					}
+					faith = { has_doctrine = doctrine_pluralism_pluralistic }
+				}
+			}
+			add = {
+				value = -20
+				if = {
+					limit = {
+						scope:recipient.faith = {
+							faith_hostility_level = {
+								target = scope:actor.faith
+								value >= faith_hostile_level
+							}
+						}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:recipient.faith = {
+							faith_hostility_level = {
+								target = scope:actor.faith
+								value >= faith_evil_level
+							}
+						}
+					}
+					add = -20
+				}
+			}
+		}
+		
+		modifier = { #Different faith, both have pluralism.
+			desc = offer_vassalization_interaction_aibehavior_differentfaith_tt
+			trigger = {
+				scope:recipient = {
+					NOT = {
+						faith = scope:actor.faith
+					}
+					scope:actor.faith = { has_doctrine = doctrine_pluralism_pluralistic }
+					faith = { has_doctrine = doctrine_pluralism_pluralistic }
+				}
+			}
+			add = {
+				value = -15
+				if = {
+					limit = {
+						scope:recipient.faith = {
+							faith_hostility_level = {
+								target = scope:actor.faith
+								value >= faith_hostile_level
+							}
+						}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+						scope:recipient.faith = {
+							faith_hostility_level = {
+								target = scope:actor.faith
+								value >= faith_evil_level
+							}
+						}
+					}
+					add = -15
+				}
+			}
+		}
+		
+		##########RANK##########
+		# Tier Differences
+		
+		modifier = { # Your vassal
+			add = 30
+			desc = SEND_EMISSARY_YOUR_VASSAL
+			scope:actor = {is_landless_adventurer = no}
+			scope:recipient = {
+				is_vassal_or_below_of = scope:actor
+			}
+		}
+		modifier = { # your liege
+			add = 15
+			desc = SEND_EMISSARY_YOUR_LIEGE
+			scope:actor = {is_landless_adventurer = no}
+			scope:recipient = {
+				is_liege_or_above_of = scope:actor
+			}
+		}
+		modifier = { # You are a powerfull vassal
+			add = 15
+			desc = SEND_EMISSARY_YOUR_ARE_POWERFUL
+			scope:actor = {is_landless_adventurer = no}
+			scope:actor = {
+				is_powerful_vassal_of = scope:recipient
+			}
+		}
+		
+		modifier = {
+			scope:actor = {is_landless_adventurer = no}
+			scope:actor = {
+				tier_difference = {
+					target = scope:recipient
+					value >= 1
+				}
+			}
+			add = {
+				value = 15
+				if = {
+					limit = {
+					scope:actor = {
+						tier_difference = {
+							target = scope:recipient
+							value = 2
+							}
+						}
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+					scope:actor = {
+						tier_difference = {
+							target = scope:recipient
+							value = 3
+							}
+						}
+					}
+					add = 30
+				}
+				if = {
+					limit = {
+					scope:actor = {
+						tier_difference = {
+							target = scope:recipient
+							value = 4
+							}
+						}
+					}
+					add = 45
+				}
+				if = {
+					limit = {
+					scope:actor = {
+						tier_difference = {
+							target = scope:recipient
+							value = 5
+							}
+						}
+					}
+					add = 60
+				}
+			}
+			desc = RANK_DIFFERENCE_REASON
+		}
+		modifier = {
+			scope:actor = {is_landless_adventurer = no}
+			scope:actor = {
+				tier_difference = {
+					target = scope:recipient
+					value <= -1
+				}
+			}
+			add = {
+				value = -15
+				if = {
+					limit = {
+					scope:actor = {
+						tier_difference = {
+							target = scope:recipient
+							value = -2
+							}
+						}
+					}
+					add = -15
+				}
+				if = {
+					limit = {
+					scope:actor = {
+						tier_difference = {
+							target = scope:recipient
+							value = -3
+							}
+						}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+					scope:actor = {
+						tier_difference = {
+							target = scope:recipient
+							value = -4
+							}
+						}
+					}
+					add = -45
+				}
+				if = {
+					limit = {
+					scope:actor = {
+						tier_difference = {
+							target = scope:recipient
+							value = -5
+							}
+						}
+					}
+					add = -60
+				}
+			}
+			desc = RANK_DIFFERENCE_REASON
+		}
+		
+		#########WARS
+		
+		modifier = { # Allied
+			desc = offer_vassalization_interaction_aibehavior_allied_tt
+			trigger = {
+				scope:recipient = {
+					is_allied_to = scope:actor
+				}
+			}
+			add = 20
+		}
+		
+		modifier = {
+			scope:recipient = {
+				has_opinion_modifier = {
+					target = scope:actor
+					modifier = declared_war
+				}
+			}
+			add = -100
+			desc = DECLARED_WAR_REASON
+		}
+		
+		modifier = { #We just fought against each other.
+			desc = offer_vassalization_interaction_aibehavior_recent_war_tt
+			trigger = {
+				scope:recipient = {
+					any_truce_holder = {
+						this = scope:actor
+					}
+				}
+			}
+			add = -50
+		}
+		modifier = { #I fought an independence war against you.
+			desc = offer_vassalization_interaction_aibehavior_independence_war_tt
+			trigger = {
+				scope:recipient = {
+					exists = var:independence_war_former_liege
+					var:independence_war_former_liege = scope:actor
+				}
+			}
+			add = -100
+		}
+		
+		#DIPLOMATIC STANCE
+		modifier = {
+		add = 30
+		desc = SEND_EMISSARY_FRIENDLY_STANCE
+			scope:recipient = {
+			NOT = { is_allied_to = scope:actor }
+			NOT = { scope:recipient.court_owner.top_liege = scope:actor.top_liege }
+			ai_diplomacy_stance = {
+				target = scope:actor
+				stance = friend
+				}
+			}
+		}
+		
+		modifier = {
+		add = -30
+		desc = SEND_EMISSARY_HOSTILE_STANCE
+		scope:recipient = {
+			OR = {
+					ai_diplomacy_stance = {
+					target = scope:actor
+					stance = enemy
+							}
+				}
+			}
+		}
+		
+		#MEMORIES
+
+		modifier = {
+			add = -50 
+			 scope:recipient = { 
+				 any_memory = {
+						has_memory_type = imprisoned
+						any_memory_participant = {
+							this = scope:actor
+						}
+					}
+				}
+				desc = SEND_EMISSARY_IMPRISONED
+			}
+			
+		modifier = {
+			add = -50 
+			 scope:recipient = { 
+				 any_memory = {
+						has_memory_type = lost_title_memory
+						any_memory_participant = {
+							this = scope:actor
+						}
+					}
+				}
+				desc = SEND_EMISSARY_LOST_TITLE
+			}
+			
+		modifier = {
+			add = -50 
+			 scope:recipient = { 
+					any_memory = {
+						has_memory_type = stole_lover
+						any_memory_participant = {
+							this = scope:actor}
+						}
+
+				}
+				desc = SEND_EMISSARY_STOLE_LOVER
+			}
+			
+		
+		
+		#########GOVERNMENT TYPE
+		modifier = { # I am Tribal and you are not
+			desc = interaction_tribal_vs_nontribal
+			trigger = {
+				scope:recipient = {
+					has_government = tribal_government
+				}
+				scope:actor = {
+					NOT = { has_government = tribal_government }
+				}
+			}
+			add = -15
+		}
+		modifier = { # You are Tribal and I am not
+			desc = interaction_tribal_vs_nontribal
+			trigger = {
+				scope:actor = {
+					has_government = tribal_government
+				}
+				scope:recipient = {
+					NOT = { has_government = tribal_government }
+				}
+			}
+			add = -15
+		}
+		
+		
+		#######DISTANCE AND POSITION	
+		
+		modifier = { #Distant Realm — medium
+			desc = SEND_EMISSARY_SAME_REALM
+			trigger = {
+				scope:recipient.top_liege = scope:actor.top_liege
+				scope:actor = {is_landless_adventurer = no}
+			}
+			add = 25
+		}
+
+
+		#######FEUD###(has been changed on latest patch - have to check#########
+		#modifier = {
+		#	add = -25
+		#	scope:recipient = {
+		#		exists = house
+		#		house.house_head = {
+		#			house_feud_target_house_trigger = { HOUSE = scope:actor.house }
+		#		}
+		#	}
+		#	desc = MARRY_FAMILY_FEUD_REASON
+		#}
+		
+		#########INTIMIDATED OR COWED
+		modifier = {
+			add = intimidated_reason_value
+			scope:recipient = {
+				target_is_liege_or_above = scope:actor
+				has_dread_level_towards = {
+					target = scope:actor
+					level = 1
+				}
+			}
+			desc = INTIMIDATED_REASON
+		}
+		modifier = {
+			add = cowed_reason_value
+			scope:recipient = {
+				target_is_liege_or_above = scope:actor
+				has_dread_level_towards = {
+					target = scope:actor
+					level = 2
+				}
+			}
+			desc = COWED_REASON
+		}
+		
+		modifier = {
+			add = intimidated_external_reason_value
+			scope:recipient = {
+				NOT = { target_is_liege_or_above = scope:actor }
+				has_dread_level_towards = {
+					target = scope:actor
+					level = 1
+				}
+			}
+			desc = INTIMIDATED_REASON
+		}
+		modifier = {
+			add = cowed_external_reason_value
+			scope:recipient = {
+				NOT = { target_is_liege_or_above = scope:actor }
+				has_dread_level_towards = {
+					target = scope:actor
+					level = 2
+				}
+			}
+			desc = COWED_REASON
+		}
+	
+}

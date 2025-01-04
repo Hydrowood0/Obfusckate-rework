@@ -1,0 +1,58 @@
+[h2]What this mod does:[/h2]
+This mod obfuscates the information that the character you are playing [u] isn't expected to know [/u] like stats of an unknown character or exact chances for schemes, etc. This takes away the feeling of omniscience and delivers a more challenging and roleplay driven experience, more consistent with the game setting.
+
+[h2] Discord [/h2]
+https://discord.gg/aakS5jPrdX
+
+You can [url=https://www.buymeacoffee.com/jorgemmpedro] Buy me a coffee [/url] if you wish
+
+[h2]NEW UPDATE - 28 November - Latest Patch 1.14.2.2 ( [/h2]
+
+
+[h3]  Troubleshoot & compatibility [/h3]
+Read notes on compatibility at the end of description
+
+[h2] Why this mod? [/h2]
+The fact that the player is omniscient (knows every single detail about the world and the characters on it) starting to make the game feel tedious for me. So I decided to make this mod with a more roleplaying experience in mind. Although I started creating this mod for myself, while I was working on it I thought that more people would enjoy it and so I decided to upload it. hen, after positive feedback and appreciation for this mod, I decided to continue expanding it. Months have passed and, with some ideas of my own and also thanks to the feedback I receive, I keep enhancing the mod (I hope) always with the same goal in mind: Roleplaying. 
+As I stated in response to the first comments when I first uploaded this mod, I never intended to make any money from it, but lately some people have been asking if they can donate or why don't I set up an account for donations. 
+
+Here it is:
+[h3]If you would like to support me...[/h3]
+You can [url=https://www.buymeacoffee.com/jorgemmpedro] Buy me a coffee [/url] if you wish but, like I mentioned earlier, I work on the mod for enjoyment so, as long as I can, with or without the [url=https://www.buymeacoffee.com/jorgemmpedro] coffee [/url], if I feel the need to enhance this mod or perfect it, I will be working on it.
+
+[h2] One Proud Bavarian review [/h2]
+ https://www.youtube.com/watch?v=gkmY-qzTVL4&t=50s
+
+[h2] I want a more hardcore experience [/h2]
+You can customize your experience on the game rules
+
+
+[h2] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3018119176] Note Taker & Memorandum [/url] [/h2] This mod adds allows you to take notes and access a personal memorandum that lists all characters with whom you have memories or notes on.
+
+[h2] And check out my mod [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3015084755] My Sexual Preference [/url] [/h2] This mod adds "Personal Discovery" decision that an adult character player can take every 20 years, allowing them to embrace self-discovery and choose their sexual preference (change in game sexuality).
+
+[h2] And check out my other mod CK3 Music Control [/h2]
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3014144039] CK3 Music Control [/url]. This mod adds a next song button and a toggable, playable, movable and configurable playlist.
+
+[h2] See the post on detailed information and tips about obfusCKate [url=https://steamcommunity.com/workshop/filedetails/discussion/2874007571/3757725715240157537/] here [/url] [/h2]
+
+
+[h2] [u] Game version[/u] [/h2]
+latest
+
+[h3]Languages:[/h3] 
+If you are not playing in english, some information might be shown.
+Text is fully localized so it will be easy to translate for anyone who wants it.
+
+[h3]Additional notes:[/h3] 
+Tooltips in the game explain most changes
+
+[h2] [u] Compatibility[/u] [/h2]
+[b]This mod must be [u]last[/u] on load order [/b]
+This mod is expected to be FULLY compatible with mods that only add flavour like RICE, etc
+This mod will most certainly have major compatibility issues with overhauls and mods that change the UI, game rules or schemes
+
+
+[h3]Translation:[/h3]
+German: Thanks to user [b] Smitty Werbenjägermanjensen [/b]: https://steamcommunity.com/sharedfiles/filedetails/?id=3013023799
+Chinese: Thanks to user [b]Concubine Moon [/b]:https://steamcommunity.com/sharedfiles/filedetails/?id=2875456658

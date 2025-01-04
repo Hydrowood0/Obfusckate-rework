@@ -1,0 +1,84 @@
+﻿
+has_heard_rumours_interaction = {
+	common_interaction = yes
+	interface_priority = 200
+	category = interaction_category_friendly
+	desc = has_heard_rumours_tooltip
+	use_diplomatic_range = no
+	icon = icon_group_of_characters
+	ignores_pending_interaction_block = yes
+
+	
+	is_shown = {
+		scope:recipient = {has_character_flag = player_was_notified}
+		scope:recipient = {
+				OR = {
+				has_character_flag = had_rumour_spread_trait
+				has_character_flag = had_rumour_spread_excellent_commander
+			has_character_flag = had_rumour_spread_excellent_knight
+			has_character_flag = had_rumour_spread_intellectual
+			has_character_flag = had_rumour_spread_lover
+				has_character_flag = had_rumour_spread_sexual_taste
+				has_character_flag = had_rumour_spread_bastard
+				has_character_flag = had_rumour_spread_incest
+			has_character_flag = had_rumour_spread_false_religion
+			has_character_flag = had_rumour_spread_murder
+				}
+		}
+	}
+	is_valid_showing_failures_only = { 
+	
+	custom_tooltip = {
+		text = rumours_traits
+		NOT = {scope:recipient = {has_character_flag = had_rumour_spread_trait}}
+		}
+	custom_tooltip = {
+		text = rumours_intellect
+		NOT = {scope:recipient = {has_character_flag = had_rumour_spread_intellectual}}
+		}
+	custom_tooltip = {
+		text = rumours_martial
+		NOT = {scope:recipient = {has_character_flag = had_rumour_spread_excellent_commander}}
+		}
+	custom_tooltip = {
+		text = rumours_knights
+		NOT = {scope:recipient = {has_character_flag = had_rumour_spread_excellent_knight}}
+		}
+	custom_tooltip = {
+		text = rumours_lover
+		NOT = {scope:recipient = {has_character_flag = had_rumour_spread_lover}}
+		}
+	custom_tooltip = {
+		text = rumours_sexuality
+		NOT = {scope:recipient = {has_character_flag = had_rumour_spread_sexual_taste}}
+		}
+	custom_tooltip = {
+		text = rumours_heritage
+		NOT = {scope:recipient = {has_character_flag = had_rumour_spread_bastard}}
+		}
+	custom_tooltip = {
+		text = rumours_incest
+		NOT = {scope:recipient = {has_character_flag = had_rumour_spread_incest}}
+		}
+	custom_tooltip = {
+		text = rumours_murder
+		NOT = {scope:recipient = {has_character_flag = had_rumour_spread_murder}}
+		}
+	custom_tooltip = {
+		text = rumours_religion
+		NOT = {scope:recipient = {has_character_flag = had_rumour_spread_false_religion}}
+		}
+	}
+	
+	auto_accept = yes
+	on_accept = {
+	}
+	
+	ai_will_do = {
+		base = 0
+		}
+	
+	
+
+}
+

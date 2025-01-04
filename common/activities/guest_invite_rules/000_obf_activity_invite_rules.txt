@@ -1,0 +1,355 @@
+﻿### ACTIVITY INVITE RULES FOR UNMARRIED CHARACTERS ###
+
+#UNMARRIED
+activity_invite_unmarried_neighbouring_rulers_female_children = {
+	effect = {
+
+			every_neighboring_and_across_water_top_liege_realm_owner = {
+			
+				limit = {
+					# Remove diarchs from the list.
+					bannable_serving_diarch_trigger = no
+				}
+				
+				every_child = { 
+				limit = {
+				is_female = yes
+				age <= 25
+				can_marry_trigger = yes
+				}
+				add_to_list = characters }
+			}
+			every_neighboring_and_across_water_top_liege_realm_owner = {
+				limit = {
+					# Remove diarchs from the list.
+					bannable_serving_diarch_trigger = no
+				}
+				every_vassal = {
+				
+				every_child = { 
+				limit = {
+				is_female = yes
+				age <= 25
+				exists = dynasty
+				can_marry_trigger = yes
+				}
+				add_to_list = characters }
+				}
+			}
+
+	}
+}
+activity_invite_unmarried_neighbouring_rulers_male_children = {
+	effect = {
+			every_neighboring_and_across_water_top_liege_realm_owner = {
+				limit = {
+					# Remove diarchs from the list.
+					bannable_serving_diarch_trigger = no
+				}
+				
+				every_child = { 
+				limit = {
+				is_female = no
+				age <= 25
+				can_marry_trigger = yes
+				}
+				add_to_list = characters }
+			}
+			every_neighboring_and_across_water_top_liege_realm_owner = {
+				limit = {
+					# Remove diarchs from the list.
+					bannable_serving_diarch_trigger = no
+				}
+				every_vassal = {
+				
+				every_child = { 
+				limit = {
+				is_female = no
+				age <= 25
+				exists = dynasty
+				can_marry_trigger = yes
+				}
+				add_to_list = characters }
+				}
+			}
+	}
+}
+activity_invite_rule_unmarried_realm_ruler_female_children = {
+	effect = {
+		top_liege = {
+			every_vassal_or_below = {
+			limit = {
+					# Remove diarchs from the list.
+					bannable_serving_diarch_trigger = no
+				}
+				every_child = { 
+				limit = {
+				age <= 25
+				is_female = yes
+				can_marry_trigger = yes
+				}
+				add_to_list = characters }
+			}
+		}
+		every_liege_or_above = {
+			limit = {
+				# Remove diarchs from the list.
+				bannable_serving_diarch_trigger = no
+			}
+			every_child = { 
+				limit = {
+				is_female = yes
+				can_marry_trigger = yes
+				}
+				add_to_list = characters }
+		}
+	}
+}
+activity_invite_rule_unmarried_realm_ruler_male_children = {
+	effect = {
+		top_liege = {
+			every_vassal_or_below = {
+			limit = {
+					# Remove diarchs from the list.
+					bannable_serving_diarch_trigger = no
+				}
+				every_child = { 
+				limit = {
+				age <= 25
+				is_female = no
+				can_marry_trigger = yes
+				}
+				add_to_list = characters }
+			}
+		}
+		every_liege_or_above = {
+			limit = {
+				# Remove diarchs from the list.
+				bannable_serving_diarch_trigger = no
+			}
+			every_child = { 
+				limit = {
+				is_female = no
+				can_marry_trigger = yes
+				}
+				add_to_list = characters }
+		}
+	}
+}
+
+activity_invite_rule_unmarried_vassals_female_children = {
+	effect = {
+			every_vassal_or_below = {
+			limit = {
+					# Remove diarchs from the list.
+					bannable_serving_diarch_trigger = no
+				}
+				every_child = { 
+				limit = {
+				is_female = yes
+				age <= 25
+				can_marry_trigger = yes
+				}
+				add_to_list = characters }
+			}
+	}
+}
+activity_invite_rule_unmarried_vassals_male_children = {
+	effect = {
+			every_vassal_or_below = {
+			limit = {
+					# Remove diarchs from the list.
+					bannable_serving_diarch_trigger = no
+				}
+				every_child = { 
+				limit = {
+				is_female = no
+				age <= 25
+				can_marry_trigger = yes
+				}
+				add_to_list = characters }
+			}
+	}
+}
+
+activity_invite_rule_unmarried_realm_female = {
+	effect = {
+			every_vassal_or_below = {
+			limit = {
+					# Remove diarchs from the list.
+					bannable_serving_diarch_trigger = no
+				is_female = yes
+				age <= 25
+				can_marry_trigger = yes
+				}
+				add_to_list = characters 
+			}
+			every_vassal_or_below = {
+				every_courtier_or_guest = {
+			limit = {
+					# Remove diarchs from the list.
+					bannable_serving_diarch_trigger = no
+				is_female = yes
+				age <= 25
+				can_marry_trigger = yes
+				}
+				add_to_list = characters 
+			}
+		}
+	}
+}
+activity_invite_rule_unmarried_realm_male = {
+	effect = {
+			every_vassal_or_below = {
+			limit = {
+					# Remove diarchs from the list.
+					bannable_serving_diarch_trigger = no
+				is_female = no
+				age <= 25
+				can_marry_trigger = yes
+				}
+				add_to_list = characters 
+			}
+				every_vassal_or_below = {
+				every_courtier_or_guest = {
+			limit = {
+					# Remove diarchs from the list.
+					bannable_serving_diarch_trigger = no
+				is_female = no
+				age <= 25
+				can_marry_trigger = yes
+				}
+				add_to_list = characters 
+			}
+		}
+	}
+}
+activity_invite_rule_unmarried_top_realm_female = {
+	effect = {
+		top_liege = {
+			every_vassal_or_below = {
+			every_courtier_or_guest = {
+			limit = {
+					# Remove diarchs from the list.
+					bannable_serving_diarch_trigger = no
+				age <= 25
+				is_female = yes
+				can_marry_trigger = yes
+				exists = dynasty
+				}
+				add_to_list = characters }
+			}
+		}
+	}
+}
+activity_invite_rule_unmarried_top_realm_male = {
+	effect = {
+		top_liege = {
+			every_vassal_or_below = {
+			every_courtier_or_guest = {
+			limit = {
+					# Remove diarchs from the list.
+					bannable_serving_diarch_trigger = no
+				age <= 25
+				is_female = no
+				can_marry_trigger = yes
+				exists = dynasty
+				}
+				add_to_list = characters }
+			}
+		}
+	}
+}
+activity_invite_rule_opposite_sex_candidate = {
+	effect = {
+				every_neighboring_and_across_water_top_liege_realm_owner = {
+					limit = {
+						# Remove diarchs from the list.
+					bannable_serving_diarch_trigger = no
+						is_female = yes
+						can_marry_trigger = yes
+						exists = dynasty
+						age <= 25
+						in_diplomatic_range = root
+					}
+					add_to_list = characters
+				}
+				every_neighboring_and_across_water_top_liege_realm_owner = {
+				every_vassal_or_below = {
+					limit = {
+						# Remove diarchs from the list.
+					bannable_serving_diarch_trigger = no
+						is_female = yes
+						can_marry_trigger = yes
+						exists = dynasty
+						age <= 25
+						in_diplomatic_range = root
+					}
+					add_to_list = characters
+				}
+			}
+				every_neighboring_and_across_water_top_liege_realm_owner = {
+				every_vassal_or_below = {
+					every_courtier_or_guest = {
+					limit = {
+					
+						# Remove diarchs from the list.
+					bannable_serving_diarch_trigger = no
+						is_female = yes
+						can_marry_trigger = yes
+						exists = dynasty
+						age <= 25
+						in_diplomatic_range = root
+					}
+					add_to_list = characters
+				}
+			}
+		}
+	}
+}
+activity_invite_rule_same_sex_candidate = {
+	effect = {
+				every_neighboring_and_across_water_top_liege_realm_owner = {
+					limit = {
+					# Remove diarchs from the list.
+					bannable_serving_diarch_trigger = no
+						is_female = no
+						can_marry_trigger = yes
+						exists = dynasty
+						age <= 25
+						in_diplomatic_range = root
+					}
+					add_to_list = characters
+				}
+						every_neighboring_and_across_water_top_liege_realm_owner = {
+				every_vassal_or_below = {
+					limit = {
+						# Remove diarchs from the list.
+					bannable_serving_diarch_trigger = no
+						is_female = no
+						can_marry_trigger = yes
+						exists = dynasty
+						age <= 25
+						in_diplomatic_range = root
+					}
+					add_to_list = characters
+				}
+			}
+				every_neighboring_and_across_water_top_liege_realm_owner = {
+				every_vassal_or_below = {
+					every_courtier_or_guest = {
+					limit = {
+						# Remove diarchs from the list.
+					bannable_serving_diarch_trigger = no
+						is_female = no
+						can_marry_trigger = yes
+						exists = dynasty
+						age <= 25
+						in_diplomatic_range = root
+					}
+					add_to_list = characters
+				}
+			}
+		}
+			}
+}

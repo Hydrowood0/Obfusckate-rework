@@ -1,0 +1,24 @@
+﻿
+msg_intel_reports = {
+	icon = "spy_master"
+	title = event_message_title
+	desc = event_message_effect
+	style = good
+	message_filter_type = event_outcome
+}
+
+msg_rumors_spreading = {
+	icon = "rumours"
+	title = event_message_title
+	desc = event_message_effect
+	style = neutral
+	message_filter_type = event_outcome
+}
+
+msg_ask_information = {
+	icon = "ask_information"
+	title = event_message_title
+	desc = event_message_effect
+	style = neutral
+	message_filter_type = event_outcome
+}

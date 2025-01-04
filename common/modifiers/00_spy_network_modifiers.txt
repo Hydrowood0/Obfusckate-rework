@@ -1,0 +1,45 @@
+﻿### Intel_network
+
+building_intel_network_modifier = {
+	icon = mask_intel
+	monthly_income = -0.1
+	
+	scale = {
+		value = {
+		add = var:spy_network
+		multiply = 2
+		if = {
+		limit = {
+			highest_held_title_tier <= tier_duchy
+		}
+		divide = 2
+		}
+		if = {
+		limit = {
+			highest_held_title_tier <= tier_county
+		}
+		divide = 2
+		}
+		if = {
+		limit = {
+			stewardship < 9
+		}
+		multiply = 1.25 ### + 25%
+		}
+		if = {
+		limit = {
+			stewardship > 16
+		}
+		multiply = 0.80 #### - 20%
+		}
+		if = {
+		limit = {
+			stewardship > 24
+		}
+		multiply = 0.75 #### - 40%
+		}
+		}
+		desc = INTEL_NETWORK_COST_MODIFIER
+		display_mode = scaled
+	}
+}

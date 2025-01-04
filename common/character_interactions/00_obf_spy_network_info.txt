@@ -1,0 +1,351 @@
+﻿#interactions relating to spy network
+
+high_spy_network_coverage_interaction = {
+	common_interaction = yes
+	interface_priority = 200 
+	category = interaction_category_hostile 
+	use_diplomatic_range = no
+	icon = unknown
+	send_name = intel_network_report
+	desc = high_spy_network_coverage_desc
+ 
+	ignores_pending_interaction_block = yes
+
+
+	is_shown = {
+		scope:actor = {is_landless_adventurer = no}
+		scope:recipient = {in_diplomatic_range = scope:actor}
+		scope:recipient = {is_pool_character = no}
+		NOT = {scope:actor = scope:recipient.host}
+		"scope:recipient.host.capital_province.squared_distance(scope:actor.capital_province)" <= high_network_coverage_value}
+		
+	is_valid_showing_failures_only = { 
+	custom_tooltip = {
+	text = your_spymaster_is_finding_secrets
+		NOT = {scope:recipient.host = {has_character_flag = spymaster_is_in_the_court}}
+	}
+	custom_tooltip = {
+	text = wait_for_courier_to_arrive
+		NOR = {scope:recipient.host = {
+				OR = {
+					has_character_flag = pending_high_level_report
+					has_character_flag = pending_medium_level_report
+					has_character_flag = pending_low_level_report}}
+			scope:recipient.host = {any_courtier_or_guest = {
+				OR = {
+					has_character_flag = pending_high_level_report
+					has_character_flag = pending_medium_level_report
+					has_character_flag = pending_low_level_report}}
+				}}
+		}
+	custom_tooltip = {
+	text = you_do_not_have_gold_for_report
+		scope:actor = {short_term_gold >= low_level_report_cost}
+	}
+	
+}
+	
+	send_option = {
+		is_shown = { scope:actor = { short_term_gold >= low_level_report_cost }}
+		is_valid = {NOR = {
+		custom_tooltip = {
+		text = you_would_not_gain_any_new_insights
+		scope:recipient = {OR = {has_character_flag = had_low_level_report
+								has_character_flag = had_medium_level_report}}
+		}
+		always = scope:request_medium_level_report_cost
+								always = scope:request_high_level_report_cost}}
+		flag = request_low_level_report_cost
+		localization = "LOW_LEVEL_REPORT_GOLD" 
+	}
+	
+	send_option = {
+		is_shown = { scope:actor = { short_term_gold >= medium_level_report_cost }}
+		is_valid = {NOR = {
+		custom_tooltip = {
+		text = you_would_not_gain_any_new_insights
+		scope:recipient = {	OR = {has_character_flag = had_low_level_report
+								has_character_flag = had_medium_level_report}}
+		}
+								always = scope:request_low_level_report_cost
+								always = scope:request_high_level_report_cost}}
+		flag = request_medium_level_report_cost
+		localization = "MEDIUM_LEVEL_REPORT_GOLD" 
+	}
+	
+	send_option = {
+		is_shown = { scope:actor = { short_term_gold >= high_level_report_cost }}
+		is_valid = {NOR = {always = scope:request_low_level_report_cost
+								always = scope:request_medium_level_report_cost}}
+		flag = request_high_level_report_cost
+		localization = "HIGH_LEVEL_REPORT_GOLD" 
+	}
+	
+	send_options_exclusive = no
+		options_heading = choose_report
+		
+	can_send = {
+			OR = {always = scope:request_low_level_report_cost
+			always = scope:request_medium_level_report_cost
+			always = scope:request_high_level_report_cost}
+	}
+	
+	on_accept = {
+	custom_tooltip = {
+		text = "request_a_report_intro_effect"
+		}
+	scope:actor = {			
+				request_report_effect = yes
+		}
+		
+	if = {
+		limit = {always = scope:request_low_level_report_cost}
+	custom_tooltip = {
+	text = effects_of_low_level_report_and_eta
+	scope:recipient = {
+	add_character_flag = pending_low_level_report}}
+	}
+	else_if = {
+		limit = {always = scope:request_medium_level_report_cost}
+	custom_tooltip = {
+	text = effects_of_medium_level_report_and_eta
+	scope:recipient = {
+	add_character_flag = pending_medium_level_report}}
+	}
+	else_if = {
+		limit = {always = scope:request_high_level_report_cost}
+	custom_tooltip = {
+	text = effects_of_high_level_report_and_eta
+	scope:recipient = {
+	add_character_flag = pending_high_level_report}}
+	}
+	scope:actor = {trigger_event = spy_ongoing.2000}
+}
+	
+	auto_accept = yes
+	
+	ai_will_do = {
+		base = 0
+		}
+
+}
+
+medium_spy_network_coverage_interaction = {
+	common_interaction = yes
+	interface_priority = 200 
+	category = interaction_category_hostile 
+	use_diplomatic_range = no
+	icon = unknown
+	send_name = intel_network_report
+	desc = medium_spy_network_coverage_desc
+	
+	ignores_pending_interaction_block = yes
+
+
+	is_shown = {
+		scope:actor = {is_landless_adventurer = no}
+		scope:recipient = {in_diplomatic_range = scope:actor}
+		scope:recipient = {is_pool_character = no}
+		NOT = {scope:actor = scope:recipient.host}
+		scope:actor = {
+		NOT = { 
+			is_character_interaction_shown = {
+				recipient = scope:recipient
+				interaction = high_spy_network_coverage_interaction
+			}
+		}}
+		OR = {
+		scope:actor = scope:recipient
+		"scope:recipient.host.capital_province.squared_distance(scope:actor.capital_province)" <= medium_network_coverage_value}}
+	is_valid_showing_failures_only = { 
+	custom_tooltip = {
+	text = your_spymaster_is_finding_secrets
+		NOT = {scope:recipient.host = {has_character_flag = spymaster_is_in_the_court}}
+	}
+	custom_tooltip = {
+	text = wait_for_courier_to_arrive
+		NOR = {scope:recipient.host = {
+				OR = {
+					has_character_flag = pending_high_level_report
+					has_character_flag = pending_medium_level_report
+					has_character_flag = pending_low_level_report}}
+			scope:recipient.host = {any_courtier_or_guest = {
+				OR = {
+					has_character_flag = pending_high_level_report
+					has_character_flag = pending_medium_level_report
+					has_character_flag = pending_low_level_report}}
+				}}
+		}
+	custom_tooltip = {
+	text = you_do_not_have_gold_for_report
+		scope:actor = {short_term_gold >= low_level_report_cost}
+	}
+}
+	
+	send_option = {
+		is_shown = { scope:actor = { short_term_gold >= low_level_report_cost }}
+		is_valid = {NOR = {
+		custom_tooltip = {
+		text = you_would_not_gain_any_new_insights
+		scope:recipient = {OR = {has_character_flag = had_low_level_report
+								has_character_flag = had_medium_level_report}}
+		}
+		always = scope:request_medium_level_report_cost
+								always = scope:request_high_level_report_cost}}
+		flag = request_low_level_report_cost
+		localization = "LOW_LEVEL_REPORT_GOLD" 
+	}
+	
+	send_option = {
+		is_shown = { scope:actor = { short_term_gold >= medium_level_report_cost }}
+		is_valid = {NOR = {
+		custom_tooltip = {
+		text = you_would_not_gain_any_new_insights
+		scope:recipient = {	OR = {has_character_flag = had_low_level_report
+								has_character_flag = had_medium_level_report}}
+		}
+								always = scope:request_low_level_report_cost
+								always = scope:request_high_level_report_cost}}
+		flag = request_medium_level_report_cost
+		localization = "MEDIUM_LEVEL_REPORT_GOLD" 
+	}
+	
+	send_options_exclusive = no
+	options_heading = choose_report
+	can_send = {
+			OR = {always = scope:request_low_level_report_cost
+			always = scope:request_medium_level_report_cost}
+	}
+	on_accept = {
+	custom_tooltip = {
+		text = "request_a_report_intro_effect"
+		}
+	scope:actor = {			
+				request_report_effect = yes
+		}
+	if = {
+		limit = {always = scope:request_low_level_report_cost}
+	custom_tooltip = {
+	text = effects_of_low_level_report_and_eta
+	scope:recipient = {
+	add_character_flag = pending_low_level_report}}
+	}
+	else_if = {
+		limit = {always = scope:request_medium_level_report_cost}
+	custom_tooltip = {
+	text = effects_of_medium_level_report_and_eta
+	scope:recipient = {
+	add_character_flag = pending_medium_level_report}}
+	}
+	scope:actor = {trigger_event = spy_ongoing.2000}
+}
+	
+	auto_accept = yes
+	
+	ai_will_do = {
+		base = 0
+		}
+
+}
+
+low_spy_network_coverage_interaction = {
+	common_interaction = yes
+	interface_priority = 200 
+	category = interaction_category_hostile 
+	use_diplomatic_range = no
+	icon = unknown
+	send_name = intel_network_report
+	desc = low_spy_network_coverage_desc
+
+ 
+	ignores_pending_interaction_block = yes
+
+	is_shown = {
+		scope:actor = {is_landless_adventurer = no}
+		scope:recipient = {in_diplomatic_range = scope:actor}
+		scope:recipient = {is_pool_character = no}
+		NOT = {scope:actor = scope:recipient.host}
+		scope:actor = {
+		NOR = {
+				is_character_interaction_shown = {
+					recipient = scope:recipient
+					interaction = medium_spy_network_coverage_interaction
+				} 
+				is_character_interaction_shown = {
+					recipient = scope:recipient
+					interaction = high_spy_network_coverage_interaction
+				}
+			}}
+		OR = {
+		scope:actor = scope:recipient
+		"scope:recipient.host.capital_province.squared_distance(scope:actor.capital_province)" <= low_network_coverage_value}}
+	is_valid_showing_failures_only = { 
+	custom_tooltip = {
+	text = your_spymaster_is_finding_secrets
+		NOT = {scope:recipient.host = {has_character_flag = spymaster_is_in_the_court}}
+	}
+	custom_tooltip = {
+	text = wait_for_courier_to_arrive
+		NOR = {scope:recipient.host = {
+				OR = {
+					has_character_flag = pending_high_level_report
+					has_character_flag = pending_medium_level_report
+					has_character_flag = pending_low_level_report}}
+			scope:recipient.host = {any_courtier_or_guest = {
+				OR = {
+					has_character_flag = pending_high_level_report
+					has_character_flag = pending_medium_level_report
+					has_character_flag = pending_low_level_report}}
+				}}
+		}
+	custom_tooltip = {
+	text = you_do_not_have_gold_for_report
+		scope:actor = {short_term_gold >= low_level_report_cost}
+	}
+}
+	
+	send_option = {
+		is_shown = { scope:actor = { short_term_gold >= low_level_report_cost }}
+		is_valid = {NOR = {
+		custom_tooltip = {
+		text = you_would_not_gain_any_new_insights
+		scope:recipient = {OR = {has_character_flag = had_low_level_report
+								has_character_flag = had_medium_level_report}}
+		}
+		always = scope:request_medium_level_report_cost
+								always = scope:request_high_level_report_cost}}
+		flag = request_low_level_report_cost
+		localization = "LOW_LEVEL_REPORT_GOLD" 
+	}
+	
+	send_options_exclusive = no
+	options_heading = only_low_level_report
+	can_send = {
+			always = scope:request_low_level_report_cost
+	}
+
+	on_accept = {
+	custom_tooltip = {
+		text = "request_a_report_intro_effect"
+		}
+	scope:actor = {			
+				request_report_effect = yes
+		}
+		
+	if = {
+		limit = {always = scope:request_low_level_report_cost}
+	custom_tooltip = {
+	text = effects_of_low_level_report_and_eta
+	scope:recipient = {
+	add_character_flag = pending_low_level_report}}
+	}
+	scope:actor = {trigger_event = spy_ongoing.2000}
+}
+	
+	auto_accept = yes
+	
+	ai_will_do = {
+		base = 0
+		}
+
+}

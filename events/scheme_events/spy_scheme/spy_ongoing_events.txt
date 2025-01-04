@@ -1,0 +1,1874 @@
+﻿#Events for Find Secrets Task
+
+namespace = spy_ongoing
+
+#######################
+# A Well-timed Bribe
+#######################
+
+spy_ongoing.1000 = { #FIRED ON FIND SECRETS TASK
+	type = character_event
+	title = spy_ongoing.1001.t
+	desc = spy_ongoing.1000.desc
+	theme = generic_intrigue_scheme
+	override_background = {
+		reference = council_chamber 
+	}
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+	left_portrait = {
+		character = scope:payer
+		animation = personality_rational
+	}
+	lower_right_portrait = scope:agent
+
+	trigger = {
+		exists = cp:councillor_spymaster
+		scope:councillor = cp:councillor_spymaster
+		scope:councillor_liege = {is_ai = no}
+		NOR = {scope:target_character = scope:councillor_liege
+		scope:target_character = cp:councillor_spymaster}
+		scope:target_character = {
+			OR = {
+			any_vassal_or_below = {
+			is_travelling = no
+			OR = {is_courtier_of = scope:target_character
+			is_councillor_of = scope:target_character
+			is_close_family_of = scope:target_character
+			is_consort_of = scope:target_character
+					}
+			NOR = { 
+			AND = {is_consort_of = scope:target_character
+					scope:target_character.primary_title.tier > tier_duchy }
+			is_parent_of = scope:target_character
+			has_character_flag = was_on_bribe_event
+			has_character_flag = received_bribe
+			has_character_flag = shared_military_info
+			has_relation_friend = scope:councillor_liege
+						has_relation_lover = scope:councillor_liege
+						has_relation_soulmate = scope:councillor_liege
+						has_secret_relation_lover = scope:councillor_liege
+						has_secret_relation_soulmate = scope:councillor_liege
+						has_relation_best_friend = scope:councillor_liege
+			this = cp:councillor_spymaster}
+				agent_can_be_recruited_trigger = yes
+				OR = {
+					will_betray_anyone_because_needs_money = yes
+					will_betray_anyone_for_money = yes
+					will_betray_close_relation_liking_them_or_not = yes
+					will_betray_absolutely_anyone_regardless = yes}		
+			}
+			any_courtier = {
+			is_travelling = no
+			OR = {is_courtier_of = scope:target_character
+			is_councillor_of = scope:target_character
+			is_close_family_of = scope:target_character
+			is_consort_of = scope:target_character
+					}
+			NOR = { 
+			AND = {is_consort_of = scope:target_character
+					scope:target_character.primary_title.tier > tier_duchy }
+			is_parent_of = scope:target_character
+			has_character_flag = was_on_bribe_event
+			has_character_flag = received_bribe
+			has_character_flag = shared_military_info
+			has_relation_friend = scope:councillor_liege
+						has_relation_lover = scope:councillor_liege
+						has_relation_soulmate = scope:councillor_liege
+						has_secret_relation_lover = scope:councillor_liege
+						has_secret_relation_soulmate = scope:councillor_liege
+						has_relation_best_friend = scope:councillor_liege
+			this = cp:councillor_spymaster}
+			#is_landed = no
+				agent_can_be_recruited_trigger = yes
+				OR = {
+					will_betray_anyone_because_needs_money = yes
+					will_betray_anyone_for_money = yes
+					will_betray_close_relation_liking_them_or_not = yes
+					will_betray_absolutely_anyone_regardless = yes}		
+			}
+			}
+		}
+	}
+
+	immediate = {
+		
+		cp:councillor_spymaster = {
+		save_scope_as = payer
+			}
+		scope:target_character = {
+			every_courtier = {
+				add_to_temporary_list = agents_betraying
+					}	
+			every_vassal_or_below = {
+				add_to_temporary_list = agents_betraying
+				 }
+				}
+			random_in_list = {
+				list = agents_betraying
+				limit = {
+				is_travelling = no
+				OR = {
+				is_courtier_of = scope:target_character
+			is_councillor_of = scope:target_character
+			is_close_family_of = scope:target_character
+			is_consort_of = scope:target_character}
+			NOR = { 
+			AND = {is_consort_of = scope:target_character
+					scope:target_character.primary_title.tier > tier_duchy }
+			is_parent_of = scope:target_character
+			has_character_flag = was_on_bribe_event
+			has_character_flag = received_bribe
+			has_character_flag = shared_military_info
+			has_relation_friend = scope:councillor_liege
+						has_relation_lover = scope:councillor_liege
+						has_relation_soulmate = scope:councillor_liege
+						has_secret_relation_lover = scope:councillor_liege
+						has_secret_relation_soulmate = scope:councillor_liege
+						has_relation_best_friend = scope:councillor_liege
+			this = cp:councillor_spymaster}
+				agent_can_be_recruited_trigger = yes
+				OR = {
+					will_betray_anyone_because_needs_money = yes
+					will_betray_anyone_for_money = yes
+					will_betray_close_relation_liking_them_or_not = yes
+					will_betray_absolutely_anyone_regardless = yes}
+				
+					}
+				save_scope_as = agent
+				
+				add_character_flag = {
+				flag = was_on_bribe_event
+				years = 1
+				}
+				
+			}
+	}
+
+	option = { #Go ahead
+		name = spy_ongoing.1000.a
+		custom_tooltip = spy_ongoing.1000.a.go
+			trigger_event = spy_ongoing.1001
+		}
+	option = { #Better not
+		name = spy_ongoing.1000.b
+		}
+}
+
+spy_ongoing.1001 = { #FIRED ON FIND SECRETS TASK
+	type = character_event
+	title = spy_ongoing.1001.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:agent = {OR = {is_close_family_of = scope:target_character
+								is_consort_of = scope:target_character}}
+				}
+				desc = spy_ongoing.1001.desc_family
+			}
+			triggered_desc = {
+				trigger = {
+					scope:agent = {is_councillor_of = scope:target_character}
+				}
+				desc = spy_ongoing.1001.desc_councillor
+			}
+			desc = spy_ongoing.1001.desc_spymaster
+		}
+	}
+	theme = generic_intrigue_scheme
+	override_background = { reference = alley_night }
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+	left_portrait = {
+		character = scope:agent
+		animation = throne_room_conversation_2
+	}
+	right_portrait = {
+		character = scope:payer
+		animation = scheme
+	}
+	lower_center_portrait = scope:target_character
+
+	trigger = {
+		exists = cp:councillor_spymaster
+		exists = scope:agent
+		exists = scope:payer
+		scope:councillor = cp:councillor_spymaster
+		scope:councillor_liege = {is_ai = no}
+		NOR = {scope:target_character = scope:councillor_liege
+		scope:target_character = cp:councillor_spymaster}
+	}
+
+	immediate = {
+		
+		scope:agent = {
+			add_character_flag = {
+					flag = use_stealth_clothes
+					days = 1
+				}
+				low_level_report_effect = yes
+				add_character_flag = {
+				flag = was_on_bribe_event
+				years = 5
+				}
+		}
+		#Dummy check to avoid errors since the flag is only checked in portrait modifiers otherwise
+		if = {
+			limit = {
+				has_character_flag = use_stealth_clothes
+			}
+			#Didn't see you there!
+		}
+	}
+
+	option = { #Pay the gold
+		name = spy_ongoing.1001.a
+		
+		
+		if = { #FAMILY OR COUNCILLOR
+		limit = {scope:agent = {OR = {is_close_family_of = scope:target_character
+								is_consort_of = scope:target_character
+								is_councillor_of = scope:target_character}}}
+		scope:councillor_liege = {
+				remove_short_term_gold = spy_scheme_bribe_gold_value_close_chars
+				if = {
+				limit = {spy_scheme_bribe_gold_value_close_chars < ten_percent_player_wealth_value}
+				stress_impact = {
+				greedy = minor_stress_impact_gain
+					}
+				}
+				if = {
+				limit = {spy_scheme_bribe_gold_value_close_chars >= ten_percent_player_wealth_value
+				spy_scheme_bribe_gold_value_close_chars < fifty_percent_player_wealth_value}
+				stress_impact = {
+				greedy = medium_stress_impact_gain
+					}
+				}
+				if = {
+				limit = {spy_scheme_bribe_gold_value_close_chars >= fifty_percent_player_wealth_value}
+				stress_impact = {
+				greedy = major_stress_impact_gain
+					}
+				}
+			}
+				
+		custom_tooltip = {
+		text = spy_ongoing.1001.a.got_info
+		bribed_for_information_while_finding_secrets = yes
+		scope:agent = {
+				add_character_flag = {
+					flag = received_bribe
+					years = 3
+				}
+		}
+		random_list = {
+		5 = {
+		scope:target_character = {
+				medium_level_report_effect = yes
+				
+				every_courtier_or_guest = {
+				limit = { 
+				OR = {has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied_2
+						has_character_flag = had_medium_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						medium_level_report_effect = yes
+					}
+				every_courtier_or_guest = {
+				limit = { 
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						low_level_report_effect = yes
+					}
+				}
+				trigger_event = spymaster_task.0302
+			}
+		5 = {
+		scope:target_character = {
+				high_level_report_effect = yes
+				
+				every_courtier_or_guest = {
+				limit = { 
+				OR = {has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied_2
+						has_character_flag = had_medium_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						medium_level_report_effect = yes
+					}
+				every_courtier_or_guest = {
+				limit = { 
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						low_level_report_effect = yes
+					}
+				}
+				trigger_event = spymaster_task.0302
+			}
+		20 = {
+		scope:target_character = {
+				high_level_report_effect = yes
+				
+				every_courtier_or_guest = {
+				limit = { 
+				OR = {has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied_2
+						has_character_flag = had_medium_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						medium_level_report_effect = yes
+					}
+				every_courtier_or_guest = {
+				limit = { 
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						low_level_report_effect = yes
+					}
+				}
+			}
+		70 = {
+		scope:target_character = {
+				medium_level_report_effect = yes
+				
+				every_courtier_or_guest = {
+				limit = { 
+				OR = {has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied_2
+						has_character_flag = had_medium_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						medium_level_report_effect = yes
+					}
+				every_courtier_or_guest = {
+				limit = { 
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						low_level_report_effect = yes
+					}
+				}
+			}
+			}
+		}
+		custom_tooltip = {
+		text = spy_ongoing.1001.b.refused_to_pay
+		random_list = {
+		20 = {
+			trigger_event = {
+			on_action = task_find_secrets_exposed
+			days = 5
+				}
+			}
+		80 = {
+		scope:agent = {
+			add_character_flag = {
+				flag = was_on_bribe_event
+				years = 1
+					}
+				}
+			}
+		}
+	}
+}
+		else_if = { #GENERAL COURTIERS OR GUESTS
+		limit = {scope:agent = {NOR = {is_close_family_of = scope:target_character
+								is_consort_of = scope:target_character
+								is_councillor_of = scope:target_character}}}
+								
+				scope:councillor_liege = {
+				remove_short_term_gold = spy_scheme_bribe_gold_value
+				if = {
+				limit = {spy_scheme_bribe_gold_value < ten_percent_player_wealth_value}
+				stress_impact = {
+				greedy = minor_stress_impact_gain
+					}
+				}
+				if = {
+				limit = {spy_scheme_bribe_gold_value >= ten_percent_player_wealth_value
+				spy_scheme_bribe_gold_value < fifty_percent_player_wealth_value}
+				stress_impact = {
+				greedy = medium_stress_impact_gain
+					}
+				}
+				if = {
+				limit = {spy_scheme_bribe_gold_value >= fifty_percent_player_wealth_value}
+				stress_impact = {
+				greedy = major_stress_impact_gain
+					}
+				}
+			}
+		custom_tooltip = {
+		text = spy_ongoing.1001.a.got_info
+		bribed_for_information_while_finding_secrets = yes
+		scope:agent = {
+				add_character_flag = {
+					flag = received_bribe
+					years = 3
+				}
+		}
+		random_list = {
+		5 = {
+		scope:target_character = {
+				medium_level_report_effect = yes
+				every_courtier_or_guest = {
+				limit = { 
+				OR = {has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied_2
+						has_character_flag = had_medium_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						medium_level_report_effect = yes
+					}
+				every_courtier_or_guest = {
+				limit = { 
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						low_level_report_effect = yes
+					}
+				}
+				trigger_event = spymaster_task.0302
+			}
+		5 = {
+		scope:target_character = {
+				medium_level_report_effect = yes
+				every_courtier_or_guest = {
+				limit = { 
+				OR = {has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied_2
+						has_character_flag = had_medium_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						medium_level_report_effect = yes
+					}
+				every_courtier_or_guest = {
+				limit = { 
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						low_level_report_effect = yes
+					}
+				}
+				trigger_event = spymaster_task.0301
+			}
+		5 = {
+		scope:target_character = {
+				high_level_report_effect = yes
+				every_courtier_or_guest = {
+				limit = { 
+				OR = {has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied_2
+						has_character_flag = had_medium_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						medium_level_report_effect = yes
+					}
+				every_courtier_or_guest = {
+				limit = { 
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						low_level_report_effect = yes
+					}
+				}
+				trigger_event = spymaster_task.0301
+			}
+		10 = {
+		scope:target_character = {
+				high_level_report_effect = yes
+				every_courtier_or_guest = {
+				limit = { 
+				OR = {has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied_2
+						has_character_flag = had_medium_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						medium_level_report_effect = yes
+					}
+				every_courtier_or_guest = {
+				limit = { 
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						low_level_report_effect = yes
+					}
+				}
+			}
+		15 = {
+		scope:target_character = {
+				medium_level_report_effect = yes
+				every_courtier_or_guest = {
+				limit = { 
+				OR = {has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied_2
+						has_character_flag = had_medium_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						medium_level_report_effect = yes
+					}
+				every_courtier_or_guest = {
+				limit = { 
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						low_level_report_effect = yes
+					}
+				}
+			}
+		40 = {	
+			scope:target_character = {
+					medium_level_report_effect = yes
+					}
+				}
+		25 = {	
+			scope:target_character = {
+					high_level_report_effect = yes
+					}
+				}
+			}
+		}
+		custom_tooltip = {
+		text = spy_ongoing.1001.b.refused_to_pay
+		random_list = {
+		30 = {
+			trigger_event = {
+			on_action = task_find_secrets_exposed
+			days = 5
+				}
+			}
+		70 = {
+		scope:agent = {
+			add_character_flag = {
+				flag = was_on_bribe_event
+				years = 1
+					}
+				}
+			}
+		}
+	}
+	}
+}
+option = { #Pay the marshal for additional info
+		name = spy_ongoing.1001.c
+		
+		trigger = { #Related marshal
+					scope:agent = scope:target_character.cp:councillor_marshal}
+		scope:councillor_liege = {
+				remove_short_term_gold = spy_scheme_bribe_gold_value_close_marshal
+				if = {
+				limit = {spy_scheme_bribe_gold_value_close_marshal < ten_percent_player_wealth_value}
+				stress_impact = {
+				greedy = minor_stress_impact_gain
+					}
+				}
+				if = {
+				limit = {spy_scheme_bribe_gold_value_close_marshal >= ten_percent_player_wealth_value
+				spy_scheme_bribe_gold_value_close_marshal < fifty_percent_player_wealth_value}
+				stress_impact = {
+				greedy = medium_stress_impact_gain
+					}
+				}
+				if = {
+				limit = {spy_scheme_bribe_gold_value_close_marshal >= fifty_percent_player_wealth_value}
+				stress_impact = {
+				greedy = major_stress_impact_gain
+					}
+				}
+			}
+		custom_tooltip = {
+		text = spy_ongoing.1001.marshal
+		spymaster_got_military_info = yes
+		scope:agent = {
+				add_character_flag = {
+					flag = shared_military_info
+					years = 3
+				}
+		}
+		scope:target_character = {
+			add_character_flag = {
+				flag = requested_military_info
+				years = 3
+				}
+			}
+		}
+				
+		custom_tooltip = {
+		text = spy_ongoing.1001.a.got_info
+		bribed_for_information_while_finding_secrets = yes
+		scope:agent = {
+				add_character_flag = {
+					flag = received_bribe
+					years = 3
+				}
+		}
+		random_list = {
+		5 = {
+		scope:target_character = {
+				medium_level_report_effect = yes
+				every_courtier_or_guest = {
+				limit = { 
+				OR = {has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied_2
+						has_character_flag = had_medium_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						medium_level_report_effect = yes
+					}
+				every_courtier_or_guest = {
+				limit = { 
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						low_level_report_effect = yes
+					}
+				}
+				trigger_event = spymaster_task.0302
+			}
+		5 = {
+		scope:target_character = {
+				high_level_report_effect = yes
+				every_courtier_or_guest = {
+				limit = { 
+				OR = {has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied_2
+						has_character_flag = had_medium_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						medium_level_report_effect = yes
+					}
+				every_courtier_or_guest = {
+				limit = { 
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						low_level_report_effect = yes
+					}
+				}
+				trigger_event = spymaster_task.0302
+			}
+		20 = {
+		scope:target_character = {
+				high_level_report_effect = yes
+				every_courtier_or_guest = {
+				limit = { 
+				OR = {has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied_2
+						has_character_flag = had_medium_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						medium_level_report_effect = yes
+					}
+				every_courtier_or_guest = {
+				limit = { 
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						low_level_report_effect = yes
+					}
+				}
+			}
+		70 = {
+		scope:target_character = {
+				medium_level_report_effect = yes
+				every_courtier_or_guest = {
+				limit = { 
+				OR = {has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied_2
+						has_character_flag = had_medium_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						medium_level_report_effect = yes
+					}
+				every_courtier_or_guest = {
+				limit = { 
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						low_level_report_effect = yes
+					}
+				}
+			}
+			}
+		}
+		custom_tooltip = {
+		text = spy_ongoing.1001.b.refused_to_pay
+		random_list = {
+		20 = {
+			trigger_event = {
+			on_action = task_find_secrets_exposed
+			days = 5
+				}
+			}
+		80 = {
+		scope:agent = {
+			add_character_flag = {
+				flag = was_on_bribe_event
+				years = 1
+					}
+				}
+			}
+		}
+	}
+}
+		
+
+	option = { #Save it
+		name = spy_ongoing.1001.b
+		custom_tooltip = spy_ongoing.1001.b.refused_to_pay
+			trigger_event = {
+			on_action = task_find_secrets_exposed
+			days = 5
+		}
+				scope:agent = {
+					add_opinion = {
+						modifier = respect_opinion
+						target = root
+						opinion = -20
+				}
+			}
+		}
+	}
+
+########################
+# Someone blackmails threatening to expose
+# 
+########################
+spy_ongoing.1002 = { #FIRED ON FIND SECRETS TASK
+	type = letter_event
+	opening = spy_ongoing.1002.opening
+		desc = {
+		desc = spy_ongoing.1002.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					cp:councillor_spymaster = {has_trait = drunkard}
+				}
+				desc = spy_ongoing.1002.drunkard
+			}
+			triggered_desc = {
+				trigger = {
+					cp:councillor_spymaster = {has_trait = contrite}
+				}
+				desc = spy_ongoing.1002.contrite
+			}
+			triggered_desc = {
+				trigger = {
+					cp:councillor_spymaster = {probably_unintelligent_trigger = yes}
+				}
+				desc = spy_ongoing.1002.unintelligent
+			}
+			triggered_desc = {
+				trigger = {
+					cp:councillor_spymaster.intrigue < 9
+				}
+				desc = spy_ongoing.1002.low_skill
+			}
+			
+		}
+		desc = spy_ongoing.1002.closing
+	}
+	sender = scope:anonymous
+	
+	trigger = {
+		NOT = { has_variable = had_spymaster_task_side_effect }
+		exists = cp:councillor_spymaster
+		scope:councillor = cp:councillor_spymaster
+		scope:councillor_liege = {is_ai = no}
+		NOR = {scope:target_character = scope:councillor_liege
+		scope:target_character = cp:councillor_spymaster}
+		cp:councillor_spymaster = {
+		OR = {
+				has_trait = drunkard
+				has_trait = contrite
+				probably_unintelligent_trigger = yes
+				intrigue < 9
+				}
+		}
+		NOT = { scope:councillor_liege = {has_character_flag = was_blackmailed_in_scheme}}
+	}
+
+	immediate = {
+		scope:councillor_liege = {
+			add_character_flag = {
+				flag = was_blackmailed_in_scheme
+				years = 3
+					}
+				}
+		cp:councillor_spymaster = {
+			save_scope_as = your_spy
+			}
+	}
+
+	option = { #Pay the gold
+		name = spy_ongoing.1002.a
+		scope:councillor_liege = {
+				remove_short_term_gold = 150
+				if = {
+				limit = {150 < ten_percent_player_wealth_value}
+				stress_impact = {
+				greedy = minor_stress_impact_gain
+					}
+				}
+				if = {
+				limit = {150 >= ten_percent_player_wealth_value
+				150 < fifty_percent_player_wealth_value}
+				stress_impact = {
+				greedy = medium_stress_impact_gain
+					}
+				}
+				if = {
+				limit = {150 >= fifty_percent_player_wealth_value}
+				stress_impact = {
+				greedy = major_stress_impact_gain
+					}
+				}
+			}
+		custom_tooltip = {
+		text = spy_ongoing.1002.a.effect
+		random_list = {
+		15 = {
+			trigger_event = {
+			on_action = task_find_secrets_exposed
+			days = 5
+				}
+			}
+		85 = {
+		scope:councillor_liege = {
+			add_character_flag = {
+				flag = was_blackmailed_in_scheme
+				years = 3
+					}
+				}
+			}
+		}
+		}
+	}
+
+	option = { #Refuse
+		name = spy_ongoing.1002.c
+		add_prestige = minor_prestige_gain
+		custom_tooltip = spy_ongoing.1002.c.effect
+		trigger_event = {
+			on_action = task_find_secrets_exposed_by_blackmail
+			days = 5
+				}
+	}
+}
+
+spy_ongoing.1003 = { #Some information was discovered
+	type = character_event
+	title = spy_ongoing.1003.t
+	hidden = yes
+	
+	trigger = {
+		exists = cp:councillor_spymaster
+		scope:councillor = cp:councillor_spymaster
+		scope:councillor_liege = {is_ai = no}
+		NOR = {scope:target_character = scope:councillor_liege
+		scope:target_character = cp:councillor_spymaster}
+	}
+	
+	weight_multiplier = { 
+		base = 1
+		modifier = { 
+			scope:target_character = {has_character_flag = had_medium_level_report}
+			factor = 1.5
+		}
+		modifier = { 
+			cp:councillor_spymaster.intrigue > 40
+			factor = 2
+		}
+		modifier = { 
+			cp:councillor_spymaster.intrigue > 24
+			factor = 2
+		}
+		modifier = { 
+			cp:councillor_spymaster.intrigue > 16
+			factor = 1.5
+		}
+		modifier = { 
+			cp:councillor_spymaster.intrigue < 9
+			factor = 0.5
+		}
+		modifier = { 
+			cp:councillor_spymaster.intrigue < 5
+			factor = 0.25
+		}
+	}
+
+	immediate = {
+		cp:councillor_spymaster = {
+			save_scope_as = your_spy
+			}
+	}
+
+	option = { #Spymaster gathers info
+	
+		
+		random_list = {
+		30 = {
+			modifier = { 
+			cp:councillor_spymaster.intrigue > 24
+			factor = 0.4
+			}
+			modifier = { 
+			cp:councillor_spymaster.intrigue > 16
+			factor = 0.4
+			}
+			modifier = { 
+			cp:councillor_spymaster.intrigue < 9
+			factor = 1.5
+			}
+			modifier = { 
+			cp:councillor_spymaster.intrigue < 5
+			factor = 1.5
+			}
+			scope:target_character = {
+					low_level_report_effect = yes
+					}
+				}
+		25 = {
+			modifier = { 
+			cp:councillor_spymaster.intrigue > 24
+			factor = 0.5
+			}
+			modifier = { 
+			cp:councillor_spymaster.intrigue > 16
+			factor = 0.5
+			}
+			modifier = { 
+			cp:councillor_spymaster.intrigue < 9
+			factor = 1.5
+			}
+			modifier = { 
+			cp:councillor_spymaster.intrigue < 5
+			factor = 1.5
+			}
+			scope:target_character = {
+					medium_level_report_effect = yes
+					}
+				}
+		20 = {
+			modifier = { 
+			cp:councillor_spymaster.intrigue > 24
+			factor = 0.75
+			}
+			modifier = { 
+			cp:councillor_spymaster.intrigue > 16
+			factor = 1.75
+			}
+			modifier = { 
+			cp:councillor_spymaster.intrigue < 9
+			factor = 1.25
+			}
+			modifier = { 
+			cp:councillor_spymaster.intrigue < 5
+			factor = 1.25
+			}
+			scope:target_character = {
+					high_level_report_effect = yes
+					}
+				}
+		15 = {
+			modifier = { 
+			cp:councillor_spymaster.intrigue > 24
+			factor = 1.5
+			}
+			modifier = { 
+			cp:councillor_spymaster.intrigue > 16
+			factor = 1.5
+			}
+			modifier = { 
+			cp:councillor_spymaster.intrigue < 9
+			factor = 0.75
+			}
+			modifier = { 
+			cp:councillor_spymaster.intrigue < 5
+			factor = 0.75
+			}
+		scope:target_character = {
+				medium_level_report_effect = yes
+				every_courtier_or_guest = {
+				limit = { 
+				OR = {has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied_2
+						has_character_flag = had_medium_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						medium_level_report_effect = yes
+					}
+				every_courtier_or_guest = {
+				limit = { 
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						low_level_report_effect = yes
+					}
+				}
+			}
+		10 = {
+		modifier = { 
+			cp:councillor_spymaster.intrigue > 24
+			factor = 1.75
+			}
+			modifier = { 
+			cp:councillor_spymaster.intrigue > 16
+			factor = 1.75
+			}
+			modifier = { 
+			cp:councillor_spymaster.intrigue < 9
+			factor = 0.5
+			}
+			modifier = { 
+			cp:councillor_spymaster.intrigue < 5
+			factor = 0.5
+			}
+		
+		scope:target_character = {
+				high_level_report_effect = yes
+				every_courtier_or_guest = {
+				limit = { 
+				OR = {has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied_2
+						has_character_flag = had_medium_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						medium_level_report_effect = yes
+					}
+				every_courtier_or_guest = {
+				limit = { 
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				OR = { is_consort_of = scope:target_character
+						is_close_family_of = scope:target_character
+						is_heir_of = scope:target_character
+						is_councillor_of = scope:target_character}
+						}
+						low_level_report_effect = yes
+					}
+				}
+			}
+		5 = {
+		modifier = { 
+			cp:councillor_spymaster.intrigue > 24
+			factor = 2
+			}
+			modifier = { 
+			cp:councillor_spymaster.intrigue > 16
+			factor = 3
+			}
+			modifier = { 
+			cp:councillor_spymaster.intrigue < 9
+			factor = 0.5
+			}
+			modifier = { 
+			cp:councillor_spymaster.intrigue < 5
+			factor = 0.5
+			}
+		
+		scope:target_character = {
+				high_level_report_effect = yes
+				every_courtier_or_guest = {
+				limit = { 
+				OR = {has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+				
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied_2
+						has_character_flag = had_medium_level_report}
+						}
+						medium_level_report_effect = yes
+					}
+				every_courtier_or_guest = {
+				limit = { 
+				NOR = {this = scope:agent
+						has_character_flag = partially_spied
+						has_character_flag = had_low_level_report}
+						}
+						low_level_report_effect = yes
+					}
+				}
+			}
+		5 = {
+		modifier = { 
+			scope:target_character = {has_character_flag = had_medium_level_report}
+			factor = 1.5
+		}
+		modifier = { 
+			cp:councillor_spymaster.intrigue > 40
+			factor = 2
+		}
+		modifier = { 
+			cp:councillor_spymaster.intrigue > 24
+			factor = 2
+			}
+			modifier = { 
+			cp:councillor_spymaster.intrigue > 16
+			factor = 3
+			}
+			modifier = { 
+			cp:councillor_spymaster.intrigue < 9
+			factor = 0.5
+			}
+			modifier = { 
+			cp:councillor_spymaster.intrigue < 5
+			factor = 0.5
+			}
+		
+			scope:target_character = {
+				add_character_flag = {
+				flag = requested_military_info
+				years = 3
+					}
+				add_character_flag = {
+				flag = has_been_spied
+				years = 3
+					}
+				}
+				spymaster_got_military_info = yes
+			}
+
+		}
+	}
+}
+
+
+#######################
+# FACTION DISCOVERED
+#######################
+spy_ongoing.1004 = { 
+	type = character_event
+	title = spy_ongoing.1004.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					exists = scope:faction_leader
+					exists = scope:random_member
+				}
+				desc = spy_ongoing.1004.desc_faction_leader_and_member
+			}
+			triggered_desc = {
+				trigger = {
+					NOT = {exists = scope:faction_leader}
+					exists = scope:random_member
+				}
+				desc = spy_ongoing.1004.desc_no_leader_and_member
+			}
+			triggered_desc = {
+				trigger = {
+					exists = scope:faction_leader
+					NOT = {exists = scope:random_member}
+				}
+				desc = spy_ongoing.1004.desc_faction_leader
+			}
+			triggered_desc = {
+				trigger = {
+					NOT = {exists = scope:faction_leader}
+					NOT = {exists = scope:random_member}
+				}
+				desc = spy_ongoing.1004.desc
+			}
+		}
+	}
+	theme = realm
+	override_background = {
+		reference = throne_room
+	}
+	right_portrait = {
+		character = scope:councillor_liege
+		animation = personality_vengeful
+	}
+	left_portrait = {
+		character = scope:spymaster
+		animation = scheme
+	}
+	lower_center_portrait = scope:target_character
+	lower_left_portrait = scope:random_member
+	
+	trigger = {
+		exists = cp:councillor_spymaster
+		scope:councillor = cp:councillor_spymaster
+		scope:councillor_liege = {
+		is_ai = no
+		any_targeting_faction = {
+						exists = yes
+			NOT = {any_faction_member = {
+			this = cp:councillor_spymaster}}
+			any_faction_member = {
+			this = scope:target_character}
+						}
+		}
+		scope:target_character = {NOT = {has_variable = obf_is_a_faction_member}}
+	}
+	
+	weight_multiplier = { 
+		base = 1
+		modifier = { 
+			exists = cp:councillor_spymaster
+		scope:councillor = cp:councillor_spymaster
+		scope:councillor_liege = {
+		is_ai = no
+		any_targeting_faction = {
+						exists = yes
+			NOT = {any_faction_member = {
+			this = cp:councillor_spymaster}}
+			any_faction_member = {
+			this = scope:target_character}
+						}
+		}
+		scope:target_character = {NOT = {has_variable = obf_is_a_faction_member}}
+			factor = 5
+		}
+		modifier = { 
+			cp:councillor_spymaster.intrigue > 40
+			factor = 2
+		}
+		modifier = { 
+			cp:councillor_spymaster.intrigue > 40
+			factor = 2
+		}
+		modifier = { 
+			cp:councillor_spymaster.intrigue > 24
+			factor = 2
+		}
+		modifier = { 
+			cp:councillor_spymaster.intrigue > 16
+			factor = 1.5
+		}
+		modifier = { 
+			cp:councillor_spymaster.intrigue < 9
+			factor = 0.5
+		}
+		modifier = { 
+			cp:councillor_spymaster.intrigue < 5
+			factor = 0.25
+		}
+	}
+	
+	immediate = {
+	play_music_cue = "mx_cue_secret"
+	cp:councillor_spymaster = {save_scope_as = spymaster}
+	scope:target_character = {
+						set_variable = {
+						name = obf_is_a_faction_member
+						years = 2}
+						remove_variable = obf_can_be_revealed_as_faction_member}
+	random_targeting_faction = {
+			limit = {
+				exists = yes
+					NOT = {any_faction_member = {
+					this = cp:councillor_spymaster}}
+					any_faction_member = {
+					this = scope:target_character}}
+						save_scope_as = faction
+						set_variable = faction_discovered
+					}
+	
+	if = {
+		limit = {exists = scope:faction}			
+		scope:faction = {
+					every_faction_member = {
+						limit = {NOT = {has_variable = obf_is_a_faction_member}}
+						set_variable = {
+						name = obf_can_be_revealed_as_faction_member
+						years = 2}
+						}
+						random_faction_member = {
+						limit = {NOT = {has_variable = obf_is_a_faction_member}}
+						set_variable = {
+						name = obf_is_a_faction_member
+						years = 2}
+						remove_variable = obf_can_be_revealed_as_faction_member
+						save_scope_as = random_member
+						}
+				}
+	}
+	if = {
+		limit = {exists = scope:faction
+				scope:faction = {faction_leader = scope:target_character}}
+		scope:target_character = {save_scope_as = faction_leader}
+	}	
+}
+
+	option = { 
+		name = spy_ongoing.1004.a
+		custom_tooltip = spy_ongoing.1004.a.effect
+		open_view = factions_window
+	}
+}
+
+####INTEL REPORTS
+
+spy_ongoing.2000 = { #Some reports
+	type = character_event
+	hidden = yes
+	
+	trigger = {
+		scope:recipient = {
+		OR = {has_character_flag = pending_low_level_report
+		has_character_flag = pending_medium_level_report
+		has_character_flag = pending_high_level_report}
+		}
+	}
+	
+	option = {
+	if = {
+		limit = {scope:recipient = {has_character_flag = pending_high_level_report}}
+		trigger_event = {
+				id = spy_ongoing.2003
+				days = high_level_report_eta 
+			}
+		}
+	else_if = {
+		limit = {scope:recipient = {has_character_flag = pending_medium_level_report}}
+		trigger_event = {
+				id = spy_ongoing.2002
+				days = medium_level_report_eta 
+			}
+		}
+	else_if = {
+		limit = {scope:recipient = {has_character_flag = pending_low_level_report}}
+		trigger_event = {
+				id = spy_ongoing.2001
+				days = low_level_report_eta 
+			}
+		}
+	}
+}
+
+spy_ongoing.2001 = { #low level reports
+	type = character_event
+	hidden = yes
+	
+	trigger = {
+		scope:recipient = {OR = {
+		is_alive = no
+		has_character_flag = pending_low_level_report}}
+	}
+	
+	immediate = {
+	scope:recipient = {
+			host = {
+			save_scope_as = host
+			}}
+	}
+	
+	option = { #died
+		trigger = {
+		scope:recipient = {is_alive = no}
+		}
+		scope:actor = {requested_report_death = yes}
+	}
+	
+	option = { #low level 
+		trigger = {
+		scope:recipient = {
+		is_alive = yes
+		has_character_flag = pending_low_level_report}
+		}
+		
+		scope:recipient = {low_level_report_effect = yes
+		remove_character_flag = pending_low_level_report}
+			scope:host = {
+			low_level_report_effect = yes
+			every_courtier_or_guest = {
+			limit = {OR = {
+				is_councillor_of = scope:host
+				is_consort_of = scope:host
+				is_consort_of = scope:recipient
+				is_close_family_of = scope:host
+						is_close_family_of = scope:recipient}}
+			low_level_report_effect = yes
+			}
+		}
+		scope:actor = {requested_report_ready = yes}
+	}
+	
+}
+
+spy_ongoing.2002 = { #Medium level
+	type = character_event
+	hidden = yes
+	
+	trigger = {
+		scope:recipient = {OR = {
+		is_alive = no
+		has_character_flag = pending_medium_level_report}}
+	}
+	
+	immediate = {
+	scope:recipient = {
+			host = {
+			save_scope_as = host
+			}}
+	}
+	
+	option = { #died
+		trigger = {
+		scope:recipient = {is_alive = no}
+		}
+		scope:actor = {requested_report_death = yes
+		add_gold = 5}
+	}
+	
+	option = { #medium level 
+		trigger = {
+		scope:recipient = {
+		is_alive = yes
+		has_character_flag = pending_medium_level_report}
+		}
+		
+		scope:recipient = {medium_level_report_effect = yes
+		remove_character_flag = pending_medium_level_report}
+			scope:host = {
+			low_level_report_effect = yes
+			every_courtier_or_guest = {
+			low_level_report_effect = yes
+			}
+			every_vassal = {
+			low_level_report_effect = yes
+			}
+		}
+		scope:actor = {requested_report_ready = yes}
+	}
+	
+}
+
+spy_ongoing.2003 = { #high level
+	type = character_event
+	hidden = yes
+	
+	trigger = {
+		scope:recipient = {OR = {
+		is_alive = no
+		has_character_flag = pending_high_level_report}}
+	}
+	
+	immediate = {
+	scope:recipient = {
+			host = {
+			save_scope_as = host
+			}}
+	}
+	
+	option = { #died
+		trigger = {
+		scope:recipient = {is_alive = no}
+		}
+		scope:actor = {requested_report_death = yes
+		add_gold = 10}
+	}
+	
+	option = { #high level 
+		trigger = {
+		scope:recipient = {
+		is_alive = yes
+		has_character_flag = pending_high_level_report}
+		}
+		
+		scope:recipient = {
+		if = {
+			limit = {has_character_flag = had_high_level_report}
+			add_character_flag = {
+			flag = had_high_level_report_twice
+			years = 1
+			}
+			
+		}
+		high_level_report_effect = yes
+		remove_character_flag = pending_high_level_report
+		
+	}
+			scope:host = {
+			medium_level_report_effect = yes
+			every_courtier_or_guest = {
+			limit = {OR = {
+				is_councillor_of = scope:host
+				is_consort_of = scope:host
+				is_consort_of = scope:recipient
+				is_close_family_of = scope:host
+						is_close_family_of = scope:recipient}}
+			medium_level_report_effect = yes
+			}
+			every_courtier_or_guest = {
+			limit = {NOR = {
+				is_councillor_of = scope:host
+				is_consort_of = scope:host
+				is_consort_of = scope:recipient
+				is_close_family_of = scope:host
+						is_close_family_of = scope:recipient}}
+			low_level_report_effect = yes
+			}
+			every_vassal = {
+			limit = {is_powerful_vassal = yes}
+			medium_level_report_effect = yes
+			}
+			every_vassal = {
+			limit = {is_powerful_vassal = no}
+			low_level_report_effect = yes
+			}
+		}
+		random_list = {
+		50 = {
+			modifier = { ##INCREASE
+				scope:recipient = { 
+					has_character_flag = had_high_level_report
+				}
+			factor = 1.5
+				}
+			modifier = { ##INCREASE
+				scope:recipient = { 
+					has_character_flag = had_high_level_report_twice
+				}
+			factor = 2
+				}
+			modifier = { ##INCREASE
+				scope:recipient.intrigue < 9
+			factor = 1.5
+				}
+			modifier = { ##INCREASE
+				scope:recipient = { 
+							OR = {has_trait = arrogant
+								has_trait = trusting
+								has_bad_traits_for_spying_trigger = yes}
+				}
+			factor = 1.5
+				}
+			modifier = { ##INCREASE
+				scope:recipient = { 
+					probably_unintelligent_trigger = yes
+				}
+			factor = 1.2
+				}
+			modifier = { ##REDUCTION
+				scope:recipient = {
+								probably_intelligent_trigger = yes
+						}
+			factor = 0.9
+				}
+			modifier = { ##REDUCTION
+				scope:recipient = {
+								is_a_very_elusive_person_trigger = yes
+						}
+			factor = 0.8
+				}
+			modifier = { ##REDUCTION
+				scope:recipient = {
+								OR = {has_trait = deceitful
+								has_trait = paranoid}
+						}
+			factor = 0.8
+				}
+			modifier = { ##REDUCTION
+				scope:recipient = {
+								has_trait = schemer
+						}
+			factor = 0.8
+				}
+			modifier = { ##REDUCTION
+				scope:recipient.intrigue > 16
+			factor = 0.8
+				}
+			modifier = { ##REDUCTION
+				scope:recipient.intrigue > 24
+			factor = 0.8
+				}
+			modifier = { ##REDUCTION
+			exists = scope:recipient.host.cp:councillor_spymaster
+				NOT = { scope:recipient.host.cp:councillor_spymaster = scope:actor.cp:councillor_spymaster }
+				scope:recipient.host.cp:councillor_spymaster = {
+					is_performing_council_task = task_disrupt_schemes
+				}
+			factor = scope:recipient.host.cp:councillor_spymaster.spymaster_find_secrets_disrupt_schemes_modifier_factor
+				}
+			modifier = { ##REDUCTION
+				scope:recipient.host = { 
+					has_character_modifier = servant_informants_modifier
+				}
+			factor = 0.8
+				}
+			modifier = { ##REDUCTION
+				scope:recipient.host = { 
+					has_perk = court_of_shadows_perk
+				}
+			factor = 0.8
+				}
+			modifier = { ##REDUCTION
+				scope:recipient.host = { 
+					has_character_modifier = employer_booner_lady_in_waiting_2_modifier
+				}
+			factor = 0.8
+				}
+			modifier = { ##REDUCTION
+				scope:recipient.host = { 
+					has_character_modifier = employer_booner_lady_in_waiting_3_modifier
+				}
+			factor = 0.8
+				}
+			modifier = { ##REDUCTION
+				scope:recipient.host = { 
+					has_focus = intrigue_intimidation_focus
+				}
+			factor = 0.8
+				}
+			modifier = { ##REDUCTION
+				scope:recipient.host = { 
+					dread >= 20
+				}
+			factor = 0.8
+				}
+			modifier = { ##REDUCTION
+				OR = {scope:recipient.host = { 
+					has_focus = intrigue_skulduggery_focus}
+					scope:recipient = { 
+					has_focus = intrigue_skulduggery_focus}}
+			factor = 0.8
+				}
+			modifier = { ##REDUCTION
+				OR = {scope:recipient.host = { 
+					has_lifestyle = intrigue_lifestyle}
+					scope:recipient = { 
+					has_lifestyle = intrigue_lifestyle}}
+			factor = 0.8
+				}
+			modifier = { ##REDUCTION
+				scope:recipient = { 
+				OR = {
+					has_trait = education_intrigue 
+					intrigue > 16}}
+			factor = 0.8
+				}
+				scope:recipient = {
+				add_character_flag = {
+				flag = requested_military_info
+				years = 3
+					}
+				add_character_flag = {
+				flag = has_been_spied
+				years = 3
+					}
+				}
+				if = {
+					limit = {
+					scope:actor = {
+					any_targeting_faction = {
+						exists = yes
+						any_faction_member = {
+							this = scope:recipient}
+						}}
+					scope:recipient = {NOT = {has_variable = obf_is_a_faction_member}}}
+					scope:recipient = {
+						set_variable = {
+						name = obf_is_a_faction_member
+						years = 2}
+						remove_variable = obf_can_be_revealed_as_faction_member}
+					random_targeting_faction = {
+					limit = {
+						exists = yes
+					any_faction_member = {
+					this = scope:recipient}}
+						save_scope_as = faction
+						set_variable = faction_discovered
+					}	
+				}
+				if = {
+					limit = {exists = scope:faction}			
+					scope:faction = {
+					every_faction_member = {
+						limit = {NOT = {has_variable = obf_is_a_faction_member}}
+						set_variable = {
+						name = obf_can_be_revealed_as_faction_member
+						years = 2}
+							}
+						}
+					}		
+				}
+		50 = {
+		
+			}
+		}
+		scope:actor = {
+		if = {
+			limit = {exists = scope:faction}
+		requested_report_ready_faction = yes}
+		else_if = {
+			limit = {NOT = {exists = scope:faction}}
+		requested_report_ready = yes}
+		}
+	}
+	
+}
+
+
+

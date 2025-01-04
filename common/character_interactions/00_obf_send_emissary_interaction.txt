@@ -1,0 +1,852 @@
+﻿send_emissary_interaction = {
+	category = interaction_category_diplomacy
+	desc = {
+	triggered_desc = {
+				trigger = {
+					scope:actor = {  
+					is_landless_adventurer = no
+					}
+ 
+				} 
+				desc = send_emissary_interaction_ruler_desc
+			}
+	triggered_desc = {
+				trigger = {   
+					scope:actor = { 
+					is_landless_adventurer = yes
+					}
+
+				}
+				desc = send_emissary_interaction_landless_desc
+			}
+		}
+	
+	interface_priority = 200
+	common_interaction = yes
+	icon = icon_envoy_diplomat
+		
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = no
+	send_name = send_emissary_interaction
+	greeting = positive
+
+	
+	ai_maybe = yes
+	ai_min_reply_days = 7
+	ai_max_reply_days = 25
+	can_send_despite_rejection = yes
+	
+	cooldown = {days = 30}
+	cooldown_against_recipient = { years = 1 }
+	
+	is_shown = {
+		NOT = { scope:recipient = scope:actor }
+		NOT = { scope:recipient = {has_character_flag = emissary_sent}} 
+		}
+	
+	is_valid_showing_failures_only = { 
+	
+			# Scope:actor must be an available (adult or child).
+		scope:actor = { is_available_adult = yes}
+		 #Scope:recipient must be at least available. 
+		scope:recipient = { is_available_adult = yes} 
+		
+	custom_tooltip = { 
+	text = "not_in_location_for_audience"
+	trigger_if = {
+			limit = {
+			scope:recipient = {is_ruler = yes}
+			scope:actor = {is_landless_adventurer = yes}} 
+		scope:actor.location = scope:recipient.location}
+	}
+	 
+	custom_tooltip = { 
+	text = "cant_send_emissary_to_himself"
+	trigger_if = {
+			limit = {
+			scope:recipient = {is_ruler = yes}
+			scope:actor = {is_landless_adventurer = no}}}
+	NOT = { scope:recipient = scope:actor.cp:councillor_chancellor }
+	}
+	
+	custom_tooltip = { 
+	text = "cant_send_emissary"
+	scope:actor = {    
+		is_ai = no
+		is_imprisoned = no
+		OR = {exists = cp:councillor_chancellor
+		is_landless_adventurer = yes} 
+		}
+		  
+		NOT = { scope:recipient = scope:actor }
+		
+		
+		scope:recipient = {   
+			in_diplomatic_range = scope:actor 
+			is_imprisoned = no 
+			is_ruler = yes
+		NOR = { is_at_war_with = scope:actor
+				has_character_flag = emissary_sent
+				}
+			}
+		}
+	
+	}
+	
+	ai_accept = {
+		base = 0
+		
+		
+		## Gift
+		modifier = {
+			OR = {always = scope:send_emissary_small_gift 
+			always = scope:send_emissary_medium_gift
+			always = scope:send_emissary_large_gift}
+			add = {
+				value = 0 
+				if = {
+					limit = {always = scope:send_emissary_small_gift}
+				add = 15
+				}
+				else_if = {
+					limit = {always = scope:send_emissary_medium_gift}
+				add = 30
+				}
+				else_if = {
+					limit = {always = scope:send_emissary_large_gift}
+				add = 50
+				}
+				if = {
+					limit = {scope:recipient.ai_greed >= 0}
+				add = {
+					value = ai_greed
+					multiply = 0.3
+					}
+				}
+				if = {
+					limit = {scope:recipient.gold <= scope:recipient.yearly_character_income}
+				add = 25
+				}
+				if = {
+					limit = {scope:recipient.debt_level >= 0}
+				add = {
+					value = debt_level
+					add = 1
+					multiply = 5
+					}
+				}
+			}
+			desc = SEND_EMISSARY_GOLD_OFFERED
+		}
+		send_emissary_modifier = yes
+		
+	}
+	
+	auto_accept = {
+		custom_description = {
+			text = "spending_hook"
+			subject = scope:actor
+			object = scope:recipient
+			scope:hook = yes
+		}
+	}
+	# Send Options
+	## Small gift
+	send_option = {
+		is_shown = { scope:actor = { minor_gold_value_trigger = yes }}
+		is_valid = {NOR = {always = scope:send_emissary_medium_gift
+								always = scope:send_emissary_large_gift}}
+		flag = send_emissary_small_gift
+		localization = "SE_SMALL_GIFT" 
+	}
+	## Medium Sum
+	send_option = {
+		is_shown = { scope:actor = { medium_gold_value_trigger = yes }}
+		is_valid = {NOR = {always = scope:send_emissary_small_gift
+								always = scope:send_emissary_large_gift}}
+		flag = send_emissary_medium_gift
+		localization = "SE_MEDIUM_GIFT"
+	}
+	## Large Sum
+	send_option = {
+		is_shown = { scope:actor = { major_gold_value_trigger = yes }}
+		is_valid = {NOR = {always = scope:send_emissary_small_gift
+								always = scope:send_emissary_medium_gift}}
+		flag = send_emissary_large_gift
+		localization = "SE_LARGE_GIFT"
+	}
+	
+	send_option = {
+		is_valid = {
+			scope:actor = {
+				has_usable_hook = scope:recipient
+			}
+		}
+		flag = hook
+		localization = SCHEME_HOOK
+	}
+	should_use_extra_icon = {
+		scope:actor = { has_usable_hook = scope:recipient }
+	}
+	extra_icon = gfx/interface/icons/character_interactions/hook_icon.dds
+
+	send_options_exclusive = no
+	
+	on_accept = {
+		scope:actor = {			
+				send_emissary_gift_cost_effect = yes
+			if = {
+				limit = {OR = {always = scope:send_emissary_small_gift 
+						always = scope:send_emissary_medium_gift}}
+				stress_impact = {
+					greedy = minor_stress_impact_gain
+				}
+			}
+			if = {
+				limit = {always = scope:send_emissary_large_gift}
+				stress_impact = {
+					greedy = medium_stress_impact_gain
+				}
+			}
+		}
+		custom_tooltip = {
+		text = "emissary_may_get_information"
+		random_list = {
+		1 = {
+			modifier = {
+			OR = {
+			AND = {scope:actor = {is_landless_adventurer = yes}
+					scope:actor.diplomacy > 24}
+			AND = {	scope:actor = {is_landless_adventurer = no}	
+			scope:actor.cp:councillor_chancellor.diplomacy > 24}}
+			factor = 0
+			} 
+			modifier = {
+			OR = {
+			AND = {
+			scope:actor = {is_landless_adventurer = yes}
+			scope:actor.diplomacy > 16
+			scope:actor.diplomacy <= 24}
+			AND = {
+			scope:actor = {is_landless_adventurer = no}
+			scope:actor.cp:councillor_chancellor.diplomacy > 16
+			scope:actor.cp:councillor_chancellor.diplomacy <= 24}}
+			factor = 5
+			} 
+			modifier = { 
+			OR = {
+			AND = {
+			scope:actor = {is_landless_adventurer = yes}
+			scope:actor.diplomacy > 8
+			scope:actor.diplomacy <= 16}
+			AND = {
+			scope:actor = {is_landless_adventurer = no}
+			scope:actor.cp:councillor_chancellor.diplomacy > 8
+			scope:actor.cp:councillor_chancellor.diplomacy <= 16}}
+			factor = 25 
+			} 
+			modifier = { 
+			OR = {
+			AND = {
+			scope:actor = {is_landless_adventurer = yes}
+			scope:actor.diplomacy > 4
+			scope:actor.diplomacy <= 8}
+			AND = {
+			scope:actor = {is_landless_adventurer = no}
+			scope:actor.cp:councillor_chancellor.diplomacy > 4
+			scope:actor.cp:councillor_chancellor.diplomacy <= 8}}
+			factor = 50
+			}
+			modifier = { 
+			OR = {
+			AND = {scope:actor = {is_landless_adventurer = yes}
+					scope:actor.diplomacy <= 4}
+			AND = {	scope:actor = {is_landless_adventurer = no}	
+			scope:actor.cp:councillor_chancellor.diplomacy <= 4}}
+			factor = 75
+			}
+			scope:recipient = {
+			add_character_flag = {
+				flag = emissary_sent
+				years = 1
+				}
+			if = {
+				limit = {scope:actor = {is_landless_adventurer = yes}}
+			character_met_effect = yes
+				}
+			else_if = {
+				limit = {scope:actor = {is_landless_adventurer = no}}
+			medium_level_report_effect = yes
+				}
+			}
+		}
+		1 = {
+			modifier = { 
+			OR = {
+			AND = {scope:actor = {is_landless_adventurer = yes}
+					scope:actor.diplomacy > 24}
+			AND = {	scope:actor = {is_landless_adventurer = no}	
+			scope:actor.cp:councillor_chancellor.diplomacy > 24}}
+			factor = 10
+			} 
+			modifier = {
+			OR = {
+			AND = {
+			scope:actor = {is_landless_adventurer = yes}
+			scope:actor.diplomacy > 16
+			scope:actor.diplomacy <= 24}
+			AND = {
+			scope:actor = {is_landless_adventurer = no}
+			scope:actor.cp:councillor_chancellor.diplomacy > 16
+			scope:actor.cp:councillor_chancellor.diplomacy <= 24}}
+			factor = 15
+			} 
+			modifier = { 
+			OR = {
+			AND = {
+			scope:actor = {is_landless_adventurer = yes}
+			scope:actor.diplomacy > 8 
+			scope:actor.diplomacy <= 16}
+			AND = {
+			scope:actor = {is_landless_adventurer = no}
+			scope:actor.cp:councillor_chancellor.diplomacy > 8
+			scope:actor.cp:councillor_chancellor.diplomacy <= 16}}
+			factor = 25 
+			} 
+			modifier = { 
+			OR = {
+			AND = {
+			scope:actor = {is_landless_adventurer = yes}
+			scope:actor.diplomacy > 4
+			scope:actor.diplomacy <= 8}
+			AND = {
+			scope:actor = {is_landless_adventurer = no}
+			scope:actor.cp:councillor_chancellor.diplomacy > 4
+			scope:actor.cp:councillor_chancellor.diplomacy <= 8}}
+			factor = 30
+			}
+			modifier = { 
+			OR = {
+			AND = {scope:actor = {is_landless_adventurer = yes}
+					scope:actor.diplomacy <= 4}
+			AND = {	scope:actor = {is_landless_adventurer = no}	
+			scope:actor.cp:councillor_chancellor.diplomacy <= 4}}
+			factor = 20
+			}
+			scope:recipient = {
+			add_character_flag = {     
+				flag = emissary_sent 
+				years = 1
+				}	
+			if = {
+				limit = {scope:actor = {is_landless_adventurer = yes}}
+			character_met_effect = yes
+				}
+			else_if = {
+				limit = {scope:actor = {is_landless_adventurer = no}}
+			medium_level_report_effect = yes
+				}
+			
+			every_courtier_or_guest = {
+				limit = { 
+				OR = { is_consort_of = scope:recipient
+						is_heir_of = scope:recipient}
+						}
+				add_character_flag = {
+					flag = emissary_sent
+					years = 1
+					}
+				if = {
+				limit = {scope:actor = {is_landless_adventurer = yes}}
+			character_met_effect = yes
+				}
+			else_if = {
+				limit = {scope:actor = {is_landless_adventurer = no}}
+			low_level_report_effect = yes
+				}
+			}
+			cp:councillor_chancellor = {
+			add_character_flag = {
+					flag = emissary_sent
+					years = 1
+					}
+			if = {
+				limit = {scope:actor = {is_landless_adventurer = yes}}
+			character_met_effect = yes
+				}
+			else_if = {
+				limit = {scope:actor = {is_landless_adventurer = no}}
+			medium_level_report_effect = yes
+					}
+				}
+			}
+		}
+		1 = {
+		modifier = { 
+			OR = {
+			AND = {scope:actor = {is_landless_adventurer = yes}
+					scope:actor.diplomacy > 24}
+			AND = {	scope:actor = {is_landless_adventurer = no}	
+			scope:actor.cp:councillor_chancellor.diplomacy > 24}}
+			factor = 20
+			} 
+			modifier = {
+			OR = {
+			AND = {
+			scope:actor = {is_landless_adventurer = yes}
+			scope:actor.diplomacy > 16
+			scope:actor.diplomacy <= 24}
+			AND = {
+			scope:actor = {is_landless_adventurer = no}
+			scope:actor.cp:councillor_chancellor.diplomacy > 16
+			scope:actor.cp:councillor_chancellor.diplomacy <= 24}}
+			factor = 30
+			} 
+			modifier = { 
+			OR = {
+			AND = {
+			scope:actor = {is_landless_adventurer = yes}
+			scope:actor.diplomacy > 8
+			scope:actor.diplomacy <= 16}
+			AND = {
+			scope:actor = {is_landless_adventurer = no}
+			scope:actor.cp:councillor_chancellor.diplomacy > 8
+			scope:actor.cp:councillor_chancellor.diplomacy <= 16}}
+			factor = 25 
+			} 
+			modifier = { 
+			OR = {
+			AND = {
+			scope:actor = {is_landless_adventurer = yes}
+			scope:actor.diplomacy > 4
+			scope:actor.diplomacy <= 8}
+			AND = {
+			scope:actor = {is_landless_adventurer = no}
+			scope:actor.cp:councillor_chancellor.diplomacy > 4
+			scope:actor.cp:councillor_chancellor.diplomacy <= 8}}
+			factor = 15
+			}
+			modifier = { 
+			OR = {
+			AND = {scope:actor = {is_landless_adventurer = yes}
+					scope:actor.diplomacy <= 4}
+			AND = {	scope:actor = {is_landless_adventurer = no}	
+			scope:actor.cp:councillor_chancellor.diplomacy <= 4}}
+			factor = 5
+			}
+			scope:recipient = {
+			add_character_flag = {
+					flag = emissary_sent
+					years = 1
+					}
+			if = {
+				limit = {scope:actor = {is_landless_adventurer = yes}}
+			character_barely_known_effect = yes
+				}
+			else_if = {
+				limit = {scope:actor = {is_landless_adventurer = no}}
+			medium_level_report_effect = yes
+				}
+				
+			every_courtier_or_guest = {
+				limit = { 
+				OR = { is_consort_of = scope:recipient
+						is_close_family_of = scope:recipient
+						is_heir_of = scope:recipient
+						is_councillor_of = scope:recipient}
+						}
+				add_character_flag = {
+					flag = emissary_sent
+					years = 1
+					}
+				if = {
+				limit = {scope:actor = {is_landless_adventurer = yes}}
+			character_met_effect = yes
+				}
+			else_if = {
+				limit = {scope:actor = {is_landless_adventurer = no}}
+			low_level_report_effect = yes
+					}
+				}
+			}
+		}
+		1 = {
+		modifier = { 
+			OR = {
+			AND = {scope:actor = {is_landless_adventurer = yes}
+					scope:actor.diplomacy > 24}
+			AND = {	scope:actor = {is_landless_adventurer = no}	
+			scope:actor.cp:councillor_chancellor.diplomacy > 24}}
+			factor = 70
+			} 
+			modifier = {
+			OR = {
+			AND = {
+			scope:actor = {is_landless_adventurer = yes}
+			scope:actor.diplomacy > 16
+			scope:actor.diplomacy <= 24}
+			AND = {
+			scope:actor = {is_landless_adventurer = no}
+			scope:actor.cp:councillor_chancellor.diplomacy > 16
+			scope:actor.cp:councillor_chancellor.diplomacy <= 24}}
+			factor = 50
+			} 
+			modifier = { 
+			OR = {
+			AND = {
+			scope:actor = {is_landless_adventurer = yes}
+			scope:actor.diplomacy > 8
+			scope:actor.diplomacy <= 16}
+			AND = {
+			scope:actor = {is_landless_adventurer = no}
+			scope:actor.cp:councillor_chancellor.diplomacy > 8
+			scope:actor.cp:councillor_chancellor.diplomacy <= 16}}
+			factor = 25 
+			} 
+			modifier = { 
+			OR = {
+			AND = {
+			scope:actor = {is_landless_adventurer = yes}
+			scope:actor.diplomacy > 4
+			scope:actor.diplomacy <= 8}
+			AND = {
+			scope:actor = {is_landless_adventurer = no}
+			scope:actor.cp:councillor_chancellor.diplomacy > 4
+			scope:actor.cp:councillor_chancellor.diplomacy <= 8}}
+			factor = 5
+			}
+			modifier = { 
+			OR = {
+			AND = {scope:actor = {is_landless_adventurer = yes}
+					scope:actor.diplomacy <= 4}
+			AND = {	scope:actor = {is_landless_adventurer = no}	
+			scope:actor.cp:councillor_chancellor.diplomacy <= 4}}
+			factor = 0
+			}
+			scope:recipient = {
+			add_character_flag = {
+					flag = emissary_sent
+					years = 1
+					}
+				if = {
+				limit = {scope:actor = {is_landless_adventurer = yes}}
+			character_barely_known_effect = yes
+				}
+			else_if = {
+				limit = {scope:actor = {is_landless_adventurer = no}}
+			medium_level_report_effect = yes
+					}
+				
+			every_courtier_or_guest = {
+				limit = { 
+				OR = { is_consort_of = scope:recipient
+						is_close_family_of = scope:recipient
+						is_heir_of = scope:recipient
+						is_councillor_of = scope:recipient}
+						}
+				add_character_flag = {
+					flag = emissary_sent
+					years = 1
+					}
+				if = {
+				limit = {scope:actor = {is_landless_adventurer = yes}}
+			character_barely_known_effect = yes
+				}
+			else_if = {
+				limit = {scope:actor = {is_landless_adventurer = no}}
+			medium_level_report_effect = yes
+					}
+					}
+				}
+			}
+		}
+	}
+	custom_tooltip = {
+		text = "emissary_diplomatic_and_foreign_affairs_effects"
+		random_list = {
+		1 = {
+			modifier = { 
+			OR = {
+			AND = {scope:actor = {is_landless_adventurer = yes}
+					scope:actor.diplomacy > 24}
+			AND = {	scope:actor = {is_landless_adventurer = no}	
+			scope:actor.cp:councillor_chancellor.diplomacy > 24}}
+			factor = 25
+			} 
+			modifier = {
+			OR = {
+			AND = {
+			scope:actor = {is_landless_adventurer = yes}
+			scope:actor.diplomacy > 16
+			scope:actor.diplomacy <= 24}
+			AND = {
+			scope:actor = {is_landless_adventurer = no}
+			scope:actor.cp:councillor_chancellor.diplomacy > 16
+			scope:actor.cp:councillor_chancellor.diplomacy <= 24}}
+			factor = 35
+			} 
+			modifier = { 
+			OR = {
+			AND = {
+			scope:actor = {is_landless_adventurer = yes}
+			scope:actor.diplomacy > 8
+			scope:actor.diplomacy <= 16}
+			AND = {
+			scope:actor = {is_landless_adventurer = no}
+			scope:actor.cp:councillor_chancellor.diplomacy > 8
+			scope:actor.cp:councillor_chancellor.diplomacy <= 16}}
+			factor = 50 
+			} 
+			modifier = { 
+			OR = {
+			AND = {
+			scope:actor = {is_landless_adventurer = yes}
+			scope:actor.diplomacy > 4
+			scope:actor.diplomacy <= 8}
+			AND = {
+			scope:actor = {is_landless_adventurer = no}
+			scope:actor.cp:councillor_chancellor.diplomacy > 4
+			scope:actor.cp:councillor_chancellor.diplomacy <= 8}}
+			factor = 35
+			}
+			modifier = { 
+			OR = {
+			AND = {scope:actor = {is_landless_adventurer = yes}
+					scope:actor.diplomacy <= 4}
+			AND = {	scope:actor = {is_landless_adventurer = no}	
+			scope:actor.cp:councillor_chancellor.diplomacy <= 4}}
+			factor = 25
+			}
+			scope:recipient = {
+			add_character_flag = {
+				flag = none
+				days = 1
+					}
+				}
+			}
+		1 = {
+			modifier = {
+			OR = {scope:actor = { 
+				is_landless_adventurer = no
+				cp:councillor_chancellor = {
+				OR = {
+					has_perk = true_ruler_perk
+					has_perk = befriend_perk
+					has_perk = adaptive_traditions_perk 
+					}
+				}
+			}
+				scope:actor = {
+				is_landless_adventurer = yes
+				OR = {
+					has_perk = true_ruler_perk
+					has_perk = befriend_perk
+					has_perk = adaptive_traditions_perk 
+					}
+				}
+			}
+			factor = 1.5
+			}
+			modifier = { 
+			OR = {
+			AND = {scope:actor = {is_landless_adventurer = yes}
+					scope:actor.diplomacy > 24}
+			AND = {	scope:actor = {is_landless_adventurer = no}	
+			scope:actor.cp:councillor_chancellor.diplomacy > 24}}
+			factor = 70
+			} 
+			modifier = {
+			OR = {
+			AND = {
+			scope:actor = {is_landless_adventurer = yes}
+			scope:actor.diplomacy > 16
+			scope:actor.diplomacy <= 24}
+			AND = {
+			scope:actor = {is_landless_adventurer = no}
+			scope:actor.cp:councillor_chancellor.diplomacy > 16
+			scope:actor.cp:councillor_chancellor.diplomacy <= 24}}
+			factor = 50
+			} 
+			modifier = { 
+			OR = {
+			AND = {
+			scope:actor = {is_landless_adventurer = yes}
+			scope:actor.diplomacy > 8
+			scope:actor.diplomacy <= 16}
+			AND = {
+			scope:actor = {is_landless_adventurer = no}
+			scope:actor.cp:councillor_chancellor.diplomacy > 8
+			scope:actor.cp:councillor_chancellor.diplomacy <= 16}}
+			factor = 25
+			} 
+			modifier = { 
+			OR = {
+			AND = {
+			scope:actor = {is_landless_adventurer = yes}
+			scope:actor.diplomacy > 4
+			scope:actor.diplomacy <= 8}
+			AND = {
+			scope:actor = {is_landless_adventurer = no}
+			scope:actor.cp:councillor_chancellor.diplomacy > 4
+			scope:actor.cp:councillor_chancellor.diplomacy <= 8}}
+			factor = 15
+			}
+			modifier = { 
+			OR = {
+			AND = {scope:actor = {is_landless_adventurer = yes}
+					scope:actor.diplomacy <= 4}
+			AND = {	scope:actor = {is_landless_adventurer = no}	
+			scope:actor.cp:councillor_chancellor.diplomacy <= 4}}
+			factor = 5
+			}
+			modifier = {
+			OR = {
+			scope:actor = {
+			is_landless_adventurer = no
+				scope:actor.cp:councillor_chancellor = {has_trait = arrogant}}
+			scope:actor = {
+			is_landless_adventurer = yes
+			has_trait = arrogant}
+			}
+			factor = 0.5
+			}
+			scope:recipient = {
+			add_character_flag = {
+				flag = good_outcome_emissary
+				days = 30
+					}
+				}
+			}
+			1 = {
+			modifier = {
+			OR = {scope:actor = { 
+				is_landless_adventurer = no
+				cp:councillor_chancellor = {
+				OR = {
+					has_perk = true_ruler_perk
+					has_perk = befriend_perk
+					has_perk = adaptive_traditions_perk 
+					}
+				}
+			}
+				scope:actor = {
+				is_landless_adventurer = yes
+				OR = {
+					has_perk = true_ruler_perk
+					has_perk = befriend_perk
+					has_perk = adaptive_traditions_perk 
+					}
+				}
+			}
+			factor = 0.5
+			}
+			modifier = { 
+			OR = {
+			AND = {scope:actor = {is_landless_adventurer = yes}
+					scope:actor.diplomacy > 24}
+			AND = {	scope:actor = {is_landless_adventurer = no}	
+			scope:actor.cp:councillor_chancellor.diplomacy > 24}}
+			factor = 5
+			} 
+			modifier = {
+			OR = {
+			AND = {
+			scope:actor = {is_landless_adventurer = yes}
+			scope:actor.diplomacy > 16
+			scope:actor.diplomacy <= 24}
+			AND = {
+			scope:actor = {is_landless_adventurer = no}
+			scope:actor.cp:councillor_chancellor.diplomacy > 16
+			scope:actor.cp:councillor_chancellor.diplomacy <= 24}}
+			factor = 15
+			} 
+			modifier = { 
+			OR = {
+			AND = {
+			scope:actor = {is_landless_adventurer = yes}
+			scope:actor.diplomacy > 8
+			scope:actor.diplomacy <= 16}
+			AND = {
+			scope:actor = {is_landless_adventurer = no}
+			scope:actor.cp:councillor_chancellor.diplomacy > 8
+			scope:actor.cp:councillor_chancellor.diplomacy <= 16}}
+			factor = 25 
+			} 
+			modifier = { 
+			OR = {
+			AND = {
+			scope:actor = {is_landless_adventurer = yes}
+			scope:actor.diplomacy > 4
+			scope:actor.diplomacy <= 8}
+			AND = {
+			scope:actor = {is_landless_adventurer = no}
+			scope:actor.cp:councillor_chancellor.diplomacy > 4
+			scope:actor.cp:councillor_chancellor.diplomacy <= 8}}
+			factor = 50
+			}
+			modifier = { 
+			OR = {
+			AND = {scope:actor = {is_landless_adventurer = yes}
+					scope:actor.diplomacy <= 4}
+			AND = {	scope:actor = {is_landless_adventurer = no}	
+			scope:actor.cp:councillor_chancellor.diplomacy <= 4}}
+			factor = 70
+			}
+			modifier = {
+			OR = {
+			scope:actor = {
+			is_landless_adventurer = no
+				scope:actor.cp:councillor_chancellor = {has_trait = arrogant}}
+			scope:actor = {
+			is_landless_adventurer = yes
+			has_trait = arrogant}
+			}
+			factor = 1.5
+			}
+			scope:recipient = {
+			add_character_flag = {
+				flag = bad_outcome_emissary
+				days = 30
+						}
+					}
+				}
+			}
+	}
+	scope:actor = {
+		if = {
+			limit = {OR = {scope:recipient = {is_vassal_or_below_of = scope:actor}
+							scope:recipient = {OR = {has_character_flag = good_outcome_emissary
+											has_character_flag = bad_outcome_emissary}}}}
+			trigger_event = send_emissary_event.1001
+			}
+		else = {
+				send_interface_toast = {
+				title = send_emissary_interaction.accept.actor.tt
+				left_icon = scope:recipient
+				custom_tooltip = { 
+				text = "send_emissary_interaction_effect"
+					}
+				}
+			}
+		}
+}
+
+	on_decline = { 
+		# Scope:actor gains some stress over the whole ordeal. 
+		scope:actor = {
+			
+			send_interface_toast = {
+				title = send_emissary_interaction.decline.actor.tt
+				left_icon = scope:recipient 
+				custom_tooltip = {
+				text = "send_emissary_interaction_refusal_effect"
+					}
+				add_stress = 10
+			}
+			
+		}
+	}
+	ai_will_do = {
+		base = 0
+		}
+}

@@ -1,0 +1,176 @@
+﻿rumour_intellect = {
+	type = character
+	
+	text = {
+		trigger = {
+			has_character_flag = had_rumour_spread_intellectual
+			OR = {
+			has_trait = intellect_good_2
+			has_trait = intellect_good_3
+			has_trait = shrewd}
+
+		}
+		localization_key = rumours_intellect_generic
+		fallback = yes
+	}
+	text = {
+		trigger = {
+			has_character_flag = had_rumour_spread_intellectual
+			OR = {has_trait = lifestyle_physician
+				has_trait = lifestyle_herbalist}
+		}
+		localization_key = rumours_intellect_physician
+	}
+	text = {
+		trigger = {
+			has_character_flag = had_rumour_spread_intellectual
+			has_trait = scholar
+		}
+		localization_key = rumours_intellect_erudite_scholar
+	}
+	
+	text = {
+		trigger = {
+			has_character_flag = had_rumour_spread_intellectual
+			has_trait = lifestyle_mystic
+		}
+		localization_key = rumours_intellect_mystic
+	}
+}
+
+rumour_martial = {
+	type = character
+	
+	
+	text = {
+		trigger = {
+			has_character_flag = had_rumour_spread_excellent_commander
+			number_of_commander_traits >= 2
+			has_trait = strategist
+
+		}
+		localization_key = rumours_commander_strategist_virtuoso
+
+	}
+	text = {
+		trigger = {
+			has_character_flag = had_rumour_spread_excellent_commander
+			number_of_commander_traits < 2
+			has_trait = strategist
+
+		}
+		localization_key = rumours_commander_strategist_not_virtuoso
+
+	}
+	text = {
+		trigger = {
+			has_character_flag = had_rumour_spread_excellent_commander
+			number_of_commander_traits >= 3
+
+		}
+		localization_key = rumours_commander_virtuoso
+	}
+	
+	text = {
+		trigger = {
+			has_character_flag = had_rumour_spread_excellent_commander
+		}
+		localization_key = rumours_commander_generic
+		fallback = yes
+	}
+}
+
+rumour_knight = {
+	type = character
+	
+	text = {
+		trigger = {
+			has_character_flag = had_rumour_spread_excellent_knight
+			has_trait = berserker
+			
+		}
+		localization_key = rumours_knight_generic
+
+	}
+	
+	text = {
+		trigger = {
+			has_character_flag = had_rumour_spread_excellent_knight
+			OR = {has_trait = giant
+			has_trait = physique_good_2
+			has_trait = physique_good_3
+			has_trait = strong}
+			
+		}
+		localization_key = rumours_knight_body
+
+	}
+	text = {
+		trigger = {
+			has_character_flag = had_rumour_spread_excellent_knight
+			has_trait = lifestyle_blademaster
+
+		}
+		localization_key = rumours_knight_blademaster
+
+	}
+	text = {
+		trigger = {
+			has_character_flag = had_rumour_spread_excellent_knight
+			has_trait = gallant
+
+		}
+		localization_key = rumours_knight_gallant
+	}
+	text = {
+		trigger = {
+			has_character_flag = had_rumour_spread_excellent_knight
+			OR = {has_trait = sadistic
+				has_trait = torturer}
+
+		}
+		localization_key = rumours_knight_torturer
+	}
+	
+	text = {
+		trigger = {
+			has_character_flag = had_rumour_spread_excellent_knight
+		}
+		localization_key = rumours_knight_generic
+		fallback = yes
+	}
+}
+
+rumour_trait = {
+	type = character
+	
+	text = {
+		trigger = {
+			has_character_flag = had_rumour_spread_trait
+			has_trait = beauty_good_3
+			
+		}
+		localization_key = rumours_trait_beautiful
+
+	}
+	
+	text = {
+		trigger = {
+			has_character_flag = had_rumour_spread_trait
+			has_trait = beauty_good_2
+			
+		}
+		localization_key = rumours_trait_handsome
+
+	}
+	text = {
+		trigger = {
+			has_character_flag = had_rumour_spread_trait
+			has_trait = beauty_bad_3
+
+		}
+		localization_key = rumours_trait_hideous
+
+	}
+
+}

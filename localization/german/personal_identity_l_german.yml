@@ -1,0 +1,17 @@
+﻿l_english:
+
+personal_identity_discovery_decision:0 "Entdeckung der persönlichen Identität"
+personal_identity_discovery_decision_desc:0 "Inmitten der Gewebe der Identität stehend, befinden Sie sich an der Schwelle einer persönlichen Offenbarung, bereit, die Fäden Ihrer Wünsche und Neigungen zu entwirren. Der Weg der Selbstentdeckung lockt und lädt Sie ein, Ihre wahre Essenz zu umarmen und eine wegweisende Entscheidung über die Natur Ihrer Zuneigungen zu treffen."
+personal_identity_discovery_decision_tooltip: "Ein Moment der Selbstentdeckung ergreifen: Reflektieren Sie über Ihre innersten Gefühle und navigieren Sie den Pfad des Selbstbewusstseins, treffen Sie eine von Herzen kommende Entscheidung, die Ihre Vorstellung von Zuneigung und Verlangen formt."
+personal_identity_discovery_decision_selection_tooltip: "Ein Moment der Selbstentdeckung ergreifen: Reflektieren Sie über Ihre innersten Gefühle und navigieren Sie den Pfad des Selbstbewusstseins, treffen Sie eine von Herzen kommende Entscheidung, die Ihre Vorstellung von Zuneigung und Verlangen formt."
+personal_identity_discovery_decision_confirm: "Selbstentdeckung"
+ 
+  
+set_sexuality.0001.t:0 "Selbstentdeckung"
+set_sexuality.0001.desc:0 "Während du einen ruhigen Moment für dich findest, richten sich deine Gedanken nach innen und reflektieren über die vielen Facetten deiner Identität. Unter den Gedanken, die dir durch den Kopf gehen, fällt deine eigene sexuelle Orientierung auf, ein Puzzleteil deines wahren Selbst, das du noch nicht vollständig erfasst hast.\n\nIn diesem introspektiven Moment grübelst du über die Natur der Anziehungskraft nach, über die Komplexitäten der Wünsche deines Herzens und darüber, wie deine Orientierung deine Interaktionen mit der Welt um dich herum beeinflusst. Während du diese Gedanken erkundest, erkennst du, dass das Verständnis deiner eigenen sexuellen Vorlieben nicht nur eine persönliche Reise ist, sondern ein wesentlicher Teil davon, dein gesamtes Selbst zu umarmen."
+
+set_sexuality.0001.a:0 "Du erkennst, dass du asexuell bist."
+set_sexuality.0001.b:0 "Du erkennst, dass du bisexuell bist."
+set_sexuality.0001.c:0 "Du erkennst, dass du homosexuell bist."
+set_sexuality.0001.d:0 "Du erkennst, dass du heterosexuell bist."
+set_sexuality.0001.e:0 "Zufrieden mit dir selbst, findet dein Herz Frieden."

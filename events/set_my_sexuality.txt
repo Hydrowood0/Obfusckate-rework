@@ -1,0 +1,49 @@
+﻿####################
+# SET SEXUALITY
+####################
+
+namespace = set_sexuality
+
+
+########################
+# You decide your sexual preference
+# 
+########################
+set_sexuality.0001 = { 
+	type = character_event
+	title = set_sexuality.0001.t
+	desc = set_sexuality.0001.desc
+	theme = default
+	override_background = { reference = garden }
+	left_portrait = {
+		character = root
+		animation = personality_content
+
+	}
+
+	trigger = { 
+	is_adult = yes
+	is_ai = no }
+
+	
+	option = {
+		name = set_sexuality.0001.a
+		set_sexuality = asexual
+		}
+	option = {
+		name = set_sexuality.0001.b
+		set_sexuality = bisexual
+		}
+	option = {
+		name = set_sexuality.0001.c
+		set_sexuality = homosexual
+		}
+	option = {
+		name = set_sexuality.0001.d
+		set_sexuality = heterosexual
+		}
+	option = {
+		name = set_sexuality.0001.e
+		remove_decision_cooldown = personal_identity_discovery_decision
+		}
+	}

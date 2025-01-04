@@ -1,0 +1,730 @@
+﻿befriend = {
+
+	# Basic Setup
+	skill = diplomacy
+	desc = befriend_desc_general
+	success_desc = "BEFRIEND_SUCCESS_DESC"
+	icon = icon_scheme_befriend
+	illustration = "gfx/interface/illustrations/event_scenes/corridor.dds"
+	category = personal
+	target_type = character
+	is_secret = no
+	is_basic = yes
+	uses_resistance = no
+	cooldown = { years = 30 }
+
+	# Parameters
+	speed_per_skill_point = -2.5
+	spymaster_speed_per_skill_point = 0	
+	uses_resistance = no
+	base_progress_goal = 365
+	base_maximum_success = 95
+	minimum_success = 0
+
+	
+	allow = {
+		can_use_befriend_scheme_trigger = { TARGET = scope:target } 
+		is_adult = yes 
+		is_imprisoned = no   
+		custom_tooltip = { 
+		text = "at_war_with_target_or_lieges" 
+		is_at_war_with_target_and_its_lieges = no
+		}
+		is_available_for_personal_scheme = yes
+		trigger_if = {  
+			limit = { is_ai = no }
+		can_be_target_of_befriend_trigger = yes
+		}
+		scope:target = {
+			is_alive = yes
+			is_adult = yes
+			is_imprisoned = no
+			is_available_for_personal_scheme = yes
+			
+		}
+
+		NOT = {	this = scope:target }
+
+		is_below_ai_friend_soft_cap_trigger = yes
+		trigger_if = {
+			limit = { is_ai = yes }
+			scope:target = {
+				is_below_ai_friend_soft_cap_trigger = yes
+				NOT = {
+					any_targeting_scheme = { 
+						scheme_type = befriend
+					}
+				}
+			}
+		} 
+	}
+
+	valid = {   
+		is_incapable = no
+		scope:target = { 
+			is_alive = yes 
+			is_adult = yes 
+			is_imprisoned = no
+			exists = location
+			is_available_for_personal_scheme = yes
+			
+		}
+		is_available_for_personal_scheme = yes
+		is_at_war_with_target_and_its_lieges = no
+		NOR = {
+			custom_description = {
+				text = "befriend_already_lover"
+				object = scope:target
+				has_relation_lover = scope:target
+			}
+		}
+
+		#we're already friends
+		NOT = {
+			custom_description = {
+				text = befriend_already_friend
+				object = scope:target
+				has_relation_friend = scope:target
+			}
+		}
+	} 
+
+	odds_prediction = {
+		add = base_odds_prediction_target_is_char_value
+		add = odds_skill_contribution_diplomacy_value
+		add = odds_befriend_scheme_misc_value
+		min = 0
+	}
+
+
+	base_success_chance = {
+		base = 0
+		scheme_type_skill_success_chance_modifier = { SKILL = DIPLOMACY }
+		
+			
+	#########OPINION#DISABLED FOR AI TO SAVE PERFORMANCE
+	
+		opinion_modifier = {
+		trigger = {scope:owner = { is_ai = no}
+			target_knows_about_owner_trigger = yes
+		}
+			desc = OBF_opinion_of_you
+			who = scope:target
+			opinion_target = scope:owner  
+			max = 100  
+			min = -100    
+			multiplier = 1   
+		}
+		
+		modifier = {
+			desc = OBF_opinion_of_you
+			add = -35
+			scope:owner = { is_ai = no}
+			target_knows_about_owner_trigger = no
+			desc = OBF_doesnt_know_you
+		}
+	#########OPINION#ONLY FOR AI 
+	
+		opinion_modifier = {
+		trigger = {scope:owner = { is_ai = yes}
+		}
+			desc = SCHEME_BEFRIEND_THEIR_OPINION
+			who = scope:target
+			opinion_target = scope:owner
+			max = 100
+			min = -100
+			multiplier = 1
+		}
+
+		#SCHEME OWNER#
+		compare_modifier = { 
+			desc = sway_my_diplomacy
+			target = scope:owner 
+			value = diplomacy
+			multiplier = 1
+		}
+		
+		# Countermeasures.
+		apply_opportunistic_scheme_success_chance_adjustments_modifier = yes
+		
+		# Their friend told you what they like
+		modifier = {
+			add = 15
+			desc = "SCHEME_WBANQUET_FRIEND_INSIGHT"
+			scope:owner = {
+				exists = var:wbanquet_friend_insight_var
+				var:wbanquet_friend_insight_var = scope:target
+			}
+		}
+		
+		#TARGET DIPLOMACY   
+		befriend_target_diplomacy_modifier = yes
+		
+		#PERSONAL AND DINASTY PRESTIGE
+		befriend_prestige_modifier = yes
+		   
+		#STRESS LEVELS	 
+		befriend_stress_modifier = yes
+		   
+		#LANGUAGE, CULTURE AND PROXIMITY 
+		befriend_language_and_culture_modifier = yes
+		
+		#DIPLOMACY, HOSTILITIES AND CLAIMS
+		befriend_hostility_modifier = yes 
+		
+		#OTHER REASONS 
+		befriend_other_reasons_modifier = yes   
+		
+		#RELIGION 
+		befriend_religion_modifier = yes
+		 
+		#LIFESTYLE AND EDUCATION
+		befriend_lifestyle_and_education_modifier = yes
+		
+		#RELATIONS AND EASE OF CONTACT
+		befriend_relation_to_target_modifier = yes
+		
+		#TYRANNY
+		befriend_tyranny_modifier = yes
+		
+		#CHARACTER_MODIFIERS
+		befriend_char_mods_modifier = yes       
+		   
+		#TRAITS AND PERSONALITY                 
+		befriend_traits_and_personality_modifier = yes
+ 
+		#HARD MODIFIERS ON TARGET OPINION OF OWNER 
+		befriend_target_opinion_modifier = yes 
+		
+		#RANK DIFFERENCE 
+		befriend_rank_difference_modifier = yes
+	 
+		modifier = {
+			add = scope:target.var:recipient_stubborness_scheme
+			scope:target = {
+				has_trait = stubborn
+				exists = var:recipient_stubborness_scheme
+			}
+			desc = "SCHEME_BEFRIEND_THEIR_STUBBORNESS"
+		}  
+		modifier = {
+			add = scope:target.var:recipient_fickleness_scheme
+			scope:target = { 
+				has_trait = fickle
+				exists = var:recipient_fickleness_scheme
+				NOT = { var:recipient_fickleness_scheme = 0 }
+			}
+			desc = "SCHEME_BEFRIEND_THEIR_FICKLENESS"
+		}
+
+		#Extra rank bonus/penalty if target is arrogant/ambitious
+		modifier = {
+			desc = SCHEME_SOCIAL_CLIMBER_RANK_BONUS
+			add = 10
+			scope:target = {
+				OR = {
+					has_trait = arrogant
+					has_trait = ambitious
+					has_trait = greedy
+				}
+				NOT = {
+					is_theocratic_lessee = yes
+				}
+			}
+			OR = {
+				AND = {
+					scope:target = { personal_scheme_success_compare_target_liege_tier_trigger = yes }
+					scope:owner.highest_held_title_tier > scope:target.liege.highest_held_title_tier
+				}
+				AND = {
+					scope:target = { personal_scheme_success_compare_target_liege_tier_trigger = no }
+					scope:owner.highest_held_title_tier > scope:target.highest_held_title_tier
+				}
+			}
+		}
+		modifier = {
+			desc = SCHEME_SOCIAL_CLIMBER_RANK_PENALTY
+			add = -10
+			scope:target = {
+				OR = {
+					has_trait = arrogant
+					has_trait = ambitious
+					has_trait = greedy
+				}
+			}
+			OR = {
+				AND = {
+					scope:target = { personal_scheme_success_compare_target_liege_tier_trigger = yes }
+					scope:owner.highest_held_title_tier < scope:target.liege.highest_held_title_tier
+				}
+				AND = {
+					scope:target = { personal_scheme_success_compare_target_liege_tier_trigger = no }
+					scope:owner.highest_held_title_tier < scope:target.highest_held_title_tier
+				}
+			}
+		}
+		
+		# Diarchs are better at schemes within their liege's realm
+		diarch_scheming_within_realm_bonus_modifier = yes
+		
+
+		# Thicker Than Water Perk
+		modifier = {
+			add = thicker_than_water_bonus
+			desc = BEFRIEND_THICKER_THAN_WATER_PERK_DESC
+			scope:owner = {
+				has_perk = thicker_than_water_perk
+			}
+			scope:target = {
+				is_close_or_extended_family_of = scope:owner
+			}
+		}
+
+		# Dynasty Kin Personal Scheme Success Chance on Dynasty Perk
+		modifier = {
+			add = kin_legacy_4_success_chance
+			desc = KIN_LEGACY_DESC
+			exists = scope:owner.dynasty
+			scope:owner.dynasty = {
+				has_dynasty_perk = kin_legacy_4
+			}
+			scope:target.dynasty = scope:owner.dynasty
+		}
+
+		# House Personal Scheme Success Chance on Cultural Parameter
+		modifier = {
+			add = cultural_house_personal_scheme_success_chance
+			desc = KIN_PARAMETER_DESC
+			exists = scope:owner.house
+			exists = scope:target.house
+			scope:owner.culture = {
+				has_cultural_parameter = cultural_house_personal_scheme_success_chance
+			}
+			scope:target.house = scope:owner.house
+		}
+
+		#Family Feud
+		house_feud_sway_scheme_success_modifier = yes
+		
+		# Modifiers
+		modifier = {
+			scope:owner = { has_character_modifier = poet_for_diplo_schemes_modifier }
+			desc = poet_for_diplo_schemes_modifier
+			add = 15
+		}
+		# house_head_request_interaction
+		modifier = {
+			add = personal_scheme_variable_list_value
+			scope:owner = {
+				has_variable_list = supporting_personal_schemes
+			}
+			desc = HOUSE_HEAD_SCHEME_SUPPORT_DESC
+		}
+		modifier = {
+			add = -10
+			scope:owner = { has_character_modifier = personal_schemes_distracted_modifier }
+			desc = personal_schemes_distracted_modifier
+		}
+		# Estate
+		modifier = {
+			scope:owner.domicile ?= {
+				has_domicile_parameter = increased_success_personal_schemes_1
+			}
+			add = estate_increased_personal_scheme_success_1_value
+		}
+		modifier = {
+			scope:owner.domicile ?= {
+				has_domicile_parameter = increased_success_personal_schemes_2
+			}
+			add = estate_increased_personal_scheme_success_2_value
+		}
+		modifier = {
+			scope:owner.domicile ?= {
+				has_domicile_parameter = increased_success_personal_schemes_3
+			}
+			add = estate_increased_personal_scheme_success_3_value
+		}
+	}
+
+	on_invalidated = {
+		scheme_target_character = {
+			save_scope_as = target
+		}		   	 
+		scheme_owner = {
+		save_scope_as = owner
+		}
+		scope:owner = {				
+			# Invalidation due to war.
+			if = {
+				limit = { is_at_war_with = scope:target }
+				trigger_event = befriend_ongoing.0903
+			}
+
+			if = {
+				limit = {
+					scope:target = { is_imprisoned = yes }
+				}
+				trigger_event = {
+					id = befriend_ongoing.0902
+					days = 2
+				}
+			}
+
+			# Invalidation due to death
+			if = {
+				limit = {
+					scope:target = { is_alive = no }
+					NOT = { block_death_event_trigger = { DEAD = scope:target } }
+				}
+				trigger_event = befriend_ongoing.0901
+			}
+		}
+		# Invalidation due to war with host or liege.
+			if = {
+				limit = {is_at_war_with_target_and_its_lieges = yes} 
+				scope:target.court_owner = { save_scope_as = liege }
+				scope:owner = {
+				send_interface_message = {
+					type = event_generic_neutral
+					title = befriend_invalidated_title
+					left_icon = scope:target
+					custom_tooltip = AT_WAR_WITH_LIEGE
+				}
+			}
+		}
+		# Invalidation due to owner disease
+			if = {
+				limit = {scope:owner = {is_available_for_personal_scheme = no}} 
+				scope:owner = {
+				send_interface_message = {
+					type = event_generic_neutral
+					title = befriend_invalidated_title
+					left_icon = scope:target
+					custom_tooltip = YOU_ARE_UNAVAILABLE
+				}
+			}
+		}
+		# Invalidation due to target disease
+			if = {
+				limit = {scope:target = {is_available_for_personal_scheme = no}} 
+				scope:owner = {
+				send_interface_message = {
+					type = event_generic_neutral
+					title = befriend_invalidated_title
+					left_icon = scope:target
+					custom_tooltip = THEY_ARE_UNAVAILABLE
+				}
+			}
+		}
+		
+		if = { #Already friends
+			limit = {
+				scope:owner = { has_relation_friend = scope:target }
+				NOT = { scheme_progress = 10 }
+			}
+			scope:target = { save_scope_as = recipient } #For the message
+			scope:owner = {
+				send_interface_message = {
+					type = event_generic_neutral
+					title = befriend_invalidated_title
+					left_icon = scope:target
+					custom_tooltip = befriend_already_friend
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:target = { 
+					NOT = { in_diplomatic_range = scope:owner } 
+				}
+			}
+			scope:owner = {
+				send_interface_toast = {
+					type = event_generic_neutral
+					title = befriend_invalidated_title
+					left_icon = scope:target
+					custom_tooltip = befriend_invalid
+				}
+			}
+		}
+	}
+	on_start = {
+		set_variable = {
+			name = apply_countermeasures
+			value = flag:opportunistic
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target_more_than = { DISTANCE = 450000}
+					both_work_on_same_court = no
+			} 
+			scope:scheme = {
+			add_scheme_progress = -120
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 300000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 20
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 150000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 15
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 140000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 5
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 130000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 5
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 120000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 5
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 110000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 5
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 100000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 5
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 90000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 5
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 80000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 5
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 70000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 5
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 60000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 5
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 50000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 5
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 40000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 5
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 30000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 5
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 20000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 5
+			}
+		}
+		if = {
+			limit = {
+						both_work_on_same_court = yes
+			}
+			scope:scheme = {
+			add_scheme_progress = 90
+			}
+		}
+		 
+	}
+	on_phase_completed = {
+		# Grab our scopes.
+		save_scope_as = scheme
+		scheme_target_character = { save_scope_as = target }
+		scheme_owner = { save_scope_as = owner }
+		#Outcome system by Mathilda Bjarnehed
+		scope:scheme.scheme_owner = {
+			trigger_event = befriend_outcome.0001 #Hidden event rolling success/failure, discover/no discovery and sending on_actions or player choice event
+		}
+	}
+	
+	on_monthly = {
+		#Fickleness
+		if = {
+			limit = {
+				scheme_target_character = {
+					has_trait = fickle
+					OR = {
+						NOT = { exists = var:recipient_fickleness_scheme }
+						var:recipient_fickleness_scheme >= 30 #Keep within reason.
+						var:recipient_fickleness_scheme <= -30
+					}
+				}
+			}
+			scheme_target_character = {
+				set_variable = {
+					name = recipient_fickleness_scheme
+					value = 10
+				}
+			}
+		}
+		if = {
+			limit = {
+				scheme_target_character = {
+					has_trait = fickle
+					exists = var:recipient_fickleness_scheme
+				}
+			}
+			scheme_target_character = {
+				random_list = {
+					70 = {
+					}
+					15 = {
+						change_variable = {
+							name = recipient_fickleness_scheme
+							add = -5
+						}
+					}
+					15 = {
+						change_variable = {
+							name = recipient_fickleness_scheme
+							add = 5
+						}
+					}
+					25 = {
+						trigger = {
+							var:recipient_fickleness_scheme >= 15
+						}
+						change_variable = {
+							name = recipient_fickleness_scheme
+							add = -10
+						}
+					}
+					25 = {
+						trigger = {
+							var:recipient_fickleness_scheme <= -15
+						}
+						change_variable = {
+							name = recipient_fickleness_scheme
+							add = 10
+						}
+					}
+				}
+			}
+		}
+		#Sending an ongoing event
+		if = { 
+			limit = {
+				scheme_owner = { is_available = yes }
+				scheme_target_character = { is_available = yes }
+				player_target_available_for_personal_scheme_ongoing_events_trigger = {
+					OWNER = scope:owner
+					TARGET = scope:target
+				}
+			}
+			# Separate event sets for "Standard" and for a target that dislikes you strongly.
+			if = {
+				limit = {
+					scheme_target_character = {
+						has_relation_rival = scope:owner
+					}
+				}
+				scheme_owner = {
+					trigger_event = { on_action = befriend_rival_ongoing }
+				}
+			}
+			else_if = {
+				limit = {
+					scheme_target_character = {
+						opinion = {
+							target = scope:owner
+							value >= -20
+						}
+					}
+				}
+				scheme_owner = {
+					trigger_event = { on_action = befriend_ongoing }
+				}
+			}
+			else = {
+				scheme_owner = {
+					trigger_event = { on_action = befriend_dislike_ongoing }
+				}
+			}
+		}
+	}
+
+	
+	freeze_scheme_when_traveling = yes
+	freeze_scheme_when_traveling_target = yes
+}

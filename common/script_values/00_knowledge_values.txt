@@ -1,0 +1,89 @@
+﻿revelation_score = { 
+    value = 0
+
+    # Base score from years known
+	if = {
+        limit = { 
+		age >= 12
+		exists = var:years_known }
+        add = {
+        value = var:years_known
+        multiply = 7.5  # Each year contributes 7.5 points 5 years = minimum treshold 37.5 
+		}
+    }
+	if = {
+        limit = { 
+		age < 12
+		exists = var:years_known }
+        add = {
+        value = var:years_known
+        multiply = 2  # Reduced for children 
+		}
+    }
+
+    # Personality-based adjustments
+    add = {
+        value = ai_sociability
+        multiply = 0.5  # Sociable characters are more open
+		min = 0
+    }
+    add = {
+        value = ai_boldness
+        multiply = 0.20  # Bold characters are not afraid to speak their mind
+		min = 0
+    }
+    add = {
+        value = ai_honor
+        multiply = 0.33  # Honorable characters are thruthful
+		min = 0
+    }
+    add = {
+        value = ai_compassion
+        multiply = 0.25  # Compassionate characters are more empathic
+		min = 0
+    }
+    add = {
+        value = ai_rationality
+        multiply = -0.33  # Rational characters are less open
+		min = 0
+    }
+
+    # Ensure score stays within limits
+    max = 100
+    min = 0
+}
+
+revelation_score_not_known = { 
+    value = 0
+
+    # Personality-based adjustments
+    add = {
+        value = ai_sociability
+        multiply = 0.5  # Sociable characters are more open
+		min = 0
+    }
+    add = {
+        value = ai_boldness
+        multiply = 0.20  # Bold characters are not afraid to speak their mind
+		min = 0
+    }
+    add = {
+        value = ai_honor
+        multiply = 0.33  # Honorable characters are thruthful
+		min = 0
+    }
+    add = {
+        value = ai_compassion
+        multiply = 0.25  # Compassionate characters are more empathic
+		min = 0
+    }
+    add = {
+        value = ai_rationality
+        multiply = -0.33  # Rational characters are less open
+		min = 0
+    }
+
+    # Ensure score stays within limits
+    max = 100
+    min = 0
+}

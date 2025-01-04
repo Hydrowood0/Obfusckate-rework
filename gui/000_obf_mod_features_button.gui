@@ -1,0 +1,136 @@
+﻿types obf_window_trigger_types {
+
+    type obf_button_mod_features_large = button_icon {
+        name = "mod_features_button"
+        tooltip = "MOD_FEATURES_TOOLTIP"
+		size = {100 100}
+		alpha = 1
+			
+        background = {
+
+            texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+			
+			
+			
+        }
+        modify_texture = {
+				color = { 0.1 0 0 0.6 }
+				blend_mode = normal
+					}
+
+        texture = "gfx/interface/icons/character_interactions/copts_blessing_unknown.dds"     
+
+		modify_texture = {
+                                    name = "glow"
+                                    texture = "gfx/interface/component_effects/effect_shimmer.dds"
+
+                                    translate_uv = { 0.2 0.2 }
+                                }
+								 
+								#### Shimmer ####
+                                state = { 
+                                    trigger_when = "[GetScriptedGui('open_mod_features').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
+                                    name = _show
+                                    next = shimmer
+                                    duration = 0.2
+                                    scale = 0.9
+
+                                    modify_texture = {
+                                        name = "glow"
+                                        translate_uv = { 1 -1 }
+                                    }
+                                }
+
+                                state = {
+                                    name = shimmer 
+                                    next = pause
+                                    duration = 1.5
+                                    scale = 0.9
+                                    position = { 0 0 }
+
+                                    bezier = { 0 0.9 1 0.4 }
+
+                                    modify_texture = {
+                                        name = "glow"
+                                        translate_uv = { -1 1 }
+                                    }
+                                }
+
+                                state = {
+                                    name = pause
+                                    next = shimmer
+                                    duration = 0
+                                    delay = 0
+
+                                    modify_texture = {
+                                        name = "glow"
+                                        translate_uv = { 1 -1 }
+                                    }
+                                }		
+                     
+        using = tooltip_ne
+        onclick = "[GetScriptedGui('open_mod_features').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+		
+		
+		
+		
+		
+    }
+	type obf_button_disable_mod_features_tiny = button_icon {
+        name = "mod_features_button"
+        tooltip = "MOD_FEATURES_DISABLE_TOOLTIP"
+		size = {50 50}
+		alpha = 1
+			
+        background = {
+
+            texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+			
+			
+			
+        }
+        modify_texture = {
+				color = { 0.6 0 0 0.6 }
+				blend_mode = normal
+					}
+
+        texture = "gfx/interface/icons/character_interactions/icon_cross.dds"     
+                     
+        using = tooltip_ne
+        onclick = "[GetScriptedGui('disable_mod_features_button').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+		
+		
+		
+		
+		
+    }
+	
+
+}
+widget = {
+    name = "obf_button_mod_features_large"
+	visible = "[GetScriptedGui('open_mod_features').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
+    parentanchor = hcenter|vcenter
+    widgetanchor = hcenter|vcenter
+    position = { -655 465 }
+    size = { 55 55 }
+    layer = bottom
+
+    obf_button_mod_features_large = {
+        size = { 50 50 }   
+    }
+}
+widget = {
+    name = "obf_button_disable_mod_features_tiny"
+	visible = "[GetScriptedGui('open_mod_features').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
+    parentanchor = hcenter|vcenter
+    widgetanchor = hcenter|vcenter
+    position = { -660 480 }
+    size = { 13 13}
+     layer = bottom
+
+    obf_button_disable_mod_features_tiny = {
+        size = { 13 13}
+    }
+}
+

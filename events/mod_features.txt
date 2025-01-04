@@ -1,0 +1,185 @@
+﻿####################
+# mod_features
+####################
+
+namespace = mod_features
+
+mod_features.0001 = { 
+	type = character_event
+	title = mod_features.0001.t
+	desc = mod_features.0001.desc
+	theme = default
+	override_background = { reference = farmland }
+	right_portrait = {
+		character = root
+		animation = personality_rational
+
+	}
+
+	trigger = { 
+	is_ai = no }
+
+	immediate = {
+	
+	}
+	option = {
+		name = mod_features.0001.a
+		root = {trigger_event = mod_features.0002}
+		}
+	option = {
+		name = mod_features.0001.b
+		remove_variable = is_in_features_event
+		}
+	}
+
+mod_features.0002 = { ### FLOW OF INFORMATION
+	type = character_event
+	title = mod_features.0002.t
+	desc = mod_features.0002.desc
+	theme = default
+	override_background = { reference = farmland }
+	right_portrait = {
+		character = root
+		animation = chancellor
+
+	}
+
+	trigger = { 
+	is_ai = no }
+
+	immediate = {
+	
+	}
+	option = {
+		name = mod_features.0002.a
+		trigger_event = mod_features.0003
+		}
+	option = {
+		name = mod_features.0002.b
+		remove_variable = is_in_features_event
+		}
+	}
+
+mod_features.0003 = { ### Information availability
+	type = character_event
+	title = mod_features.0003.t
+	desc = mod_features.0003.desc
+	theme = default
+	override_background = { reference = farmland }
+	right_portrait = {
+		character = root
+		animation = personality_cynical
+
+	}
+
+	trigger = { 
+	is_ai = no }
+
+	immediate = {
+	
+	}
+	option = {
+		name = mod_features.0003.a
+		trigger_event = mod_features.0004
+		}
+	option = {
+		name = mod_features.0003.b
+		trigger_event = mod_features.0002
+		}
+	option = {
+		name = mod_features.0003.c
+		remove_variable = is_in_features_event
+		}
+	}
+	
+mod_features.0004 = { ### Nuances and rules
+	type = character_event
+	title = mod_features.0004.t
+	desc = mod_features.0004.desc
+	theme = default
+	override_background = { reference = farmland }
+	right_portrait = {
+		character = root
+		animation = eyeroll
+
+	}
+
+	trigger = { 
+	is_ai = no }
+
+	immediate = {
+	
+	}
+	option = {
+		name = mod_features.0004.a
+		trigger_event = mod_features.0005
+		}
+	option = {
+		name = mod_features.0004.b
+		trigger_event = mod_features.0003
+		}
+	option = {
+		name = mod_features.0004.c
+		remove_variable = is_in_features_event
+		}
+	}
+	
+mod_features.0005 = { ### Getting info
+	type = character_event
+	title = mod_features.0005.t
+	desc = mod_features.0005.desc
+	theme = default
+	override_background = { reference = farmland }
+	right_portrait = {
+		character = root
+		animation = personality_irrational
+
+	}
+
+	trigger = { 
+	is_ai = no }
+
+	immediate = {
+	
+	}
+	option = {
+		name = mod_features.0005.a
+		trigger_event = mod_features.0006
+		}
+	option = {
+		name = mod_features.0005.b
+		trigger_event = mod_features.0004
+		}
+	option = {
+		name = mod_features.0005.c
+		remove_variable = is_in_features_event
+		}
+	}
+	
+mod_features.0006 = { ### wrap up
+	type = character_event
+	title = mod_features.0006.t
+	desc = mod_features.0006.desc
+	theme = default
+	override_background = { reference = farmland }
+	right_portrait = {
+		character = root
+		animation = personality_content
+
+	}
+
+	trigger = { 
+	is_ai = no }
+
+	immediate = {
+	
+	}
+	option = {
+		name = mod_features.0006.a
+		trigger_event = mod_features.0005
+		}
+	option = {
+		name = mod_features.0006.b
+		remove_variable = is_in_features_event
+		}
+	}

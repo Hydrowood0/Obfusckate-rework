@@ -1,0 +1,55 @@
+﻿find_spouse_decision = {
+	picture = {
+		reference = "gfx/interface/decisions/find_spouse.dds"
+	}
+	
+	sort_order = 20
+
+	desc = find_spouse_decision_desc
+	decision_group_type = courtier
+
+	selection_tooltip = find_spouse_decision_selection_tooltip
+	confirm_text = find_spouse_decision_confirm
+
+	is_shown = {
+		NOT = {has_trait = celibate}
+		is_ai = no
+		is_married = no
+		is_betrothed = no
+		is_landless_adventurer = no
+		
+	}
+
+	cooldown = { years = 8 }
+
+	is_valid_showing_failures_only = {
+	is_available = yes
+		is_ruler = yes
+	}
+
+	effect = {
+		stress_impact = {
+			seducer = minor_stress_impact_loss
+			shy = miniscule_stress_impact_gain
+			lustful = miniscule_stress_impact_loss
+			depressed_1 = minor_stress_impact_loss
+			depressed_genetic = minor_stress_impact_loss
+			chaste = minor_stress_impact_gain
+			reclusive = minor_stress_impact_gain
+			arrogant = miniscule_stress_impact_gain
+		}
+		add_prestige = minor_prestige_loss
+
+		trigger_event = {
+			id = find_spouse_ongoing.1001
+			days = 7
+		}
+		custom_tooltip = find_spouse_decision_tooltip
+	}
+	
+	ai_check_interval = 0
+	
+	ai_will_do = {
+		base = 0
+	}
+} 

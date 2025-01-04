@@ -1,0 +1,2032 @@
+﻿seduce = {
+
+	# Basic Setup
+	skill = intrigue
+	desc = seduce_desc_general
+	success_desc = "SEDUCE_SUCCESS_DESC"
+	icon = icon_scheme_seduce
+	illustration = "gfx/interface/illustrations/event_scenes/corridor.dds"
+	target_type = character
+	is_secret = yes
+	maximum_breaches = 5
+	is_basic = yes
+
+	# Parameters
+	speed_per_skill_point = -2.5
+	spymaster_speed_per_skill_point = 0	
+	base_progress_goal = 365
+	base_maximum_success = 95
+	minimum_success = 0
+	
+	# Core Triggers
+	allow = { 
+		is_adult = yes 
+		trigger_if = {
+			limit = {
+				NOT = { government_has_flag = government_is_landless_adventurer }
+			}
+			is_travelling = no
+		}
+		custom_tooltip = { 
+		text = "at_war_with_target_or_lieges" 
+		is_at_war_with_target_and_its_lieges = no
+		}
+		is_available_for_personal_scheme = yes 
+		trigger_if = {  
+			limit = { is_ai = no }
+		can_be_target_of_befriend_trigger = yes
+		}
+		scope:target = {
+			is_adult = yes 
+			is_imprisoned = no
+			trigger_if = {
+				limit = {
+					scope:owner = {
+						NOT = { government_has_flag = government_is_landless_adventurer }
+					}
+				}
+				is_travelling = no
+			}
+			is_available_for_personal_scheme = yes 
+			
+		}
+		 
+		# Mutual attraction is a hard limit because this scheme implies real romantic feelings and we don't model romantic attraction separately from sexual attraction
+		OR = {
+			is_ai = no	#Players may override their character's sexuality for the purposes of cynical seductions.
+			scope:owner = { is_attracted_to_gender_of = scope:target }	
+		}
+				    
+		# Have I been blocked from targeting this character?
+		custom_description = { #Permanent
+			text = seduce_blocked
+			object = scope:target 
+
+			NOT = {
+				scope:target = {
+					has_opinion_modifier = {
+						modifier = seduce_permanent_blocker_opinion
+						target = scope:owner
+					}
+				} 
+			}  
+		} 
+
+		# Time-limited blocker
+		custom_description = {
+			text = seduce_cooldown
+			object = scope:target
+
+			NOT = {
+				scope:target = { 
+					has_opinion_modifier = {
+						modifier = seduce_regular_cooldown_opinion
+						target = scope:owner
+					} 
+				}
+			}
+		}
+
+		# 10 year general target blocker
+		custom_description = {
+			text = seduce_general_10_year_cooldown
+			subject = scope:target
+
+			NOT = {
+				scope:target = {
+					 has_character_flag = block_seduce_attempts
+				}
+			}
+		}
+
+		# They're not interested
+		#Removed By obfusCKate since the mod hides sexuality and this allows trying to seduce anyone
+		
+
+		is_below_ai_lover_soft_cap_trigger = yes
+		trigger_if = {
+			limit = { is_ai = yes }
+			scope:target = {
+				is_below_ai_lover_soft_cap_trigger = yes
+				trigger_if = { # Block AI from seducing lowborn nobodies in the players court
+					limit = {
+						exists = liege
+						liege = { is_ai = no }
+						NOR = {
+							is_courtier_of = scope:owner
+							is_foreign_court_or_pool_guest_of = scope:owner
+						}
+					}
+					OR = {
+						is_lowborn = no
+						is_playable_character = yes
+					}
+				}
+				trigger_if = { #So players don't get spammed by AI seduction
+					limit = {
+						is_ai = no
+					}
+					NOT = {
+						any_targeting_scheme = {
+							scheme_type = seduce
+						}
+					}
+				}
+			}
+		}
+
+		NOT = { scope:owner = { has_character_flag = is_party_baron } } # The Party Baron wants friends, not lovers!
+	}
+	
+	valid = { 
+		is_incapable = no
+		#seducing done by or to minors is not allowed.
+		scope:owner = {
+			is_adult = yes
+		}
+		scope:target = {  
+			is_alive = yes  
+			is_adult = yes
+			is_imprisoned = no  
+			exists = location
+			is_available_for_personal_scheme = yes
+			
+		}
+		is_available_for_personal_scheme = yes
+		is_at_war_with_target_and_its_lieges = no
+		
+		#HARD-BLOCK: Incest Target is too young
+		NOT = { 
+			custom_description = { 
+				text = SCHEME_SEDUCE_UNWILLING_INCEST_TOO_YOUNG
+				object = scope:target
+				guaranteed_under_20_incest_rejection_trigger = {
+					TARGET = scope:target
+					SEDUCER = scope:owner
+				}
+			}
+		}
+		
+		#we're already lovers
+		NOT = {
+			custom_description = {
+				text = "seduce_already_lover"
+				object = scope:target
+				has_relation_lover = scope:target
+				NOT = { has_relation_soulmate = scope:target }
+			}
+		}
+
+		#We're already soulmates
+		scope:owner = {
+			NOT = {
+				custom_description = {
+					text = "romance_already_soulmate"
+					object = scope:target
+					has_relation_soulmate = scope:target
+				}
+			}
+		}
+
+		#You've been kicked out of bed
+		custom_description = { 
+			text = seduce_blocked
+			object = scope:target
+			NOT = {
+				scope:owner = { 
+					has_character_modifier = rejected_from_marriage_bed_modifier
+					is_spouse_of = scope:target 
+				}
+			}
+		}
+
+		# They can't consent
+		NOT = { scope:target = { has_trait = intellect_bad_3 } } # Implies a mental development level akin to an average child
+		NOT = { scope:target = { has_trait = incapable } } # Bed-ridden at best, but in many cases comatose or in a vegetative state
+
+		# One of you is celibate
+		NOT = { has_trait = celibate }
+		scope:target = { NOT = { has_trait = celibate } }
+		
+		# One of you is imprisoned
+		is_imprisoned = no
+		scope:target = {
+			is_imprisoned = no
+		}
+
+		# You're too far away
+		scope:target = {
+			OR = {
+				exists = location
+				in_diplomatic_range = scope:owner
+			}
+		}
+	}
+
+	use_secrecy = {
+		use_seduce_secrecy_trigger = {
+			TARGET = scope:target
+			OWNER = scope:owner
+		}
+	}
+
+	odds_prediction = {
+		add = base_odds_prediction_target_is_char_value
+		add = odds_skill_contribution_intrigue_value
+		add = odds_seduce_scheme_misc_value
+		 add = {
+			value = 0
+			desc = "SCHEME_LUST_DEMON_MODIFIER"
+			if = {
+				limit = {
+					scope:owner = {
+						has_character_modifier = possessed_by_lust_demon_modifier
+					}
+					scope:target = { ai_zeal > medium_positive_ai_value }
+				}
+				add = scope:target.ai_zeal
+			}
+		}				  	
+		min = 0
+	}
+
+
+	base_success_chance = {
+		base = 0
+		scheme_type_skill_success_chance_modifier = { SKILL = INTRIGUE }
+		
+		# Countermeasures.
+		apply_opportunistic_scheme_success_chance_adjustments_modifier = yes
+		
+		# You got a wedding night memento
+		modifier = {
+			add = 20
+			desc = "SCHEME_WNIGHT_SEDUCE_MEMENTO"
+			scope:owner = {
+				exists = var:wnight_seduce_memento_var
+				var:wnight_seduce_memento_var = scope:target
+			}
+		}
+		
+		#Lust demon rep makes people wanna help you out... sexually
+ 
+		modifier = {
+			add = scope:target.ai_zeal
+			desc = "SCHEME_LUST_DEMON_MODIFIER"
+			scope:owner = {
+				has_character_modifier = possessed_by_lust_demon_modifier
+			}
+			scope:target = {
+				ai_zeal > medium_positive_ai_value
+			}
+				 
+					
+		}
+		
+		#########OPINION#DISABLED FOR AI TO SAVE PERFORMANCE
+	
+		opinion_modifier = {
+		trigger = {
+			scope:owner = { is_ai = no}
+			target_knows_about_owner_trigger = yes
+		} 
+			desc = OBF_opinion_of_you
+			who = scope:target
+			opinion_target = scope:owner  
+			max = 100  
+			min = -100    
+			multiplier = 1   
+		}
+		
+		modifier = {
+			desc = OBF_opinion_of_you
+			add = -20
+			scope:owner = { is_ai = no}
+			target_knows_about_owner_trigger = no
+			desc = OBF_doesnt_know_you
+		}
+		
+		#########OPINION#ONLY FOR AI 
+	
+		opinion_modifier = {
+		trigger = {scope:owner = { is_ai = yes}
+		}
+			desc = SCHEME_BEFRIEND_THEIR_OPINION
+			who = scope:target
+			opinion_target = scope:owner
+			max = 100
+			min = -100
+			multiplier = 1
+		}
+		
+		 
+		#SCHEME OWNER#
+		compare_modifier = { 
+			desc = OBF_MY_INTRIGUE
+			target = scope:owner
+			value = intrigue
+			multiplier = 0.75  
+		}
+		
+		compare_modifier = { 
+			desc = sway_my_diplomacy
+			target = scope:owner
+			value = diplomacy
+			multiplier = 0.25
+		}
+		
+		 
+		#TARGET DIPLOMACY AND INTRIGUE   
+		seduction_target_diplomacy_and_intrigue_modifier = yes
+		
+		#SPECIFIC SEDUCTION MODIFIERS
+		seduction_specific_modifier = yes
+		
+		#PERSONAL AND DINASTY PRESTIGE
+		seduction_prestige_modifier = yes 
+		    
+		#STRESS LEVELS	 
+		seduction_stress_modifier = yes 
+		   
+		#LANGUAGE, CULTURE AND PROXIMITY  
+		seduction_language_and_culture_modifier = yes
+		
+		#DIPLOMACY, HOSTILITIES AND CLAIMS
+		seduction_hostility_modifier = yes 
+		
+		#OTHER REASONS 
+		seduction_other_reasons_modifier = yes   
+		
+		#RELIGION 
+		seduction_religion_modifier = yes
+		 
+		#LIFESTYLE AND EDUCATION
+		seduction_lifestyle_and_education_modifier = yes
+		
+		#RELATIONS AND EASE OF CONTACT
+		seduction_relation_to_target_modifier = yes
+		
+		#CHARACTER_MODIFIERS
+		seduction_char_mods_modifier = yes        
+		    
+		#TRAITS AND PERSONALITY                 
+		seduction_traits_and_personality_modifier = yes
+ 
+		#HARD MODIFIERS ON TARGET OPINION OF OWNER   
+		seduction_target_opinion_modifier = yes  
+		
+		#RANK DIFFERENCE    
+		seduction_rank_difference_modifier = yes
+		
+		#Events
+		modifier = {
+			desc = scheme_promoter_of_courtly_love
+			scope:owner.liege ?= {
+				has_character_modifier = promoter_of_courtly_love_modifier
+			}
+			scope:owner.location = scope:owner.liege.location
+			add = 20
+		}
+		modifier = {
+			desc = scheme_detractor_of_courtly_love
+			scope:owner.liege ?= {
+				has_character_modifier = detractor_of_courtly_love_modifier
+			}
+			scope:owner.location = scope:owner.liege.location
+			add = -20
+		}
+		 
+		modifier = {      
+			add = scope:target.var:recipient_stubborness_scheme
+			scope:target = {
+				has_trait = stubborn
+				exists = var:recipient_stubborness_scheme 
+			}
+			desc = "SCHEME_BEFRIEND_THEIR_STUBBORNESS"
+		}
+		modifier = {
+			add = scope:target.var:recipient_fickleness_scheme
+			scope:target = {
+				has_trait = fickle
+				exists = var:recipient_fickleness_scheme
+				NOT = { var:recipient_fickleness_scheme = 0 }
+			}
+			desc = "SCHEME_BEFRIEND_THEIR_FICKLENESS"
+		}
+		
+
+		#Extra rank bonus/penalty if target is arrogant/ambitious
+		modifier = {
+			trigger = { scope:owner = { NOT = { is_consort_of = scope:target } } } # No 'social climbing' if you're already their spouse!
+			desc = SCHEME_SOCIAL_CLIMBER_RANK_BONUS
+			add = 10
+			scope:target = {
+				OR = {
+					has_trait = arrogant
+					has_trait = ambitious
+					has_trait = greedy
+				}
+				NOT = {
+					is_theocratic_lessee = yes
+				}
+			}
+			OR = {
+				AND = {
+					scope:target = { personal_scheme_success_compare_target_liege_tier_trigger = yes }
+					scope:owner.highest_held_title_tier > scope:target.liege.highest_held_title_tier
+				}
+				AND = {
+					scope:target = { personal_scheme_success_compare_target_liege_tier_trigger = no }
+					scope:owner.highest_held_title_tier > scope:target.highest_held_title_tier
+				}
+			}
+		}
+		modifier = {
+			trigger = { scope:owner = { NOT = { is_consort_of = scope:target } } } # No 'social climbing' if you're already their spouse!
+			desc = SCHEME_SOCIAL_CLIMBER_RANK_PENALTY
+			add = -10
+			scope:target = {
+				OR = {
+					has_trait = arrogant
+					has_trait = ambitious
+					has_trait = greedy
+				}
+			}
+			OR = {
+				AND = {
+					scope:target = { personal_scheme_success_compare_target_liege_tier_trigger = yes }
+					scope:owner.highest_held_title_tier < scope:target.liege.highest_held_title_tier
+				}
+				AND = {
+					scope:target = { personal_scheme_success_compare_target_liege_tier_trigger = no }
+					scope:owner.highest_held_title_tier < scope:target.highest_held_title_tier
+				}
+			}
+		}
+		
+		# Diarchs are better at schemes within their liege's realm
+		diarch_scheming_within_realm_bonus_modifier = yes
+		
+		#Taboo
+		modifier = { #Incest is taboo (norms & consequences)
+			add = -25
+			desc = SCHEME_SEDUCE_TABOO_INCEST
+			scope:target = {
+				relation_with_character_is_incestuous_in_my_or_lieges_faith_trigger = { CHARACTER = scope:owner }
+			}
+			scope:owner = { # The Subtle Desire Perk nullifies this
+				NOT = { has_perk = subtle_desire_perk }
+			}
+		}
+		modifier = { #Character is not willing to engage in incest with scope:owner
+			add = {
+				if = {
+					limit = { scope:target = { is_close_family_of = scope:owner } }
+					value = -40
+				}
+				else_if = {
+					limit = { scope:target = { is_extended_family_of = scope:owner } }
+					value = -15
+				}
+				if = {
+					limit = { scope:target = { is_deviant_trigger = yes } }
+					add = 15
+				}
+			}
+			desc = SCHEME_SEDUCE_UNWILLING_INCEST
+			scope:target = { 
+				NOT = { is_consort_of = scope:owner }
+				is_close_or_extended_family_of = scope:owner
+				NOR = {
+					accepts_incest_with_trigger = { CHARACTER = scope:owner } #100% fine with incest with owner
+					scope:owner = { has_perk = subtle_desire_perk }  # The Subtle Desire Perk nullifies this
+					guaranteed_under_20_incest_rejection_trigger = { # handled by hard block modifier
+						TARGET = scope:target
+						SEDUCER = scope:owner
+					}
+				}
+			}
+		}
+		modifier = { #Incest hard block
+			add = -1000
+			desc = SCHEME_SEDUCE_UNWILLING_INCEST
+			guaranteed_under_20_incest_rejection_trigger = {
+				TARGET = scope:target
+				SEDUCER = scope:owner
+			}
+		}
+		modifier = { #Sodomy
+			add = -30
+			desc = SCHEME_SEDUCE_TABOO_SODOMY
+			scope:target = {
+				relation_with_character_is_sodomy_in_my_or_lieges_faith_trigger = { CHARACTER = scope:owner }
+				NOT = { freely_accepts_sodomy_with_trigger = { CHARACTER = scope:owner } }
+				NOT = { has_perk = unshackled_lust_perk }
+			}
+
+		}
+
+		# Dynasty Kin Personal Scheme Success Chance on Dynasty Perk
+		modifier = {
+			add = kin_legacy_4_success_chance
+			desc = KIN_LEGACY_DESC
+			exists = scope:owner.dynasty
+			scope:owner.dynasty = {
+				has_dynasty_perk = kin_legacy_4
+			}
+			scope:target.dynasty = scope:owner.dynasty
+		}
+
+		# House Personal Scheme Success Chance on Cultural Parameter
+		modifier = {
+			add = cultural_house_personal_scheme_success_chance
+			desc = KIN_PARAMETER_DESC
+			exists = scope:owner.house
+			exists = scope:target.house
+			scope:owner.culture = {
+				has_cultural_parameter = cultural_house_personal_scheme_success_chance
+			}
+			scope:target.house = scope:owner.house
+		}
+
+		# Thicker Than Water Perk
+		modifier = {
+			add = thicker_than_water_bonus
+			desc = BEFRIEND_THICKER_THAN_WATER_PERK_DESC
+			scope:owner = {
+				has_perk = thicker_than_water_perk
+			}
+			scope:target = {
+				is_close_or_extended_family_of = scope:owner
+			}
+		}
+		# Charmer Accolade
+		modifier = {
+			add = accolade_seduction_vulnerability_value
+			desc = ACCOLADE_COURT_SEDUCTION_VULNERABILITY_DESC
+			scope:target = {
+				exists = host
+				host = {
+					any_active_accolade = {
+						has_accolade_parameter = accolade_court_seduction_vulnerability
+					}
+				}
+			}
+		}
+	# Modifiers
+		modifier = {
+			scope:owner = { has_character_modifier = poet_for_seduction_schemes_modifier }
+			desc = poet_for_seduction_schemes_modifier
+			add = 20
+		}
+		# house_head_request_interaction
+		modifier = {
+			add = personal_scheme_variable_list_value
+			scope:owner = {
+				has_variable_list = supporting_personal_schemes
+			}
+			desc = HOUSE_HEAD_SCHEME_SUPPORT_DESC
+		}
+		modifier = {
+			add = -10
+			scope:owner = { has_character_modifier = personal_schemes_distracted_modifier }
+			desc = personal_schemes_distracted_modifier
+		}
+		# Estate
+		modifier = {
+			scope:owner.domicile ?= {
+				has_domicile_parameter = increased_success_personal_schemes_1
+			}
+			add = estate_increased_personal_scheme_success_1_value
+		}
+		modifier = {
+			scope:owner.domicile ?= {
+				has_domicile_parameter = increased_success_personal_schemes_2
+			}
+			add = estate_increased_personal_scheme_success_2_value
+		}
+		modifier = {
+			scope:owner.domicile ?= {
+				has_domicile_parameter = increased_success_personal_schemes_3
+			}
+			add = estate_increased_personal_scheme_success_3_value
+		}
+	}
+	
+	base_secrecy = {
+		add = secrecy_base_value
+		add = countermeasure_apply_secrecy_maluses_value
+	}
+
+	on_phase_completed = {
+		# Grab our scopes.
+		save_scope_as = scheme
+		scheme_target_character = { save_scope_as = target }
+		scheme_owner = { save_scope_as = owner }
+		# Set up a block for the inappropriate cheating error?
+		save_scope_value_as = {
+			name = ignore_cheating_error_check
+			value = yes
+		}
+		# Proceed to rolls.
+		scope:scheme.scheme_owner = {
+			#Do I want to proceed to a roll?
+			if = {
+				limit = {
+					is_ai = no
+					use_seduce_secrecy_trigger = {
+						TARGET = scope:target
+						OWNER = scope:owner
+					}
+				}
+				trigger_event = seduce_outcome.0001
+			}
+			#Jump straight to roll
+			else = {
+				trigger_event = seduce_outcome.0002
+			}
+		}
+	}
+
+	on_invalidated = {
+		scheme_target_character = {
+			save_scope_as = target
+		}
+		scheme_owner = {
+			save_scope_as = owner
+		}		   
+		if = {
+			limit = {
+				scope:target = { is_alive = no }
+			}
+			scope:owner = {
+				trigger_event = seduce_outcome.0005
+			}
+		}
+		#I am already their lover!
+		if = {
+			limit = {
+				NOT = { scheme_progress = 10 }
+				scope:owner = { has_relation_lover = scope:target }
+			}
+			scope:owner = {
+				trigger_event = seduce_outcome.0004
+			}
+		}
+		else_if = { #fallback invalidation
+			limit = {
+				OR = {
+					#We're already soulmates
+					scope:owner = {
+						has_relation_soulmate = scope:target
+					}
+
+					#We're already lovers
+					scope:owner = {
+						has_relation_lover = scope:target
+					}
+
+					#You've been kicked out of bed
+					scope:owner = {
+						has_character_modifier = rejected_from_marriage_bed_modifier
+						is_spouse_of = scope:target 
+					}
+						
+					scope:owner = {  has_trait = celibate  }
+					scope:target = {  has_trait = celibate }
+					
+					scope:owner = { is_imprisoned = yes }
+					scope:target = { is_imprisoned = yes }
+
+					scope:target = {
+						NOR = {
+							exists = location
+							in_diplomatic_range = scope:owner
+						}
+					}
+				}
+			}
+			scope:owner = {
+				send_interface_message = {
+					type = event_generic_neutral
+					title = seduce
+					left_icon = scope:target
+					custom_tooltip = seduce_invalid
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				scope:target = { 
+					NOT = { in_diplomatic_range = scope:owner } 
+				}
+			}
+			scope:owner = {
+				send_interface_toast = {
+					title = seduce_invalidated_title
+					left_icon = scope:target
+					custom_description_no_bullet = {
+						object = scope:target
+						text = scheme_target_not_in_diplomatic_range
+					}
+				}
+			}
+		}
+		# Invalidation due to war with host or liege.
+			if = {
+				limit = {is_at_war_with_target_and_its_lieges = yes} 
+				scope:target.court_owner = { save_scope_as = liege }
+				scope:owner = {
+				send_interface_message = {
+					type = event_generic_neutral
+					title = seduce_invalidated_title
+					left_icon = scope:target
+					custom_tooltip = AT_WAR_WITH_LIEGE
+				}
+			}
+		}
+		# Invalidation due to owner disease
+			if = {
+				limit = {scope:owner = {is_available_for_personal_scheme = no}} 
+				scope:owner = {
+				send_interface_message = {
+					type = event_generic_neutral
+					title = seduce_invalidated_title
+					left_icon = scope:target
+					custom_tooltip = YOU_ARE_UNAVAILABLE
+				}
+			}
+		}
+		# Invalidation due to target disease
+			if = {
+				limit = {scope:target = {is_available_for_personal_scheme = no}} 
+				scope:owner = {
+				send_interface_message = {
+					type = event_generic_neutral
+					title = seduce_invalidated_title
+					left_icon = scope:target
+					custom_tooltip = THEY_ARE_UNAVAILABLE
+				}
+			}
+		}
+	}
+
+	on_start = {
+		
+		set_variable = {
+			name = apply_countermeasures
+			value = flag:opportunistic
+		}
+		
+		#Handle incest hard reject
+		save_scope_as = scheme
+		scheme_owner = { save_scope_as = owner }
+		scheme_target_character = { save_scope_as = target }
+		
+		if = {
+			limit = {
+				scope:target = {
+					is_close_or_extended_family_of = scope:owner
+					is_attracted_to_gender_of = scope:owner
+					NOT = { is_consort_of = scope:owner }
+				}
+			}
+			scope:target = {
+				trigger_event = {
+					id = seduce_outcome.8101 #Hard reject event, ai weights on options determine yes/no
+					days = { 7 14 }
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				exists = scope:target.house
+				exists = scope:owner.house
+				scope:target = {is_attracted_to_gender_of = scope:owner} 
+				OR = {
+					scope:target = {
+						existing_feud_against_target_trigger = { TARGET = scope:owner }
+					}
+					scope:owner = {
+						existing_feud_against_target_trigger = { TARGET = scope:target }
+					}
+				}
+			}
+			scope:target = {
+				trigger_event = {
+					id = bp1_house_feud.0700 #Hard reject event, ai weights on options determine yes/no
+					days = { 7 14 }
+				}
+			}
+		}
+		if = {#rejection by family due to not being attracted
+			limit = {
+				scope:target = {
+					is_close_or_extended_family_of = scope:owner
+					NOT = { is_attracted_to_gender_of = scope:owner  }
+					NOT = { is_consort_of = scope:owner }
+					scope:owner = {NOT = { has_perk = graceful_recovery_perk }}
+				}
+			}
+			scope:target = {
+				trigger_event = {
+					id = acquaintance.8000 #Hard reject event, ai weights on options determine yes/no
+					days = { 7 14 }
+				}
+			}
+		}
+		if = {#rejection due to not being attracted
+			limit = {
+				scope:target = {
+					NOT = {is_close_or_extended_family_of = scope:owner}
+					NOT = { is_attracted_to_gender_of = scope:owner  }
+					NOT = { is_consort_of = scope:owner }
+					scope:owner = {NOT = { has_perk = graceful_recovery_perk }}
+				}
+			}
+			scope:target = {
+				trigger_event = {
+					id = acquaintance.8001 #Hard reject event, ai weights on options determine yes/no
+					days = { 30 60 }
+				}
+			}
+		}
+		if = {#rejection by spouse
+			limit = {
+				scope:target = {
+					NOT = { is_attracted_to_gender_of = scope:owner  }
+					 is_consort_of = scope:owner 
+				}
+			}
+			scope:target = {
+				trigger_event = {
+					id = acquaintance.8004 #Hard reject event, ai weights on options determine yes/no
+					days = { 15 30 }
+				}
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target_more_than = { DISTANCE = 450000}
+					both_work_on_same_court = no
+			} 
+			scope:scheme = {
+			add_scheme_progress = -90
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 300000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 20
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 150000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 20
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 140000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 10
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 130000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 10
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 120000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 10
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 110000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 10
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 100000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 10
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 90000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 10
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 80000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 10
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 70000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 10
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 60000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 10
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 50000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 10
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 40000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 10
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 30000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 15
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 20000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 15
+			}
+		}
+		if = {
+			limit = {
+						both_work_on_same_court = yes
+			}
+			scope:scheme = {
+			add_scheme_progress = 200
+			}
+		}
+	}
+
+	on_monthly = {
+		save_scope_as = scheme
+		scheme_owner = { save_scope_as = owner }
+		scheme_target_character = { save_scope_as = target }
+
+		hostile_scheme_monthly_discovery_chance_effect = yes
+		
+		if = {#Nice reject event
+			limit = {
+				scope:target = {
+					NOT = { is_attracted_to_gender_of = scope:owner  }
+					NOT = { is_consort_of = scope:owner }
+					scope:owner =  {has_perk = graceful_recovery_perk }
+				}
+			}
+			scope:target = {
+				trigger_event = {
+					id = acquaintance.8006 #Nice reject event
+					days = { 15 30 }
+				}
+			}
+		}
+
+		##Add acquaintance
+		if = {
+			limit = {
+				scope:target = { is_attracted_to_gender_of = scope:owner  }
+				scheme_progress >= 3
+				scope:target = {NOT = {has_relation_to = scope:owner} }
+				OR = {scope:owner = {
+					is_ai = no
+					is_alive = yes
+					}
+				scope:target = {
+					is_ai = no
+					is_alive = yes
+					}
+				}
+			}
+			scope:owner = {
+				trigger_event = {
+				id = acquaintance.2003
+				days = 5}
+			}
+		}
+		#Milestone 1 event
+		if = {
+			limit = {
+				scope:target = { is_attracted_to_gender_of = scope:owner  }
+				scheme_progress >= 3
+				scheme_progress < 7
+				NOR = {
+					has_scheme_modifier = seduce_success_1_modifier
+					has_scheme_modifier = seduce_failure_1_modifier
+					has_variable = declined_seduce_milestone_1_event
+				}
+				scheme_owner = {
+					is_available = yes
+				}
+				scheme_target_character = {
+					is_available = yes
+				}
+				player_target_available_for_personal_scheme_ongoing_events_trigger = {
+					OWNER = scope:owner
+					TARGET = scope:target
+				}
+			}
+			scheme_owner = {
+				trigger_event = { on_action = seduce_ongoing_milestone_1 }
+			}
+		}
+		#Milestone 2 event
+		else_if = {
+			limit = {
+				scope:target = { is_attracted_to_gender_of = scope:owner  }
+				scheme_progress >= 7
+				NOR = {
+					has_scheme_modifier = seduce_success_2_modifier
+					has_scheme_modifier = seduce_failure_2_modifier
+					has_variable = declined_seduce_milestone_2_event
+				}
+				scheme_owner = {
+					is_available = yes
+				}
+				scheme_target_character = {
+					is_available = yes
+				}
+				player_target_available_for_personal_scheme_ongoing_events_trigger = {
+					OWNER = scope:owner
+					TARGET = scope:target
+				}
+			}
+			scheme_owner = {
+				trigger_event = { on_action = seduce_ongoing_milestone_2 }
+			}
+		}
+	}
+	success_desc = "SEDUCE_SUCCESS_DESC"
+	
+	freeze_scheme_when_traveling = yes
+	freeze_scheme_when_traveling_target = yes
+}
+
+courting = {  
+	 
+	
+	# Basic Setup
+	skill = diplomacy
+	desc = courting_desc_general
+	success_desc = "COURT_SUCCESS_DESC"
+	icon = icon_scheme_romance
+	illustration = "gfx/interface/illustrations/event_scenes/corridor.dds"
+	target_type = character
+	is_secret = no
+	is_basic = yes
+	cooldown = { months = 2 }
+
+	# Parameters
+	speed_per_skill_point = -2.5
+	spymaster_speed_per_skill_point = 0	
+	base_progress_goal = 365
+	base_maximum_success = 95
+	minimum_success = 0
+	
+	allow = {
+		is_adult = yes
+		is_imprisoned = no
+		trigger_if = {
+			limit = {
+				NOT = { government_has_flag = government_is_landless_adventurer }
+			}
+			is_travelling = no
+		}
+		scope:target = {
+			is_adult = yes 
+			trigger_if = {
+				limit = {
+					scope:owner = {
+						NOT = { government_has_flag = government_is_landless_adventurer }
+					}
+				}
+				is_travelling = no
+			}
+			NOT = { this = scope:owner }
+			is_imprisoned = no
+			is_available_for_personal_scheme = yes
+		}
+		custom_tooltip = { 
+		text = "at_war_with_target_or_lieges" 
+		is_at_war_with_target_and_its_lieges = no
+		}
+		is_available_for_personal_scheme = yes 
+		trigger_if = {  
+			limit = { is_ai = no }
+		can_be_target_of_befriend_trigger = yes
+		}
+		
+		# Mutual attraction is a hard limit because this scheme implies real romantic feelings and we don't model romantic attraction separately from sexual attraction
+		OR = {
+			is_ai = no	#Players may override their character's sexuality for the purposes of cynical seductions.
+			scope:owner = { is_attracted_to_gender_of = scope:target }	
+		}
+				
+		#Have I been blocked from targeting this character?
+		custom_description = { #Permanent
+			text = seduce_blocked
+			object = scope:target
+
+			NOT = {
+				scope:target = {
+					has_opinion_modifier = {
+						modifier = seduce_permanent_blocker_opinion
+						target = scope:owner
+					}
+				}
+			}
+		}
+
+		#Time-limited blocker
+		custom_description = {
+			text = romance_cooldown
+			object = scope:target
+
+			NOT = {
+				scope:target = {
+					has_opinion_modifier = {
+						modifier = seduce_regular_cooldown_opinion
+						target = scope:owner
+					}
+				}
+			}
+		}
+
+		#Have I already successfully romanced this person?
+		custom_description = {
+			text = romance_success_blocked
+			object = scope:target
+
+			NOT = {
+				scope:target = {
+					has_opinion_modifier = {
+						modifier = romance_scheme_courtship_opinion
+						target = scope:owner
+					}
+				}
+			}
+		} 
+		
+		#They're not interested
+
+		#AI blockers
+		trigger_if = {
+			limit = { is_ai = yes }
+
+			trigger_if = {
+				limit = {
+					OR = {
+						any_spouse = {
+							count >= 1
+						}
+						any_relation = {
+							type = lover
+							count >= 1
+						}
+					}
+				}
+				might_cheat_on_every_partner_trigger = yes
+			}
+
+			scope:target = {
+				trigger_if = { #So players don't get spammed by AI courting
+					limit = {
+						is_ai = no
+					}
+					NOT = {
+						any_targeting_scheme = {
+							scheme_type = courting
+						}
+					}
+				}
+			}
+		}
+		trigger_if = {
+			limit = { is_ai = yes }
+			NOT = {
+				scope:target = {
+					 has_character_flag = courting_cooldown
+				}
+			}
+		}
+	}
+	
+	valid = {
+		scope:target = { 
+			is_alive = yes
+			is_adult = yes
+			exists = location
+			is_available_for_personal_scheme = yes
+			
+		}
+		is_available_for_personal_scheme = yes
+		is_at_war_with_target_and_its_lieges = no
+		
+		#HARD-BLOCK: Incest Target is too young 
+		NOT = { 
+			custom_description = { 
+				text = SCHEME_SEDUCE_UNWILLING_INCEST_TOO_YOUNG
+				object = scope:target
+				guaranteed_under_20_incest_rejection_trigger = {
+					TARGET = scope:target
+					SEDUCER = scope:owner
+				}
+			}
+		}
+
+		#We're already soulmates
+		scope:owner = {
+			NOT = {
+				custom_description = {
+					text = "romance_already_soulmate"
+					object = scope:target
+					has_relation_soulmate = scope:target
+				}
+			}
+		}
+		#You've been kicked out of bed
+		custom_description = { 
+			text = seduce_blocked
+			object = scope:target
+			NOT = {
+				scope:owner = {
+					has_character_modifier = rejected_from_marriage_bed_modifier
+					is_spouse_of = scope:target 
+				}
+			}
+		}
+
+		# They can't consent
+		NOT = { scope:target = { has_trait = intellect_bad_3 } } # Implies a mental development level akin to an average child
+		NOT = { scope:target = { has_trait = incapable } } # Bed-ridden at best, but in many cases comatose or in a vegetative state
+		
+		# One of you is celibate
+		NOT = { has_trait = celibate }
+		scope:target = { NOT = { has_trait = celibate } }
+		
+		# One of you is imprisoned
+		is_imprisoned = no
+		scope:target = {
+			is_imprisoned = no
+		}
+
+		# You're too far away
+		scope:target = {
+			OR = {
+				exists = location
+				in_diplomatic_range = scope:owner
+			}
+		}
+	}
+	odds_prediction = {
+		add = base_odds_prediction_target_is_char_value
+		add = odds_skill_contribution_diplomacy_value
+		add = odds_sway_scheme_misc_value
+		min = 0
+	}
+
+	base_success_chance = {
+		base = 0
+		scheme_type_skill_success_chance_modifier = { SKILL = DIPLOMACY }
+		
+		# Countermeasures.
+		apply_opportunistic_scheme_success_chance_adjustments_modifier = yes
+
+		# You got a wedding night memento
+		modifier = {
+			add = 20
+			desc = "SCHEME_WNIGHT_COURT_MEMENTO"
+			scope:owner = {
+				exists = var:wnight_court_memento_var
+				var:wnight_court_memento_var = scope:target
+			}
+		}
+ 
+		#########OPINION#DISABLED FOR AI TO SAVE PERFORMANCE
+	
+		opinion_modifier = {
+		trigger = {scope:owner = { is_ai = no }
+			target_knows_about_owner_trigger = yes
+		} 
+			desc = OBF_opinion_of_you
+			who = scope:target
+			opinion_target = scope:owner  
+			max = 100  
+			min = -100    
+			multiplier = 1   
+		}
+		
+		modifier = {
+			desc = OBF_opinion_of_you
+			add = -50
+			scope:owner = { is_ai = no}
+			target_knows_about_owner_trigger = no
+			desc = OBF_doesnt_know_you
+		}
+		
+		opinion_modifier = {
+		trigger = {scope:owner = { is_ai = yes}
+		}
+			desc = SCHEME_BEFRIEND_THEIR_OPINION
+			who = scope:target
+			opinion_target = scope:owner
+			max = 100
+			min = -100
+			multiplier = 1
+		}
+		
+		 
+		#SCHEME OWNER#
+		compare_modifier = { 
+			desc = OBF_MY_INTRIGUE
+			target = scope:owner
+			value = intrigue
+			multiplier = 0.25
+		}
+		
+		compare_modifier = { 
+			desc = sway_my_diplomacy
+			target = scope:owner
+			value = diplomacy
+			multiplier = 0.75
+		}
+		
+		
+		modifier = {
+			add = 10
+			desc = hopeless_romantic_modifier
+			scope:owner = { has_character_modifier = hopeless_romantic_modifier }
+		}
+		
+		#TARGET DIPLOMACY AND INTRIGUE   
+		romance_target_diplomacy_and_intrigue_modifier = yes
+		
+		#SPECIFIC SEDUCTION MODIFIERS
+		romance_specific_modifier = yes
+		
+		#PERSONAL AND DINASTY PRESTIGE
+		romance_prestige_modifier = yes 
+		    
+		#STRESS LEVELS	 
+		romance_stress_modifier = yes 
+		   
+		#LANGUAGE, CULTURE AND PROXIMITY  
+		romance_language_and_culture_modifier = yes
+		
+		#DIPLOMACY, HOSTILITIES AND CLAIMS
+		romance_hostility_modifier = yes 
+		
+		#OTHER REASONS 
+		romance_other_reasons_modifier = yes   
+		
+		#RELIGION 
+		romance_religion_modifier = yes
+		 
+		#LIFESTYLE AND EDUCATION
+		romance_lifestyle_and_education_modifier = yes
+		
+		#RELATIONS AND EASE OF CONTACT
+		romance_relation_to_target_modifier = yes
+		
+		#CHARACTER_MODIFIERS
+		romance_char_mods_modifier = yes        
+		    
+		#TRAITS AND PERSONALITY                 
+		romance_traits_and_personality_modifier = yes
+ 
+		#HARD MODIFIERS ON TARGET OPINION OF OWNER   
+		romance_target_opinion_modifier = yes  
+		
+		#RANK DIFFERENCE    
+		romance_rank_difference_modifier = yes
+		
+		
+		#Extra rank bonus/penalty if target is arrogant/ambitious
+		modifier = {
+			desc = SCHEME_SOCIAL_CLIMBER_RANK_BONUS
+			add = 15
+			scope:target = {
+				OR = {
+					has_trait = arrogant
+					has_trait = ambitious
+					has_trait = greedy
+				}
+				NOT = {
+					is_theocratic_lessee = yes
+				}
+			}
+			OR = {
+				AND = {
+					scope:target = { personal_scheme_success_compare_target_liege_tier_trigger = yes }
+					scope:owner.highest_held_title_tier > scope:target.liege.highest_held_title_tier
+				}
+				AND = {
+					scope:target = { personal_scheme_success_compare_target_liege_tier_trigger = no }
+					scope:owner.highest_held_title_tier > scope:target.highest_held_title_tier
+				}
+			}
+		}
+		modifier = {
+			desc = SCHEME_SOCIAL_CLIMBER_RANK_PENALTY
+			add = -15
+			scope:target = {
+				OR = {
+					has_trait = arrogant
+					has_trait = ambitious
+					has_trait = greedy
+				}
+			}
+			OR = {
+				AND = { 
+					scope:target = { personal_scheme_success_compare_target_liege_tier_trigger = yes }
+					scope:owner.highest_held_title_tier < scope:target.liege.highest_held_title_tier
+				}
+				AND = {
+					scope:target = { personal_scheme_success_compare_target_liege_tier_trigger = no }
+					scope:owner.highest_held_title_tier < scope:target.highest_held_title_tier
+				}
+			}
+		}
+		
+		# Diarchs are better at schemes within their liege's realm
+		diarch_scheming_within_realm_bonus_modifier = yes
+		
+		#Gubermint difference
+		modifier = { #3 or more higher rank
+			add = -50
+			desc = "TRIBE_ROMANCING_OTHER_GOVERNMENTS"
+			exists = scope:target.court_owner
+			scope:target.court_owner = {
+				NOT = { government_has_flag = government_is_tribal }
+			}
+			scope:owner = { government_has_flag = government_is_tribal }
+		}
+
+		#Taboo
+		modifier = { #Incest is taboo (norms & consequences)
+			add = -25
+			desc = SCHEME_SEDUCE_TABOO_INCEST
+			scope:target = {
+				relation_with_character_is_incestuous_in_my_or_lieges_faith_trigger = { CHARACTER = scope:owner }
+			}
+			scope:owner = {
+				# The Subtle Desire Perk nullifies this 
+				NOT = { has_perk = subtle_desire_perk }
+				# being already a lover with the target nulifies it
+				NOT = { has_relation_lover = scope:target }
+			}
+		}
+		modifier = { #Character is not willing to engage in incest with scope:owner
+			add = {
+				if = {
+					limit = { scope:target = { is_close_family_of = scope:owner } }
+					value = -40
+				}
+				else_if = {
+					limit = { scope:target = { is_extended_family_of = scope:owner } }
+					value = -15
+				}
+				if = {
+					limit = { scope:target = { is_deviant_trigger = yes } }
+					add = 15
+				}
+			}
+			desc = SCHEME_SEDUCE_UNWILLING_INCEST
+			scope:target = { 
+				NOT = {
+					is_consort_of = scope:owner 
+				}
+				is_close_or_extended_family_of = scope:owner
+				NOR = {
+					accepts_incest_with_trigger = { CHARACTER = scope:owner } #100% fine with incest with owner
+					scope:owner = { has_perk = subtle_desire_perk }  # The Subtle Desire Perk nullifies this
+					guaranteed_under_20_incest_rejection_trigger = { # handled by hard block modifier
+						TARGET = scope:target
+						SEDUCER = scope:owner 
+					} 
+				}  
+			}
+		}
+		modifier = { #Sodomy
+			add = -35
+			desc = SCHEME_SEDUCE_TABOO_SODOMY
+			scope:target = {
+				relation_with_character_is_sodomy_in_my_or_lieges_faith_trigger = { CHARACTER = scope:owner }
+				NOT = { freely_accepts_sodomy_with_trigger = { CHARACTER = scope:owner } }
+			}
+		}
+		
+		modifier = { # Tradition
+			add = 40
+			desc = SCHEME_TRAIT_POET
+			scope:owner = {
+				has_trait = poet
+				culture = {
+					has_cultural_parameter = poet_trait_romance_bonuses
+				}
+			}
+		}
+
+		# Courtship Perk
+		modifier = { 
+			add = courtship_court_success_chance_bonus_value
+			desc = SCHEME_COURTSHIP_PERK
+			scope:owner = {
+				has_perk = courtship_perk
+			} 
+		}
+ 
+		# Dynasty Kin Personal Scheme Success Chance on Dynasty Perk
+		modifier = {
+			add = kin_legacy_4_success_chance
+			desc = KIN_LEGACY_DESC
+			exists = scope:owner.dynasty
+			scope:owner.dynasty = {
+				has_dynasty_perk = kin_legacy_4  
+			}  
+			scope:target.dynasty = scope:owner.dynasty
+		}
+
+		# House Personal Scheme Success Chance on Cultural Parameter
+		modifier = {
+			add = cultural_house_personal_scheme_success_chance 
+			desc = KIN_PARAMETER_DESC 
+			exists = scope:owner.house
+			exists = scope:target.house
+			scope:owner.culture = {
+				has_cultural_parameter = cultural_house_personal_scheme_success_chance
+			}
+			scope:target.house = scope:owner.house
+		}
+
+		# House Personal Scheme Success Chance on Cultural Parameter
+		modifier = { 
+			add = cultural_house_personal_scheme_success_chance
+			desc = KIN_PARAMETER_DESC
+			exists = scope:owner.house
+			exists = scope:target.house
+			scope:owner.culture = {
+				has_cultural_parameter = cultural_house_personal_scheme_success_chance
+			}
+			scope:target.house = scope:owner.house
+		}
+
+		# Spouse Scheme Success Chance on Cultural Parameter
+		modifier = {
+			add = 30
+			desc = SPOUSE_PARAMETER_DESC
+			scope:owner = {
+				is_spouse_of = scope:target
+			}
+			scope:owner.culture = {
+				has_cultural_parameter = romance_scheme_bonus_vs_spouse
+			}
+		}
+
+		# Thicker Than Water Perk
+		modifier = {
+			add = thicker_than_water_bonus
+			desc = BEFRIEND_THICKER_THAN_WATER_PERK_DESC
+			scope:owner = {
+				has_perk = thicker_than_water_perk
+			}
+			scope:target = {
+				is_close_or_extended_family_of = scope:owner
+			}
+		}
+
+		#Family Feud
+		house_feud_sway_scheme_success_modifier = yes
+		
+		# Modifiers
+		modifier = {
+			scope:owner = { has_character_modifier = poet_for_diplo_schemes_modifier }
+			desc = poet_for_diplo_schemes_modifier
+			add = 15
+		}
+		# house_head_request_interaction
+		modifier = {
+			add = personal_scheme_variable_list_value
+			scope:owner = {
+				has_variable_list = supporting_personal_schemes
+			}
+			desc = HOUSE_HEAD_SCHEME_SUPPORT_DESC
+		}
+		modifier = {
+			add = -10
+			scope:owner = { has_character_modifier = personal_schemes_distracted_modifier }
+			desc = personal_schemes_distracted_modifier
+		}
+		# Estate
+		modifier = {
+			scope:owner.domicile ?= {
+				has_domicile_parameter = increased_success_personal_schemes_1
+			}
+			add = estate_increased_personal_scheme_success_1_value
+		}
+		modifier = {
+			scope:owner.domicile ?= {
+				has_domicile_parameter = increased_success_personal_schemes_2
+			}
+			add = estate_increased_personal_scheme_success_2_value
+		}
+		modifier = {
+			scope:owner.domicile ?= {
+				has_domicile_parameter = increased_success_personal_schemes_3
+			}
+			add = estate_increased_personal_scheme_success_3_value
+		}
+	}
+
+	on_phase_completed = {
+		# Grab our scopes.
+		save_scope_as = scheme
+		scheme_target_character = { save_scope_as = target }
+		scheme_owner = { save_scope_as = owner }
+		scope:scheme = {
+			# Set up a block for the inappropriate cheating error?
+			save_scope_value_as = {
+				name = ignore_cheating_error_check
+				value = yes
+			}
+			# Proceed to rolls.
+			scheme_owner = {
+				#DISCOVERY ROLL
+				save_scope_value_as = {
+					name = discovery_chance
+					value = {
+						value = 100
+						subtract = scope:scheme.scheme_secrecy
+					}
+				}
+				random = {
+					chance = scope:discovery_chance
+					save_scope_value_as = {
+						name = scheme_discovered
+						value = yes
+					}
+				}
+
+				#SUCCESS ROLL
+				random = {
+					chance = scope:scheme.scheme_success_chance
+
+					save_scope_value_as = {
+						name = scheme_successful
+						value = yes
+					}
+				}
+
+				#CONTINUE WITH OUTCOME ON_ACTION FOR AI TARGETS
+				if = {
+					limit = { scope:target = { is_ai = yes } }
+
+					trigger_event = {
+						on_action = court_outcome
+					}
+				}
+				#FOR PLAYER CHARACTER, SEND CHOICE EVENT
+				else = {
+					scope:target = {
+						trigger_event = {
+							id = court_outcome.0003
+						}
+					}
+				}
+			}
+		}
+	}
+
+	on_start = {
+		set_variable = {
+			name = apply_countermeasures
+			value = flag:opportunistic
+		}
+		scheme_owner = {
+			trigger_event = court_ongoing.0501
+		}
+		
+	}
+	on_phase_completed = {
+		# Grab our scopes.
+		save_scope_as = scheme
+		scheme_target_character = { save_scope_as = target }
+		scheme_owner = { save_scope_as = owner }
+		scope:scheme = {
+			# Set up a block for the inappropriate cheating error?
+			save_scope_value_as = {
+				name = ignore_cheating_error_check
+				value = yes
+			}
+			# Proceed to rolls.
+			scheme_owner = {
+				#DISCOVERY ROLL
+				save_scope_value_as = {
+					name = discovery_chance
+					value = {
+						value = 100
+						subtract = scope:scheme.scheme_secrecy
+					}
+				}
+				random = {
+					chance = scope:discovery_chance
+					save_scope_value_as = {
+						name = scheme_discovered
+						value = yes
+					}
+				}
+
+				#SUCCESS ROLL
+				random = {
+					chance = scope:scheme.scheme_success_chance
+
+					save_scope_value_as = {
+						name = scheme_successful
+						value = yes
+					}
+				}
+
+				#CONTINUE WITH OUTCOME ON_ACTION FOR AI TARGETS
+				if = {
+					limit = { scope:target = { is_ai = yes } }
+
+					trigger_event = {
+						on_action = court_outcome
+					}
+				}
+				#FOR PLAYER CHARACTER, SEND CHOICE EVENT
+				else = {
+					scope:target = {
+						trigger_event = {
+							id = court_outcome.0003
+						}
+					}
+				}
+			}
+		}
+	}
+
+	on_monthly = {
+		save_scope_as = scheme
+		scheme_owner = { save_scope_as = owner }
+		scheme_target_character = { save_scope_as = target }
+		if = {#rejection 
+			limit = {
+				scope:target = {
+					NOT = { is_attracted_to_gender_of = scope:owner  }
+				}
+			}
+			scope:target = {
+				trigger_event = {
+					id = acquaintance.8007 #Hard reject event, ai weights on options determine yes/no
+					days = { 15 30 }
+				}
+			}
+		}
+		
+		# Sending an ongoing event
+		if = {
+			limit = {
+				scheme_owner = { is_available = yes }
+				scheme_target_character = { is_available = yes }
+				player_target_available_for_personal_scheme_ongoing_events_trigger = {
+					OWNER = scope:owner
+					TARGET = scope:target
+				}
+				OR = {
+					#Milestone 1 event
+					AND = {
+						scope:scheme = {
+							scheme_agent_charges >= 2
+						}
+						NOT = { exists = var:court_milestone_event }
+					}
+					#Milestone 2 event
+					AND = {
+						scope:scheme = {
+							scheme_agent_charges >= 4
+						}
+						OR = {
+							NOT = { exists = var:court_milestone_event }
+							var:court_milestone_event < 2
+						}
+					}
+					#Milestone 3 event
+					AND = {
+						scope:scheme = {
+							scheme_agent_charges >= 8
+						}
+						OR = {
+							NOT = { exists = var:court_milestone_event }
+							var:court_milestone_event < 3
+						}
+					}
+				}
+			}
+			#Set a var so we can track which milestone you've had
+			if = {
+				limit = { NOT = { exists = var:court_milestone_event } }
+				set_variable = {
+					name = court_milestone_event
+					value = 1
+				}
+			}
+			else = {
+				change_variable = {
+					name = court_milestone_event
+					add = 1
+				}
+			}
+			#Trigger event
+			scheme_owner = {
+				trigger_event = { on_action = court_ongoing }
+			}
+		}
+	}
+
+	on_invalidated = {
+		scheme_target_character = {
+			save_scope_as = target
+		}
+		scheme_owner = {
+			save_scope_as = owner
+		}
+		if = {
+			limit = {
+				scope:target = { is_alive = no }
+			}
+			scope:owner = {
+				send_interface_toast = {
+					title = court_scheme_invalidated_title
+					left_icon = scope:target
+					custom_description_no_bullet = {
+						object = scope:target
+						text = scheme_target_died
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:target = { is_imprisoned = yes }
+			}
+			scope:target.imprisoner = {
+				save_scope_as = other_imprisoner
+			}
+			scope:owner = {
+				send_interface_toast = {
+					title = court_scheme_invalidated_title
+					left_icon = scope:target
+					right_icon = scope:other_imprisoner
+					custom_description_no_bullet = {
+						subject = scope:other_imprisoner
+						object = scope:target
+						text = scheme_target_imprisoned_by_other
+					}
+				}
+			}
+		}
+		
+		if = {
+			limit = {
+				OR = {
+					#We're already soulmates
+					scope:owner = {
+						has_relation_soulmate = scope:target
+					}
+
+					#You've been kicked out of bed
+					scope:owner = {
+						has_character_modifier = rejected_from_marriage_bed_modifier
+						is_spouse_of = scope:target 
+					}
+						
+					scope:owner = {  has_trait = celibate  }
+					scope:target = {  has_trait = celibate }
+					
+					scope:owner = { is_imprisoned = yes }
+					scope:target = { is_imprisoned = yes }
+
+					scope:target = {
+						NOR = {
+							exists = location
+							in_diplomatic_range = scope:owner
+						}
+					}
+				}
+			}
+			scheme_owner = {
+				send_interface_message = {
+					type = event_generic_neutral
+					title = courting
+					left_icon = scope:target
+					custom_tooltip = courting_invalid
+				}
+			}
+		}
+		# Invalidation due to war with host or liege.
+			if = {
+				limit = {is_at_war_with_target_and_its_lieges = yes} 
+				scope:target.court_owner = { save_scope_as = liege }
+				scope:owner = {
+				send_interface_message = {
+					type = event_generic_neutral
+					title = seduce_invalidated_title
+					left_icon = scope:target
+					custom_tooltip = AT_WAR_WITH_LIEGE
+				}
+			}
+		}
+		# Invalidation due to owner disease
+			if = {
+				limit = {scope:owner = {is_available_for_personal_scheme = no}} 
+				scope:owner = {
+				send_interface_message = {
+					type = event_generic_neutral
+					title = seduce_invalidated_title
+					left_icon = scope:target
+					custom_tooltip = YOU_ARE_UNAVAILABLE
+				}
+			}
+		}
+		# Invalidation due to target disease
+			if = {
+				limit = {scope:target = {is_available_for_personal_scheme = no}} 
+				scope:owner = {
+				send_interface_message = {
+					type = event_generic_neutral
+					title = seduce_invalidated_title
+					left_icon = scope:target
+					custom_tooltip = THEY_ARE_UNAVAILABLE
+				}
+			}
+		}
+	}
+	
+	freeze_scheme_when_traveling = yes
+	freeze_scheme_when_traveling_target = yes
+}
+
+#DESIGN NOTES
+#Taboo romance schemes: pairings which are considered incestuous/sodomy are allowed and there is no secrecy. However, some events should be blocked or texts altered as to avoid public displays of affection for taboo pairings. Anything in private, or anything that can be seen as being honorable or polite, is fine for everyone.

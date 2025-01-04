@@ -1,0 +1,25 @@
+﻿NCharacter = {
+	#Skill levels and descriptions for every level
+	#Skill levels in loc are defined in 00_basic_values.txt, due to current script limitations. DO NOT UPDATE THESE WITHOUT CHANGING THOSE, and vice versa.
+	SKILL_LEVELS_VALUES = {
+		4 #terrible
+		8 #incompet
+		16 #competent
+		24 #good
+		40 #excellent
+		64 #Expert
+	}
+	SKILL_LEVELS_TEXTS = {
+		"SKILL_TERRIBLE"
+		"SKILL_INCOMPETENT"
+		"SKILL_COMPETENT"
+		"SKILL_GOOD"
+		"SKILL_EXCELLENT"
+		"SKILL_EXPERT"
+		"SKILL_GENIUS"
+	}
+	
+	MAXIMUM_DIPLOMATIC_RANGE_RESTRICTED = 600	# Used if a game rule with the restricted_diplomatic_range flag is used
+
+}
+

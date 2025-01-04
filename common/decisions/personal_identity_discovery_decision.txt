@@ -1,0 +1,33 @@
+﻿personal_identity_discovery_decision = {
+	picture = {
+		reference = "gfx/interface/decisions/personal_identity.dds"
+	}
+	
+	sort_order = 200
+	
+	desc = personal_identity_discovery_decision_desc
+	selection_tooltip = personal_identity_discovery_decision_selection_tooltip
+	confirm_text = personal_identity_discovery_decision_confirm
+	
+	cooldown = { years = 25 }
+	
+	is_shown = {
+		is_adult = yes
+		is_ai = no
+		NOT = {has_game_rule = sexuality_setting_disabled}
+	}
+
+	effect = {
+		
+		trigger_event = {
+			id = set_sexuality.0001
+		}
+		custom_tooltip = personal_identity_discovery_decision_tooltip
+	}
+	
+	ai_check_interval = 0
+	
+	ai_will_do = {
+		base = 0
+	}
+}

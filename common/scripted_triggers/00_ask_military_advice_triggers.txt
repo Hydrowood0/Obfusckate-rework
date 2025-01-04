@@ -1,0 +1,11 @@
+﻿#Triggers handling advice for military
+#ask_advice_military_ratio_trigger = {
+#	save_temporary_scope_value_as = {
+#		name = ratio
+#
+#		value = {
+#			value = max_military_strength
+#			divide = scope:recipient.combined_military_strength
+#		}
+#	}
+#}

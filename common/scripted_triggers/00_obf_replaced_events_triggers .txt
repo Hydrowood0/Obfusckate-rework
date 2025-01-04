@@ -1,0 +1,89 @@
+﻿####Scripted triggers
+
+obf_replaced_health_3001_physician_basic_requirements_trigger = {
+	is_adult = yes
+	is_imprisoned = no
+	is_alive = yes # Because apparently there can be dead characters in the pool (remove when fixed)
+	is_claimant = no # We don't want recruiting physicians to be a cheap way of getting claimants
+	learning >= low_skill_rating
+}
+
+obf_replaced_health_3001_excellent_skill_physician_trigger = {
+	obf_replaced_health_3001_physician_basic_requirements_trigger = yes
+	learning >= high_skill_rating # 15
+}
+
+obf_replaced_health_3001_high_skill_physician_trigger = {
+	obf_replaced_health_3001_physician_basic_requirements_trigger = yes
+	#Empire/kingdom
+	trigger_if = {
+		limit = {
+			root = { highest_held_title_tier >= tier_kingdom }
+		}
+		learning <= very_high_skill_rating # 18
+		learning >= decent_skill_rating # 12
+	}
+	#Duchy/county
+	trigger_else = {
+		learning <= high_skill_rating  # 15
+		learning >= medium_skill_rating  # 10
+	}
+}
+
+obf_replaced_health_3001_low_skill_physician_trigger = {
+	obf_replaced_health_3001_physician_basic_requirements_trigger = yes
+	# Save mystics for mystic option
+	NOT = { has_trait = lifestyle_mystic }
+	#Empire/kingdom
+	trigger_if = {
+		limit = {
+			root = { highest_held_title_tier >= tier_kingdom }
+		}
+		learning <= decent_skill_rating # 12
+		learning >= mediocre_skill_rating # 8
+	}
+	#Duchy/county
+	trigger_else = {
+		learning <= medium_skill_rating # 10
+		learning >= low_skill_rating # 5
+	}
+}
+
+obf_replaced_health_3001_low_skill_physician_light_trigger = {
+	obf_replaced_health_3001_physician_basic_requirements_trigger = yes
+	learning >= medium_skill_rating # 10
+}
+
+obf_replaced_health_3001_mystic_physician_trigger = {
+	obf_replaced_health_3001_physician_basic_requirements_trigger = yes
+
+	#For this one, we add mystic trait if they don't have it if their learning isn't awesome
+	#Must be suitable mystic
+	has_trait = lifestyle_mystic
+	#Empire/kingdom
+	trigger_if = {
+		limit = {
+			root = { highest_held_title_tier >= tier_kingdom }
+		}
+		learning >= decent_skill_rating # 12
+		NAND = {
+			has_trait = lifestyle_physician
+			NOT = { has_trait = lifestyle_mystic }
+		}
+	}
+	#Duchy/county
+	trigger_else = {
+		NOR = {
+			learning > high_skill_rating # 15
+			AND = {
+				has_trait = lifestyle_mystic
+				has_trait_xp = {
+					trait = lifestyle_mystic
+					value >= 100
+				}
+			}
+			has_trait = lifestyle_physician
+		}
+		learning >= mediocre_skill_rating # 8
+	}
+}

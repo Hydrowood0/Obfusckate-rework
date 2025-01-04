@@ -1,0 +1,262 @@
+﻿deception_chance = { ## NOT USED
+	add = 50
+	if = {
+		limit = { obf_humble_character = yes
+				has_trait = humble }
+				multiply = 1.45
+		}
+	if = {
+		limit = { obf_humble_character = yes
+				has_personality_introverted_trigger = yes }
+				multiply = 1.4
+		}
+	if = {
+		limit = { obf_humble_character = no
+				untrustworthy_trigger = yes} 
+				multiply = 1.45
+		}
+	if = {
+		limit = { obf_humble_character = no
+				has_trait = ambitious} 
+				multiply = 1.4
+		}
+	if = {
+		limit = { any_player = {
+				has_trait = cynical}} 
+				multiply = 0.4
+		}
+	
+	if = {
+		limit = { any_player = {
+				has_trait = trusting}} 
+				multiply = 1.5
+		}
+	if = {
+		limit = { any_player = {
+				has_trait = paranoid}} 
+				multiply = 0.6
+		}
+	if = {
+		limit = { 
+				any_player = {
+				probably_unintelligent_trigger = yes}}
+				multiply = 2
+			}
+	if = {
+		limit = { 
+				any_player = {
+					probably_intelligent_trigger = yes}}
+				multiply = 0
+			}
+	round = yes
+	max = 100
+	min = 25
+	}
+	
+deception_time = {
+	value = 12
+	if = {
+		limit = { obf_humble_character = yes
+				has_trait = humble }
+				multiply = 1.5
+		}
+	if = {
+		limit = { obf_humble_character = yes
+				ai_energy < 0} 
+				multiply = ai_energy
+				multiply = -0.02
+		}
+	if = {
+		limit = { obf_humble_character = yes
+				ai_sociability < 0} 
+				multiply = ai_sociability
+				multiply = -0.02
+		}
+	if = {
+		limit = { ai_honor <= -50} 
+				multiply = ai_honor
+				multiply = -0.03
+		}
+	if = {
+		limit = { ai_greed >= 50} 
+				multiply = ai_honor
+				multiply = 0.025
+		}
+	if = {
+		limit = { obf_humble_character = no
+				ai_energy > 0} 
+				multiply = ai_energy
+				multiply = 0.02
+		}
+	if = {
+		limit = { obf_humble_character = no
+				probably_intelligent_trigger = yes} 
+				multiply = 1.5
+		}
+	if = {
+		limit = { any_player = {
+				has_trait = cynical}} 
+				multiply = 0.7
+		}
+	
+	if = {
+		limit = { any_player = {
+				has_trait = trusting}} 
+				multiply = 1.5
+		}
+	if = {
+		limit = { any_player = {
+				has_trait = paranoid}} 
+				multiply = 0.85
+		}
+	if = {
+		limit = { any_player = {
+				has_trait_rank = {
+					trait = education_learning
+					rank > 2
+				}
+						}} 
+				multiply = 0.8
+		}
+	else_if = {
+		limit = { any_player = {
+				has_trait_rank = {
+					trait = education_learning
+					rank > 1
+				}
+						}} 
+				multiply = 0.9
+		}
+	if = {
+		limit = { obf_illusory_diplomat = yes
+				any_player = {
+					diplomacy >= prev.diplomacy}}
+				multiply = 0.5
+		}
+	else_if = {
+		limit = { obf_illusory_administrator = yes
+				any_player = {
+					stewardship >= prev.stewardship}}
+				multiply = 0.5
+		}
+	else_if = {
+		limit = { obf_illusory_intriguer = yes
+				any_player = {
+					intrigue >= prev.intrigue}}
+				multiply = 0.5
+		}
+	else_if = {
+		limit = { obf_illusory_scholar = yes
+				any_player = {
+					learning >= prev.learning}}
+				multiply = 0.5
+		}
+	else_if = {
+		limit = { obf_illusory_warrior = yes
+				any_player = {
+					martial >= prev.martial}}
+				multiply = 0.5
+		}
+	if = {
+		limit = { obf_illusory_diplomat = yes
+				diplomacy > very_high_skill_rating}
+				multiply = 2.5
+		}
+	else_if = {
+		limit = { obf_illusory_diplomat = yes
+				diplomacy > high_skill_rating}
+				multiply = 2
+		}
+	else_if = {
+		limit = { obf_illusory_diplomat = yes
+				diplomacy > medium_skill_rating}
+				multiply = 1.5
+		}
+	else_if = {
+		limit = { obf_illusory_administrator = yes
+				stewardship > very_high_skill_rating}
+				multiply = 2.5
+		}
+	else_if = {
+		limit = { obf_illusory_administrator = yes
+				stewardship > high_skill_rating}
+				multiply = 2
+		}
+	else_if = {
+		limit = { obf_illusory_administrator = yes
+				stewardship > medium_skill_rating}
+				multiply = 1.5
+		}
+	else_if = {
+		limit = { obf_illusory_intriguer = yes
+				intrigue > very_high_skill_rating}
+				multiply = 2.5
+		}
+	else_if = {
+		limit = { obf_illusory_intriguer = yes
+				intrigue > high_skill_rating}
+				multiply = 2
+		}	
+	else_if = {
+		limit = { obf_illusory_intriguer = yes
+				intrigue > medium_skill_rating}
+				multiply = 1.5
+		}
+	else_if = {
+		limit = { obf_illusory_scholar = yes
+				learning > very_high_skill_rating}
+				multiply = 2.5
+		}
+	else_if = {
+		limit = { obf_illusory_scholar = yes
+				learning > high_skill_rating}
+				multiply = 2
+		}
+	else_if = {
+		limit = { obf_illusory_scholar = yes
+				learning > medium_skill_rating}
+				multiply = 1.5
+		}
+	else_if = {
+		limit = { obf_illusory_warrior = yes
+				martial > very_high_skill_rating}
+				multiply = 2.5
+		}
+	else_if = {
+		limit = { obf_illusory_warrior = yes
+				martial > high_skill_rating}
+				multiply = 2
+		}
+	else_if = {
+		limit = { obf_illusory_warrior = yes
+				martial > medium_skill_rating}
+				multiply = 1.5
+		}
+	if = {
+		limit = { 
+				any_player = {
+					intrigue > extremely_high_skill_rating}}
+				multiply = 0.7
+			}
+	else_if = {
+		limit = { 
+				any_player = {
+					intrigue > high_skill_rating}}
+				multiply = 0.85
+			}
+	if = {
+		limit = { 
+				any_player = {
+					probably_unintelligent_trigger = yes}}
+				multiply = 5
+			}
+	else_if = {
+		limit = { 
+				any_player = {
+					probably_intelligent_trigger = yes}}
+				multiply = 0.25
+			}
+	round = yes
+	max = 60
+	min = 0
+	}

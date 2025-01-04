@@ -1,0 +1,814 @@
+﻿obf_toggle_reset = {
+
+		is_shown = {
+			has_global_variable = must_show
+		}
+    effect = {
+            set_global_variable = {
+							name = must_show
+							value = 0
+							days = 30}
+			set_global_variable = filter_adult
+			set_global_variable = filter_child
+			set_global_variable = filter_male
+			set_global_variable = filter_female
+			set_global_variable = filter_unlanded
+			set_global_variable = filter_landed
+			remove_global_variable = filter_lowborn
+			remove_global_variable = filter_married
+	clear_variable_list = people_you_know
+	every_living_character = {
+		limit = {
+			NOT = {this = root}
+			#OR = {
+			obf_has_high_level_knowledge_flags = yes
+			#has_character_flag = partially_spied_2
+			#has_character_flag = partially_spied
+			#has_character_flag = has_been_spied
+			#has_character_flag = emissary_sent
+			#has_character_flag = partially_spied_2
+			#obf_has_relation_that_would_talk_about_him = yes
+			#obf_has_close_or_intimate_relation = yes
+			#obf_has_near_intimate_or_close_relation = yes
+			#is_close_or_extended_family_of = root
+			#obf_has_important_court_position = yes
+			#obf_is_courtier_or_guest = yes
+			#obf_has_guardian_or_ward_relation = yes
+			#is_imprisoned_by = root
+			#this = root.liege
+			#is_contact_of = root
+			#is_vassal_of = root
+			#obf_is_fellow_vassal_or_liege_councillor = yes
+			#obf_works_in_same_court = yes
+			#is_allied_to = root 
+			#obf_has_rival_or_negative_relation = yes
+			#}
+		}
+
+			add_to_temporary_list = known_people
+		}
+	if = {
+		limit = {
+		has_global_variable = sort_by_rank}
+			ordered_in_list = {
+			list = known_people
+			order_by = highest_held_title_tier
+			max = 800
+			check_range_bounds = no
+			root = {add_to_variable_list = {
+				name = people_you_know
+				target = prev
+					}
+				}
+			}
+		}
+		else = {
+			ordered_in_list = {
+			list = known_people
+			order_by = {
+				add = age
+				multiply = -1
+			}
+			max = 800
+			check_range_bounds = no
+			root = {add_to_variable_list = {
+				name = people_you_know
+				target = prev
+					}
+				}
+			}
+		}
+	
+	}
+}
+obf_player_knows_the_character = {
+
+		is_shown = {
+			has_global_variable = must_show
+		}
+    effect = {
+            set_global_variable = {
+							name = must_show
+							value = 0
+							days = 30}
+	clear_variable_list = people_you_know
+	every_living_character = {
+		limit = {
+			#OR = {
+			obf_has_high_level_knowledge_flags = yes
+			#has_character_flag = partially_spied_2
+			#has_character_flag = partially_spied
+			#}
+		}
+
+			add_to_temporary_list = known_people
+		}
+	if = {#remove males
+		limit = {
+		NOT = {has_global_variable = filter_male}
+			}
+			every_living_character = {
+			limit = {
+				NOT = {this = root}
+				is_female = no
+			}
+			remove_from_list = known_people
+			}
+		}
+	if = {#remove females
+		limit = {
+		NOT = {has_global_variable = filter_female}
+			}
+			every_living_character = {
+			limit = {
+				NOT = {this = root}
+				is_female = yes
+				}
+			remove_from_list = known_people
+			}
+		}
+	if = {#remove adults
+		limit = {
+		NOT = {has_global_variable = filter_adult}
+			}
+			every_living_character = {
+			limit = {
+				NOT = {this = root}
+				is_adult = yes
+				}
+			remove_from_list = known_people
+			}
+		}
+	if = {#remove childs
+		limit = {
+		NOT = {has_global_variable = filter_child}
+			}
+			every_living_character = {
+			limit = {
+				NOT = {this = root}
+				is_adult = no
+				}
+			remove_from_list = known_people
+			}
+		}
+	if = {#remove landed
+		limit = {
+		NOT = {has_global_variable = filter_landed}
+			}
+			every_living_character = {
+			limit = {
+				NOT = {this = root}
+				is_landed = yes
+				}
+			remove_from_list = known_people
+			}
+		}
+	if = {#remove landed
+		limit = {
+		NOT = {has_global_variable = filter_unlanded}
+			}
+			every_living_character = {
+			limit = {
+				NOT = {this = root}
+				is_landed = no
+				}
+			remove_from_list = known_people
+			}
+		}
+	if = {#remove married
+		limit = {
+		has_global_variable = filter_married
+			}
+			every_living_character = {
+			limit = {
+				NOT = {this = root}
+				OR = {is_married = yes
+					is_betrothed = yes
+					}
+				}
+			remove_from_list = known_people
+			}
+		}
+	if = {#remove lowborn
+		limit = {
+		has_global_variable = filter_lowborn
+			}
+			every_living_character = {
+			limit = {
+				NOT = {this = root}
+				has_dynasty = no
+				}
+			remove_from_list = known_people
+			}
+		}
+	if = {
+		limit = {
+		has_global_variable = sort_by_rank}
+			ordered_in_list = {
+			list = known_people
+			order_by = highest_held_title_tier
+			max = 800
+			check_range_bounds = no
+			root = {add_to_variable_list = {
+				name = people_you_know
+				target = prev
+					}
+				}
+			}
+		}
+	else_if = {
+		limit = {
+		has_global_variable = sort_by_diplo}
+			ordered_in_list = {
+			limit = {
+			age >= 12
+	OR = {
+	obf_has_close_or_intimate_relation = yes
+	AND = {revelation_score >= 30
+	OR = {
+	obf_is_fellow_vassal_or_liege_councillor = yes
+	has_character_flag = humble_character
+	has_character_flag = illusory_diplomat
+	has_character_flag = illusory_administrator
+	has_character_flag = illusory_intriguer
+	has_character_flag = illusory_scholar
+	has_character_flag = illusory_warrior
+	has_character_flag = partially_spied_3}}
+					}}
+			list = known_people
+			order_by = {
+				add = diplomacy
+				add = {
+						if = {
+							limit = {has_character_flag = illusory_diplomat}
+							add = 8
+						}
+						if = {
+							limit = {has_character_flag = humble_character}
+							subtract = 4
+						}
+					}
+			}
+			max = 800
+			check_range_bounds = no
+			root = {add_to_variable_list = {
+				name = people_you_know
+				target = prev
+					}
+				}
+			}
+		}
+	else_if = {
+		limit = {
+		has_global_variable = sort_by_martial}
+			ordered_in_list = {
+			limit = {
+			age >= 12
+	OR = {
+	obf_has_close_or_intimate_relation = yes
+	AND = {revelation_score >= 30
+	OR = {
+	obf_is_fellow_vassal_or_liege_councillor = yes
+	has_character_flag = humble_character
+	has_character_flag = illusory_diplomat
+	has_character_flag = illusory_administrator
+	has_character_flag = illusory_intriguer
+	has_character_flag = illusory_scholar
+	has_character_flag = illusory_warrior
+	has_character_flag = partially_spied_3}}
+					}}
+			list = known_people
+			order_by = {
+				add = martial
+				add = {
+						if = {
+							limit = {has_character_flag = illusory_warrior}
+							add = 8
+						}
+						if = {
+							limit = {has_character_flag = humble_character}
+							subtract = 4
+						}
+					}
+			}
+			max = 800
+			check_range_bounds = no
+			root = {add_to_variable_list = {
+				name = people_you_know
+				target = prev
+					}
+				}
+			}
+		}
+		else_if = {
+		limit = {
+		has_global_variable = sort_by_steward}
+			ordered_in_list = {
+			limit = {
+			age >= 12
+	OR = {
+	obf_has_close_or_intimate_relation = yes
+	AND = {revelation_score >= 30
+	OR = {
+	obf_is_fellow_vassal_or_liege_councillor = yes
+	has_character_flag = humble_character
+	has_character_flag = illusory_diplomat
+	has_character_flag = illusory_administrator
+	has_character_flag = illusory_intriguer
+	has_character_flag = illusory_scholar
+	has_character_flag = illusory_warrior
+	has_character_flag = partially_spied_3}}
+					}}
+			list = known_people
+			order_by = {
+				add = stewardship
+				add = {
+						if = {
+							limit = {has_character_flag = illusory_administrator}
+							add = 8
+						}
+						if = {
+							limit = {has_character_flag = humble_character}
+							subtract = 4
+						}
+					}
+			}
+			max = 800
+			check_range_bounds = no
+			root = {add_to_variable_list = {
+				name = people_you_know
+				target = prev
+					}
+				}
+			}
+		}
+		else_if = {
+		limit = {
+		has_global_variable = sort_by_intrigue}
+			ordered_in_list = {
+			limit = {
+			age >= 12
+	OR = {
+	obf_has_close_or_intimate_relation = yes
+	AND = {revelation_score >= 30
+	OR = {
+	obf_is_fellow_vassal_or_liege_councillor = yes
+	has_character_flag = humble_character
+	has_character_flag = illusory_diplomat
+	has_character_flag = illusory_administrator
+	has_character_flag = illusory_intriguer
+	has_character_flag = illusory_scholar
+	has_character_flag = illusory_warrior
+	has_character_flag = partially_spied_3}}
+					}}
+			list = known_people
+			order_by = {
+				add = intrigue
+				add = {
+						if = {
+							limit = {has_character_flag = illusory_intriguer}
+							add = 8
+						}
+						if = {
+							limit = {has_character_flag = humble_character}
+							subtract = 4
+						}
+					}
+			}
+			max = 800
+			check_range_bounds = no
+			root = {add_to_variable_list = {
+				name = people_you_know
+				target = prev
+					}
+				}
+			}
+		}
+		else_if = {
+		limit = {
+		has_global_variable = sort_by_learn}
+			ordered_in_list = {
+			limit = {
+			age >= 12
+	OR = {
+	obf_has_close_or_intimate_relation = yes
+	AND = {revelation_score >= 30
+	OR = {
+	obf_is_fellow_vassal_or_liege_councillor = yes
+	has_character_flag = humble_character
+	has_character_flag = illusory_diplomat
+	has_character_flag = illusory_administrator
+	has_character_flag = illusory_intriguer
+	has_character_flag = illusory_scholar
+	has_character_flag = illusory_warrior
+	has_character_flag = partially_spied_3}}
+					}}
+			list = known_people
+			order_by = {
+				add = learning
+				add = {
+						if = {
+							limit = {has_character_flag = illusory_scholar}
+							add = 8
+						}
+						if = {
+							limit = {has_character_flag = humble_character}
+							subtract = 4
+						}
+					}
+			}
+			max = 800
+			check_range_bounds = no
+			root = {add_to_variable_list = {
+				name = people_you_know
+				target = prev
+					}
+				}
+			}
+		}
+		else_if = {
+		limit = {
+		has_global_variable = sort_by_prowess}
+			ordered_in_list = {
+			limit = {
+						age >= 12
+					is_incapable = no
+			OR = {
+	AND = {
+	 OR = {is_courtier_of = root
+     is_pool_guest_of = root}
+	 prowess >= very_high_skill_rating}
+	
+			obf_has_close_or_intimate_relation = yes
+		AND = {revelation_score >= 15
+		OR = {
+			obf_has_high_level_knowledge_flags = yes
+			obf_is_fellow_vassal_or_liege_councillor = yes
+			obf_has_near_intimate_or_close_relation = yes}}	}}
+			list = known_people
+			order_by = prowess
+			max = 800
+			check_range_bounds = no
+			root = {add_to_variable_list = {
+				name = people_you_know
+				target = prev
+					}
+				}
+			}
+		}
+		else = {
+			ordered_in_list = {
+			limit = {
+		OR = {
+		has_character_flag = has_been_spied
+		obf_has_close_or_intimate_relation = yes
+		obf_has_near_intimate_or_close_relation = yes
+		obf_has_relation_that_would_talk_about_him = yes
+		AND = {
+			OR = {obf_is_fellow_vassal_or_liege_councillor = yes
+					obf_has_vassal_or_liege_relation = yes
+					obf_has_important_court_position = yes
+					obf_has_high_level_knowledge_flags = yes}
+				revelation_score >= 10}
+		AND = {
+		OR = {has_character_flag = emissary_sent				
+		obf_works_in_same_court = yes}
+		revelation_score >= 15}
+					}
+				}
+			list = known_people
+			order_by = {
+				add = age
+				multiply = -1
+			}
+			max = 800
+			check_range_bounds = no
+			root = {add_to_variable_list = {
+				name = people_you_know
+				target = prev
+					}
+				}
+			}
+			ordered_in_list = {
+			limit = {
+		NOR = {
+		has_character_flag = has_been_spied
+		obf_has_close_or_intimate_relation = yes
+		obf_has_near_intimate_or_close_relation = yes
+		obf_has_relation_that_would_talk_about_him = yes
+		AND = {
+			OR = {obf_is_fellow_vassal_or_liege_councillor = yes
+					obf_has_vassal_or_liege_relation = yes
+					obf_has_important_court_position = yes
+					obf_has_high_level_knowledge_flags = yes}
+				ai_sociability >= 25}
+		AND = {
+		OR = {has_character_flag = emissary_sent				
+		obf_works_in_same_court = yes}
+		ai_sociability >= 50}
+					}
+				}
+			list = known_people
+			order_by = {
+				add = age
+				multiply = 0
+			}
+			max = 800
+			check_range_bounds = no
+			root = {add_to_variable_list = {
+				name = people_you_know
+				target = prev
+					}
+				}
+			}
+		}
+	}
+}
+
+obf_sort_by_age = {
+
+		is_shown = {
+			has_global_variable = sort_by_age
+		}
+    effect = {
+            set_global_variable = sort_by_age
+			remove_global_variable = sort_by_martial
+			remove_global_variable = sort_by_steward
+			remove_global_variable = sort_by_intrigue
+			remove_global_variable = sort_by_learn
+			remove_global_variable = sort_by_prowess
+			remove_global_variable = sort_by_diplo
+			remove_global_variable = sort_by_rank
+	
+	}
+}
+
+obf_sort_by_rank = {
+
+		is_shown = {
+			has_global_variable = sort_by_rank
+		}
+    effect = {
+            set_global_variable = sort_by_rank
+			remove_global_variable = sort_by_martial
+			remove_global_variable = sort_by_steward
+			remove_global_variable = sort_by_intrigue
+			remove_global_variable = sort_by_learn
+			remove_global_variable = sort_by_prowess
+			remove_global_variable = sort_by_diplo
+			remove_global_variable = sort_by_age
+	
+	}
+}
+obf_sort_by_diplomacy = {
+
+		is_shown = {
+			has_global_variable = sort_by_diplo
+		}
+    effect = {
+            set_global_variable = sort_by_diplo
+			remove_global_variable = sort_by_martial
+			remove_global_variable = sort_by_steward
+			remove_global_variable = sort_by_intrigue
+			remove_global_variable = sort_by_learn
+			remove_global_variable = sort_by_prowess
+			remove_global_variable = sort_by_rank
+			remove_global_variable = sort_by_age
+	
+	}
+}
+
+obf_sort_by_martial = {
+
+		is_shown = {
+			has_global_variable = sort_by_martial
+		}
+    effect = {
+            set_global_variable = sort_by_martial
+			remove_global_variable = sort_by_diplo
+			remove_global_variable = sort_by_steward
+			remove_global_variable = sort_by_intrigue
+			remove_global_variable = sort_by_learn
+			remove_global_variable = sort_by_prowess
+			remove_global_variable = sort_by_rank
+			remove_global_variable = sort_by_age
+	
+	}
+}
+obf_sort_by_stewardship = {
+
+		is_shown = {
+			has_global_variable = sort_by_steward
+		}
+    effect = {
+            set_global_variable = sort_by_steward
+			remove_global_variable = sort_by_diplo
+			remove_global_variable = sort_by_martial
+			remove_global_variable = sort_by_intrigue
+			remove_global_variable = sort_by_learn
+			remove_global_variable = sort_by_prowess
+			remove_global_variable = sort_by_rank
+			remove_global_variable = sort_by_age
+	
+	}
+}
+obf_sort_by_intrigue = {
+
+		is_shown = {
+			has_global_variable = sort_by_intrigue
+		}
+    effect = {
+            set_global_variable = sort_by_intrigue
+			remove_global_variable = sort_by_diplo
+			remove_global_variable = sort_by_martial
+			remove_global_variable = sort_by_steward
+			remove_global_variable = sort_by_learn
+			remove_global_variable = sort_by_prowess
+			remove_global_variable = sort_by_rank
+			remove_global_variable = sort_by_age
+	
+	}
+}
+obf_sort_by_learning = {
+
+		is_shown = {
+			has_global_variable = sort_by_learn
+		}
+    effect = {
+            set_global_variable = sort_by_learn
+			remove_global_variable = sort_by_diplo
+			remove_global_variable = sort_by_martial
+			remove_global_variable = sort_by_steward
+			remove_global_variable = sort_by_intrigue
+			remove_global_variable = sort_by_prowess
+			remove_global_variable = sort_by_rank
+			remove_global_variable = sort_by_age
+	
+	}
+}
+obf_sort_by_prowess = {
+
+		is_shown = {
+			has_global_variable = sort_by_prowess
+		}
+    effect = {
+            set_global_variable = sort_by_prowess
+			remove_global_variable = sort_by_diplo
+			remove_global_variable = sort_by_martial
+			remove_global_variable = sort_by_steward
+			remove_global_variable = sort_by_intrigue
+			remove_global_variable = sort_by_learn
+			remove_global_variable = sort_by_rank
+			remove_global_variable = sort_by_age
+	
+	}
+}
+obf_clear_obf_variable_list = {
+
+    effect = {
+	clear_variable_list = people_you_know
+	remove_global_variable = must_show
+	
+	}
+}
+obf_close_list = {
+
+    effect = {
+		if = {
+		limit = {
+			has_global_variable = must_show
+		}
+			remove_global_variable = must_show
+		}
+	}
+}
+
+obf_toggle_males = {
+
+	is_shown = {
+			has_global_variable = filter_male
+		}
+    effect = {
+		if = {
+			limit = { NOT = {has_global_variable = filter_male}}
+					set_global_variable = filter_male
+			}
+		else = {
+		remove_global_variable = filter_male
+		}
+	}
+
+}
+
+obf_toggle_females = {
+
+	is_shown = {
+			has_global_variable = filter_female
+		}
+    effect = {
+		if = {
+			limit = { NOT = {has_global_variable = filter_female}}
+					set_global_variable = filter_female
+			}
+		else = {
+		remove_global_variable = filter_female
+		}
+	}
+
+}
+obf_toggle_adults = {
+
+	is_shown = {
+			has_global_variable = filter_adult
+		}
+    effect = {
+		if = {
+			limit = { NOT = {has_global_variable = filter_adult}}
+					set_global_variable = filter_adult
+			}
+		else = {
+		remove_global_variable = filter_adult
+		}
+	}
+
+}
+obf_toggle_childs = {
+
+	is_shown = {
+			has_global_variable = filter_child
+		}
+    effect = {
+		if = {
+			limit = { NOT = {has_global_variable = filter_child}}
+					set_global_variable = filter_child
+			}
+		else = {
+		remove_global_variable = filter_child
+		}
+	}
+
+}
+obf_toggle_landed = {
+
+	is_shown = {
+			has_global_variable = filter_landed
+		}
+    effect = {
+		if = {
+			limit = { NOT = {has_global_variable = filter_landed}}
+					set_global_variable = filter_landed
+			}
+		else = {
+		remove_global_variable = filter_landed
+		}
+	}
+
+}
+obf_toggle_unlanded = {
+
+	is_shown = {
+			has_global_variable = filter_unlanded 
+		}
+    effect = {
+		if = {
+			limit = { NOT = {has_global_variable = filter_unlanded}}
+					set_global_variable = filter_unlanded
+			}
+		else = {
+		remove_global_variable = filter_unlanded
+		}
+	}
+
+}
+obf_toggle_unmarried = {
+
+	is_shown = {
+			has_global_variable = filter_married 
+		}
+    effect = {
+		if = {
+			limit = { NOT = {has_global_variable = filter_married }}
+					set_global_variable = filter_married 
+			}
+		else = {
+		remove_global_variable = filter_married 
+		}
+	}
+
+}
+obf_toggle_dynastic = {
+
+	is_shown = {
+			has_global_variable = filter_lowborn 
+		}
+    effect = {
+		if = {
+			limit = { NOT = {has_global_variable = filter_lowborn }}
+					set_global_variable = filter_lowborn 
+			}
+		else = {
+		remove_global_variable = filter_lowborn 
+		}
+	}
+
+}

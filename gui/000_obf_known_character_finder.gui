@@ -1,0 +1,80 @@
+### LIST TEMPLATE
+
+window = {
+	name = "obf_known_character_finder_window"
+	size = { 810 85% }
+	position = { 600 100 }
+	allow_outside = yes
+	layer = middle
+	datacontext = "[GetScriptedGui('obf_toggle_reset')]"
+	visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End)]"
+
+
+	using = Window_Background
+	using = Window_Decoration_Spike
+	using = Window_Size_CharacterList
+
+	datacontext = "[Scope.GetCharacter]"
+
+	state = {
+        name = _show
+        trigger_on_create = yes
+    }
+
+    state = {
+        name = _hide
+		on_start = "[GetScriptedGui('obf_clear_obf_variable_list').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+		
+    }
+
+	vbox = {
+		using = Window_Margins
+
+		header_pattern = {
+			layoutpolicy_horizontal = expanding
+
+			blockoverride "header_text"
+			{
+				text = "KNOWN_CHARACTERS_TITLE"
+			}
+
+			blockoverride "button_close"
+			{
+				 onclick = "[GetScriptedGui('obf_clear_obf_variable_list').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+			}
+		}
+
+		vbox_known_character_list = {
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+			name = "character_list"
+			spacing = 3
+
+			blockoverride "scrollbox_empty_visibility"
+			{
+				layoutpolicy_vertical = expanding
+				visible = "[Not( CharacterSelectionList.HasItems )]"
+				text = "IT_SEEMS_YOU_DONT_KNOW_SUCH_PEOPLE"
+			}
+			
+			blockoverride "container_implementation" {
+				fixedgridbox = {
+					addcolumn = 720
+					addrow = 92
+
+					name = "characters_grid"
+					datamodel = "[GetPlayer.MakeScope.GetList('people_you_know')]"
+					visible = "[Not(CharacterSelectionList.IsBuildingList)]"
+
+					item = {
+						widget_known_character_list_item_finder = {
+						datacontext = "[Scope.GetCharacter]"
+							size = { 715 94 }
+						}
+					}
+				}
+			}
+		}
+	}
+}
+

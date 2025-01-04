@@ -1,0 +1,680 @@
+######################################################
+################ APPOINT COUNCILLOR ##################
+######################################################
+
+window = {
+	name = "potential_councillor_window"
+	parentanchor = right
+	position = { -700 90 }
+	layer = middle
+	allow_outside = yes
+	
+
+	
+	using = Window_Movable
+	using = Window_Size_CharacterList
+	using = Window_Background
+	using = Window_Decoration
+
+	state = {
+		name = _show
+		next = _show
+		using = Animation_FadeIn_Quick
+		#changed_by_obfusCKate:Start
+		trigger_when = "[Not(DropdownsEnabled)]"
+
+		on_start = "[CharacterSelectionList.SortBySkill('(int32)6')]"
+		on_start = "[CharacterSelectionList.SortBySkill('(int32)13')]"
+		
+		#changed_by_obfusCKate:Start
+	}
+
+	state = {
+		name = _hide
+		using = Animation_FadeOut_Quick
+	}
+
+	datacontext = "[PotentialCouncillorWindow.GetCharacterList]"
+
+	vbox = {
+		using = Window_Margins
+
+		header_pattern = {
+			layoutpolicy_horizontal = expanding
+
+			blockoverride "header_text"
+			{
+				datacontext = "[PotentialCouncillorWindow.GetCouncilPositionType]"
+				text = "POTENTIAL_COUNCILLOR_TITLE"
+			}
+
+			blockoverride "button_close"
+			{
+				onclick = "[PotentialCouncillorWindow.Close]"
+			}
+		}
+
+		vbox = {
+			datacontext = "[PotentialCouncillorWindow.GetCouncillor]"
+			visible = "[PotentialCouncillorWindow.HasCouncillor]"
+			layoutpolicy_horizontal = expanding
+			margin = { 15 0 }
+
+			hbox = {
+				layoutpolicy_horizontal = expanding
+				margin_right = 3
+
+				portrait_shoulders = {}
+
+				vbox = {
+					layoutpolicy_vertical = expanding
+					margin = { 10 20 }
+					spacing = 2
+
+					text_label_center = {
+						text = "COUNCIL_WINDOW_CURRENTLY_APPOINTED"
+						default_format = "#low"
+					}
+
+					text_multi = {
+						layoutpolicy_horizontal = expanding
+						autoresize = yes
+						text = "[Character.GetUINameNoTooltip]"
+						default_format = "#high"
+						using = Font_Size_Medium
+						min_width = 320
+						max_width = 320
+					}
+
+					text_single = {
+						visible = "[Character.HasRelationTo( GetPlayer )]"
+						layoutpolicy_horizontal = expanding
+						autoresize = no
+						text = "[Character.GetRelationToString( GetPlayer )]"
+						tooltip = "EXTENDED_RELATIONS_TOOLTIP"
+					}
+
+					expand = {}
+
+					button_standard = {
+						visible = "[PotentialCouncillorWindow.HasCouncillor]"
+
+						text = "CONFIRM_FIRE_COUNCILLOR_ACCEPT"
+
+						onclick = "[PotentialCouncillorWindow.FireCouncillor]"
+						enabled = "[PotentialCouncillorWindow.CanFireCouncillor]"
+						tooltip = "[PotentialCouncillorWindow.GetFireCouncillorTooltip]"
+					}
+				}
+
+				vbox = {
+					layoutpolicy_vertical = expanding
+					margin_bottom = 28
+
+					expand = {}
+
+					vbox = {
+					##changed_by_obfusCKate:Start
+					visible = "[GetScriptedGui('gui_allow_sort_known_char_list').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End )]"
+					##changed_by_obfusCKate:End
+						spacing = 10
+
+						background = {
+							using = Background_Area
+							margin = { 5 0 }
+							margin_bottom = 10
+						}
+
+						text_single = {
+							text = "COUNCIL_WINDOW_SKILLS"
+							default_format = "#low;italic"
+						}
+						
+						#Changed by obfusCKate: Start
+						hbox = {##
+								name = "obf_hbox_skills"
+								minimumsize = { 160 0 }
+								
+								vbox = {#DIPLO FOR KNOWN
+									size = { 32 32 }
+									spacing = -3	
+									visible = "[GetScriptedGui('gui_skills_diplo_for_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+									icon = {
+										name = "skill_icon"
+										size = { 32 32 }
+										framesize = { 60 60 }
+										frame = "1"
+										texture = "gfx/interface/icons/icon_skills.dds"
+										}
+									text_single = {
+										name = "value_diplo"
+										text = "SKILL_DIPLOMACY_VALUES_KNOWN_CHARACTER"
+										tooltip = "SKILL_ITEM_TOOLTIP_OB"
+										align = nobaseline
+
+									background = {
+										name = "skill_icon_bg"
+										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
+										framesize = { 70 26 }
+										margin = { 10 0 }
+										frame = 1
+									
+										}
+									}
+								}
+								vbox = {#DIPLO FOR HUMBLE
+									size = { 32 32 }
+									spacing = -3	
+									visible = "[GetScriptedGui('gui_any_skill_for_humble').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+									icon = {
+										name = "skill_icon"
+										size = { 32 32 }
+										framesize = { 60 60 }
+										frame = "1"
+										texture = "gfx/interface/icons/icon_skills.dds"
+										}
+									text_single = {
+										name = "value_diplo_humble"
+										text = "SKILL_DIPLOMACY_VALUES_HUMBLE_CHARACTER"
+										tooltip = "SKILL_ITEM_TOOLTIP_OB"
+										align = nobaseline
+
+									background = {
+										name = "skill_icon_bg"
+										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
+										framesize = { 70 26 }
+										margin = { 10 0 }
+										frame = 1
+									
+										}
+									}
+								}
+								vbox = {#DIPLO FOR ILLUSORY DIPLOMAT
+									size = { 32 32 }
+									spacing = -3	
+									visible = "[GetScriptedGui('gui_skills_diplo_for_illusory').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+									icon = {
+										name = "skill_icon"
+										size = { 32 32 }
+										framesize = { 60 60 }
+										frame = "1"
+										texture = "gfx/interface/icons/icon_skills.dds"
+										}
+									text_single = {
+										name = "value_illusory_diplomat"
+										text = "SKILL_VALUES_ILLUSORY_DIPLOMAT_CHARACTER"
+										tooltip = "SKILL_ITEM_TOOLTIP_OB"
+										align = nobaseline
+
+									background = {
+										name = "skill_icon_bg"
+										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
+										framesize = { 70 26 }
+										margin = { 10 0 }
+										frame = 1
+									
+										}
+									}
+								}
+								vbox = {
+									size = { 32 32 }
+									spacing = -3
+									visible = "[GetScriptedGui('gui_skills_martial_for_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+									icon = {
+										name = "skill_icon"
+										size = { 32 32 }
+										framesize = { 60 60 }
+										frame = "2"
+										texture = "gfx/interface/icons/icon_skills.dds"
+										}
+									text_single = {
+										name = "value_martial"
+										text = "SKILL_MARTIAL_VALUES_KNOWN_CHARACTER"
+										tooltip = "SKILL_ITEM_TOOLTIP_OB"
+										align = nobaseline
+
+									background = {
+										name = "skill_icon_bg"
+										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
+										framesize = { 70 26 }
+										margin = { 10 0 }
+										frame = 2
+									
+										}
+									}
+								}
+								vbox = {
+										size = { 32 32 }
+										spacing = -3
+										visible = "[GetScriptedGui('gui_any_skill_for_humble').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+										icon = {
+											name = "skill_icon"
+											size = { 32 32 }
+											framesize = { 60 60 }
+											frame = "2"   
+											texture = "gfx/interface/icons/icon_skills.dds"
+										}
+										text_single = {
+											name = "value_martial_humble"
+											text = "SKILL_MARTIAL_VALUES_HUMBLE_CHARACTER"
+											tooltip = "SKILL_ITEM_TOOLTIP_OB"
+											align = nobaseline
+											background = {
+												name = "skill_icon_bg"
+												texture = "gfx/interface/window_character/character_view_skills_bg.dds"
+												framesize = { 70 26 }
+												margin = { 10 0 }
+												frame = 2   
+											}
+										}
+									}
+								vbox = {#MARTIAL FOR ILLUSORY WARRIOR
+									size = { 32 32 }
+									spacing = -3	
+									visible = "[GetScriptedGui('gui_skills_martial_for_illusory').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+									icon = {
+										name = "skill_icon"
+										size = { 32 32 }
+										framesize = { 60 60 }
+										frame = "2"
+										texture = "gfx/interface/icons/icon_skills.dds"
+										}
+									text_single = {
+										name = "value_illusory_diplomat"
+										text = "SKILL_VALUES_ILLUSORY_WARRIOR_CHARACTER"
+										tooltip = "SKILL_ITEM_TOOLTIP_OB"
+										align = nobaseline
+
+									background = {
+										name = "skill_icon_bg"
+										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
+										framesize = { 70 26 }
+										margin = { 10 0 }
+										frame = 2
+									
+										}
+									}
+								}
+
+
+								vbox = {
+									size = { 32 32 }
+									spacing = -3
+									visible = "[GetScriptedGui('gui_skills_steward_for_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+									icon = {
+										name = "skill_icon"
+										size = { 32 32 }
+										framesize = { 60 60 }
+										frame = "3"
+										texture = "gfx/interface/icons/icon_skills.dds"
+										}
+									text_single = {
+										name = "value_stewardship"
+										text = "SKILL_STEWARDSHIP_VALUES_KNOWN_CHARACTER"
+										tooltip = "SKILL_ITEM_TOOLTIP_OB"
+										align = nobaseline
+
+									background = {
+										name = "skill_icon_bg"
+										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
+										framesize = { 70 26 }
+										margin = { 10 0 }
+										frame = 3
+									
+										}
+									}
+								}
+								
+								vbox = {
+										size = { 32 32 }
+										spacing = -3
+										visible = "[GetScriptedGui('gui_any_skill_for_humble').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+										icon = {
+											name = "skill_icon"
+											size = { 32 32 }
+											framesize = { 60 60 }
+											frame = "3"  
+											texture = "gfx/interface/icons/icon_skills.dds"
+										}
+										text_single = {
+											name = "value_stewardship_humble"
+											text = "SKILL_STEWARDSHIP_VALUES_HUMBLE_CHARACTER"
+											tooltip = "SKILL_ITEM_TOOLTIP_OB"
+											align = nobaseline
+											background = {
+												name = "skill_icon_bg"
+												texture = "gfx/interface/window_character/character_view_skills_bg.dds"
+												framesize = { 70 26 }
+												margin = { 10 0 }
+												frame = 3   
+											}
+										}
+									}
+									vbox = {
+											size = { 32 32 }
+											spacing = -3	
+											visible = "[GetScriptedGui('gui_skills_steward_for_illusory').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+											icon = {
+												name = "skill_icon"
+												size = { 32 32 }
+												framesize = { 60 60 }
+												frame = "3"
+												texture = "gfx/interface/icons/icon_skills.dds"
+											}
+											text_single = {
+												name = "value_illusory_administrator"
+												text = "SKILL_VALUES_ILLUSORY_ADMINISTRATOR_CHARACTER"
+												tooltip = "SKILL_ITEM_TOOLTIP_OB"
+												align = nobaseline
+
+											background = {
+												name = "skill_icon_bg"
+												texture = "gfx/interface/window_character/character_view_skills_bg.dds"
+												framesize = { 70 26 }
+												margin = { 10 0 }
+												frame = 3
+											}
+										}
+									}
+
+
+								vbox = {
+									size = { 32 32 }
+									spacing = -3
+									visible = "[GetScriptedGui('gui_skills_intrigue_for_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+									icon = {
+										name = "skill_icon"
+										size = { 32 32 }
+										framesize = { 60 60 }
+										frame = "4"
+										texture = "gfx/interface/icons/icon_skills.dds"
+										}
+									text_single = {
+										name = "value_intrigue"
+										text = "SKILL_INTRIGUE_VALUES_KNOWN_CHARACTER"
+										tooltip = "SKILL_ITEM_TOOLTIP_OB"
+										align = nobaseline
+
+									background = {
+										name = "skill_icon_bg"
+										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
+										framesize = { 70 26 }
+										margin = { 10 0 }
+										frame = 4
+									
+										}
+									}
+								}
+								vbox = {
+									size = { 32 32 }
+									spacing = -3
+									visible = "[GetScriptedGui('gui_any_skill_for_humble').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+									icon = {
+										name = "skill_icon"
+										size = { 32 32 }
+										framesize = { 60 60 }
+										frame = "4"  
+										texture = "gfx/interface/icons/icon_skills.dds"
+									}
+									text_single = {
+										name = "value_intrigue_humble"
+										text = "SKILL_INTRIGUE_VALUES_HUMBLE_CHARACTER"
+										tooltip = "SKILL_ITEM_TOOLTIP_OB"
+										align = nobaseline
+										background = {
+											name = "skill_icon_bg"
+											texture = "gfx/interface/window_character/character_view_skills_bg.dds"
+											framesize = { 70 26 }
+											margin = { 10 0 }
+											frame = 4  
+										}
+									}
+								}
+								vbox = {
+										size = { 32 32 }
+										spacing = -3	
+										visible = "[GetScriptedGui('gui_skills_intrigue_for_illusory').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+										icon = {
+											name = "skill_icon"
+											size = { 32 32 }
+											framesize = { 60 60 }
+											frame = "4"
+											texture = "gfx/interface/icons/icon_skills.dds"
+										}
+										text_single = {
+											name = "value_illusory_intriguer"
+											text = "SKILL_VALUES_ILLUSORY_INTRIGUER_CHARACTER"
+											tooltip = "SKILL_ITEM_TOOLTIP_OB"
+											align = nobaseline
+
+										background = {
+											name = "skill_icon_bg"
+											texture = "gfx/interface/window_character/character_view_skills_bg.dds"
+											framesize = { 70 26 }
+											margin = { 10 0 }
+											frame = 4
+										}
+									}
+								}
+								
+
+								vbox = {
+									size = { 32 32 }
+									spacing = -3
+									visible = "[GetScriptedGui('gui_skills_learning_for_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+									icon = {
+										name = "skill_icon"
+										size = { 32 32 }
+										framesize = { 60 60 }
+										frame = "5"
+										texture = "gfx/interface/icons/icon_skills.dds"
+										}
+									text_single = {
+										name = "value_learning"
+										text = "SKILL_LEARNING_VALUES_KNOWN_CHARACTER"
+										tooltip = "SKILL_ITEM_TOOLTIP_OB"
+										align = nobaseline
+
+									background = {
+										name = "skill_icon_bg"
+										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
+										framesize = { 70 26 }
+										margin = { 10 0 }
+										frame = 5
+									
+										}
+									}
+								}
+								vbox = {
+										size = { 32 32 }
+										spacing = -3
+										visible = "[GetScriptedGui('gui_any_skill_for_humble').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+										icon = {
+											name = "skill_icon"
+											size = { 32 32 }
+											framesize = { 60 60 }
+											frame = "5"   
+											texture = "gfx/interface/icons/icon_skills.dds"
+										}
+										text_single = {
+											name = "value_learning_humble"
+											text = "SKILL_LEARNING_VALUES_HUMBLE_CHARACTER"
+											tooltip = "SKILL_ITEM_TOOLTIP_OB"
+											align = nobaseline
+											background = {
+												name = "skill_icon_bg"
+												texture = "gfx/interface/window_character/character_view_skills_bg.dds"
+												framesize = { 70 26 }
+												margin = { 10 0 }
+												frame = 5   
+											}
+										}
+									}
+									vbox = {
+											size = { 32 32 }
+											spacing = -3	
+											visible = "[GetScriptedGui('gui_skills_learning_for_illusory').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+											icon = {
+												name = "skill_icon"
+												size = { 32 32 }
+												framesize = { 60 60 }
+												frame = "5"
+												texture = "gfx/interface/icons/icon_skills.dds"
+											}
+											text_single = {
+												name = "value_illusory_scholar"
+												text = "SKILL_VALUES_ILLUSORY_SCHOLAR_CHARACTER"
+												tooltip = "SKILL_ITEM_TOOLTIP_OB"
+												align = nobaseline
+
+											background = {
+												name = "skill_icon_bg"
+												texture = "gfx/interface/window_character/character_view_skills_bg.dds"
+												framesize = { 70 26 }
+												margin = { 10 0 }
+												frame = 5
+											}
+										}
+									}
+									
+									
+							}
+							#Changed by obfusCKate: End
+					}
+				}
+			}
+
+			divider_light = {
+				layoutpolicy_horizontal = expanding
+			}
+		}
+
+		fixed_gridbox_character_list = {
+			layoutpolicy_vertical = expanding
+			layoutpolicy_horizontal = expanding
+			visible = "[PotentialCouncillorWindow.CanReassignCouncillor]"
+
+					 
+			blockoverride "scrollbox_empty"
+			{
+				text = "NO_POTENTIAL_COUNCILLORS"
+				visible = "[Not(PotentialCouncillorWindow.HasMembers)]"
+			}
+
+			blockoverride "item_size" 
+			{
+				size = { 630 110 }
+			}
+
+			blockoverride "button"
+			{
+				using = Background_Guest
+			}
+
+			blockoverride "base_button"
+			{
+				alwaystransparent = yes
+			}
+
+			blockoverride "bottom_right_box"
+			{
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+
+					expand = {}
+
+					button_standard = {
+						name = "reassign_to_position"
+						visible = "[And(And( Not( CharacterListItem.GetBool('can_swap') ), Character.IsCouncillor ), Not(CharacterListItem.GetCharacter.IsGuest))]"
+						onclick = "[CharacterListItem.OnClick('set_position')]"
+						enabled = "[Not( PotentialCouncillorWindow.HasPendingInteraction( CharacterListItem.GetCharacter ) )]"
+
+						text = "POTENTIAL_COUNCILLOR_REASSIGN"
+						default_format = "#high"
+
+						tooltip = "[CharacterListItem.GetText('assign_tooltip')]"
+						using = tooltip_below
+
+					}
+					button_standard = {
+						name = "add_to_position"
+						visible = "[And(Not( Character.IsCouncillor ), Not(CharacterListItem.GetCharacter.IsGuest))]"
+						onclick = "[CharacterListItem.OnClick('set_position')]"
+						enabled = "[And( PotentialCouncillorWindow.CanFireCouncillor, Not( PotentialCouncillorWindow.HasPendingInteraction( CharacterListItem.GetCharacter ) ) )]"
+
+						text = "POTENTIAL_COUNCILLOR_ASSIGN"
+						default_format = "#high"
+
+						using = tooltip_below
+						tooltip = "[Select_CString( PotentialCouncillorWindow.CanFireCouncillor, CharacterListItem.GetText('assign_tooltip'), PotentialCouncillorWindow.GetFireCouncillorTooltip )]"
+					}
+
+					button_standard = {
+						name = "swap_position"
+						visible = "[And(CharacterListItem.GetBool('can_swap'), Not(CharacterListItem.GetCharacter.IsGuest))]"
+						onclick = "[CharacterListItem.OnClick('swap_position')]"
+
+						text = "POTENTIAL_COUNCILLOR_SWAP"
+						default_format = "#high"
+
+						using = tooltip_below
+						tooltip = "[CharacterListItem.GetText('swap_tooltip')]"
+					}
+
+					button_standard = {
+						name = "recruit_guest"
+						visible = "[And(Character.IsPlayerInteractionShown('recruit_guest_interaction'), Character.IsGuest)]"
+						onclick = "[Character.OpenPlayerInteraction('recruit_guest_interaction')]"
+						enabled = "[Character.IsPlayerInteractionValid('recruit_guest_interaction')]"
+
+						text = "[Character.GetPlayerInteractionName('recruit_guest_interaction')]"
+
+						tooltip = "[Character.GetPlayerInteractionTooltip('recruit_guest_interaction')]"
+						using = tooltip_below
+					}
+				}
+			}
+		}
+
+		vbox = {
+			layoutpolicy_vertical = expanding
+			layoutpolicy_horizontal = expanding
+			visible = "[Not(PotentialCouncillorWindow.CanReassignCouncillor)]"
+
+			textbox = {
+				name = "cannot_assign_info"
+				size = { 30 20 }
+				margin_bottom = 4
+				default_format = "#low;italic"
+				align = center
+				text = "COUNCIL_WINDOW_CANT_REASSIGN_WARNING"
+			}
+		}
+	}
+
+	window_character_filter = {
+		blockoverride "addition_filter" {
+			filter_item = {
+				layoutpolicy_horizontal = expanding
+				datacontext = "[CharacterSelectionList.GetFilter('ruler_filter')]"
+			}
+			filter_item = {
+				layoutpolicy_horizontal = expanding
+				datacontext = "[CharacterSelectionList.GetFilter('health_filter')]"
+			}
+			filter_item = {
+				layoutpolicy_horizontal = expanding
+				datacontext = "[CharacterSelectionList.GetFilter('religion_filter')]"
+			}
+			filter_item = {
+				layoutpolicy_horizontal = expanding
+				datacontext = "[CharacterSelectionList.GetFilter('culture_filter')]"
+			}
+			filter_item = {
+				layoutpolicy_horizontal = expanding
+				datacontext = "[CharacterSelectionList.GetFilter('dynasty_filter')]"
+			}
+		}
+	}
+}

@@ -1,0 +1,71 @@
+﻿
+find_spouse_candidate_interaction = {
+	category = interaction_category_diplomacy
+	icon = icon_marriage
+	desc = find_spouse_candidate_interaction_desc
+	common_interaction = yes
+	interface_priority = 150
+	is_highlighted = { scope:recipient = { 
+			is_heir_of = scope:actor
+			is_married = no
+			is_betrothed = no}}
+	greeting = positive
+	ignores_pending_interaction_block = no
+	
+	cooldown_against_recipient = { years = 3 }
+	
+	is_shown = {
+		
+		NOT = {
+			scope:recipient = scope:actor
+			
+		}
+		
+		scope:actor = {
+		is_ai = no
+		is_landless_adventurer = no
+		
+		}
+		
+		scope:recipient = { 
+			matchmaker = scope:actor
+			is_child_of = scope:actor
+			is_married = no
+			is_betrothed = no
+			is_ruler = no 
+			}
+		}
+	
+	is_valid_showing_failures_only = {
+	scope:actor = {is_available = yes}
+		custom_tooltip = { 
+		text = "chancellor_unavailable" 
+		scope:actor = {
+		exists = cp:councillor_chancellor
+			cp:councillor_chancellor = {is_available = yes}
+			}
+		}
+	}
+	auto_accept = yes
+	on_accept = {
+			custom_tooltip = { 
+				text = "find_spouse_candidate_interaction_effect"
+					}
+			scope:recipient = { save_scope_as = child_candidate }
+			scope:actor = {	trigger_event = {
+					id = find_spouse_ongoing.2001
+					days = 7}
+							}
+			
+		}
+
+	ai_accept =	{
+		base = 100
+	}
+	
+	ai_will_do = {
+		base = 0
+		}
+	}
+
+

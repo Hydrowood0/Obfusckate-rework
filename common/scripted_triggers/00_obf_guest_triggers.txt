@@ -1,0 +1,109 @@
+﻿#Guest triggers
+
+
+###################################
+###GUEST PERSONALITIES##
+guest_can_leave_the_court_trigger = {
+	NOR = {
+		# Not blocked by script
+		has_character_flag = blocked_from_leaving
+		any_child = { # No child can be a known child of the host
+			is_adult = no
+			any_parent = { this = scope:actor }
+		}
+		#Too sick to travel
+		has_epidemic_disease_trigger = yes
+		#Would be leaving without spouse or underage child
+		any_child_not_in_traveling_family_trigger = yes
+		any_consort_not_in_traveling_family_trigger = yes
+		#Is waiting for inspiration funding
+		exists = inspiration
+	}
+}
+
+is_capable_of_being_asked_info_trigger = {
+	NOR = {
+	has_trait = incapable
+	has_trait = wounded_2
+	has_trait = wounded_3
+	has_trait = infirm
+	has_trait = inbred
+	has_trait = ill
+	has_trait = bubonic_plague
+	has_trait = leper
+	}
+}
+
+guest_will_not_share_info_on_last_visited_ruler = {
+is_a_malicious_person_trigger = no
+ai_honor > 0
+NOR = {
+	has_dread_level_towards = {
+					target = scope:actor
+					level = 2
+				}
+	has_dread_level_towards = {
+					target = scope:actor
+					level = 1
+				}
+}
+OR = {opinion = {
+			target = scope:visited_ruler
+			value >= medium_positive_opinion
+			}
+	ai_honor >= medium_positive_ai_value
+	ai_compassion >= high_positive_ai_value
+		has_trait = loyal
+		has_trait = honest
+		has_relation_soulmate = scope:visited_ruler
+		has_relation_best_friend = scope:visited_ruler
+		has_secret_relation_soulmate = scope:visited_ruler
+		has_secret_relation_lover = scope:visited_ruler
+		has_relation_lover = scope:visited_ruler
+		has_relation_friend = scope:visited_ruler}
+}
+
+guest_will_share_info_on_last_visited_ruler = {
+guest_will_not_share_info_on_last_visited_ruler = no
+}
+
+guest_will_share_info_for_money_on_last_visited_ruler = {
+guest_will_not_share_info_on_last_visited_ruler = no
+ai_greed >= 0
+NOR = {
+	has_dread_level_towards = {
+					target = scope:actor
+					level = 2
+				}
+	has_dread_level_towards = {
+					target = scope:actor
+					level = 1
+				}
+	}
+}
+
+guest_will_share_info_and_a_secret_on_last_visited_ruler = {
+is_a_malicious_person_trigger = yes
+ai_honor <= 0
+NOR = {
+	has_dread_level_towards = {
+					target = scope:actor
+					level = 2
+				}
+	has_dread_level_towards = {
+					target = scope:actor
+					level = 1
+				}
+	}
+OR = {opinion = {
+			target = scope:visited_ruler
+			value <= medium_negative_opinion
+			}
+		ai_honor <= medium_negative_ai_value
+		ai_compassion <= very_high_negative_ai_value
+		guest_will_share_info_for_money_on_last_visited_ruler = yes
+	}
+}
+
+
+	

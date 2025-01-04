@@ -1,0 +1,7 @@
+﻿### rumours modifiers
+
+had_rumours_spread_modifier = {
+	icon = social_negative
+	monthly_prestige_gain_mult = -0.1
+	stress_gain_mult = 0.05
+}

@@ -1,0 +1,772 @@
+﻿sway = {
+	# Basic Setup
+	skill = diplomacy
+	desc = sway_desc_general
+	success_desc = "SWAY_SUCCESS_DESC"
+	icon = icon_scheme_personal
+	illustration = "gfx/interface/illustrations/event_scenes/corridor.dds"
+	target_type = character
+	is_secret = no
+	is_basic = yes
+	
+	# Parameters
+	speed_per_skill_point = -2.5
+	spymaster_speed_per_skill_point = 0	
+	uses_resistance = no
+	base_progress_goal = 365
+	base_maximum_success = 95
+	minimum_success = 0
+	
+	# Core Triggers
+	allow = {
+		age >= 12
+		scope:target = {
+			is_adult = yes
+			is_imprisoned = no
+		}
+	trigger_if = {  
+			limit = { is_ai = no }
+			custom_tooltip = {
+			text = "UNIMPORTANT_CHARACTER" 
+			scope:target = {sway_target_of_interest_trigger = {CHARACTER = scope:owner}}
+				}
+			}
+		is_imprisoned = no
+		
+		#Have I been blocked from targeting this character?
+		custom_description = { #Permanent
+			text = sway_blocked
+			object = scope:target
+
+			NOT = {
+				scope:target = {
+					has_opinion_modifier = {
+						modifier = sway_blocker_opinion
+						target = scope:owner
+					}
+				}
+			}
+		}
+
+		#AI blockers
+		trigger_if = {
+			limit = { is_ai = yes }
+
+			scope:target = {
+				OR = {
+					opinion = {
+						target = scope:owner
+						value <= 50
+					}
+					AND = {
+						is_vassal_of = scope:owner
+						is_a_faction_member = yes
+					}
+				}
+				trigger_if = { #So players don't get spammed by AI sway
+					limit = {
+						is_ai = no
+					}
+					NOT = {
+						any_targeting_scheme = {
+							scheme_type = sway
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	valid = {
+		scope:target = {
+			is_incapable = no
+			is_adult = yes 
+			is_imprisoned = no
+			is_alive = yes}
+		NOT = { is_at_war_with = scope:target } 
+		scope:target = {
+			OR = {   
+				exists = location 
+				in_diplomatic_range = scope:owner
+			}
+		}
+	}
+	
+	odds_prediction = {
+		add = base_odds_prediction_target_is_char_value
+		add = odds_skill_contribution_diplomacy_value
+		add = odds_sway_scheme_misc_value
+		min = 0
+	}
+ 
+	base_success_chance = {
+		base = 45  
+		
+		#OWNER AGE  
+		modifier = { 
+			add = -5
+			scope:owner = { is_adult = no }
+			desc = I_AM_A_CHILD  
+		}  
+		    
+		#########OPINION##########
+	   
+		opinion_modifier = {    
+		trigger = {scope:owner = {is_ai = no}           
+			OR = {target_knows_about_owner_trigger = yes
+			target_has_heard_or_has_been_introduced_to_owner = yes}
+		}   
+			desc = OBF_opinion_of_you
+			who = scope:target
+			opinion_target = scope:owner  
+			max = 100  
+			min = -100    
+			multiplier = 1   
+		}      
+		        
+		#OWNER DIPLOMACY
+		   
+		compare_modifier = {  
+			desc = sway_my_diplomacy  
+			target = scope:owner 
+			value = diplomacy  
+			multiplier = 2
+			   
+		}
+	              
+		#TARGET DIPLOMACY     
+		sway_target_diplomacy_modifier = yes  
+		
+		#PRESTIGE       
+		sway_prestige_modifier = yes    
+		 
+		#STRESS LEVELS	
+		sway_stress_modifier = yes 
+ 
+		#LANGUAGE, CULTURE AND PROXIMITY    
+		sway_language_and_culture_modifier = yes		
+		
+		#DIPLOMACY, HOSTILITIES AND CLAIMS
+		sway_hostility_modifier = yes  
+		    
+		#OTHER REASONS 
+		sway_other_reasons_modifier = yes 
+		  
+		#RELIGION    
+		sway_religion_modifier = yes     
+		
+		#LIFESTYLE AND EDUCATION   
+		sway_lifestyle_and_education_modifier = yes    
+		   
+		#RELATIONS         
+		sway_relation_to_target_modifier = yes          
+		
+		#TYRANNY          
+		sway_tyranny_modifier = yes	
+		 
+		#CHARACTER_MODIFIERS   
+		sway_char_mods_modifier = yes         
+		   
+		#TRAITS AND PERSONALITY      
+		sway_traits_and_personality_modifier = yes
+	          
+		####YEARS AS RULER OR LIEGE (NOT USED)  
+		####sway_years_as_ruler_modifier = yes  
+		           
+		#HARD MODIFIERS ON TARGET OPINION OF OWNER  
+		sway_target_opinion_modifier = yes 
+		
+		#RANK DIFFERENCE 
+		sway_rank_difference_modifier = yes  
+	                        
+		   
+		#SWAY OUTCOMES FOR PLAYER
+				
+		modifier = {   
+			add = -35
+			desc = previously_swayed
+			scope:owner = {is_ai = no}
+			target_knows_about_owner_trigger = yes
+			scope:target = {
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value >= 20
+				}
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value < 40
+				}
+			}
+		}
+		modifier = {
+			add = -10
+			desc = previously_swayed
+			scope:owner = {is_ai = no}
+			target_knows_about_owner_trigger = no
+			scope:target = {
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value >= 20
+				}
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value < 40
+				}
+			}
+		}
+		modifier = {
+			add = -70
+			desc = previously_swayed
+			scope:owner = {is_ai = no}
+			target_knows_about_owner_trigger = yes
+			scope:target = {
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value >= 40
+				}
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value < 55
+				}
+			}
+		}
+		modifier = {
+			add = -20
+			desc = previously_swayed
+			scope:owner = {is_ai = no}
+			target_knows_about_owner_trigger = no
+			scope:target = {
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value >= 40
+				}
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value < 55
+				}
+			}
+		}
+		modifier = {
+			add = -90
+			desc = previously_swayed
+			scope:owner = {is_ai = no}
+			target_knows_about_owner_trigger = yes
+			scope:target = {
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value >= 55
+				}
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value < 70
+				}
+			}
+		}
+		modifier = {
+			add = -25
+			desc = previously_swayed
+			scope:owner = {is_ai = no}
+			target_knows_about_owner_trigger = no
+			scope:target = {
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value >= 55
+				}
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value < 70
+				}
+			}
+		}
+		modifier = {
+			add = -105
+			desc = previously_swayed
+			scope:owner = {is_ai = no}
+			target_knows_about_owner_trigger = yes
+			scope:target = {
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value >= 70
+				}
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value < 85
+				}
+			}
+		}
+		modifier = {
+			add = -30
+			desc = previously_swayed
+			scope:owner = {is_ai = no}
+			target_knows_about_owner_trigger = no
+			scope:target = {
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value >= 70
+				}
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value < 85
+				}
+			}
+		}
+		modifier = {
+			add = -145
+			desc = previously_swayed
+			scope:owner = {is_ai = no}
+			target_knows_about_owner_trigger = yes
+			scope:target = {
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value >= 85
+				}
+			}
+		}
+		modifier = {
+			add = -40
+			desc = previously_swayed
+			scope:owner = {is_ai = no}
+			target_knows_about_owner_trigger = no
+			scope:target = {
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value >= 85
+				}
+			}
+		}
+		#SWAY OUTCOMES FOR PLAYER DISABLED ABOVE TO SAVE PERFORMANCE
+		modifier = {
+			add = -10
+			desc = previously_swayed
+			scope:owner = {is_ai = yes}
+			scope:target = {
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value >= 25
+				}
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value < 40
+				}
+			}
+		}
+		modifier = {
+			add = -20
+			desc = previously_swayed
+			scope:owner = {is_ai = yes}
+			scope:target = {
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value >= 40
+				}
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value < 55
+				}
+			}
+		}
+		modifier = {
+			add = -30
+			desc = previously_swayed
+			scope:owner = {is_ai = yes}
+			scope:target = {
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value >= 55
+				}
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value < 70
+				}
+			}
+		}
+		modifier = {
+			add = -40
+			desc = previously_swayed
+			scope:owner = {is_ai = yes}
+			scope:target = {
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value >= 70
+				}
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value < 85
+				}
+			}
+		}
+		modifier = {
+			add = -50
+			desc = previously_swayed
+			scope:owner = {is_ai = yes}
+			scope:target = {
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value >= 85
+				}
+			}
+		}
+		
+		# Diarchs are better at schemes within their liege's realm
+		diarch_scheming_within_realm_bonus_modifier = yes
+		
+
+		# Dynasty Kin Personal Scheme Success Chance on Dynasty Perk
+		modifier = {
+			add = kin_legacy_4_success_chance
+			desc = KIN_LEGACY_DESC
+			exists = scope:owner.dynasty
+			scope:owner.dynasty = {
+				has_dynasty_perk = kin_legacy_4
+			}
+			scope:target.dynasty = scope:owner.dynasty
+		}
+ 
+		# House Personal Scheme Success Chance on Cultural Parameter
+		modifier = {
+			add = cultural_house_personal_scheme_success_chance
+			desc = KIN_PARAMETER_DESC
+			exists = scope:owner.house
+			exists = scope:target.house
+			scope:owner.culture = {
+				has_cultural_parameter = cultural_house_personal_scheme_success_chance
+			}
+			scope:target.house = scope:owner.house
+		}
+
+		# Thicker Than Water Perk 
+		modifier = {
+			add = thicker_than_water_bonus 
+			desc = BEFRIEND_THICKER_THAN_WATER_PERK_DESC
+			scope:owner = {
+				has_perk = thicker_than_water_perk
+			}
+			scope:target = {
+				is_close_or_extended_family_of = scope:owner
+			}
+		}
+		
+		# You heard them explain their plan to your camp followers
+		modifier = {
+			add = 50
+			desc = "SCHEME_ET_TU_BRUTE"
+			scope:owner = {
+				exists = var:et_tu_brute_var
+				var:et_tu_brute_var = scope:target
+			}
+		}
+ 
+		#Family Feud
+		house_feud_sway_scheme_success_modifier = yes
+		
+		# Modifiers
+		modifier = {
+			scope:owner = { has_character_modifier = poet_for_diplo_schemes_modifier }
+			desc = poet_for_diplo_schemes_modifier
+			add = 15
+		}
+		# house_head_request_interaction
+		modifier = {
+			add = personal_scheme_variable_list_value
+			scope:owner = {
+				has_variable_list = supporting_personal_schemes
+			}
+			desc = HOUSE_HEAD_SCHEME_SUPPORT_DESC
+		}
+		modifier = {
+			add = -10
+			scope:owner = { has_character_modifier = personal_schemes_distracted_modifier }
+			desc = personal_schemes_distracted_modifier
+		}
+		# Estate
+		modifier = {
+			scope:owner.domicile ?= {
+				has_domicile_parameter = increased_success_personal_schemes_1
+			}
+			add = estate_increased_personal_scheme_success_1_value
+		}
+		modifier = {
+			scope:owner.domicile ?= {
+				has_domicile_parameter = increased_success_personal_schemes_2
+			}
+			add = estate_increased_personal_scheme_success_2_value
+		}
+		modifier = {
+			scope:owner.domicile ?= {
+				has_domicile_parameter = increased_success_personal_schemes_3
+			}
+			add = estate_increased_personal_scheme_success_3_value
+		}
+	}
+	
+	# On Actions
+	on_phase_completed = {
+		# Grab our scopes.
+		save_scope_as = scheme
+		scheme_target_character = { save_scope_as = target }
+		scheme_owner = { save_scope_as = owner }
+		# Roll our result.
+		random = {
+			chance = scope:scheme.scheme_success_chance
+			save_scope_value_as = {
+				name = scheme_successful
+				value = yes
+			}
+		}
+		# How'd we do?
+		scope:owner = {
+			if = {
+				limit = { exists = scope:scheme_successful }
+				trigger_event = { on_action = sway_success }
+			}
+			else = {
+				trigger_event = { on_action = sway_failure }
+			}
+		}
+	}
+	
+	on_monthly = {
+		save_scope_as = scheme
+		scheme_target_character = { save_scope_as = target }
+		scheme_owner = {
+			save_scope_as = owner
+			trigger_event = { on_action = sway_ongoing }
+		}
+	}
+
+	on_invalidated = {
+		scheme_target_character = {
+			save_scope_as = target
+		}
+		scheme_owner = {
+			save_scope_as = owner
+		}
+		if = {
+			limit = { 
+				scope:target = { is_alive = no }
+			}
+			scope:owner = {
+				send_interface_toast = {
+					title = sway_invalidated_title
+					left_icon = scope:target
+					custom_tooltip = sway_invalidated_dead
+				}
+			}
+		}
+		else_if = {	
+			limit = {
+				scope:owner = {
+					is_at_war_with = scope:target
+				}
+			}
+			scope:owner = {
+				send_interface_toast = {
+					title = sway_invalidated_title
+					left_icon = scope:target
+					custom_tooltip = sway_invalidated_war
+				}
+			}
+		}
+ 
+		if = {
+			limit = {
+				scope:target = {  
+					NOT = { in_diplomatic_range = scope:owner } 
+				}
+			}  
+			scope:owner = {
+				send_interface_toast = {
+					title = sway_invalidated_title
+					left_icon = scope:target 
+					custom_description_no_bullet = {
+						object = scope:target
+						text = scheme_target_not_in_diplomatic_range
+					}
+				}
+			}
+		}
+	}
+	on_start = {
+		if = {
+			limit = {
+					distance_from_owner_to_target_more_than = { DISTANCE = 450000}
+					both_work_on_same_court = no
+			} 
+			scope:scheme = {
+			add_scheme_progress = -90
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 300000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 20
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 150000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 15
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 140000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 5
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 130000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 5
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 120000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 5
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 110000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 5
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 100000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 5
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 90000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 5
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 80000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 5
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 70000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 5
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 60000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 5
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 50000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 5
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 40000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 5
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 30000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 5
+			}
+		}
+		if = {
+			limit = {
+					distance_from_owner_to_target = { DISTANCE = 20000}
+					both_work_on_same_court = no
+			}
+			scope:scheme = {
+			add_scheme_progress = 5
+			}
+		}
+		if = {
+			limit = {
+						both_work_on_same_court = yes
+			}
+			scope:scheme = {
+			add_scheme_progress = 90
+			}
+		}
+		 
+	}
+
+}

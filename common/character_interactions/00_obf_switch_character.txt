@@ -1,0 +1,1491 @@
+﻿switch_character_interaction = {
+	category = interaction_category_friendly
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+	common_interaction = yes
+	desc = switch_character_interaction_desc
+	is_highlighted = {
+		always = yes
+	}
+	icon = icon_dead
+	interface_priority = 250
+	
+	is_shown = {
+		NOT = {scope:recipient = scope:actor}
+		scope:actor = {has_trait = incapable}
+	}
+	on_accept = {
+		scope:actor = {
+					set_player_character = scope:recipient
+					}
+		hidden_effect = {
+	every_living_character = {
+	limit = {
+	has_variable = years_known}
+	remove_variable = years_known
+	}
+	every_living_character = {
+	limit = {
+	OR = {has_character_flag = had_low_level_report
+	has_character_flag = had_medium_level_report
+	has_character_flag = had_high_level_report}}
+	remove_character_flag = had_low_level_report
+	remove_character_flag = had_medium_level_report
+	remove_character_flag = had_high_level_report
+	}
+	every_living_character = {
+	limit = {
+	OR = {has_character_flag = has_deceived
+	has_character_flag = humble_character
+	has_character_flag = illusory_diplomat
+	has_character_flag = illusory_administrator
+	has_character_flag = illusory_intriguer
+	has_character_flag = illusory_scholar
+	has_character_flag = illusory_warrior
+	has_character_flag = partially_spied_3
+	has_character_flag = partially_spied
+	has_character_flag = partially_spied_2}}
+	
+	add_to_temporary_list = flags_to_remove
+	}
+	every_in_list = {
+	list = flags_to_remove
+	remove_character_flag = has_deceived
+	remove_character_flag = humble_character
+	remove_character_flag = illusory_diplomat
+	remove_character_flag = illusory_administrator
+	remove_character_flag = illusory_intriguer
+	remove_character_flag = illusory_scholar
+	remove_character_flag = illusory_warrior
+	remove_character_flag = partially_spied_3
+	remove_character_flag = partially_spied_2
+	remove_character_flag = partially_spied
+		}
+		scope:recipient = {
+		save_scope_as = player_character
+		
+		#### children
+		every_child = { 
+			add_to_temporary_list = natural_acquaintances
+			every_consort = { 
+				limit = {top_liege = scope:player_character.top_liege}
+				add_to_temporary_list = natural_acquaintances
+				}
+			every_relation = {
+				limit = {top_liege = scope:player_character.top_liege}
+				type = guardian
+				add_to_temporary_list = natural_acquaintances
+				}
+		}
+		### parents
+		every_parent = { 
+				add_to_temporary_list = natural_acquaintances
+			every_consort = {
+				limit = {top_liege = scope:player_character.top_liege
+				NOT = {is_parent_of = scope:player_character}}
+				add_to_temporary_list = natural_acquaintances
+				}
+			every_ally = {
+				limit = {top_liege = scope:player_character.top_liege}
+				add_to_temporary_list = natural_acquaintances
+				}
+		}
+		###sibling
+		every_sibling = { ### brothers and sisters
+				add_to_temporary_list = natural_acquaintances
+			every_consort = {
+				limit = {top_liege = scope:player_character.top_liege}
+				add_to_temporary_list = natural_acquaintances
+				}
+			every_child = {
+				limit = {top_liege = scope:player_character.top_liege}
+				add_to_temporary_list = natural_acquaintances
+				}
+		}
+		
+		###consort
+		every_consort = { 
+				add_to_temporary_list = natural_acquaintances
+
+			every_parent = { 
+				limit = {top_liege = scope:player_character.top_liege}
+				add_to_temporary_list = natural_acquaintances
+				}
+			every_child = { 
+				limit = {top_liege = scope:player_character.top_liege
+					NOT = {is_child_of = scope:player_character}}
+				add_to_temporary_list = natural_acquaintances
+				}
+			every_sibling = { 
+				limit = {top_liege = scope:player_character.top_liege}
+				add_to_temporary_list = natural_acquaintances
+				}
+			every_relation = {
+				type = best_friend
+				limit = {top_liege = scope:player_character.top_liege
+					NOT = {
+					has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = natural_acquaintances
+				}
+			every_relation = {
+				type = soulmate
+				limit = {top_liege = scope:player_character.top_liege
+					NOT = {
+					has_secret_relation_soulmate = prev}}
+				add_to_temporary_list = natural_acquaintances
+				}
+			every_ally = {
+				limit = {top_liege = scope:player_character.top_liege}
+				add_to_temporary_list = natural_acquaintances
+				}	
+		}
+		
+		###Primary heir
+		every_heir = {  ###heir in same realm
+			limit = {top_liege = scope:player_character.top_liege
+						is_primary_heir_of = scope:player_character
+					NOT = {is_child_of = scope:player_character}}
+				add_to_temporary_list = natural_acquaintances
+			every_ally = {
+				limit = {top_liege = scope:player_character.top_liege}
+				add_to_temporary_list = natural_acquaintances
+				}	
+		}
+		
+		### Remaining family members
+		every_close_or_extended_family_member = { ###extended family in same realm
+			limit = {top_liege = scope:player_character.top_liege
+			NOR = {is_child_of = scope:player_character
+					is_parent_of = scope:player_character
+					is_sibling_of = scope:player_character}}
+				add_to_temporary_list = natural_acquaintances
+		}
+		
+		### same house
+		house = {
+			every_house_member = {
+			limit = {top_liege = scope:player_character.top_liege}
+				add_to_temporary_list = natural_acquaintances
+			}
+		}
+		###vassals
+		every_vassal = {
+				limit = {NOR = {is_close_or_extended_family_of = scope:player_character
+							is_consort_of = scope:player_character}}
+				add_to_temporary_list = natural_acquaintances
+		}
+		###councillors
+		every_councillor = {
+				limit = {NOR = {is_close_or_extended_family_of = scope:player_character
+							is_consort_of = scope:player_character
+							is_vassal_of = scope:player_character}}
+				add_to_temporary_list = natural_acquaintances
+		}
+		####knights
+		every_knight = {
+				limit = {NOR = {is_close_or_extended_family_of = scope:player_character
+							is_vassal_of = scope:player_character
+							is_councillor_of = scope:player_character}}
+				add_to_temporary_list = natural_acquaintances
+		}
+		###courtiers
+		every_courtier = { ####should put a timer for join court
+				limit = {NOR = {is_close_or_extended_family_of = scope:player_character
+							is_knight_of = scope:player_character
+							is_councillor_of = scope:player_character
+							is_consort_of = scope:player_character}}
+				add_to_temporary_list = natural_acquaintances
+
+		}
+		###court postions
+		every_court_position_holder = { ####should put a timer for join court
+				limit = {NOR = {is_close_or_extended_family_of = scope:player_character
+							is_knight_of = scope:player_character
+							is_councillor_of = scope:player_character
+							is_consort_of = scope:player_character
+							is_courtier_of = scope:player_character}}
+				add_to_temporary_list = natural_acquaintances
+
+		}
+		####ward and guardian
+		every_relation = {
+		type = ward
+				add_to_temporary_list = natural_acquaintances
+		}
+		every_relation = {
+		type = guardian
+				add_to_temporary_list = natural_acquaintances
+		}
+		
+		### Best friends
+		every_relation = {
+		type = best_friend
+				add_to_temporary_list = natural_acquaintances
+			every_child = { 
+			limit = {top_liege = scope:player_character.top_liege}
+			add_to_temporary_list = natural_acquaintances
+			}
+			every_consort = { 
+			limit = {top_liege = scope:player_character.top_liege}
+			add_to_temporary_list = natural_acquaintances
+			}
+		}
+		###Soulmate
+		every_relation = {
+		type = soulmate
+				add_to_temporary_list = natural_acquaintances
+		}
+		###Friend
+		every_relation = {
+		type = friend
+				add_to_temporary_list = natural_acquaintances
+		}
+		#### lover
+		every_relation = {
+		type = lover
+				add_to_temporary_list = natural_acquaintances
+		}	
+		####nemesis
+		every_relation = {
+		type = nemesis
+				add_to_temporary_list = natural_acquaintances
+		}
+		### liege
+		liege = {
+				add_to_temporary_list = natural_acquaintances			
+			every_vassal = {
+				limit = {NOT = {is_close_or_extended_family_of = scope:player_character}}
+				add_to_temporary_list = natural_acquaintances
+			}
+			every_councillor = {
+				limit = {NOT = {is_close_or_extended_family_of = scope:player_character}}
+				add_to_temporary_list = natural_acquaintances
+			}
+		}
+		###allies
+		every_ally = {
+				limit = {top_liege = scope:player_character.top_liege}
+				add_to_temporary_list = natural_acquaintances
+				}	
+				
+		### Other relations
+		every_relation = {
+		type = crush
+				add_to_temporary_list = natural_acquaintances
+		}
+		every_relation = {
+		type = bully
+				add_to_temporary_list = natural_acquaintances
+		}
+		every_relation = {
+		type = victim
+				add_to_temporary_list = natural_acquaintances
+		}
+		every_relation = {
+		type = soldier_friend
+				add_to_temporary_list = natural_acquaintances
+		}
+		every_relation = {
+		type = mentor
+				add_to_temporary_list = natural_acquaintances
+		}
+		every_relation = {
+		type = student
+				add_to_temporary_list = natural_acquaintances
+		}
+		every_relation = {
+		type = intrigue_mentor
+				add_to_temporary_list = natural_acquaintances
+		}
+		every_relation = {
+		type = intrigue_student
+				add_to_temporary_list = natural_acquaintances
+		}
+		
+		every_in_list = {
+			limit = {
+			is_alive = yes
+					NOT = {this = scope:player_character}}
+			list = natural_acquaintances
+			character_deception_effect = yes
+			character_known_effect = yes
+			set_variable = {
+						name = years_known
+						value = {
+								add = scope:player_character.age
+								subtract = 16
+								multiply = 0.5
+								min = 1
+								max = this.age
+						}
+					}
+			}
+			
+		###############part_spied_2
+		
+		###children
+		every_child = {
+			every_consort = {
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+			}
+			every_relation = {
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+							has_character_flag = partially_spied_3}}
+				type = guardian
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = friend
+				limit = {prev.liege = scope:player_character
+				top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = best_friend
+				limit = {prev.liege = scope:player_character
+				top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+						has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {prev.liege = scope:player_character
+					top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+						has_secret_relation_lover = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = soulmate
+				limit = {prev.liege = scope:player_character
+					top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+						has_secret_relation_soulmate = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				type = victim
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				type = bully
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_ally = {
+				limit = {top_liege = scope:player_character.top_liege
+						NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+		}
+		
+		### parents
+		every_parent = { 
+			every_consort = {
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = friend
+				limit = {
+				top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = best_friend
+				limit = {
+				top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+						has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {
+					top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+						has_secret_relation_lover = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = soulmate
+				limit = {
+					top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+						has_secret_relation_soulmate = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_ally = {
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+		}
+		
+		###sibling
+		every_sibling = { ### brothers and sisters
+			every_consort = {
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+								has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_child = {
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+								has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = friend
+				limit = {
+					top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = best_friend
+				limit = {
+					top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {
+					top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+						has_secret_relation_lover = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = soulmate
+				limit = {
+					top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+						has_secret_relation_soulmate = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_ally = {
+				limit = {top_liege = scope:player_character.top_liege
+						NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+		}
+		###consort	
+		every_consort = {
+				every_parent = { 
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+								has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_child = { 
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+								has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_sibling = { 
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+								has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = friend
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = best_friend
+				limit = {
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = soulmate
+				limit = {
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_soulmate = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_ally = {
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+		}
+		
+		## former spouse
+		every_former_spouse = { 
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+		}
+		
+		#remaining family members
+		every_close_or_extended_family_member = { ###extended family not in same realm
+			limit = {NOR = {top_liege = scope:player_character.top_liege
+						has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+		}
+		### Best friends
+		every_relation = {
+		type = best_friend
+			every_consort = { 
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+								has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_child = { 
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+								has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_sibling = { 
+				limit = {top_liege = scope:player_character.top_liege
+						NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+
+			every_relation = { 
+				type = friend
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = best_friend
+				limit = {
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = soulmate
+				limit = {
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_soulmate = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_ally = {
+				limit = {top_liege = scope:player_character.top_liege
+						NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+		}
+		###Soulmate
+		every_relation = {
+		type = soulmate
+			every_child = { 
+				limit = {top_liege = scope:player_character.top_liege
+					NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_consort = { 
+				limit = {top_liege = scope:player_character.top_liege
+						NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_sibling = { 
+				limit = {top_liege = scope:player_character.top_liege
+						NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = friend
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = best_friend
+				limit = {
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = soulmate
+				limit = {
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_soulmate = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_ally = {
+				limit = {top_liege = scope:player_character.top_liege
+						NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+		}
+		###Friend
+		every_relation = {
+		type = friend
+			every_child = { 
+				limit = {top_liege = scope:player_character.top_liege
+					NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_consort = { 
+				limit = {top_liege = scope:player_character.top_liege
+						NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_sibling = { 
+				limit = {top_liege = scope:player_character.top_liege
+						NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = friend
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = best_friend
+				limit = {
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = soulmate
+				limit = {
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_soulmate = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_ally = {
+				limit = {top_liege = scope:player_character.top_liege
+						NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+		}
+		#### lover
+		every_relation = {
+		type = lover
+			every_child = { 
+				limit = {top_liege = scope:player_character.top_liege
+					NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_consort = { 
+				limit = {top_liege = scope:player_character.top_liege
+						NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_sibling = { 
+				limit = {top_liege = scope:player_character.top_liege
+						NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = friend
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = best_friend
+				limit = {
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = soulmate
+				limit = {
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_soulmate = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_ally = {
+				limit = {top_liege = scope:player_character.top_liege
+							NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+		}	
+		##liege or above
+		every_liege_or_above = {
+			limit = {exists = scope:player_character.liege
+					NOR = {this = scope:player_character.liege
+						has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+			}
+		
+		## same house or dynasty
+		house = {
+			every_house_member = {
+			limit = {NOR = {top_liege = scope:player_character.top_liege
+						has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+			}
+		}
+		
+		dynasty = {
+			every_dynasty_member = {
+			limit = { top_liege = scope:player_character.top_liege
+						NOT = {
+						has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+			}
+		}
+		
+		##allies
+		every_ally = {
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+				
+		####prisoners
+		every_prisoner = {
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+		}
+		### guest		
+		every_pool_guest = { 
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+		}
+		####potential friends or lovers
+		every_relation = {
+		type = potential_friend
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+		}
+		every_relation = {
+		type = potential_lover
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+		}
+		every_relation = {
+		type = rival
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+		}
+		
+		every_relation = {
+		type = grudge
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+		}
+		every_contact = {
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+		}
+		
+		every_relation = {
+		type = potential_rival
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+		}
+		
+		every_in_list = {
+			limit = {
+			is_alive = yes
+						NOT = {this = scope:player_character}}
+			list = mild_acquaintances
+			character_barely_known_effect = yes
+			set_variable = {
+						name = years_known
+						value = {
+								add = scope:player_character.age
+								subtract = 16
+								multiply = 0.15
+								min = 1
+								max = this.age
+						}
+					}
+			}
+		
+		###############BASIC ACQUAINTANCES	
+		####children
+		every_child = {
+			every_relation = { 
+				type = friend
+				limit = { NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = best_friend
+				limit = { NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = { NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = soulmate
+				limit = { NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_soulmate = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = { NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_ally = {
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+								has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+		}
+		##### parents
+		every_parent = { 	
+			every_consort = {
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
+					every_child = {
+				add_to_temporary_list = basic_acquaintances
+					}
+				}	
+			every_relation = { 
+				type = friend
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = best_friend
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = soulmate
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_soulmate = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+		}
+		###sibling
+		every_sibling = { ### brothers and sisters
+			every_relation = { 
+				type = friend
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = best_friend
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = soulmate
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_soulmate = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_ally = {
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+							has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+		}
+		
+		###consort
+		every_consort = { 
+			every_relation = { 
+				type = friend
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+
+			every_relation = { 
+				type = nemesis
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = rival
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+		}
+		#### Heir
+		every_heir = {  
+			limit = {NOR = {top_liege = scope:player_character.top_liege}
+						is_primary_heir_of = scope:player_character
+						has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}
+				add_to_temporary_list = basic_acquaintances
+		}
+		
+
+		####best_friend
+		every_relation = {
+		type = best_friend
+			every_sibling = { 
+					limit = {NOR = {has_character_flag = partially_spied_2
+						has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+
+			every_relation = { 
+				type = friend
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = rival
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_rival = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = grudge
+				limit = { top_liege = scope:player_character.top_liege
+							NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_grudge = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_ally = {
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+		}
+		###Soulmate
+		every_relation = {
+		type = soulmate
+			every_child = { 
+					limit = {NOR = {has_character_flag = partially_spied_2
+						has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_consort = { 
+					limit = {NOR = {has_character_flag = partially_spied_2
+						has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_sibling = { 
+					limit = {NOR = {has_character_flag = partially_spied_2
+					has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = friend
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = rival
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_rival = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = grudge
+				limit = { top_liege = scope:player_character.top_liege
+							NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_grudge = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_ally = {
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+		}
+		###Friend
+		every_relation = {
+		type = friend
+				every_child = { 
+					limit = {NOR = {has_character_flag = partially_spied_2
+						has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_consort = { 
+					limit = {NOR = {has_character_flag = partially_spied_2
+						has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_sibling = { 
+					limit = {NOR = {has_character_flag = partially_spied_2
+					has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = friend
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = rival
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_rival = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = grudge
+				limit = { top_liege = scope:player_character.top_liege
+							NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_grudge = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_ally = {
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+		}
+		#### lover
+		every_relation = {
+		type = lover
+			every_child = { 
+					limit = {NOR = {has_character_flag = partially_spied_2
+						has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_consort = { 
+					limit = {NOR = {has_character_flag = partially_spied_2
+						has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_sibling = { 
+					limit = {NOR = {has_character_flag = partially_spied_2
+					has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = friend
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = rival
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_rival = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = grudge
+				limit = { top_liege = scope:player_character.top_liege
+							NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_grudge = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_ally = {
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+		}	
+		####nemesis
+		every_relation = {
+		type = nemesis
+			every_relation = { 
+				type = best_friend
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = rival
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_rival = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+		}
+		####grudge
+		every_relation = {
+		type = grudge
+			every_relation = { 
+				type = best_friend
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = rival
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_rival = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+		}
+		### liege
+		liege = {			
+			every_consort = {
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+			}
+			every_child = {
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+			}
+		}
+		
+		###memories
+		every_memory = {
+		limit = {NOT = {has_memory_category = notes}}
+		every_memory_participant = {
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+		}}
+			
+		every_patroned_holy_order = {
+			leader = {
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			}
+		every_hired_mercenary = {
+				mercenary_company_leader = {
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			}
+		every_war_ally = {
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+			}
+		
+		every_in_list = {
+			limit = {
+			is_alive = yes
+						NOT = {this = scope:player_character}}
+			list = basic_acquaintances
+			character_met_effect = yes
+			}
+			
+		if = {
+			limit = {OR = {is_councillor = yes
+							is_knight = yes	}}
+		liege = {
+		every_consort = {
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = position_acquaintances
+			}
+		every_courtier = {
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = position_acquaintances_low
+			}
+		every_court_position_holder = {
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = position_acquaintances_low
+			}
+
+		}
+	
+		every_in_list = {
+			limit = {
+			is_alive = yes
+						NOT = {this = scope:player_character}}
+			list = position_acquaintances
+			character_barely_known_effect = yes
+					}
+		every_in_list = {
+			limit = {
+			is_alive = yes
+						NOT = {this = scope:player_character}}
+			list = position_acquaintances_low
+			character_met_effect = yes
+					}
+			
+			}
+		if = {
+			limit = {exists = liege
+					is_diarch_of_target = liege}
+		liege = {
+		every_consort = {
+			limit = {top_liege = scope:player_character.top_liege}
+				add_to_temporary_list = regency_acquaintances
+		}
+		every_councillor = {
+				add_to_temporary_list = regency_acquaintances
+		}
+		every_vassal = {
+				add_to_temporary_list = regency_acquaintances
+		}
+		every_child = {
+				limit = {top_liege = scope:player_character.top_liege}
+				add_to_temporary_list = regency_acquaintances_medium
+		}
+		every_court_position_holder = {
+				add_to_temporary_list = regency_acquaintances_medium
+		}
+		every_knight = {
+				add_to_temporary_list = regency_acquaintances_medium
+		}
+		every_courtier_or_guest = {
+				add_to_temporary_list = regency_acquaintances_low
+		}
+		every_prisoner = {
+				add_to_temporary_list = regency_acquaintances_low
+		}
+
+		}
+	
+		every_in_list = {
+			limit = {
+			is_alive = yes
+						NOT = {this = scope:player_character}}
+			list = regency_acquaintances
+			character_deception_effect = yes
+			character_known_effect = yes
+				}
+		every_in_list = {
+			limit = {
+			is_alive = yes
+						NOT = {this = scope:player_character}}
+			list = regency_acquaintances_medium
+			character_barely_known_effect = yes
+				}
+		every_in_list = {
+			limit = {
+			is_alive = yes
+						NOT = {this = scope:player_character}}
+			list = regency_acquaintances_low
+			character_met_effect = yes
+					}	
+				}
+			}	
+		}
+	}
+	
+	auto_accept = yes
+}

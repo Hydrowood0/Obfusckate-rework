@@ -1,0 +1,16 @@
+﻿l_english:
+
+personal_identity_discovery_decision:0 "Descubrimiento de la Identidad Personal"
+personal_identity_discovery_decision_desc:0 "En medio de los tapices de la identidad, te encuentras en el umbral de una revelación personal, listo para desentrañar los hilos de tus deseos e inclinaciones. El camino del autodescubrimiento te llama, invitándote a abrazar tu verdadera esencia y tomar una decisión crucial sobre la naturaleza de tus afectos."
+personal_identity_discovery_decision_tooltip: "Abraza un Momento de Autodescubrimiento: Reflexiona sobre tus sentimientos más profundos y navega por el camino de la autoconciencia, tomando una decisión sincera que moldeará tu comprensión del afecto y el deseo."
+personal_identity_discovery_decision_selection_tooltip: "Abraza un Momento de Autodescubrimiento: Reflexiona sobre tus sentimientos más profundos y navega por el camino de la autoconciencia, tomando una decisión sincera que moldeará tu comprensión del afecto y el deseo."
+personal_identity_discovery_decision_confirm: "Autodescubrimiento"
+ 
+  
+set_sexuality.0001.t:0 "Autodescubrimiento"
+set_sexuality.0001.desc:0 "Mientras encuentras un momento tranquilo para ti mismo/a, tus pensamientos se vuelven hacia adentro, reflexionando sobre las múltiples facetas de tu identidad. Entre los pensamientos que cruzan tu mente, tu propia orientación sexual destaca, una pieza del rompecabezas de tu verdadero yo que aún no has comprendido completamente.\n\n En este momento introspectivo, reflexionas sobre la naturaleza de la atracción, las complejidades de los deseos de tu corazón y las formas en que tu orientación moldea tus interacciones con el mundo que te rodea. A medida que exploras estos pensamientos, te das cuenta de que comprender tu propia preferencia sexual no es solo un viaje personal, sino una parte esencial de abrazar tu ser completo."
+set_sexuality.0001.a:0 "Te das cuenta de que eres asexual."
+set_sexuality.0001.b:0 "Te das cuenta de que eres bisexual"
+set_sexuality.0001.c:0 "Te das cuenta de que eres homosexual"
+set_sexuality.0001.d:0 "Te das cuenta de que eres heterosexual"
+set_sexuality.0001.e:0 "Contento con quien eres, tu corazón encuentra paz."

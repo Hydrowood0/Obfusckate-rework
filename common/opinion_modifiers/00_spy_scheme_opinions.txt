@@ -1,0 +1,37 @@
+﻿
+#Spy Scheme Discovery
+spied_on_family_member_opinion = {
+	opinion = -25
+	years = 3
+	decaying = yes
+}
+
+spied_on_spouse_opinion = {
+	opinion = -25
+	years = 5
+	decaying = yes
+}
+
+spying_on_us_opinion = {
+	opinion = -20
+	years = 5
+	decaying = yes
+}
+
+spied_on_other_vassal_opinion = {
+	opinion = -20
+	years = 3
+	decaying = yes
+}
+
+voyeur_opinion = {
+	opinion = -25
+	years = 3
+	decaying = yes
+}
+
+is_spying_on_me_opinion = {
+	opinion = -30
+	years = 2
+	decaying = yes
+}

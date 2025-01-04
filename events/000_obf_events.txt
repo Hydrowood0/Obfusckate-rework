@@ -1,0 +1,5705 @@
+﻿#Events handling the flagging of characters the player meets
+
+namespace = acquaintance
+
+#Make an acquaintance through sway
+
+acquaintance.1001 = {
+	type = character_event
+	hidden = yes 
+	trigger = {
+				OR = {scope:owner = {is_ai = no}
+				scope:target = {is_ai = no}}
+				scope:target = { 
+				OR = {
+						opinion = {
+						target = scope:owner
+						value >= 90 
+						}
+						has_opinion_modifier = {
+							target = scope:owner
+							modifier = scheme_sway_opinion
+							value >= 35
+						}
+						has_opinion_modifier = {
+							target = scope:owner
+							modifier = friendliness_opinion
+						}
+						has_opinion_modifier = {
+							target = scope:owner
+							modifier = grateful_opinion
+						}
+						has_opinion_modifier = {
+							target = scope:owner
+							modifier = angry_opinion
+						}
+				}
+			}
+		}
+
+	immediate = {
+		if = {
+		limit = {scope:target = {
+					is_ai = yes
+					OR = {opinion = {
+						target = scope:owner
+						value >= 90 
+						}
+						has_opinion_modifier = {
+							target = scope:owner
+							modifier = scheme_sway_opinion
+							value >= 90
+						}}}}
+		scope:target = {
+				character_deception_effect = yes
+				character_known_effect = yes
+				}
+			}
+		else_if = {
+		limit = {scope:target = {is_ai = yes}}
+		scope:target = {
+				character_barely_known_effect = yes
+				}
+			}
+		else_if = {
+		limit = {scope:owner = {is_ai = yes}}
+		scope:owner = {
+			character_barely_known_effect = yes
+				}
+			}
+		}
+}
+acquaintance.1002 = {
+	type = character_event
+	hidden = yes 
+	trigger = {
+				OR = {scope:owner = {is_ai = no}
+				scope:target = {is_ai = no}}
+				scope:target = { 
+				OR = { 
+						opinion = {
+						target = scope:owner
+						value >= 90
+						}
+						has_opinion_modifier = {
+							target = scope:owner
+							modifier = scheme_sway_opinion
+							value >= 35
+						}
+						has_opinion_modifier = {
+							target = scope:owner
+							modifier = friendliness_opinion
+						}
+						has_opinion_modifier = {
+							target = scope:owner
+							modifier = grateful_opinion
+						}
+						has_opinion_modifier = {
+							target = scope:owner
+							modifier = angry_opinion
+						}
+				}
+			}
+		}
+
+	immediate = {
+		if = {
+		limit = {scope:target = {
+					is_ai = yes
+					OR = {opinion = {
+						target = scope:owner
+						value >= 90 
+						}
+						has_opinion_modifier = {
+							target = scope:owner
+							modifier = scheme_sway_opinion
+							value >= 90
+						}}}}
+		scope:target = {
+				character_deception_effect = yes
+			character_known_effect = yes
+				}
+			}
+		else_if = {
+		limit = {scope:target = {is_ai = yes}}
+		scope:target = {
+				character_barely_known_effect = yes
+				}
+			}
+		else_if = {
+		limit = {scope:owner = {is_ai = yes}}
+		scope:owner = {
+			character_barely_known_effect = yes
+				}
+			}
+		}
+}
+
+acquaintance.1003 = {
+	type = character_event
+	hidden = yes 
+	trigger = {
+				OR = {scope:owner = {is_ai = no}
+				scope:target = {is_ai = no}}
+				scope:target = { 
+				OR = {
+				scope:target = { 
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = scheme_sway_opinion
+					value >= 1
+							}
+						}
+						
+				AND = {	scope:target = {is_ai = no}
+						scope:scheme = {
+						has_variable = had_event_sway_ongoing_1001 }}
+				AND = {	scope:target = {is_ai = no}
+						scope:scheme = {
+						has_variable = had_event_sway_ongoing_1002 }}
+				scope:scheme = {
+						has_variable = had_event_sway_ongoing_5011 }
+					}
+				}
+			}
+
+	immediate = {
+		if = {
+		limit = {scope:target = {is_ai = yes}}
+		scope:target = {
+				character_met_effect = yes
+				}
+			}
+		else_if = {
+		limit = {scope:owner = {is_ai = yes}}
+		scope:owner = {
+			character_met_effect = yes
+				}
+			}
+		}
+}
+
+
+####BEFRIEND####
+####Make an acquaintance through befriend
+
+acquaintance.2001 = {
+	type = character_event
+	hidden = yes 
+		trigger = { 
+				exists = scope:scheme
+				OR = {scope:owner = {is_ai = no}
+				scope:target = {is_ai = no}}
+				}
+immediate = {
+		if = {
+		limit = {
+				scope:target = {
+					is_ai = yes
+				befriend_had_interaction = yes}}
+		scope:target = {
+				character_deception_effect = yes
+				character_known_effect = yes
+				}
+			}
+		else_if = {
+		limit = {
+				scope:owner = {
+					is_ai = yes
+				befriend_had_interaction = yes}}
+		scope:owner = {
+			character_deception_effect = yes
+			character_known_effect = yes
+				}
+			}
+		else_if = {
+		limit = {
+				scope:target = {
+				is_ai = yes
+				NOT = {has_character_flag = partially_spied_2}
+				befriend_had_contact = yes}}
+		scope:target = {
+				character_barely_known_effect = yes
+				}
+			}
+		else_if = {
+		limit = {
+				scope:owner = {is_ai = yes
+				NOT = {has_character_flag = partially_spied_3}
+				befriend_had_contact = yes}}
+		scope:owner = {
+			character_barely_known_effect = yes
+				}
+			}
+		else_if = {
+		limit = {
+				scope:target = {
+				is_ai = yes
+				NOT = {has_character_flag = partially_spied_2}
+				befriend_has_met = yes}}
+		scope:target = {
+				character_met_effect = yes
+				}
+			}
+		else_if = {
+		limit = {
+				scope:owner = {
+				is_ai = yes
+				NOT = {has_character_flag = partially_spied_2}
+				befriend_has_met = yes}}
+		scope:owner = {
+			character_met_effect = yes
+				}
+			}
+		}
+}
+
+#### SCHEME OUTCOMES - BEFRIEND 
+acquaintance.2002 = {
+	type = character_event
+	hidden = yes 
+		trigger = { 
+				OR = {scope:owner = {is_ai = no}
+				scope:target = {is_ai = no}}
+				}
+immediate = {
+		if = {
+		limit = {
+		scope:target = {
+					is_ai = yes
+				NOT = {has_character_flag = partially_spied_2}}}
+		scope:target = {
+				character_met_effect = yes
+				}
+			}
+		else_if = {
+		limit = {
+		scope:owner = {
+					is_ai = yes
+				NOT = {has_character_flag = partially_spied_2}}}
+		scope:owner = {
+				character_met_effect = yes
+				}
+		}
+	}
+}
+####SEDUCTION####
+####Make an acquaintance through seduce
+
+acquaintance.2003 = {
+	type = character_event
+	hidden = yes 
+		trigger = { 
+				exists = scope:scheme
+				OR = {scope:owner = {is_ai = no}
+				scope:target = {is_ai = no}}
+				}
+immediate = {
+		if = {
+		limit = {
+				scope:target = {
+					is_ai = yes
+				has_opinion_modifier = {
+					target = scope:owner
+					modifier = romance_opinion}}
+				scope:scheme = {has_scheme_modifier = seduce_success_2_modifier}}
+		scope:target = {
+				character_deception_effect = yes
+				character_known_effect = yes
+				}
+			}
+		else_if = {
+		limit = {
+				scope:owner = {
+					is_ai = yes
+				has_opinion_modifier = {
+					target = scope:target
+					modifier = romance_opinion}}}
+		scope:owner = {
+			character_deception_effect = yes
+				character_known_effect = yes
+				}
+			}
+		else_if = {
+		limit = {
+				scope:target = {
+				is_ai = yes
+				NOT = {has_character_flag = partially_spied_3}}
+				scope:scheme = {has_scheme_modifier = seduce_success_2_modifier}}
+		scope:target = {
+				character_barely_known_effect = yes
+				}
+			}
+		else_if = {
+		limit = {
+				scope:owner = {is_ai = yes
+				NOT = {has_character_flag = partially_spied_3}}
+				scope:scheme = {has_scheme_modifier = seduce_success_2_modifier}}
+		scope:owner = {
+			character_barely_known_effect = yes
+				}
+			}
+		else_if = {
+		limit = {
+				scope:target = {
+				is_ai = yes
+				NOT = {has_character_flag = partially_spied_2}}
+				OR = {
+				scope:scheme = {has_scheme_modifier = seduce_success_1_modifier}
+				scope:scheme = {scheme_progress >= 6}}}
+		scope:target = {
+				character_met_effect = yes
+				}
+			}
+		else_if = {
+		limit = {
+				scope:owner = {
+				is_ai = yes
+				NOT = {has_character_flag = partially_spied_2}}
+				OR = {
+				scope:scheme = {has_scheme_modifier = seduce_success_1_modifier}
+				scope:scheme = {scheme_progress >= 6}}}
+		scope:owner = {
+			character_met_effect = yes
+				}
+			}
+		}
+}
+
+#### SCHEME OUTCOMES  SEDUCE
+acquaintance.2004 = {
+	type = character_event
+	hidden = yes 
+		trigger = { 
+				OR = {scope:owner = {is_ai = no}
+				scope:target = {is_ai = no}}
+				}
+immediate = {
+		if = {
+		limit = {
+		scope:target = {
+					is_ai = yes
+			scope:scheme = {
+			OR = {
+					has_scheme_modifier = seduce_failure_2_modifier
+					has_variable = declined_seduce_milestone_2_event
+						}
+					}
+				}
+			}
+		scope:target = {
+				character_barely_known_effect = yes
+				}
+			}
+		else_if = {
+		limit = {
+		scope:owner = {
+					is_ai = yes
+				scope:scheme = {
+			OR = {
+					has_scheme_modifier = seduce_failure_2_modifier
+					has_variable = declined_seduce_milestone_2_event
+						}
+					}
+				}
+			}
+		scope:owner = {
+				character_barely_known_effect = yes
+				}
+		}
+	}
+}
+
+#####ROMANCE
+#Make an acquaintance through romance
+acquaintance.2005 = {
+	type = character_event
+	hidden = yes 
+		trigger = { 
+				exists = scope:scheme
+				OR = {scope:owner = {is_ai = no}
+				scope:target = {is_ai = no}}
+				}
+immediate = {
+		if = {
+		limit = {
+				scope:target = {
+					is_ai = yes}
+			
+		scope:scheme = {exists = var:court_milestone_event
+							var:court_milestone_event >= 3}}
+		scope:target = {
+				character_deception_effect = yes
+				character_known_effect = yes
+				}
+			}
+		else_if = {
+		limit = {
+				scope:owner = {
+					is_ai = yes}
+			scope:scheme = {exists = var:court_milestone_event
+							var:court_milestone_event >= 3}}
+		scope:owner = {
+			character_deception_effect = yes
+				character_known_effect = yes
+				}
+			}
+		else_if = {
+		limit = {
+				scope:target = {
+				is_ai = yes
+				NOT = {has_character_flag = partially_spied_3}}
+		scope:scheme = {exists = var:court_milestone_event
+							var:court_milestone_event > 1}}
+		scope:target = {
+				character_barely_known_effect = yes
+				}
+			}
+		else_if = {
+		limit = {
+				scope:owner = {is_ai = yes
+				NOT = {has_character_flag = partially_spied_3}}
+		scope:scheme = {exists = var:court_milestone_event
+							var:court_milestone_event > 1}}
+		scope:owner = {
+			character_barely_known_effect = yes
+				}
+			}
+		else_if = {
+		limit = {
+				scope:target = {
+				is_ai = yes
+				NOT = {has_character_flag = partially_spied_2}}}
+		scope:target = {
+				character_met_effect = yes
+				}
+			}
+		else_if = {
+		limit = {
+				scope:owner = {
+				is_ai = yes
+				NOT = {has_character_flag = partially_spied_2}}}
+		scope:owner = {
+			character_met_effect = yes
+				}
+			}
+		}
+}
+
+###ACTIVITIES - FEAST - HUNT - PLAYDATE
+
+#FLAG PARTICIPANTS IN ACTIVITY
+
+acquaintance.3000 = { #All see each other for the first time
+	type = character_event
+	hidden = yes
+	
+	trigger = { root = {is_ai = no}}
+	immediate = {
+		if = {
+			limit = {
+				root = {is_adult = yes}}
+		scope:activity = {
+				every_attending_character = {
+				limit = {
+				NOT = {this = root}}
+				add_character_flag = {
+				flag = partially_spied
+				months = 18
+					}
+				}
+				every_attending_character = {
+				limit = {
+				NOT = {this = root}
+				OR = {
+				has_trait = albino
+				has_trait = giant
+				has_trait = dwarf
+				has_trait = hunchbacked
+				has_trait = beauty_bad_3
+				has_trait = one_legged
+				has_trait = disfigured
+				has_trait = one_eyed
+				has_trait = scaly
+				ai_sociability > 75
+				}}
+				character_met_effect = yes
+				}
+				every_attending_character = {
+				limit = {
+				NOT = {this = root}
+				root = {is_attracted_to_gender_of = prev}
+				AND = {
+				OR = {has_trait = beauty_good
+				has_trait = physique_good}
+					}}
+				character_met_effect = yes
+				}
+			}
+		}
+		if = {
+			limit = {
+				root = {is_adult = no}}
+		scope:activity = {
+				every_attending_character = {
+				limit = {
+				NOT = {this = root}}
+				add_character_flag = {
+				flag = partially_spied
+				months = 18
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				root = {is_adult = no
+				NOT = {has_trait = pensive}}}
+		scope:activity = {
+				every_attending_character = {
+				limit = {
+				NOT = {has_trait = pensive}
+				has_trait = curious
+				NOT = {this = root}}
+				character_met_effect = yes
+				}
+			}
+		}
+		if = {
+			limit = {
+				root = {is_adult = no
+				has_trait = curious
+				NOT = {has_trait = pensive}}}
+		scope:activity = {
+				every_attending_character = {
+				limit = {
+				NOT = {has_trait = pensive}
+				NOT = {this = root}}
+				character_met_effect = yes
+				}
+			}
+		}
+		if = {  ##It's only natural that an honorary guest is properly introduced so you get a deeper knowledge
+			limit = {
+				exists = involved_activity.special_guest:honorary_guest
+			}
+			involved_activity.special_guest:honorary_guest = { save_scope_as = honorary_guest }
+		}
+		else_if = {  ##It's only natural that an honorary guest is properly introduced so you get a deeper knowledge
+			limit = {
+				exists = involved_activity.special_guest:honorary_guest_regular
+			}
+			involved_activity.special_guest:honorary_guest_regular = { save_scope_as = honorary_guest  }
+		}
+		scope:honorary_guest = {
+		character_barely_known_effect = yes
+		}
+	}
+}
+
+##The host is a sociable person and so are you or you are the host and the guest is sociable
+acquaintance.3001 = {
+	type = character_event
+	hidden = yes
+	
+	trigger = {
+	root = {is_ai = no
+			ai_sociability >= 70
+			NOT = {has_trait = shy}}
+	scope:activity = {
+			activity_host = root}}
+
+	immediate = {
+		scope:activity = {
+				every_attending_character = {
+				limit = {
+				ai_sociability >= 70
+				NOT = {has_trait = shy}
+				NOT = {this = root}}
+				character_barely_known_effect = yes
+					}
+				}
+	}
+}
+
+acquaintance.3002 = {
+	type = character_event
+	hidden = yes
+	
+	trigger = {
+	root = {is_ai = no
+			ai_sociability >= 70
+			NOT = {has_trait = shy}}
+	scope:activity = {
+			activity_host ={
+				NOT = {this = root}
+				ai_sociability >= 70
+			NOT = {has_trait = shy}}}}
+
+	immediate = {
+		scope:activity = {
+			activity_host ={
+				character_barely_known_effect = yes
+					}
+				}
+	}
+}
+
+acquaintance.3003 = {
+	type = character_event
+	hidden = yes
+	
+	trigger = {
+	root = {is_ai = no}}
+
+	immediate = {
+		random_list = {
+		25 = { ## chance of meeting no one
+			modifier = {
+				root.ai_sociability < 0
+				add = {
+				value = root.ai_sociability
+				multiply = -2
+					}
+				}
+			modifier = {
+				root.ai_energy < 0
+				add = {
+				value = root.ai_energy
+				multiply = -1
+					}
+				}
+			modifier = {
+				root = {has_trait = reclusive}
+				factor = 1.5
+				}
+			modifier = {
+				root = {has_trait = lifestyle_reveler}
+				factor = 0.65
+				}
+			modifier = {
+				root.ai_sociability > 0
+				factor = 0
+				}
+			}
+		25 = { # chance of meeting one person
+			modifier = {
+				root.ai_sociability < 0
+				add = {
+					value = root.ai_sociability
+					multiply = -1
+					}
+				}
+			modifier = {
+				root.ai_energy < 0
+				add = {
+					value = root.ai_energy
+					multiply = -0.5
+					}
+				}
+			modifier = {
+				root = {has_trait = reclusive}
+				factor = 1.5
+				}
+			modifier = {
+				root = {has_trait = lifestyle_reveler}
+				factor = 0.65
+				}
+		scope:activity = {
+				random_attending_character = {
+				limit = {
+				is_pool_character = no
+				NOR = {this = root
+				has_character_flag = partially_spied_3
+				is_courtier_of = root
+				is_pool_guest_of = root}}
+				weight = {
+					base = 0
+					modifier = {
+						add = 30
+						feast_had_interaction = yes
+					}
+					modifier = {
+						add = 15
+						feast_had_contact = yes
+					}
+					modifier = {
+						add = 5
+						feast_slight_contact = yes
+					}
+					modifier = {
+						add = 25
+						is_of_major_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 10
+						is_of_minor_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 5
+						ai_sociability > 0
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 25
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 50
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 100
+						}
+					modifier = {
+						add = 5
+						ai_energy > 0
+					}
+					modifier = {
+						add = 5
+						ai_energy > 25
+					}
+					modifier = {
+						add = 5
+						ai_energy > 50
+					}
+					modifier = {
+						add = 5
+						ai_energy > 100
+					}
+					modifier = {
+						add = 10
+						reverse_opinion = {
+							target = root
+							value >= 0 
+							}
+						}
+					# Trait Compatibility
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= low_positive_trait_compatibility }
+					}
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= medium_positive_trait_compatibility }
+					}
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= high_positive_trait_compatibility }
+					}
+					# Age Compatibility
+					modifier = {
+						add = 5
+						age <= root.age_plus_10
+						age >= root.age_minus_10
+					}
+					modifier = {
+						add = 5
+						age <= root.age_plus_5
+						age >= root.age_minus_5
+					}
+					modifier = {
+						factor = 2
+						highest_held_title_tier >= tier_duchy
+					}		
+					modifier = {
+						factor = 1.5
+						exists = matchmaker
+						matchmaker.highest_held_title_tier >= tier_kingdom	
+						root = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root }
+					}
+					modifier = {
+						factor = 1.5
+						exists = matchmaker
+						matchmaker.highest_held_title_tier >= tier_kingdom	
+						root.primary_heir = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root.primary_heir }
+					}
+					modifier = {
+						factor = 5
+						root = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root }
+					}
+					
+					modifier = {
+						factor = 2
+						root.primary_heir = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root.primary_heir }
+					}
+				}
+						if = {
+							limit = {has_character_flag = partially_spied_2}
+							character_deception_effect = yes
+							character_known_effect = yes
+							}
+						else = {
+								character_barely_known_effect = yes
+						}
+						save_scope_as = guest_to_meet
+						root = {new_acquaintance_effect_feast = {CHARACTER = prev}}
+			
+					}
+				}
+			}
+		25 = {
+			modifier = {
+				root.ai_sociability > 0
+				add = {
+					value = root.ai_sociability
+					multiply = 0.5
+					}
+				}
+			modifier = {
+				root.ai_energy > 0
+				add = {
+					value = root.ai_energy
+					multiply = 0.25
+					}
+				}
+			modifier = {
+				root = {has_trait = reclusive}
+				factor = 0.65
+				}
+			modifier = {
+				root = {has_trait = lifestyle_reveler}
+				factor = 1.5
+				}
+		scope:activity = {
+				random_attending_character = {
+				limit = {
+				is_pool_character = no
+				NOR = {this = root
+				has_character_flag = partially_spied_3
+				is_courtier_of = root
+				is_pool_guest_of = root}}
+				weight = {
+					base = 0
+					modifier = {
+						add = 30
+						feast_had_interaction = yes
+					}
+					modifier = {
+						add = 15
+						feast_had_contact = yes
+					}
+					modifier = {
+						add = 5
+						feast_slight_contact = yes
+					}
+					modifier = {
+						add = 25
+						is_of_major_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 10
+						is_of_minor_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 5
+						ai_sociability > 0
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 25
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 50
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 100
+						}
+					modifier = {
+						add = 5
+						ai_energy > 0
+					}
+					modifier = {
+						add = 5
+						ai_energy > 25
+					}
+					modifier = {
+						add = 5
+						ai_energy > 50
+					}
+					modifier = {
+						add = 5
+						ai_energy > 100
+					}
+					modifier = {
+						add = 10
+						reverse_opinion = {
+							target = root
+							value >= 0 
+							}
+						}
+					# Trait Compatibility
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= low_positive_trait_compatibility }
+					}
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= medium_positive_trait_compatibility }
+					}
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= high_positive_trait_compatibility }
+					}
+					# Age Compatibility
+					modifier = {
+						add = 5
+						age <= root.age_plus_10
+						age >= root.age_minus_10
+					}
+					modifier = {
+						add = 5
+						age <= root.age_plus_5
+						age >= root.age_minus_5
+					}
+					modifier = {
+						factor = 2
+						highest_held_title_tier >= tier_duchy
+					}		
+					modifier = {
+						factor = 1.5
+						exists = matchmaker
+						matchmaker.highest_held_title_tier >= tier_kingdom	
+						root = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root }
+					}
+					modifier = {
+						factor = 1.5
+						exists = matchmaker
+						matchmaker.highest_held_title_tier >= tier_kingdom	
+						root.primary_heir = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root.primary_heir }
+					}
+					modifier = {
+						factor = 5
+						root = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root }
+					}
+					
+					modifier = {
+						factor = 2
+						root.primary_heir = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root.primary_heir }
+					}
+				}
+						if = {
+							limit = {has_character_flag = partially_spied_2}
+							character_deception_effect = yes
+							character_known_effect = yes
+							}
+						else = {
+								character_barely_known_effect = yes
+						}
+						save_scope_as = guest_to_meet
+						root = {new_acquaintance_effect_feast = {CHARACTER = prev}}
+			
+					}
+				}
+		scope:activity = {
+				random_attending_character = {
+				limit = {
+				is_pool_character = no
+				NOR = {this = root
+				has_character_flag = partially_spied_3
+				is_courtier_of = root
+				is_pool_guest_of = root}}
+				weight = {
+					base = 0
+					modifier = {
+						add = 30
+						feast_had_interaction = yes
+					}
+					modifier = {
+						add = 15
+						feast_had_contact = yes
+					}
+					modifier = {
+						add = 5
+						feast_slight_contact = yes
+					}
+					modifier = {
+						add = 25
+						is_of_major_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 10
+						is_of_minor_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 5
+						ai_sociability > 0
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 25
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 50
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 100
+						}
+					modifier = {
+						add = 5
+						ai_energy > 0
+					}
+					modifier = {
+						add = 5
+						ai_energy > 25
+					}
+					modifier = {
+						add = 5
+						ai_energy > 50
+					}
+					modifier = {
+						add = 5
+						ai_energy > 100
+					}
+					modifier = {
+						add = 10
+						reverse_opinion = {
+							target = root
+							value >= 0 
+							}
+						}
+					# Trait Compatibility
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= low_positive_trait_compatibility }
+					}
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= medium_positive_trait_compatibility }
+					}
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= high_positive_trait_compatibility }
+					}
+					# Age Compatibility
+					modifier = {
+						add = 5
+						age <= root.age_plus_10
+						age >= root.age_minus_10
+					}
+					modifier = {
+						add = 5
+						age <= root.age_plus_5
+						age >= root.age_minus_5
+					}
+					modifier = {
+						factor = 2
+						highest_held_title_tier >= tier_duchy
+					}		
+					modifier = {
+						factor = 1.5
+						exists = matchmaker
+						matchmaker.highest_held_title_tier >= tier_kingdom	
+						root = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root }
+					}
+					modifier = {
+						factor = 1.5
+						exists = matchmaker
+						matchmaker.highest_held_title_tier >= tier_kingdom	
+						root.primary_heir = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root.primary_heir }
+					}
+					modifier = {
+						factor = 5
+						root = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root }
+					}
+					
+					modifier = {
+						factor = 2
+						root.primary_heir = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root.primary_heir }
+					}
+				}
+						if = {
+							limit = {has_character_flag = partially_spied_2}
+							character_deception_effect = yes
+							character_known_effect = yes
+							}
+						else = {
+								character_barely_known_effect = yes
+						}
+						save_scope_as = guest_to_meet
+						root = {new_acquaintance_effect_feast = {CHARACTER = prev}}
+			
+					}
+				}
+			}
+		25 = {
+			modifier = {
+				root.ai_sociability > 0
+				add = root.ai_sociability
+				}
+			modifier = {
+				root.ai_energy > 0
+				add = {
+					value = root.ai_energy
+					multiply = 0.5
+					}
+				}
+			modifier = {
+				root = {has_trait = reclusive}
+				factor = 0.65
+				}
+			modifier = {
+				root = {has_trait = lifestyle_reveler}
+				add = 1.5
+				}
+			modifier = {
+				root.ai_sociability < 0
+				factor = 0
+				}
+			modifier = {
+				root = {has_character_flag = met_three_people}
+				factor = 0
+				}
+		scope:activity = {
+				random_attending_character = {
+				limit = {
+				is_pool_character = no
+				NOR = {this = root
+				has_character_flag = partially_spied_3
+				is_courtier_of = root
+				is_pool_guest_of = root}}
+				weight = {
+					base = 0
+					modifier = {
+						add = 30
+						feast_had_interaction = yes
+					}
+					modifier = {
+						add = 15
+						feast_had_contact = yes
+					}
+					modifier = {
+						add = 5
+						feast_slight_contact = yes
+					}
+					modifier = {
+						add = 25
+						is_of_major_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 10
+						is_of_minor_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 5
+						ai_sociability > 0
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 25
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 50
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 100
+						}
+					modifier = {
+						add = 5
+						ai_energy > 0
+					}
+					modifier = {
+						add = 5
+						ai_energy > 25
+					}
+					modifier = {
+						add = 5
+						ai_energy > 50
+					}
+					modifier = {
+						add = 5
+						ai_energy > 100
+					}
+					modifier = {
+						add = 10
+						reverse_opinion = {
+							target = root
+							value >= 0 
+							}
+						}
+					# Trait Compatibility
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= low_positive_trait_compatibility }
+					}
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= medium_positive_trait_compatibility }
+					}
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= high_positive_trait_compatibility }
+					}
+					# Age Compatibility
+					modifier = {
+						add = 5
+						age <= root.age_plus_10
+						age >= root.age_minus_10
+					}
+					modifier = {
+						add = 5
+						age <= root.age_plus_5
+						age >= root.age_minus_5
+					}
+					modifier = {
+						factor = 2
+						highest_held_title_tier >= tier_duchy
+					}		
+					modifier = {
+						factor = 1.5
+						exists = matchmaker
+						matchmaker.highest_held_title_tier >= tier_kingdom	
+						root = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root }
+					}
+					modifier = {
+						factor = 1.5
+						exists = matchmaker
+						matchmaker.highest_held_title_tier >= tier_kingdom	
+						root.primary_heir = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root.primary_heir }
+					}
+					modifier = {
+						factor = 5
+						root = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root }
+					}
+					
+					modifier = {
+						factor = 2
+						root.primary_heir = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root.primary_heir }
+					}
+				}
+						if = {
+							limit = {has_character_flag = partially_spied_2}
+							character_deception_effect = yes
+							character_known_effect = yes
+							}
+						else = {
+								character_barely_known_effect = yes
+						}
+						save_scope_as = guest_to_meet
+						root = {new_acquaintance_effect_feast = {CHARACTER = prev}}
+			
+					}
+				}
+		scope:activity = {
+				random_attending_character = {
+				limit = {
+				is_pool_character = no
+				NOR = {this = root
+				has_character_flag = partially_spied_3
+				is_courtier_of = root
+				is_pool_guest_of = root}}
+				weight = {
+					base = 0
+					modifier = {
+						add = 30
+						feast_had_interaction = yes
+					}
+					modifier = {
+						add = 15
+						feast_had_contact = yes
+					}
+					modifier = {
+						add = 5
+						feast_slight_contact = yes
+					}
+					modifier = {
+						add = 25
+						is_of_major_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 10
+						is_of_minor_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 5
+						ai_sociability > 0
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 25
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 50
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 100
+						}
+					modifier = {
+						add = 5
+						ai_energy > 0
+					}
+					modifier = {
+						add = 5
+						ai_energy > 25
+					}
+					modifier = {
+						add = 5
+						ai_energy > 50
+					}
+					modifier = {
+						add = 5
+						ai_energy > 100
+					}
+					modifier = {
+						add = 10
+						reverse_opinion = {
+							target = root
+							value >= 0 
+							}
+						}
+					# Trait Compatibility
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= low_positive_trait_compatibility }
+					}
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= medium_positive_trait_compatibility }
+					}
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= high_positive_trait_compatibility }
+					}
+					# Age Compatibility
+					modifier = {
+						add = 5
+						age <= root.age_plus_10
+						age >= root.age_minus_10
+					}
+					modifier = {
+						add = 5
+						age <= root.age_plus_5
+						age >= root.age_minus_5
+					}
+					modifier = {
+						factor = 2
+						highest_held_title_tier >= tier_duchy
+					}		
+					modifier = {
+						factor = 1.5
+						exists = matchmaker
+						matchmaker.highest_held_title_tier >= tier_kingdom	
+						root = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root }
+					}
+					modifier = {
+						factor = 1.5
+						exists = matchmaker
+						matchmaker.highest_held_title_tier >= tier_kingdom	
+						root.primary_heir = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root.primary_heir }
+					}
+					modifier = {
+						factor = 5
+						root = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root }
+					}
+					
+					modifier = {
+						factor = 2
+						root.primary_heir = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root.primary_heir }
+					}
+				}
+						if = {
+							limit = {has_character_flag = partially_spied_2}
+							character_deception_effect = yes
+							character_known_effect = yes
+							}
+						else = {
+								character_barely_known_effect = yes
+						}
+						save_scope_as = guest_to_meet
+						root = {new_acquaintance_effect_feast = {CHARACTER = prev}}
+			
+					}
+				}
+				scope:activity = {
+				random_attending_character = {
+				limit = {
+				is_pool_character = no
+				NOR = {this = root
+				has_character_flag = partially_spied_3
+				is_courtier_of = root
+				is_pool_guest_of = root}}
+				weight = {
+					base = 0
+					modifier = {
+						add = 30
+						feast_had_interaction = yes
+					}
+					modifier = {
+						add = 15
+						feast_had_contact = yes
+					}
+					modifier = {
+						add = 5
+						feast_slight_contact = yes
+					}
+					modifier = {
+						add = 25
+						is_of_major_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 10
+						is_of_minor_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 5
+						ai_sociability > 0
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 25
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 50
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 100
+						}
+					modifier = {
+						add = 5
+						ai_energy > 0
+					}
+					modifier = {
+						add = 5
+						ai_energy > 25
+					}
+					modifier = {
+						add = 5
+						ai_energy > 50
+					}
+					modifier = {
+						add = 5
+						ai_energy > 100
+					}
+					modifier = {
+						add = 10
+						reverse_opinion = {
+							target = root
+							value >= 0 
+							}
+						}
+					# Trait Compatibility
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= low_positive_trait_compatibility }
+					}
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= medium_positive_trait_compatibility }
+					}
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= high_positive_trait_compatibility }
+					}
+					# Age Compatibility
+					modifier = {
+						add = 5
+						age <= root.age_plus_10
+						age >= root.age_minus_10
+					}
+					modifier = {
+						add = 5
+						age <= root.age_plus_5
+						age >= root.age_minus_5
+					}
+					modifier = {
+						factor = 2
+						highest_held_title_tier >= tier_duchy
+					}		
+					modifier = {
+						factor = 1.5
+						exists = matchmaker
+						matchmaker.highest_held_title_tier >= tier_kingdom	
+						root = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root }
+					}
+					modifier = {
+						factor = 1.5
+						exists = matchmaker
+						matchmaker.highest_held_title_tier >= tier_kingdom	
+						root.primary_heir = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root.primary_heir }
+					}
+					modifier = {
+						factor = 5
+						root = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root }
+					}
+					
+					modifier = {
+						factor = 2
+						root.primary_heir = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root.primary_heir }
+					}
+				}
+						if = {
+							limit = {has_character_flag = partially_spied_2}
+							character_deception_effect = yes
+							character_known_effect = yes
+							}
+						else = {
+								character_barely_known_effect = yes
+						}
+						save_scope_as = guest_to_meet
+						root = {
+						add_character_flag = {
+						flag = met_three_people
+						days = 30
+						}
+						new_acquaintance_effect_feast = {CHARACTER = prev}}
+			
+					}
+				}
+			}
+		}
+	}
+}
+
+acquaintance.3004 = {
+	type = character_event
+	hidden = yes
+	
+	trigger = {
+	root = {is_ai = no}}
+
+	immediate = {
+		random_list = {
+		25 = { ## chance of meeting no one
+			modifier = {
+				root.ai_sociability < 0
+				add = {
+				value = root.ai_sociability
+				multiply = -2
+					}
+				}
+			modifier = {
+				root.ai_energy < 0
+				add = {
+				value = root.ai_energy
+				multiply = -1
+					}
+				}
+			modifier = {
+				root = {has_trait = reclusive}
+				factor = 1.5
+				}
+			modifier = {
+				root = {has_trait = lifestyle_reveler}
+				factor = 0.65
+				}
+			modifier = {
+				root.ai_sociability > 0
+				factor = 0
+				}
+			modifier = {
+				OR = {
+			scope:activity.special_guest:spouse_1 = root
+			scope:activity.special_guest:spouse_2 = root
+					}
+				factor = 5
+				}
+			}
+		25 = { # chance of meeting one person
+			modifier = {
+				root.ai_sociability < 0
+				add = {
+					value = root.ai_sociability
+					multiply = -1
+					}
+				}
+			modifier = {
+				root.ai_energy < 0
+				add = {
+					value = root.ai_energy
+					multiply = -0.5
+					}
+				}
+			modifier = {
+				root = {has_trait = reclusive}
+				factor = 1.5
+				}
+			modifier = {
+				root = {has_trait = lifestyle_reveler}
+				factor = 0.65
+				}
+			modifier = {
+				OR = {
+			scope:activity.special_guest:spouse_1 = root
+			scope:activity.special_guest:spouse_2 = root
+					}
+				factor = 2
+				}
+		scope:activity = {
+				random_attending_character = {
+				limit = {
+				is_pool_character = no
+				NOR = {this = root
+				has_character_flag = partially_spied_3
+				is_courtier_of = root
+				is_pool_guest_of = root}}
+				weight = {
+					base = 0
+					modifier = {
+						add = 30
+						wedding_had_interaction = yes
+					}
+					modifier = {
+						add = 15
+						wedding_had_contact = yes
+					}
+					modifier = {
+						add = 5
+						wedding_slight_contact = yes
+					}
+					modifier = {
+						add = 50
+						is_of_major_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 25
+						is_of_minor_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 5
+						ai_sociability > 0
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 25
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 50
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 100
+						}
+					modifier = {
+						add = 5
+						ai_energy > 0
+					}
+					modifier = {
+						add = 5
+						ai_energy > 25
+					}
+					modifier = {
+						add = 5
+						ai_energy > 50
+					}
+					modifier = {
+						add = 5
+						ai_energy > 100
+					}
+					modifier = {
+						add = 10
+						reverse_opinion = {
+							target = root
+							value >= 0 
+							}
+						}
+					# Trait Compatibility
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= low_positive_trait_compatibility }
+					}
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= medium_positive_trait_compatibility }
+					}
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= high_positive_trait_compatibility }
+					}
+					# Age Compatibility
+					modifier = {
+						add = 5
+						age <= root.age_plus_10
+						age >= root.age_minus_10
+					}
+					modifier = {
+						add = 5
+						age <= root.age_plus_5
+						age >= root.age_minus_5
+					}
+					modifier = {
+						factor = 2
+						highest_held_title_tier >= tier_kingdom
+					}		
+					modifier = {
+						factor = 2
+						highest_held_title_tier >= tier_duchy
+					}		
+					modifier = {
+						factor = 1.5
+						exists = matchmaker
+						matchmaker.highest_held_title_tier >= tier_kingdom	
+						root = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root }
+					}
+					modifier = {
+						factor = 1.5
+						exists = matchmaker
+						matchmaker.highest_held_title_tier >= tier_kingdom	
+						root.primary_heir = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root.primary_heir }
+					}
+					modifier = {
+						factor = 5
+						root = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root }
+					}
+					
+					modifier = {
+						factor = 2
+						root.primary_heir = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root.primary_heir }
+					}
+				}
+						if = {
+							limit = {has_character_flag = partially_spied_2}
+							character_deception_effect = yes
+							character_known_effect = yes
+							}
+						else = {
+								character_barely_known_effect = yes
+						}
+						save_scope_as = guest_to_meet
+						root = {
+						new_acquaintance_effect_wedding = {CHARACTER = prev}}
+			
+					}
+				}
+			}
+		25 = {
+			modifier = {
+				root.ai_sociability > 0
+				add = {
+					value = root.ai_sociability
+					multiply = 0.5
+					}
+				}
+			modifier = {
+				root.ai_energy > 0
+				add = {
+					value = root.ai_energy
+					multiply = 0.25
+					}
+				}
+			modifier = {
+				root = {has_trait = reclusive}
+				factor = 0.65
+				}
+			modifier = {
+				root = {has_trait = lifestyle_reveler}
+				factor = 1.5
+				}
+			modifier = {
+				OR = {
+			scope:activity.special_guest:spouse_1 = root
+			scope:activity.special_guest:spouse_2 = root
+					}
+				factor = 0
+				}
+		scope:activity = {
+				random_attending_character = {
+				limit = {
+				is_pool_character = no
+				NOR = {this = root
+				has_character_flag = partially_spied_3
+				is_courtier_of = root
+				is_pool_guest_of = root}}
+				weight = {
+					base = 0
+					modifier = {
+						add = 30
+						wedding_had_interaction = yes
+					}
+					modifier = {
+						add = 15
+						wedding_had_contact = yes
+					}
+					modifier = {
+						add = 5
+						wedding_slight_contact = yes
+					}
+					modifier = {
+						add = 50
+						is_of_major_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 25
+						is_of_minor_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 5
+						ai_sociability > 0
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 25
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 50
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 100
+						}
+					modifier = {
+						add = 5
+						ai_energy > 0
+					}
+					modifier = {
+						add = 5
+						ai_energy > 25
+					}
+					modifier = {
+						add = 5
+						ai_energy > 50
+					}
+					modifier = {
+						add = 5
+						ai_energy > 100
+					}
+					modifier = {
+						add = 10
+						reverse_opinion = {
+							target = root
+							value >= 0 
+							}
+						}
+					# Trait Compatibility
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= low_positive_trait_compatibility }
+					}
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= medium_positive_trait_compatibility }
+					}
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= high_positive_trait_compatibility }
+					}
+					# Age Compatibility
+					modifier = {
+						add = 5
+						age <= root.age_plus_10
+						age >= root.age_minus_10
+					}
+					modifier = {
+						add = 5
+						age <= root.age_plus_5
+						age >= root.age_minus_5
+					}
+					modifier = {
+						factor = 2
+						highest_held_title_tier >= tier_kingdom
+					}		
+					modifier = {
+						factor = 2
+						highest_held_title_tier >= tier_duchy
+					}		
+					modifier = {
+						factor = 1.5
+						exists = matchmaker
+						matchmaker.highest_held_title_tier >= tier_kingdom	
+						root = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root }
+					}
+					modifier = {
+						factor = 1.5
+						exists = matchmaker
+						matchmaker.highest_held_title_tier >= tier_kingdom	
+						root.primary_heir = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root.primary_heir }
+					}
+					modifier = {
+						factor = 5
+						root = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root }
+					}
+					
+					modifier = {
+						factor = 2
+						root.primary_heir = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root.primary_heir }
+					}
+				}
+						if = {
+							limit = {has_character_flag = partially_spied_2}
+							character_deception_effect = yes
+							character_known_effect = yes
+							}
+						else = {
+								character_barely_known_effect = yes
+						}
+						save_scope_as = guest_to_meet
+						root = {
+						add_character_flag = {
+						flag = met_people_at_wedding
+						days = 10
+						}
+						new_acquaintance_effect_wedding = {CHARACTER = prev}}
+			
+					}
+				}
+		scope:activity = {
+				random_attending_character = {
+				limit = {
+				is_pool_character = no
+				NOR = {this = root
+				has_character_flag = partially_spied_3
+				is_courtier_of = root
+				is_pool_guest_of = root}}
+				weight = {
+					base = 0
+					modifier = {
+						add = 30
+						wedding_had_interaction = yes
+					}
+					modifier = {
+						add = 15
+						wedding_had_contact = yes
+					}
+					modifier = {
+						add = 5
+						wedding_slight_contact = yes
+					}
+					modifier = {
+						add = 50
+						is_of_major_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 25
+						is_of_minor_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 5
+						ai_sociability > 0
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 25
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 50
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 100
+						}
+					modifier = {
+						add = 5
+						ai_energy > 0
+					}
+					modifier = {
+						add = 5
+						ai_energy > 25
+					}
+					modifier = {
+						add = 5
+						ai_energy > 50
+					}
+					modifier = {
+						add = 5
+						ai_energy > 100
+					}
+					modifier = {
+						add = 10
+						reverse_opinion = {
+							target = root
+							value >= 0 
+							}
+						}
+					# Trait Compatibility
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= low_positive_trait_compatibility }
+					}
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= medium_positive_trait_compatibility }
+					}
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= high_positive_trait_compatibility }
+					}
+					# Age Compatibility
+					modifier = {
+						add = 5
+						age <= root.age_plus_10
+						age >= root.age_minus_10
+					}
+					modifier = {
+						add = 5
+						age <= root.age_plus_5
+						age >= root.age_minus_5
+					}
+					modifier = {
+						factor = 2
+						highest_held_title_tier >= tier_kingdom
+					}		
+					modifier = {
+						factor = 2
+						highest_held_title_tier >= tier_duchy
+					}		
+					modifier = {
+						factor = 1.5
+						exists = matchmaker
+						matchmaker.highest_held_title_tier >= tier_kingdom	
+						root = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root }
+					}
+					modifier = {
+						factor = 1.5
+						exists = matchmaker
+						matchmaker.highest_held_title_tier >= tier_kingdom	
+						root.primary_heir = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root.primary_heir }
+					}
+					modifier = {
+						factor = 5
+						root = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root }
+					}
+					
+					modifier = {
+						factor = 2
+						root.primary_heir = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root.primary_heir }
+					}
+				}
+						if = {
+							limit = {has_character_flag = partially_spied_2}
+							character_deception_effect = yes
+							character_known_effect = yes
+							}
+						else = {
+								character_barely_known_effect = yes
+						}
+						save_scope_as = guest_to_meet
+						root = {
+						add_character_flag = {
+						flag = met_people_at_wedding
+						days = 10
+						}
+						new_acquaintance_effect_wedding = {CHARACTER = prev}}
+			
+					}
+				}
+			}
+		25 = {
+			modifier = {
+				root.ai_sociability > 0
+				add = root.ai_sociability
+				}
+			modifier = {
+				root.ai_energy > 0
+				add = {
+					value = root.ai_energy
+					multiply = 0.5
+					}
+				}
+			modifier = {
+				root = {has_trait = reclusive}
+				factor = 0.65
+				}
+			modifier = {
+				root = {has_trait = lifestyle_reveler}
+				add = 1.5
+				}
+			modifier = {
+				root.ai_sociability < 0
+				factor = 0
+				}
+			modifier = {
+				OR = {
+			scope:activity.special_guest:spouse_1 = root
+			scope:activity.special_guest:spouse_2 = root
+					}
+				factor = 0
+				}
+		scope:activity = {
+				random_attending_character = {
+				limit = {
+				is_pool_character = no
+				NOR = {this = root
+				has_character_flag = partially_spied_3
+				is_courtier_of = root
+				is_pool_guest_of = root}}
+				weight = {
+					base = 0
+					modifier = {
+						add = 30
+						wedding_had_interaction = yes
+					}
+					modifier = {
+						add = 15
+						wedding_had_contact = yes
+					}
+					modifier = {
+						add = 5
+						wedding_slight_contact = yes
+					}
+					modifier = {
+						add = 50
+						is_of_major_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 25
+						is_of_minor_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 5
+						ai_sociability > 0
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 25
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 50
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 100
+						}
+					modifier = {
+						add = 5
+						ai_energy > 0
+					}
+					modifier = {
+						add = 5
+						ai_energy > 25
+					}
+					modifier = {
+						add = 5
+						ai_energy > 50
+					}
+					modifier = {
+						add = 5
+						ai_energy > 100
+					}
+					modifier = {
+						add = 10
+						reverse_opinion = {
+							target = root
+							value >= 0 
+							}
+						}
+					# Trait Compatibility
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= low_positive_trait_compatibility }
+					}
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= medium_positive_trait_compatibility }
+					}
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= high_positive_trait_compatibility }
+					}
+					# Age Compatibility
+					modifier = {
+						add = 5
+						age <= root.age_plus_10
+						age >= root.age_minus_10
+					}
+					modifier = {
+						add = 5
+						age <= root.age_plus_5
+						age >= root.age_minus_5
+					}
+					modifier = {
+						factor = 2
+						highest_held_title_tier >= tier_kingdom
+					}		
+					modifier = {
+						factor = 2
+						highest_held_title_tier >= tier_duchy
+					}			
+					modifier = {
+						factor = 1.5
+						exists = matchmaker
+						matchmaker.highest_held_title_tier >= tier_kingdom	
+						root = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root }
+					}
+					modifier = {
+						factor = 1.5
+						exists = matchmaker
+						matchmaker.highest_held_title_tier >= tier_kingdom	
+						root.primary_heir = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root.primary_heir }
+					}
+					modifier = {
+						factor = 5
+						root = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root }
+					}
+					
+					modifier = {
+						factor = 2
+						root.primary_heir = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root.primary_heir }
+					}
+				}
+						if = {
+							limit = {has_character_flag = partially_spied_2}
+							character_deception_effect = yes
+							character_known_effect = yes
+							}
+						else = {
+								character_barely_known_effect = yes
+						}
+						save_scope_as = guest_to_meet
+						root = {
+						add_character_flag = {
+						flag = met_people_at_wedding
+						days = 10
+						}
+						new_acquaintance_effect_wedding = {CHARACTER = prev}}
+			
+					}
+				}
+		scope:activity = {
+				random_attending_character = {
+				limit = {
+				is_pool_character = no
+				NOR = {this = root
+				has_character_flag = partially_spied_3
+				is_courtier_of = root
+				is_pool_guest_of = root}}
+				weight = {
+					base = 0
+					modifier = {
+						add = 30
+						wedding_had_interaction = yes
+					}
+					modifier = {
+						add = 15
+						wedding_had_contact = yes
+					}
+					modifier = {
+						add = 5
+						wedding_slight_contact = yes
+					}
+					modifier = {
+						add = 50
+						is_of_major_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 25
+						is_of_minor_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 5
+						ai_sociability > 0
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 25
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 50
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 100
+						}
+					modifier = {
+						add = 5
+						ai_energy > 0
+					}
+					modifier = {
+						add = 5
+						ai_energy > 25
+					}
+					modifier = {
+						add = 5
+						ai_energy > 50
+					}
+					modifier = {
+						add = 5
+						ai_energy > 100
+					}
+					modifier = {
+						add = 10
+						reverse_opinion = {
+							target = root
+							value >= 0 
+							}
+						}
+					# Trait Compatibility
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= low_positive_trait_compatibility }
+					}
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= medium_positive_trait_compatibility }
+					}
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= high_positive_trait_compatibility }
+					}
+					# Age Compatibility
+					modifier = {
+						add = 5
+						age <= root.age_plus_10
+						age >= root.age_minus_10
+					}
+					modifier = {
+						add = 5
+						age <= root.age_plus_5
+						age >= root.age_minus_5
+					}
+					modifier = {
+						factor = 2
+						highest_held_title_tier >= tier_kingdom
+					}		
+					modifier = {
+						factor = 2
+						highest_held_title_tier >= tier_duchy
+					}			
+					modifier = {
+						factor = 1.5
+						exists = matchmaker
+						matchmaker.highest_held_title_tier >= tier_kingdom	
+						root = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root }
+					}
+					modifier = {
+						factor = 1.5
+						exists = matchmaker
+						matchmaker.highest_held_title_tier >= tier_kingdom	
+						root.primary_heir = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root.primary_heir }
+					}
+					modifier = {
+						factor = 5
+						root = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root }
+					}
+					
+					modifier = {
+						factor = 2
+						root.primary_heir = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root.primary_heir }
+					}
+				}
+						if = {
+							limit = {has_character_flag = partially_spied_2}
+							character_deception_effect = yes
+							character_known_effect = yes
+							}
+						else = {
+								character_barely_known_effect = yes
+						}
+						save_scope_as = guest_to_meet
+						root = {
+						add_character_flag = {
+						flag = met_people_at_wedding
+						days = 10
+						}
+						new_acquaintance_effect_wedding = {CHARACTER = prev}}
+			
+					}
+				}
+				scope:activity = {
+				random_attending_character = {
+				limit = {
+				is_pool_character = no
+				NOR = {this = root
+				has_character_flag = partially_spied_3
+				is_courtier_of = root
+				is_pool_guest_of = root}}
+				weight = {
+					base = 0
+					modifier = {
+						add = 30
+						wedding_had_interaction = yes
+					}
+					modifier = {
+						add = 15
+						wedding_had_contact = yes
+					}
+					modifier = {
+						add = 5
+						wedding_slight_contact = yes
+					}
+					modifier = {
+						add = 50
+						is_of_major_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 25
+						is_of_minor_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 5
+						ai_sociability > 0
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 25
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 50
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 100
+						}
+					modifier = {
+						add = 5
+						ai_energy > 0
+					}
+					modifier = {
+						add = 5
+						ai_energy > 25
+					}
+					modifier = {
+						add = 5
+						ai_energy > 50
+					}
+					modifier = {
+						add = 5
+						ai_energy > 100
+					}
+					modifier = {
+						add = 10
+						reverse_opinion = {
+							target = root
+							value >= 0 
+							}
+						}
+					# Trait Compatibility
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= low_positive_trait_compatibility }
+					}
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= medium_positive_trait_compatibility }
+					}
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= high_positive_trait_compatibility }
+					}
+					# Age Compatibility
+					modifier = {
+						add = 5
+						age <= root.age_plus_10
+						age >= root.age_minus_10
+					}
+					modifier = {
+						add = 5
+						age <= root.age_plus_5
+						age >= root.age_minus_5
+					}
+					modifier = {
+						factor = 2
+						highest_held_title_tier >= tier_kingdom
+					}		
+					modifier = {
+						factor = 2
+						highest_held_title_tier >= tier_duchy
+					}		
+					modifier = {
+						factor = 1.5
+						exists = matchmaker
+						matchmaker.highest_held_title_tier >= tier_kingdom	
+						root = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root }
+					}
+					modifier = {
+						factor = 1.5
+						exists = matchmaker
+						matchmaker.highest_held_title_tier >= tier_kingdom	
+						root.primary_heir = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root.primary_heir }
+					}
+					modifier = {
+						factor = 5
+						root = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root }
+					}
+					
+					modifier = {
+						factor = 2
+						root.primary_heir = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root.primary_heir }
+					}
+				}
+						if = {
+							limit = {has_character_flag = partially_spied_2}
+							character_deception_effect = yes
+							character_known_effect = yes
+							}
+						else = {
+								character_barely_known_effect = yes
+						}
+						save_scope_as = guest_to_meet
+						root = {
+						add_character_flag = {
+						flag = met_people_at_wedding
+						days = 10
+						}
+						new_acquaintance_effect_wedding = {CHARACTER = prev}}
+			
+					}
+				}
+			}
+		}
+	}
+}
+
+acquaintance.3005 = {
+	type = character_event
+	hidden = yes
+	
+	trigger = {
+	root = {is_ai = no}}
+
+	immediate = {
+		scope:activity = {
+				every_attending_character = {
+				limit = {
+				has_character_flag = partially_spied_2
+				NOR = {
+				this = root
+				AND = {scope:activity = {var:activity_special_type_progression < 50}
+				has_character_flag = just_arrived_at_university}
+				has_character_flag = partially_spied_3}}
+				character_deception_effect = yes
+				character_known_effect = yes
+					}
+				}
+		scope:activity = {
+				every_attending_character = {
+				limit = {
+				NOR = {
+				this = root
+				has_character_flag = partially_spied_2}}
+				character_barely_known_effect = yes
+				add_character_flag = {
+				flag = just_arrived_at_university
+				months = 2
+				}
+					}
+				}
+		root = {new_acquaintance_effect_university = yes}
+		
+	}
+}
+
+acquaintance.3006 = {
+	type = character_event
+	hidden = yes
+	
+	trigger = {
+	root = {is_ai = no}}
+
+	immediate = {
+		random_list = {
+		100 = { ## chance of meeting no one
+			modifier = {
+				add = {
+				value = root.ai_sociability
+				multiply = -0.5
+					}
+				}
+			modifier = {
+				add = {
+				value = root.ai_energy
+				multiply = -0.25
+					}
+				}
+			}
+		100 = { # chance of meeting one person
+			modifier = {
+				add = {
+				value = root.ai_sociability
+				multiply = 0.5
+					}
+				}
+			modifier = {
+				add = {
+				value = root.ai_energy
+				multiply = 0.25
+					}
+				}
+		scope:activity = {
+				random_attending_character = {
+				limit = {
+				is_pool_character = no
+				NOR = {this = root
+				has_character_flag = partially_spied_3}}
+				weight = {
+					base = 100
+					modifier = {
+						add = {
+							value = ai_sociability
+							multiply = 0.5
+						}
+					}
+					modifier = {
+						add = {
+							value = ai_energy
+							multiply = 0.5
+						}
+					}
+					modifier = {
+						add = 100
+						OR = {has_relation_crush = root
+						has_relation_bully = root
+						has_relation_victim = root}
+					}
+				}
+				character_barely_known_effect = yes
+				save_scope_as = guest_to_meet
+						root = {
+						new_acquaintance_effect_playdate = {CHARACTER = prev}}
+			
+					}
+				}
+			}
+		50 = {
+			modifier = {
+				add = {
+				value = root.ai_sociability
+				multiply = 0.5
+					}
+				}
+			modifier = {
+				add = {
+				value = root.ai_energy
+				multiply = 0.25
+					}
+				}
+		scope:activity = {
+				random_attending_character = {
+				limit = {
+				is_pool_character = no
+				NOR = {this = root
+				has_character_flag = partially_spied_3}}
+				weight = {
+					base = 100
+					modifier = {
+						add = {
+							value = ai_sociability
+							multiply = 0.5
+						}
+					}
+					modifier = {
+						add = {
+							value = ai_energy
+							multiply = 0.5
+						}
+					}
+					modifier = {
+						add = 100
+						OR = {has_relation_crush = root
+						has_relation_bully = root
+						has_relation_victim = root}
+					}
+				}
+				character_barely_known_effect = yes
+				save_scope_as = guest_to_meet
+						root = {
+						new_acquaintance_effect_playdate = {CHARACTER = prev}}
+			
+					}
+				random_attending_character = {
+				limit = {
+				is_pool_character = no
+				NOR = {this = root
+				has_character_flag = partially_spied_3}}
+				weight = {
+					base = 100
+					modifier = {
+						add = {
+							value = ai_sociability
+							multiply = 0.5
+						}
+					}
+					modifier = {
+						add = {
+							value = ai_energy
+							multiply = 0.5
+						}
+					}
+					modifier = {
+						add = 100
+						OR = {has_relation_crush = root
+						has_relation_bully = root
+						has_relation_victim = root}
+					}
+				}
+				character_barely_known_effect = yes
+				save_scope_as = guest_to_meet
+						root = {
+						new_acquaintance_effect_playdate = {CHARACTER = prev}}
+			
+					}
+				}
+			}
+		20 = {
+			modifier = {
+				add = {
+				value = root.ai_sociability
+				multiply = 0.5
+					}
+				}
+			modifier = {
+				add = {
+				value = root.ai_energy
+				multiply = 0.25
+					}
+				}
+		scope:activity = {
+				random_attending_character = {
+				limit = {
+				is_pool_character = no
+				NOR = {this = root
+				has_character_flag = partially_spied_3}}
+				weight = {
+					base = 100
+					modifier = {
+						add = {
+							value = ai_sociability
+							multiply = 0.5
+						}
+					}
+					modifier = {
+						add = {
+							value = ai_energy
+							multiply = 0.5
+						}
+					}
+					modifier = {
+						add = 100
+						OR = {has_relation_crush = root
+						has_relation_bully = root
+						has_relation_victim = root}
+					}
+				}
+				character_barely_known_effect = yes
+				save_scope_as = guest_to_meet
+						root = {
+						new_acquaintance_effect_playdate = {CHARACTER = prev}}
+			
+					}
+				random_attending_character = {
+				limit = {
+				is_pool_character = no
+				NOR = {this = root
+				has_character_flag = partially_spied_3}}
+				weight = {
+					base = 100
+					modifier = {
+						add = {
+							value = ai_sociability
+							multiply = 0.5
+						}
+					}
+					modifier = {
+						add = {
+							value = ai_energy
+							multiply = 0.5
+						}
+					}
+					modifier = {
+						add = 100
+						OR = {has_relation_crush = root
+						has_relation_bully = root
+						has_relation_victim = root}
+					}
+				}
+				character_barely_known_effect = yes
+				save_scope_as = guest_to_meet
+						root = {
+						new_acquaintance_effect_playdate = {CHARACTER = prev}}
+			
+					}
+					random_attending_character = {
+				limit = {
+				is_pool_character = no
+				NOR = {this = root
+				has_character_flag = partially_spied_3}}
+				weight = {
+					base = 100
+					modifier = {
+						add = {
+							value = ai_sociability
+							multiply = 0.5
+						}
+					}
+					modifier = {
+						add = {
+							value = ai_energy
+							multiply = 0.5
+						}
+					}
+					modifier = {
+						add = 100
+						OR = {has_relation_crush = root
+						has_relation_bully = root
+						has_relation_victim = root}
+					}
+				}
+				character_barely_known_effect = yes
+				save_scope_as = guest_to_meet
+						root = {
+						new_acquaintance_effect_playdate = {CHARACTER = prev}}
+			
+					}
+				}
+			}
+		}
+	}
+}
+
+acquaintance.3007 = {
+	type = character_event
+	hidden = yes
+	
+	trigger = {
+	root = {is_ai = no}}
+
+	immediate = {
+		root.location.county.holder = {
+				random_courtier_or_guest = {
+				limit = {
+				is_pool_character = no
+				NOR = {this = root
+				has_character_flag = partially_spied_3}}
+				weight = {
+					base = 0
+					modifier = {
+						add = 50
+						is_of_major_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 25
+						is_of_minor_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 5
+						ai_sociability > 0
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 25
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 50
+						}
+					modifier = {
+						add = 5
+						ai_sociability > 100
+						}
+					modifier = {
+						add = 5
+						ai_energy > 0
+					}
+					modifier = {
+						add = 5
+						ai_energy > 25
+					}
+					modifier = {
+						add = 5
+						ai_energy > 50
+					}
+					modifier = {
+						add = 5
+						ai_energy > 100
+					}
+					modifier = {
+						add = 10
+						reverse_opinion = {
+							target = root
+							value >= 0 
+							}
+						}
+					# Trait Compatibility
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= low_positive_trait_compatibility }
+					}
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= medium_positive_trait_compatibility }
+					}
+					modifier = {
+						add = 5
+						trait_compatibility = { target = root value >= high_positive_trait_compatibility }
+					}
+					# Age Compatibility
+					modifier = {
+						add = 5
+						age <= root.age_plus_10
+						age >= root.age_minus_10
+					}
+					modifier = {
+						add = 5
+						age <= root.age_plus_5
+						age >= root.age_minus_5
+					}
+					modifier = {
+						factor = 2
+						highest_held_title_tier >= tier_kingdom
+					}		
+					modifier = {
+						factor = 2
+						highest_held_title_tier >= tier_duchy
+					}		
+					modifier = {
+						factor = 1.5
+						exists = matchmaker
+						matchmaker.highest_held_title_tier >= tier_kingdom	
+						root = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root }
+					}
+					modifier = {
+						factor = 1.5
+						exists = matchmaker
+						matchmaker.highest_held_title_tier >= tier_kingdom	
+						root.primary_heir = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root.primary_heir }
+					}
+					modifier = {
+						factor = 5
+						root = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root }
+					}
+					
+					modifier = {
+						factor = 2
+						root.primary_heir = {is_married = no}
+						can_marry_character_trigger = { CHARACTER = root.primary_heir }
+					}
+				}
+						character_barely_known_effect = yes
+						save_scope_as = guest_to_meet
+						root = {
+						new_acquaintance_effect_tour = {CHARACTER = prev}}
+			
+					}
+				}
+			}
+		}
+
+
+
+
+
+
+##########################
+# Trying to seduce a sexaully incompatible character
+# Seduction_rejection
+# 8000
+##########################
+
+#hard reject
+#Close family hard reject 
+acquaintance.8000 = {
+	type = character_event
+	title = seduce_outcome.8101.t
+	desc = seduce_outcome.8101.desc
+	
+	theme = seduce_scheme
+	left_portrait = scope:owner
+
+	trigger = {
+		exists = scope:scheme
+		scope:owner = { is_alive = yes }
+	}
+
+	immediate = {
+		hidden_effect = {
+			#For clearer and more controllable ai outcomes, we determine the outcome here:
+
+			#HARD REJECT
+			if = { # Guaranteed rejection
+				limit = { NOT = { is_attracted_to_gender_of = scope:owner  } }
+				save_scope_value_as = {
+					name = incest_outcome
+					value = flag:reject
+				}
+			}
+
+			#SPECIFY REJECTION TYPE
+			if = {
+				limit = {
+					exists = scope:incest_outcome
+					scope:incest_outcome = flag:reject
+				}
+
+				#What kind of reject?
+				random_list = {
+					30 = { #Reveal
+						opinion_modifier = {
+							opinion_target = scope:owner
+							multiplier = -0.25
+						}
+						ai_value_modifier = {
+							ai_boldness = 0.5
+							ai_compassion = -0.5
+							ai_vengefulness = 0.5
+						}
+						ai_boldness_target_modifier = { VALUE = 100 }
+						ai_vengefulness_target_modifier = { VALUE = 100 }
+						min = 1 # To ensure 'incest_outcome' is never left unset.
+
+						save_scope_value_as = {
+							name = incest_outcome
+							value = flag:reject_reveal
+						}
+					}
+					70 = { #Silent reject
+						opinion_modifier = {
+							opinion_target = scope:owner
+							multiplier = 0.25
+						}
+						modifier = { #Less harsh on child
+							is_parent_of = scope:owner
+							add = 30
+						}
+						modifier = { #Less harsh if you stand to inherit
+							is_heir_of = scope:owner
+							add = 30
+						}
+						ai_value_modifier = {
+							ai_boldness = -0.5
+							ai_compassion = 0.5
+							ai_vengefulness = -0.5
+						}
+						ai_greed_target_modifier = { VALUE = 75 }
+						min = 1 # To ensure 'incest_outcome' is never left unset.
+
+						save_scope_value_as = {
+							name = incest_outcome
+							value = flag:reject_no_reveal
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = { #Leave me be!!
+		name = seduce_outcome.8101.a
+		trigger = {
+			trigger_if = {
+				limit = {
+					OR = {
+		           	 	faith = { has_doctrine = doctrine_consanguinity_unrestricted }
+		            	scope:owner = { has_perk = graceful_recovery_perk }
+				    }
+			    }
+			    is_ai = no
+			}
+		}
+		
+		reverse_add_opinion = {
+			target = scope:owner
+			modifier = refusal_opinion
+			opinion = -20
+		}
+
+		seduction_block_character_effect = { CHARACTER = scope:owner }
+
+		scope:owner = {
+			trigger_event = seduce_outcome.8102
+		}
+		
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 100
+				scope:incest_outcome = flag:reject_no_reveal
+			}
+		}
+	}
+
+	option = { #I will tell everyone about this!
+		name = seduce_outcome.8101.c
+		trigger = {
+			trigger_if = {
+				limit = {
+		            scope:owner = { has_perk = graceful_recovery_perk }
+			    }
+			    is_ai = no
+			}
+			NOT = {
+				faith = { has_doctrine = doctrine_consanguinity_unrestricted }
+			}
+		}
+
+		reverse_add_opinion = {
+			target = scope:owner
+			modifier = angry_opinion
+			opinion = -35
+		}
+
+		seduction_block_character_effect = { CHARACTER = scope:owner }
+
+		#Reveals incest (and sodomy/adultery)
+		show_as_tooltip = {
+			scope:owner = {
+				seduce_outcome_publicised_attempted_crimes_or_nothing_effect = {
+					TARGET = scope:target
+					OWNER = scope:owner
+				}
+			}
+		}
+
+		scope:owner = {
+			trigger_event = seduce_outcome.8103
+		}
+
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 100
+				scope:incest_outcome = flag:reject_reveal
+			}
+		}
+	}
+
+	option = { #Sin be damned, lets go!
+		name = seduce_outcome.8101.b
+		custom_tooltip = seduce_outcome.8101.b.tt
+
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 100
+				scope:incest_outcome = flag:accept
+			}
+		}
+	}
+}
+
+acquaintance.8001 = {
+	type = character_event
+	title = acquaintance.8001.t
+	desc = acquaintance.8001.desc
+
+	
+	theme = seduce_scheme
+	left_portrait = scope:owner
+
+	trigger = {
+		exists = scope:scheme
+		scope:owner = { is_alive = yes }
+	}
+
+	immediate = {
+		scope:target = {character_met_effect = yes}
+		hidden_effect = {
+			#For clearer and more controllable ai outcomes, we determine the outcome here:
+
+			#HARD REJECT
+			if = { # Guaranteed rejection
+				limit = { NOT = { is_attracted_to_gender_of = scope:owner  } }
+				save_scope_value_as = {
+					name = reject_outcome
+					value = flag:reject
+				}
+			}
+			else = { #Randomization
+				random = {
+					chance = 100
+					incest_acceptance_modifier = { #A factor between 1 and 0
+						TARGET = scope:target
+						SEDUCER = scope:owner
+					}
+					save_scope_value_as = {
+						name = reject_outcome
+						value = flag:accept
+					}					
+				}	
+				if = {
+					limit = { NOT = { exists = scope:reject_outcome } }
+					save_scope_value_as = {
+						name = reject_outcome
+						value = flag:reject
+					}
+				}
+			}
+
+			#SPECIFY REJECTION TYPE
+			if = {
+				limit = {
+					exists = scope:reject_outcome
+					scope:reject_outcome = flag:reject
+				}
+
+				#What kind of reject?
+				random_list = {
+					30 = { #Reveal
+						opinion_modifier = {
+							opinion_target = scope:owner
+							multiplier = -0.25
+						}
+						ai_value_modifier = {
+							ai_boldness = 0.5
+							ai_compassion = -0.5
+							ai_vengefulness = 0.5
+						}
+						ai_boldness_target_modifier = { VALUE = 100 }
+						ai_vengefulness_target_modifier = { VALUE = 100 }
+						min = 1 # To ensure 'reject_outcome' is never left unset.
+
+						save_scope_value_as = {
+							name = reject_outcome
+							value = flag:reject_reveal
+						}
+					}
+					70 = { #Silent reject
+						opinion_modifier = {
+							opinion_target = scope:owner
+							multiplier = 0.25
+						}
+						modifier = { #Less harsh if you stand to inherit
+							is_heir_of = scope:owner
+							add = 30
+						}
+						ai_value_modifier = {
+							ai_boldness = -0.5
+							ai_compassion = 0.5
+							ai_vengefulness = -0.5
+						}
+						ai_greed_target_modifier = { VALUE = 75 }
+						min = 1 # To ensure 'reject_outcome' is never left unset.
+
+						save_scope_value_as = {
+							name = reject_outcome
+							value = flag:reject_no_reveal
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = { #Stop it!
+		name = acquaintance.8001.a
+		trigger = {
+			trigger_if = {
+				limit = {
+		            	scope:owner = { has_perk = graceful_recovery_perk }
+			    }
+			    is_ai = no
+			}
+		}
+		
+		reverse_add_opinion = {
+			target = scope:owner
+			modifier = refusal_opinion
+			opinion = -20
+		}
+
+		seduction_block_character_effect = { CHARACTER = scope:owner }
+
+		scope:owner = {
+		#Sodomy
+		give_homosexual_secret_or_nothing_with_target_effect = { CHARACTER = scope:target }
+			trigger_event = acquaintance.8002
+		}
+		
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 100
+				scope:reject_outcome = flag:reject_no_reveal
+			}
+		}
+	}
+
+	option = { #everyone will know about this!
+		name = acquaintance.8001.c
+		trigger = {
+			trigger_if = {
+				limit = {
+		            scope:owner = { has_perk = graceful_recovery_perk }
+			    }
+			    is_ai = no
+			}
+		}
+
+		reverse_add_opinion = {
+			target = scope:owner
+			modifier = angry_opinion
+			opinion = -35
+		}
+
+		seduction_block_character_effect = { CHARACTER = scope:owner }
+
+		#Reveals incest (and sodomy/adultery)
+		show_as_tooltip = {
+			scope:owner = {
+			
+				seduce_outcome_publicised_attempted_crimes_or_nothing_effect = {
+					TARGET = scope:target
+					OWNER = scope:owner
+				}
+			}
+		}
+
+		scope:owner = {
+			trigger_event = acquaintance.8003
+		}
+
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 100
+				scope:reject_outcome = flag:reject_reveal
+			}
+		}
+	}
+
+	option = { #Sin be damned, lets go!
+		name = acquaintance.8001.b
+		custom_tooltip = acquaintance.8001.b.tt
+
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 100
+				scope:reject_outcome = flag:accept
+			}
+		}
+	}
+}
+
+
+# Rejected
+acquaintance.8002 = {
+	type = character_event
+	title = acquaintance.8002.t
+	desc = acquaintance.8002.desc
+	
+	theme = seduce_scheme
+	override_background = { reference = garden }
+	left_portrait = {
+		character = scope:owner
+		animation = shame
+	}
+	right_portrait = {
+		character = scope:target
+		animation = anger
+	}
+		
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+
+	immediate = {
+		scope:target = {
+			if = {
+				limit = { root = { is_ai = no }	}
+				assign_quirk_effect = yes
+			}
+		}
+	}
+
+	option = {
+		name = acquaintance.8002.a
+		custom_tooltip = seduce_outcome.blocked_from_seduction
+
+		scope:target = { seduction_block_character_effect = { CHARACTER = scope:owner } }
+
+		if = {
+			limit = { exists = scope:scheme }
+			scope:scheme = {
+				end_scheme = yes
+			}
+		}
+		scope:owner = {give_homosexual_secret_or_nothing_with_target_effect = { CHARACTER = scope:target }}
+		
+		#Stress
+		stress_impact = {
+			lustful = medium_stress_impact_gain
+		}
+		reverse_add_opinion = {
+			target = scope:target
+			modifier = respect_opinion
+			opinion = -25
+		}
+	}
+}
+
+#Rejected and revealed!
+acquaintance.8003 = {
+	type = character_event
+	title = acquaintance.8003.t
+	desc = acquaintance.8003.desc
+	
+	theme = seduce_scheme
+	override_background = { reference = market }
+	left_portrait = {
+		character = scope:owner
+		animation = beg
+	}
+	right_portrait = {
+		character = scope:target
+		animation = rage
+	}
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+
+	immediate = {
+		scope:target = {
+			assign_quirk_effect = yes
+		}
+	}
+
+	option = {
+		name = acquaintance.8003.a
+		custom_tooltip = seduce_outcome.blocked_from_seduction
+		scope:owner = {
+		give_homosexual_secret_or_nothing_with_target_effect = { CHARACTER = scope:target }
+		seduce_outcome_publicised_attempted_crimes_or_nothing_effect = {
+			TARGET = scope:target
+			OWNER = scope:owner
+		}}
+
+		scope:target = { seduction_block_character_effect = { CHARACTER = scope:owner } }
+
+		if = {
+			limit = { exists = scope:scheme }
+			scope:scheme = {
+				end_scheme = yes
+			}
+		}
+		#Stress
+		stress_impact = {
+			lustful = medium_stress_impact_gain
+			zealous = medium_stress_impact_gain
+		}
+
+		reverse_add_opinion = {
+			target = scope:target
+			modifier = respect_opinion
+			opinion = -40
+		}
+	}
+}
+acquaintance.8004 = {
+	type = character_event
+	title = acquaintance.8001.t
+	desc = acquaintance.8001.desc
+
+	
+	theme = seduce_scheme
+	left_portrait = scope:owner
+
+	trigger = {
+		exists = scope:scheme
+		scope:owner = { is_alive = yes }
+	}
+
+	immediate = {
+		hidden_effect = {
+			#For clearer and more controllable ai outcomes, we determine the outcome here:
+
+			#HARD REJECT
+			if = { # Guaranteed rejection
+				limit = { NOT = { is_attracted_to_gender_of = scope:owner  } }
+				save_scope_value_as = {
+					name = reject_outcome
+					value = flag:reject
+				}
+			}
+		}
+	}
+
+	option = { #Stop it!
+		name = acquaintance.8001.a
+		
+		reverse_add_opinion = {
+			target = scope:owner
+			modifier = refusal_opinion
+			opinion = -20
+		}
+
+		seduction_block_character_effect = { CHARACTER = scope:owner }
+
+		scope:owner = {
+			trigger_event = acquaintance.8005
+		}
+		
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 100
+				scope:reject_outcome = flag:reject_no_reveal
+			}
+		}
+	}
+}
+
+# Rejected by spouse
+acquaintance.8005 = {
+	type = character_event
+	title = acquaintance.8005.t
+	desc = acquaintance.8005.desc
+	
+	theme = seduce_scheme
+	left_portrait = {
+		character = scope:owner
+		animation = sadness
+	}
+	right_portrait = {
+		character = scope:target
+		animation = disgust
+	}
+		
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+
+	immediate = {
+		scope:target = {
+			if = {
+				limit = { root = { is_ai = no }	}
+				assign_quirk_effect = yes
+			}
+		}
+	}
+
+	option = {
+		name = acquaintance.8005.a
+		custom_tooltip = seduce_outcome.blocked_from_seduction
+
+		scope:target = { seduction_block_character_effect = { CHARACTER = scope:owner } }
+		#Stress
+		stress_impact = {
+			lustful = medium_stress_impact_gain
+		}
+		if = {
+			limit = { exists = scope:scheme }
+			scope:scheme = {
+				end_scheme = yes
+			}
+		}
+
+	}
+}
+#Nice reject
+acquaintance.8006 = { #by Mathilda Bjarnehed & Petter Vilberg
+	type = character_event
+	title = seduce_outcome.0003.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { exists = scope:scheme_successful }
+				desc = seduce_outcome.0003.success.desc
+			}
+			desc = seduce_outcome.0003.failure.desc
+		}
+	}
+	
+	theme = seduce_scheme
+	override_background = { reference = market }
+	left_portrait = {
+		character = scope:owner
+		animation = sadness
+	}
+	right_portrait = {
+		character = scope:target
+		animation = dismissal
+	}
+	
+	#Failure: let down easy
+	option = {
+		name = seduce_outcome.0003.c
+
+		save_scope_value_as = {
+			name = target_chose_nice_reject
+			value = yes
+		}
+		show_as_tooltip = {
+			scope:scheme = {
+				end_scheme = yes
+			}
+		}
+		scope:owner = {
+			trigger_event = {
+				id = seduce_outcome.4001 #Nice reject
+				days = 1
+			}
+		}
+
+		#Stress
+		stress_impact = {
+			lustful = medium_stress_impact_gain
+		}
+		if = { #Hard to say no to someone who is seductive
+			limit = {
+				NOT = { has_trait = chaste }
+				exists = scope:scheme_successful
+			}
+			add_stress = minor_stress_gain
+		}
+	}
+
+	#Failure: no lovers at all please!
+	option = {
+		name = seduce_outcome.0003.e
+		custom_tooltip = seduce_outcome.0003.e.tt
+		add_character_flag = {
+			flag = block_seduce_attempts
+			years = 10
+		}
+
+		save_scope_value_as = {
+			name = target_chose_nice_reject
+			value = yes
+		}
+		show_as_tooltip = {
+			scope:scheme = {
+				end_scheme = yes
+			}
+		}
+		scope:owner = {
+			trigger_event = {
+				id = seduce_outcome.4001 #Nice reject
+				days = 1
+			}
+		}
+
+		#Stress
+		stress_impact = {
+			lustful = medium_stress_impact_gain
+		}
+	}
+}
+
+#reject romance
+acquaintance.8007 = {
+	type = character_event
+	title = acquaintance.8001.t
+	desc = acquaintance.8001.desc
+
+	
+	theme = seduce_scheme
+	left_portrait = scope:owner
+
+	trigger = {
+		exists = scope:scheme
+		scope:owner = { is_alive = yes }
+	}
+
+	immediate = {
+		hidden_effect = {
+			#For clearer and more controllable ai outcomes, we determine the outcome here:
+
+			#HARD REJECT
+			if = { # Guaranteed rejection
+				limit = { NOT = { is_attracted_to_gender_of = scope:owner  } }
+				save_scope_value_as = {
+					name = reject_outcome
+					value = flag:reject
+				}
+			}
+		}
+	}
+
+	option = { #Stop it!
+		name = acquaintance.8001.a
+		
+		reverse_add_opinion = {
+			target = scope:owner
+			modifier = refusal_opinion
+			opinion = -20
+		}
+
+		seduction_block_character_effect = { CHARACTER = scope:owner }
+
+		scope:owner = {
+			trigger_event = acquaintance.8008
+		}
+		
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 100
+				scope:reject_outcome = flag:reject_no_reveal
+			}
+		}
+	}
+}
+
+acquaintance.8008 = {
+	type = character_event
+	title = acquaintance.8008.t
+	desc = acquaintance.8008.desc
+	
+	theme = romance_scheme
+	override_background = { reference = study }
+	left_portrait = {
+		character = scope:owner
+		animation = sadness
+	}
+	
+	trigger = {
+		exists = scope:scheme
+		scope:owner = { is_alive = yes }
+	}	
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+
+	option = {
+		name = acquaintance.8008.a
+		custom_tooltip = seduce_outcome.blocked_from_seduction
+
+		scope:target = { seduction_block_character_effect = { CHARACTER = scope:owner } }
+		if = {
+			limit = { exists = scope:scheme }
+			scope:scheme = {
+				end_scheme = yes
+			}
+		}
+
+	}
+}
+
+
+
+
+
+#new_flags for new player after death of previous#TESTED AN WORKING
+
+acquaintance.9002 = {
+	type = character_event
+	hidden = yes 
+	
+	trigger = {
+			is_ai = no
+			}
+		
+		immediate = {
+		primary_heir = {
+		save_scope_as = player_character
+		####first section removes flags
+		remove_character_flag = had_low_level_report
+		remove_character_flag = had_medium_level_report
+		remove_character_flag = had_high_level_report
+		remove_character_flag = humble_character
+		remove_character_flag = has_deceived
+		remove_character_flag = humble_character
+		remove_character_flag = illusory_diplomat
+		remove_character_flag = illusory_administrator
+		remove_character_flag = illusory_intriguer
+		remove_character_flag = illusory_scholar
+		remove_character_flag = illusory_warrior
+		remove_character_flag = partially_spied_3
+		remove_character_flag = partially_spied_2
+		remove_character_flag = partially_spied
+		remove_variable = years_known
+		
+		#### children
+		every_child = { 
+			add_to_temporary_list = natural_acquaintances
+			every_consort = { 
+				limit = {top_liege = scope:player_character.top_liege}
+				add_to_temporary_list = natural_acquaintances
+				}
+			every_relation = {
+				limit = {top_liege = scope:player_character.top_liege}
+				type = guardian
+				add_to_temporary_list = natural_acquaintances
+				}
+		}
+		### parents
+		every_parent = { 
+				add_to_temporary_list = natural_acquaintances
+			every_consort = {
+				limit = {top_liege = scope:player_character.top_liege
+				NOT = {is_parent_of = scope:player_character}}
+				add_to_temporary_list = natural_acquaintances
+				}
+			every_ally = {
+				limit = {top_liege = scope:player_character.top_liege}
+				add_to_temporary_list = natural_acquaintances
+				}
+		}
+		###sibling
+		every_sibling = { ### brothers and sisters
+				add_to_temporary_list = natural_acquaintances
+			every_consort = {
+				limit = {top_liege = scope:player_character.top_liege}
+				add_to_temporary_list = natural_acquaintances
+				}
+			every_child = {
+				limit = {top_liege = scope:player_character.top_liege}
+				add_to_temporary_list = natural_acquaintances
+				}
+		}
+		
+		###consort
+		every_consort = { 
+				add_to_temporary_list = natural_acquaintances
+
+			every_parent = { 
+				limit = {top_liege = scope:player_character.top_liege}
+				add_to_temporary_list = natural_acquaintances
+				}
+			every_child = { 
+				limit = {top_liege = scope:player_character.top_liege
+					NOT = {is_child_of = scope:player_character}}
+				add_to_temporary_list = natural_acquaintances
+				}
+			every_sibling = { 
+				limit = {top_liege = scope:player_character.top_liege}
+				add_to_temporary_list = natural_acquaintances
+				}
+			every_relation = {
+				type = best_friend
+				limit = {top_liege = scope:player_character.top_liege
+					NOT = {
+					has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = natural_acquaintances
+				}
+			every_relation = {
+				type = soulmate
+				limit = {top_liege = scope:player_character.top_liege
+					NOT = {
+					has_secret_relation_soulmate = prev}}
+				add_to_temporary_list = natural_acquaintances
+				}
+			every_ally = {
+				limit = {top_liege = scope:player_character.top_liege}
+				add_to_temporary_list = natural_acquaintances
+				}	
+		}
+		
+		###Primary heir
+		every_heir = {  ###heir in same realm
+			limit = {top_liege = scope:player_character.top_liege
+						is_primary_heir_of = scope:player_character
+					NOT = {is_child_of = scope:player_character}}
+				add_to_temporary_list = natural_acquaintances
+			every_ally = {
+				limit = {top_liege = scope:player_character.top_liege}
+				add_to_temporary_list = natural_acquaintances
+				}	
+		}
+		
+		### Remaining family members
+		every_close_or_extended_family_member = { ###extended family in same realm
+			limit = {top_liege = scope:player_character.top_liege
+			NOR = {is_child_of = scope:player_character
+					is_parent_of = scope:player_character
+					is_sibling_of = scope:player_character}}
+				add_to_temporary_list = natural_acquaintances
+		}
+		
+		### same house
+		house = {
+			every_house_member = {
+			limit = {top_liege = scope:player_character.top_liege}
+				add_to_temporary_list = natural_acquaintances
+			}
+		}
+		###vassals
+		every_vassal = {
+				limit = {NOR = {is_close_or_extended_family_of = scope:player_character
+							is_consort_of = scope:player_character}}
+				add_to_temporary_list = natural_acquaintances
+		}
+		###councillors
+		every_councillor = {
+				limit = {NOR = {is_close_or_extended_family_of = scope:player_character
+							is_consort_of = scope:player_character
+							is_vassal_of = scope:player_character}}
+				add_to_temporary_list = natural_acquaintances
+		}
+		####knights
+		every_knight = {
+				limit = {NOR = {is_close_or_extended_family_of = scope:player_character
+							is_vassal_of = scope:player_character
+							is_councillor_of = scope:player_character}}
+				add_to_temporary_list = natural_acquaintances
+		}
+		###courtiers
+		every_courtier = { ####should put a timer for join court
+				limit = {NOR = {is_close_or_extended_family_of = scope:player_character
+							is_knight_of = scope:player_character
+							is_councillor_of = scope:player_character
+							is_consort_of = scope:player_character}}
+				add_to_temporary_list = natural_acquaintances
+
+		}
+		###court postions
+		every_court_position_holder = { ####should put a timer for join court
+				limit = {NOR = {is_close_or_extended_family_of = scope:player_character
+							is_knight_of = scope:player_character
+							is_councillor_of = scope:player_character
+							is_consort_of = scope:player_character
+							is_courtier_of = scope:player_character}}
+				add_to_temporary_list = natural_acquaintances
+
+		}
+		### guest		
+		every_pool_guest = { 
+				add_to_temporary_list = natural_acquaintances
+		}
+		####ward and guardian
+		every_relation = {
+		type = ward
+				add_to_temporary_list = natural_acquaintances
+		}
+		every_relation = {
+		type = guardian
+				add_to_temporary_list = natural_acquaintances
+		}
+		
+		### Best friends
+		every_relation = {
+		type = best_friend
+				add_to_temporary_list = natural_acquaintances
+			every_child = { 
+			limit = {top_liege = scope:player_character.top_liege}
+			add_to_temporary_list = natural_acquaintances
+			}
+			every_consort = { 
+			limit = {top_liege = scope:player_character.top_liege}
+			add_to_temporary_list = natural_acquaintances
+			}
+		}
+		###Soulmate
+		every_relation = {
+		type = soulmate
+				add_to_temporary_list = natural_acquaintances
+		}
+		###Friend
+		every_relation = {
+		type = friend
+				add_to_temporary_list = natural_acquaintances
+		}
+		#### lover
+		every_relation = {
+		type = lover
+				add_to_temporary_list = natural_acquaintances
+		}	
+		####nemesis
+		every_relation = {
+		type = nemesis
+				add_to_temporary_list = natural_acquaintances
+		}
+		### liege
+		liege = {
+				add_to_temporary_list = natural_acquaintances			
+			every_vassal = {
+				limit = {NOT = {is_close_or_extended_family_of = scope:player_character}}
+				add_to_temporary_list = natural_acquaintances
+			}
+			every_councillor = {
+				limit = {NOT = {is_close_or_extended_family_of = scope:player_character}}
+				add_to_temporary_list = natural_acquaintances
+			}
+		}
+		###allies
+		every_ally = {
+				limit = {top_liege = scope:player_character.top_liege}
+				add_to_temporary_list = natural_acquaintances
+				}	
+				
+		### Other relations
+		every_relation = {
+		type = crush
+				add_to_temporary_list = natural_acquaintances
+		}
+		every_relation = {
+		type = bully
+				add_to_temporary_list = natural_acquaintances
+		}
+		every_relation = {
+		type = victim
+				add_to_temporary_list = natural_acquaintances
+		}
+		every_relation = {
+		type = soldier_friend
+				add_to_temporary_list = natural_acquaintances
+		}
+		every_relation = {
+		type = mentor
+				add_to_temporary_list = natural_acquaintances
+		}
+		every_relation = {
+		type = student
+				add_to_temporary_list = natural_acquaintances
+		}
+		every_relation = {
+		type = intrigue_mentor
+				add_to_temporary_list = natural_acquaintances
+		}
+		every_relation = {
+		type = intrigue_student
+				add_to_temporary_list = natural_acquaintances
+		}
+		
+		every_in_list = {
+			limit = {
+			is_alive = yes
+					NOT = {this = scope:player_character}}
+			list = natural_acquaintances
+			character_deception_effect = yes
+			character_known_effect = yes
+			set_variable = {
+						name = years_known
+						value = {
+								add = scope:player_character.age
+								subtract = 16
+								multiply = 0.5
+								min = 1
+								max = this.age
+						}
+					}
+			}
+			
+		###############part_spied_2
+		
+		###children
+		every_child = {
+			every_consort = {
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+			}
+			every_relation = {
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+							has_character_flag = partially_spied_3}}
+				type = guardian
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = friend
+				limit = {prev.liege = scope:player_character
+				top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = best_friend
+				limit = {prev.liege = scope:player_character
+				top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+						has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {prev.liege = scope:player_character
+					top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+						has_secret_relation_lover = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = soulmate
+				limit = {prev.liege = scope:player_character
+					top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+						has_secret_relation_soulmate = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				type = victim
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				type = bully
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_ally = {
+				limit = {top_liege = scope:player_character.top_liege
+						NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+		}
+		
+		### parents
+		every_parent = { 
+			every_consort = {
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = friend
+				limit = {
+				top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = best_friend
+				limit = {
+				top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+						has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {
+					top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+						has_secret_relation_lover = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = soulmate
+				limit = {
+					top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+						has_secret_relation_soulmate = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_ally = {
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+		}
+		
+		###sibling
+		every_sibling = { ### brothers and sisters
+			every_consort = {
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+								has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_child = {
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+								has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = friend
+				limit = {
+					top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = best_friend
+				limit = {
+					top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {
+					top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+						has_secret_relation_lover = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = soulmate
+				limit = {
+					top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+						has_secret_relation_soulmate = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_ally = {
+				limit = {top_liege = scope:player_character.top_liege
+						NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+		}
+		###consort	
+		every_consort = {
+				every_parent = { 
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+								has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_child = { 
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+								has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_sibling = { 
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+								has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = friend
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = best_friend
+				limit = {
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = soulmate
+				limit = {
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_soulmate = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_ally = {
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+		}
+		
+		## former spouse
+		every_former_spouse = { 
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+		}
+		
+		#remaining family members
+		every_close_or_extended_family_member = { ###extended family not in same realm
+			limit = {NOR = {top_liege = scope:player_character.top_liege
+						has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+		}
+		### Best friends
+		every_relation = {
+		type = best_friend
+			every_consort = { 
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+								has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_child = { 
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+								has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_sibling = { 
+				limit = {top_liege = scope:player_character.top_liege
+						NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+
+			every_relation = { 
+				type = friend
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = best_friend
+				limit = {
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = soulmate
+				limit = {
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_soulmate = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_ally = {
+				limit = {top_liege = scope:player_character.top_liege
+						NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+		}
+		###Soulmate
+		every_relation = {
+		type = soulmate
+			every_child = { 
+				limit = {top_liege = scope:player_character.top_liege
+					NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_consort = { 
+				limit = {top_liege = scope:player_character.top_liege
+						NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_sibling = { 
+				limit = {top_liege = scope:player_character.top_liege
+						NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = friend
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = best_friend
+				limit = {
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = soulmate
+				limit = {
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_soulmate = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_ally = {
+				limit = {top_liege = scope:player_character.top_liege
+						NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+		}
+		###Friend
+		every_relation = {
+		type = friend
+			every_child = { 
+				limit = {top_liege = scope:player_character.top_liege
+					NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_consort = { 
+				limit = {top_liege = scope:player_character.top_liege
+						NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_sibling = { 
+				limit = {top_liege = scope:player_character.top_liege
+						NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = friend
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = best_friend
+				limit = {
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = soulmate
+				limit = {
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_soulmate = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_ally = {
+				limit = {top_liege = scope:player_character.top_liege
+						NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+		}
+		#### lover
+		every_relation = {
+		type = lover
+			every_child = { 
+				limit = {top_liege = scope:player_character.top_liege
+					NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_consort = { 
+				limit = {top_liege = scope:player_character.top_liege
+						NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_sibling = { 
+				limit = {top_liege = scope:player_character.top_liege
+						NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = friend
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = best_friend
+				limit = {
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = {
+				type = soulmate
+				limit = {
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_soulmate = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = {top_liege = scope:player_character.top_liege
+					NOR = {has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = mild_acquaintances
+				}
+			every_ally = {
+				limit = {top_liege = scope:player_character.top_liege
+							NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+		}	
+		##liege or above
+		every_liege_or_above = {
+			limit = {exists = scope:player_character.liege
+					NOR = {this = scope:player_character.liege
+						has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+			}
+		
+		## same house or dynasty
+		house = {
+			every_house_member = {
+			limit = {NOR = {top_liege = scope:player_character.top_liege
+						has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+			}
+		}
+		
+		dynasty = {
+			every_dynasty_member = {
+			limit = { top_liege = scope:player_character.top_liege
+						NOT = {
+						has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+			}
+		}
+		
+		##allies
+		every_ally = {
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+				}
+				
+		####prisoners
+		every_prisoner = {
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+		}
+		
+		####potential friends or lovers
+		every_relation = {
+		type = potential_friend
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+		}
+		every_relation = {
+		type = potential_lover
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+		}
+		every_relation = {
+		type = rival
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+		}
+		
+		every_relation = {
+		type = grudge
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+		}
+		every_contact = {
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+		}
+		
+		every_relation = {
+		type = potential_rival
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = mild_acquaintances
+		}
+		
+		every_in_list = {
+			limit = {
+			is_alive = yes
+						NOT = {this = scope:player_character}}
+			list = mild_acquaintances
+			character_barely_known_effect = yes
+			set_variable = {
+						name = years_known
+						value = {
+								add = scope:player_character.age
+								subtract = 16
+								multiply = 0.15
+								min = 1
+								max = this.age
+						}
+					}
+			}
+		
+		###############BASIC ACQUAINTANCES	
+		####children
+		every_child = {
+			every_relation = { 
+				type = friend
+				limit = { NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = best_friend
+				limit = { NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = { NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = soulmate
+				limit = { NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_soulmate = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = { NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_ally = {
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+								has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+		}
+		##### parents
+		every_parent = { 	
+			every_consort = {
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
+					every_child = {
+				add_to_temporary_list = basic_acquaintances
+					}
+				}	
+			every_relation = { 
+				type = friend
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = best_friend
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = soulmate
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_soulmate = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+		}
+		###sibling
+		every_sibling = { ### brothers and sisters
+			every_relation = { 
+				type = friend
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = best_friend
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = soulmate
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_soulmate = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_ally = {
+				limit = {NOR = {top_liege = scope:player_character.top_liege
+							has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+		}
+		
+		###consort
+		every_consort = { 
+			every_relation = { 
+				type = friend
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+
+			every_relation = { 
+				type = nemesis
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = rival
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+		}
+		#### Heir
+		every_heir = {  
+			limit = {NOR = {top_liege = scope:player_character.top_liege}
+						is_primary_heir_of = scope:player_character
+						has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}
+				add_to_temporary_list = basic_acquaintances
+		}
+		
+
+		####best_friend
+		every_relation = {
+		type = best_friend
+			every_sibling = { 
+					limit = {NOR = {has_character_flag = partially_spied_2
+						has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+
+			every_relation = { 
+				type = friend
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = rival
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_rival = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = grudge
+				limit = { top_liege = scope:player_character.top_liege
+							NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_grudge = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_ally = {
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+		}
+		###Soulmate
+		every_relation = {
+		type = soulmate
+			every_child = { 
+					limit = {NOR = {has_character_flag = partially_spied_2
+						has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_consort = { 
+					limit = {NOR = {has_character_flag = partially_spied_2
+						has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_sibling = { 
+					limit = {NOR = {has_character_flag = partially_spied_2
+					has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = friend
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = rival
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_rival = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = grudge
+				limit = { top_liege = scope:player_character.top_liege
+							NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_grudge = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_ally = {
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+		}
+		###Friend
+		every_relation = {
+		type = friend
+				every_child = { 
+					limit = {NOR = {has_character_flag = partially_spied_2
+						has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_consort = { 
+					limit = {NOR = {has_character_flag = partially_spied_2
+						has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_sibling = { 
+					limit = {NOR = {has_character_flag = partially_spied_2
+					has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = friend
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = rival
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_rival = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = grudge
+				limit = { top_liege = scope:player_character.top_liege
+							NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_grudge = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_ally = {
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+		}
+		#### lover
+		every_relation = {
+		type = lover
+			every_child = { 
+					limit = {NOR = {has_character_flag = partially_spied_2
+						has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_consort = { 
+					limit = {NOR = {has_character_flag = partially_spied_2
+						has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_sibling = { 
+					limit = {NOR = {has_character_flag = partially_spied_2
+					has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = friend
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_friend = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = lover
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_lover = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = rival
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_rival = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = grudge
+				limit = { top_liege = scope:player_character.top_liege
+							NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_grudge = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_ally = {
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+		}	
+		####nemesis
+		every_relation = {
+		type = nemesis
+			every_relation = { 
+				type = best_friend
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = rival
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_rival = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+		}
+		####grudge
+		every_relation = {
+		type = grudge
+			every_relation = { 
+				type = best_friend
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_best_friend = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = nemesis
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_nemesis = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			every_relation = { 
+				type = rival
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3
+					has_secret_relation_rival = prev}}
+				add_to_temporary_list = basic_acquaintances
+				}
+		}
+		### liege
+		liege = {			
+			every_consort = {
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+			}
+			every_child = {
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+			}
+		}
+		
+		###memories
+		every_memory = {
+		limit = {NOT = {has_memory_category = notes}}
+		every_memory_participant = {
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+		}}
+			
+		every_patroned_holy_order = {
+			leader = {
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			}
+		every_hired_mercenary = {
+				mercenary_company_leader = {
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+				}
+			}
+		every_war_ally = {
+				limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
+				add_to_temporary_list = basic_acquaintances
+			}
+		
+		every_in_list = {
+			limit = {
+			is_alive = yes
+						NOT = {this = scope:player_character}}
+			list = basic_acquaintances
+			character_met_effect = yes
+			}
+			
+		if = {
+			limit = {OR = {is_councillor = yes
+							is_knight = yes	}}
+		liege = {
+		every_consort = {
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = position_acquaintances
+			}
+		every_courtier = {
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = position_acquaintances_low
+			}
+		every_court_position_holder = {
+				limit = {NOT = {has_character_flag = partially_spied_3}}
+				add_to_temporary_list = position_acquaintances_low
+			}
+
+		}
+	
+		every_in_list = {
+			limit = {
+			is_alive = yes
+						NOT = {this = scope:player_character}}
+			list = position_acquaintances
+			character_barely_known_effect = yes
+					}
+		every_in_list = {
+			limit = {
+			is_alive = yes
+						NOT = {this = scope:player_character}}
+			list = position_acquaintances_low
+			character_met_effect = yes
+					}
+			
+			}
+		if = {
+			limit = {exists = liege
+					is_diarch_of_target = liege}
+		liege = {
+		every_consort = {
+			limit = {top_liege = scope:player_character.top_liege}
+				add_to_temporary_list = regency_acquaintances
+		}
+		every_councillor = {
+				add_to_temporary_list = regency_acquaintances
+		}
+		every_vassal = {
+				add_to_temporary_list = regency_acquaintances
+		}
+		every_child = {
+				limit = {top_liege = scope:player_character.top_liege}
+				add_to_temporary_list = regency_acquaintances_medium
+		}
+		every_court_position_holder = {
+				add_to_temporary_list = regency_acquaintances_medium
+		}
+		every_knight = {
+				add_to_temporary_list = regency_acquaintances_medium
+		}
+		every_courtier_or_guest = {
+				add_to_temporary_list = regency_acquaintances_low
+		}
+		every_prisoner = {
+				add_to_temporary_list = regency_acquaintances_low
+		}
+
+		}
+	
+		every_in_list = {
+			limit = {
+			is_alive = yes
+						NOT = {this = scope:player_character}}
+			list = regency_acquaintances
+			character_deception_effect = yes
+			character_known_effect = yes
+				}
+		every_in_list = {
+			limit = {
+			is_alive = yes
+						NOT = {this = scope:player_character}}
+			list = regency_acquaintances_medium
+			character_barely_known_effect = yes
+				}
+		every_in_list = {
+			limit = {
+			is_alive = yes
+						NOT = {this = scope:player_character}}
+			list = regency_acquaintances_low
+			character_met_effect = yes
+				}	
+			}
+		}	
+	}
+	}
+
+#RUMOURS#TESTED AN WORKING
+acquaintance.9003 = {
+	hidden = yes 
+	
+		trigger = {
+			is_ai = no
+			is_alive = yes
+			is_incapable = no
+			age >= 6
+			}
+			
+	immediate = {
+		every_living_character = {
+			limit = {
+			this.location = { squared_distance = { target = root.location value <= 120000 } }
+			NOT = {this = {highest_held_title_tier >= tier_kingdom}}
+			has_potential_for_not_negative_rumour_trigger = yes
+			NOT = {this = root.top_liege}}
+			add_to_temporary_list = heard_rumours}
+	random_in_list = {
+		list = heard_rumours
+		save_scope_as = rumour
+		}
+		
+		trigger_event = {
+			id = acquaintance.9004
+			days = 1
+		}
+	}
+}
+
+acquaintance.9004 = {#TESTED AN WORKING
+	type = character_event
+	hidden = yes 
+	
+		trigger = {
+			exists = scope:rumour
+			}
+			
+	immediate = {
+	scope:rumour = {add_character_flag = had_rumour_spread}
+	
+	if = {
+		limit = {scope:rumour = {
+					OR = {
+					AND = {
+						OR = {
+						has_trait = intellect_good_2
+						has_trait = intellect_good_3
+						has_trait = shrewd}
+						sum_of_all_skills_value >= 45}
+					AND = { has_trait_rank = {
+					trait = education_learning
+					rank > 2
+							}
+				sum_of_all_skills_value >= 35					
+				learning >= 25}
+		AND = { obf_illusory_scholar = yes
+				learning >= 17}}}}
+				scope:rumour = {add_character_flag = {
+				flag = had_rumour_spread_intellectual
+				years = 3
+					}}}
+	
+	else_if = {
+		limit = {scope:rumour = {
+					OR = {
+					AND = { has_trait_rank = {
+					trait = education_martial
+					rank > 1
+							} 
+				martial >= 25}
+		AND = { obf_illusory_warrior = yes
+				martial >= 17}}}}
+				scope:rumour = {add_character_flag = {
+				flag = had_rumour_spread_excellent_commander
+				years = 3
+					}}}
+	
+	
+	else_if = {
+		limit = {scope:rumour = {
+					OR = {
+					likely_pretend_brave_fighter_trigger = yes
+					likely_a_brave_fighter_trigger = yes}}}
+				scope:rumour = {add_character_flag = {
+				flag = had_rumour_spread_excellent_knight
+				years = 3
+					}}}
+					
+	else_if = {
+		limit = {scope:rumour = {
+				OR = {
+				has_trait = beauty_good_3
+				has_trait = beauty_good_2
+				has_trait = beauty_bad_3
+								}}}
+				scope:rumour = {add_character_flag = {
+				flag = had_rumour_spread_trait
+				years = 3
+					}}}
+
+		root = {
+				scope:rumour = {add_character_flag = {
+				flag = player_was_notified
+				years = 3
+					}}
+				send_interface_message = {
+				type = msg_rumors_spreading
+				title = you_heard_rumours
+				right_icon = scope:rumour
+				custom_tooltip = rumour_about_character}}
+		}	
+	}
+
+acquaintance.9006 = {#
+	type = character_event
+	hidden = yes 
+
+	immediate = {
+	root = {save_scope_as = rumour}
+	add_character_flag = {
+		flag = had_rumour_spread
+		years = 10
+				}
+	add_character_modifier = {
+		modifier = had_rumours_spread_modifier
+		years = 3
+				}
+	every_vassal_or_below = {
+			add_opinion = {
+			target = root
+			modifier = heard_bad_rumours_opinion
+			years = 3
+				}
+			}
+	every_courtier_or_guest = {
+			add_opinion = {
+			target = root
+			modifier = heard_bad_rumours_opinion
+			years = 3
+				}
+			}
+	every_liege_or_above = {
+			add_opinion = {
+			target = root
+			modifier = heard_bad_rumours_opinion
+			years = 3
+				}
+			}
+	if = {
+		limit = {has_potencial_negative_rumour_to_spread = no
+		has_potencial_false_negative_rumour_to_spread = no}
+		add_character_flag = {
+				flag = had_rumour_spread_sexual_taste
+				years = 3
+					}
+		}
+	else_if = { 
+		limit = {OR = {has_potencial_negative_rumour_to_spread = yes
+		has_potencial_false_negative_rumour_to_spread = yes}}
+			random_list = {
+			10 = {
+				modifier = {
+					factor = 0
+					obf_likely_incest_trigger = no
+				}
+				modifier = {
+					factor = 2.5
+					any_secret = {
+					secret_type = secret_incest 
+							}
+				}
+				modifier = {
+					factor = 1.5
+					AND = {has_trait = seducer
+					has_trait = lustful}
+				}
+				add_character_flag = {
+				flag = had_rumour_spread_incest
+				years = 3
+					}
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					likely_hide_heritage_trigger = no
+				}
+				modifier = {
+					factor = 2.5
+					OR = {		
+						any_secret = {
+							secret_type = secret_unmarried_illegitimate_child 
+							}
+						any_secret = {
+							secret_type = secret_disputed_heritage
+									}}
+				}
+				modifier = {
+					factor = 1.5
+					has_personality_introverted_trigger = yes
+				}
+				modifier = {
+					add = 1.5
+					has_personality_submissive_trigger = yes
+				}
+				add_character_flag = {
+				flag = had_rumour_spread_bastard
+				years = 3
+					}
+			}
+			
+			10 = {
+				modifier = {
+					factor = 0
+					obf_capable_of_murder_trigger = no
+				}
+				modifier = {
+					factor = 2.5
+					any_secret = {
+					secret_type = secret_murder 
+							}
+				}
+				modifier = {
+					factor = 1.5
+					piety_level <= 0
+				}
+				modifier = {
+					factor = 1.5
+					is_seen_as_mad_or_avoidable_trigger = yes
+				}
+				modifier = {
+					factor = 2
+					is_a_malicious_person_trigger = yes
+				}
+				add_character_flag = {
+				flag = had_rumour_spread_murder
+				years = 3
+					}
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					OR = { obf_likely_witch_trigger = no
+						likely_cynic_non_believer_trigger = no}
+				}
+				modifier = {
+					factor = 2
+					OR = {
+					any_secret = {
+						secret_type = secret_non_believer 
+							}
+					any_secret = {
+						secret_type = secret_witch 
+							}}
+				}
+				modifier = {
+					factor = 2
+					piety_level <= 0
+				}
+				modifier = {
+					factor = 1.5
+					is_seen_as_mad_or_avoidable_trigger = yes
+				}
+				modifier = {
+					factor = 1.5
+					has_trait = lifestyle_mystic 
+				}
+				modifier = {
+					factor = 1.5
+					has_trait = lifestyle_herbalist
+				}
+				modifier = {
+					factor = 1.5
+					has_trait = lifestyle_physician
+				}
+				modifier = {
+					factor = 2
+					has_trait = cynical
+				}
+				add_character_flag = {
+				flag = had_rumour_spread_false_religion
+				years = 3
+					}
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					obf_likely_hide_sexuality_trigger = no
+				}
+				modifier = {
+					add = 2.5
+					OR = {			
+					any_secret = {
+						secret_type = secret_homosexual
+							}
+					any_secret = {
+						secret_type = secret_deviant
+								}						
+							}
+				}
+				modifier = {
+					factor = 2
+					has_personality_submissive_trigger = yes
+				}
+				add_character_flag = {
+				flag = had_rumour_spread_sexual_taste
+				years = 3
+					}
+			}
+			
+			10 = {
+				modifier = {
+					factor = 0
+					obf_likely_extramarital_affair_trigger = no
+				}
+				modifier = {
+					add = 2.5
+					any_secret = {
+					secret_type = secret_lover 
+							}}
+				modifier = {
+					add = 2
+					is_a_attractive_person_trigger = yes
+				}
+				modifier = {
+					add = 2
+					has_trait = seducer
+				}
+				modifier = {
+					add = 2
+					has_trait = lustful
+				}
+				add_character_flag = {
+				flag = had_rumour_spread_lover
+				years = 3
+					}
+			}
+			
+		}
+		if = {
+		limit = {player_should_receive_warning = yes}
+				every_player = {
+				root = {add_character_flag = {
+				flag = player_was_notified
+				years = 3
+					}}
+				send_interface_message = {
+				type = msg_rumors_spreading
+				title = you_heard_rumours
+				right_icon = root
+				custom_tooltip = rumour_about_character}}
+			}
+		}
+	}
+}	
+
+#### SCHEME OUTCOMES - LAAMP
+acquaintance.9100 = {
+	type = character_event
+	hidden = yes 
+		trigger = { 
+				OR = {scope:owner = {
+				NOT = {has_character_flag = prevent_new_flag}
+				NOT = {has_character_flag = partially_spied_3}
+				is_ai = no}
+				scope:target = {
+				is_ai = no
+				NOT = { has_character_flag = prevent_new_flag}
+				NOT = {has_character_flag = partially_spied_3}}
+				}
+			}
+immediate = {
+		if = {
+		limit = {
+		scope:target = {
+					is_ai = yes
+				NOT = {has_character_flag = partially_spied}}}
+		scope:target = {
+				character_met_effect = yes
+				add_character_flag = {
+				flag = prevent_new_flag
+				months = 6
+					}
+				}
+			}
+		else_if = {
+		limit = {
+		scope:owner = {
+					is_ai = yes
+				NOT = {has_character_flag = partially_spied}}}
+		scope:owner = {
+				character_met_effect = yes
+				add_character_flag = {
+				flag = prevent_new_flag
+				months = 6
+					}
+				}
+		}
+		if = {
+		limit = {
+		scope:target = {
+					is_ai = yes
+				NOT = { has_character_flag = prevent_new_flag}
+				NOT = {has_character_flag = partially_spied_2}}}
+		scope:target = {
+				character_barely_known_effect = yes
+				every_courtier_or_guest = {
+				character_met_effect = yes
+					}
+				}
+			}
+		else_if = {
+		limit = {
+		scope:owner = {
+					is_ai = yes
+				NOT = { has_character_flag = prevent_new_flag}
+				NOT = {has_character_flag = partially_spied_2}}}
+		scope:owner = {
+				character_barely_known_effect = yes
+				every_courtier_or_guest = {
+				character_met_effect = yes
+					}
+				}
+		}
+		
+	}
+}
+
+
+
+

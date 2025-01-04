@@ -1,0 +1,708 @@
+﻿##### Values USED ON FIND SECRETS TASK
+
+gift_value_for_bribe = {
+	value = 20
+	if = {
+		limit = {
+			scope:agent = { is_playable_character = yes }
+			scope:agent.primary_title.tier < tier_duchy
+		}
+		multiply = 2
+	}
+	else_if = {
+		limit = {
+			scope:agent.primary_title.tier >= tier_duchy
+		}
+		multiply = 3
+	}
+	if = {
+		limit = {
+			scope:agent = { is_close_family_of = scope:target_character}
+		}
+		multiply = 4
+	}
+	if = {
+		limit = {
+			scope:agent = { is_consort_of = scope:target_character}
+		}
+		multiply = 5
+	}
+
+	if = {
+		limit = {
+			scope:agent = {
+				liege = scope:councillor_liege
+				is_theocratic_lessee = yes
+			}
+			scope:councillor_liege.primary_title.tier < tier_duchy
+		}
+		multiply = 2
+	}
+	else_if = {
+		limit = {
+			scope:agent = {
+				liege = scope:councillor_liege
+				is_theocratic_lessee = yes
+			}
+			scope:councillor_liege.primary_title.tier >= tier_duchy
+		}
+		multiply = 3
+	}
+
+	if = {
+		limit = {
+			scope:agent = {
+				OR = {
+					AND = {
+						is_playable_character = yes
+						government_has_flag = government_is_tribal
+					}
+					AND = {
+						is_playable_character = no
+						exists = liege
+						liege = {
+							government_has_flag = government_is_tribal
+						}
+					}
+					AND = {
+						is_playable_character = no
+						exists = host
+						host = {
+							government_has_flag = government_is_tribal
+						}
+					}
+				}
+			}
+		}
+		multiply = 0.25
+		min = 5
+	}
+}
+
+
+spy_scheme_bribe_gold_value = {
+	value = scope:agent.monthly_character_income
+add = gift_value_for_bribe
+	multiply = 12 #multiplied by 12 which is the skill of at least a competent Spymaster. The higher the spymaster skill is, the smaller the bribe
+	divide = cp:councillor_spymaster.intrigue
+	min = 5
+	max = 100
+}
+
+spy_scheme_bribe_gold_value_close_chars = {
+	value = scope:agent.monthly_character_income
+add = gift_value_for_bribe
+	add = gift_value_for_bribe
+	multiply = 12 #multiplied by 12 which is the skill of at least a competent Spymaster. The higher the spymaster skill is, the smaller the bribe
+	divide = cp:councillor_spymaster.intrigue
+	min = 10
+	max = 150
+}
+
+spy_scheme_bribe_gold_value_close_marshal = {
+	value = scope:agent.monthly_character_income
+add = gift_value_for_bribe
+	add = gift_value_for_bribe
+	add = gift_value_for_bribe
+	multiply = 12 #multiplied by 12 which is the skill of at least a competent Spymaster. The higher the spymaster skill is, the smaller the bribe
+	divide = cp:councillor_spymaster.intrigue
+	min = 15
+	max = 250
+}
+
+ten_percent_player_wealth_value = {
+	value = scope:councillor_liege.short_term_gold
+	divide = 10
+}
+
+twenty_five_percent_player_wealth_value = {
+	value = scope:councillor_liege.short_term_gold
+	divide = 4
+}
+
+fifty_percent_player_wealth_value = {
+	value = scope:councillor_liege.short_term_gold
+	divide = 2
+}
+
+
+
+slander_gold_scale = {
+	add = intrigue
+	add = diplomacy
+	min = 1
+}
+
+slander_gold_value = {
+	value = 1300
+	divide = slander_gold_scale
+	max = 100
+	min = 30
+}
+
+honor_greed_compassion_scale = {
+	add = ai_greed
+	add = ai_honor
+	add = ai_compassion
+	divide = 20
+	
+}
+
+####### VALUES FOR SPY NETWORK
+
+low_network_coverage_value = {
+	value = 0
+	if = {
+		limit = {
+			exists = scope:actor.var:spy_network
+			scope:actor.var:spy_network > 0
+		}
+	add = scope:actor.var:spy_network
+	multiply = 37500
+	}
+	if = {
+		limit = {
+			scope:actor.highest_held_title_tier <= tier_duchy
+		}
+	divide = 4
+	}
+	if = {
+		limit = {
+			scope:actor.highest_held_title_tier <= tier_county
+		}
+	divide = 2
+	}
+	if = {
+		limit = {
+			NOT = {scope:actor.top_liege = scope:recipient.top_liege}
+		}
+	multiply = 0.6
+	}
+	if = {
+		limit = {
+			OR = {scope:actor = {OR = {is_at_war_with = scope:recipient
+								is_at_war_with = scope:recipient.top_liege
+								is_at_war_with = scope:recipient.liege}}				
+				scope:actor.liege = {OR = {is_at_war_with = scope:recipient
+								is_at_war_with = scope:recipient.top_liege
+								is_at_war_with = scope:recipient.liege}}}
+		}
+	multiply = 0.5
+	}
+	min = 0
+	max = 2000000
+}
+
+medium_network_coverage_value = {
+	value = 0
+	if = {
+		limit = {
+			exists = scope:actor.var:spy_network
+			scope:actor.var:spy_network > 0
+		}
+	add = scope:actor.var:spy_network
+	multiply = 25000
+	}
+	if = {
+		limit = {
+			scope:actor.highest_held_title_tier <= tier_duchy
+		}
+	divide = 4
+	}
+	if = {
+		limit = {
+			scope:actor.highest_held_title_tier <= tier_county
+		}
+	divide = 2
+	}
+	if = {
+		limit = {
+			NOT = {scope:actor.top_liege = scope:recipient.top_liege}
+		}
+	multiply = 0.6
+	}
+	if = {
+		limit = {
+			OR = {scope:actor = {OR = {is_at_war_with = scope:recipient
+								is_at_war_with = scope:recipient.top_liege
+								is_at_war_with = scope:recipient.liege}}				
+				scope:actor.liege = {OR = {is_at_war_with = scope:recipient
+								is_at_war_with = scope:recipient.top_liege
+								is_at_war_with = scope:recipient.liege}}}
+		}
+	multiply = 0.5
+	}
+	min = 0
+	max = 1200000
+}
+
+high_network_coverage_value = {
+	value = 0
+	if = {
+		limit = {
+			exists = scope:actor.var:spy_network
+			scope:actor.var:spy_network > 0
+		}
+	add = scope:actor.var:spy_network
+	multiply = 10000
+	}
+	if = {
+		limit = {
+			scope:actor.highest_held_title_tier <= tier_duchy
+		}
+	divide = 4
+	}
+	if = {
+		limit = {
+			scope:actor.highest_held_title_tier <= tier_county
+		}
+	divide = 2
+	}
+	if = {
+		limit = {
+			NOT = {scope:actor.top_liege = scope:recipient.top_liege}
+		}
+	multiply = 0.6
+	}
+	if = {
+		limit = {
+			OR = {scope:actor = {OR = {is_at_war_with = scope:recipient
+								is_at_war_with = scope:recipient.top_liege
+								is_at_war_with = scope:recipient.liege}}				
+				scope:actor.liege = {OR = {is_at_war_with = scope:recipient
+								is_at_war_with = scope:recipient.top_liege
+								is_at_war_with = scope:recipient.liege}}}
+		}
+	multiply = 0.5
+	}
+
+	min = 0
+	max = 600000
+}
+
+spy_network_value = {
+	value = 0
+	if = {
+		limit = {
+		AND = {
+		is_alive = yes
+					is_adult = yes
+					is_incapable = no
+		exists = cp:councillor_spymaster
+		OR = {NOT = {exists = var:spy_network_budget}
+					var:spy_network < var:spy_network_budget}}}
+	if = {
+		limit = {is_imprisoned = no}
+	
+	if = {
+			limit = {exists = liege
+					this = liege.cp:councillor_spymaster}
+			add = 0.25
+			}
+	if = {
+			limit = {has_lifestyle = intrigue_lifestyle}
+			add = 0.1
+			}
+	if = {
+			limit = {has_focus = intrigue_skulduggery_focus}
+			add = 0.1
+			}
+	if = {
+			limit = {intrigue >= 9}
+			add = {
+			value = intrigue
+			multiply = 0.015
+				}
+			}
+	if = {
+		limit = {has_trait = education_intrigue}
+		if = {
+			limit = {has_trait = education_intrigue_3}
+			add = 0.05
+			}
+		if = {
+			limit = {has_trait = education_intrigue_4}
+			add = 0.1
+			}
+		if = {
+			limit = {has_trait = education_intrigue_5}
+			add = 0.15
+			}
+		}
+		if = {
+			limit = {is_healthy = no}
+			divide = 2
+			}
+		if = {
+			limit = {is_at_war = yes}
+			divide = 2
+			}
+	}
+	if = {
+		limit = {cp:councillor_spymaster.intrigue >= 0}
+			add = {
+			value = cp:councillor_spymaster.ai_sociability
+			multiply = 0.005
+			min = 0
+				}
+			add = {
+			value = cp:councillor_spymaster.ai_energy
+			multiply = 0.005
+			min = 0
+				}
+			add = {
+			value = cp:councillor_spymaster.num_of_known_languages
+			multiply = 0.20
+			subtract = 0.20
+			}
+			if = {
+			limit = {cp:councillor_spymaster.intrigue >= 9}
+			add = {
+			value = cp:councillor_spymaster.intrigue
+			multiply = 0.03
+				}
+			}
+		if = {
+			limit = {cp:councillor_spymaster = {has_trait = education_intrigue}}
+
+				if = {
+				limit = {cp:councillor_spymaster = {has_trait = education_intrigue_2}}
+				add = 0.05
+				}
+				if = {
+				limit = {cp:councillor_spymaster = {has_trait = education_intrigue_3}}
+				add = 0.1
+					}
+				if = {
+				limit = {cp:councillor_spymaster = {has_trait = education_intrigue_4}}
+				add = 0.2
+				}
+				if = {
+				limit = {cp:councillor_spymaster = {has_trait = education_intrigue_5}}
+				add = 0.3
+				}
+			}
+		if = {
+			limit = {cp:councillor_spymaster = {has_focus = intrigue_skulduggery_focus}}
+			add = 0.2
+			}
+		if = {
+			limit = {cp:councillor_spymaster = {has_lifestyle = intrigue_lifestyle}}
+			add = 0.2
+			}
+		if = {
+			limit = {cp:councillor_spymaster = {is_healthy = no}}
+			divide = 2
+			}
+		if = {
+			limit = {cp:councillor_spymaster = {is_performing_council_task = task_find_secrets}}
+			divide = 2
+			}
+		}
+	}
+	else_if = {
+			limit = {NOT = {exists = cp:councillor_spymaster}}
+			subtract = 5
+	}
+	else = {
+		subtract = 1.5
+	}	
+	min = -5
+	max = 2
+}
+
+spy_network_value_on_start = {
+value = 0
+add = age
+subtract = 16
+multiply = 4
+multiply = spy_network_value
+if = {
+	limit = {short_term_gold <= 300}
+	multiply = 0.5
+}
+min = 8
+max = 100
+}
+
+spy_network_when_spymaster_leaves = {
+value = var:spy_network
+divide = 3
+min = 0
+}
+
+low_level_report_eta = {
+value = "scope:recipient.location.squared_distance(scope:actor.capital_province)"
+multiply = 0.0001
+multiply = 1.25
+if = {
+		limit = {NOT = {scope:recipient.top_liege = scope:actor.top_liege}}
+		multiply = 1.25
+		}
+ceiling = yes
+min = 15
+max = 90
+}
+
+medium_level_report_eta = {
+value = low_level_report_eta
+multiply = 2
+ceiling = yes
+min = 30
+max = 180
+}
+
+high_level_report_eta = {
+value = medium_level_report_eta
+multiply = 2
+if = {
+		limit = {scope:recipient.revelation_score_not_known < 22.5}
+		multiply = 1.3
+		}
+		if = {
+		limit = {scope:recipient.revelation_score_not_known >= 65}
+		multiply = 0.75
+		}
+ceiling = yes
+min = {
+value = 90
+if = {
+		limit = {scope:recipient.revelation_score_not_known < 22.5}
+		add = 30
+		}
+}
+max = 365
+}
+
+low_level_report_cost = {
+value = "scope:recipient.location.squared_distance(scope:actor.capital_province)"
+multiply = 0.00001
+add = 4
+divide = 2
+
+		if = {
+		limit = {NOT = {scope:recipient.top_liege = scope:actor.top_liege}}
+		multiply = 1.5
+		}
+		if = {
+		limit = {scope:actor = {is_liege_or_above_of = scope:recipient}}
+		multiply = 0.5
+		}
+		if = {
+		limit = {
+			stewardship < 9
+		}
+		multiply = 1.25 ### + 25%
+		}
+		if = {
+		limit = {
+			stewardship > 24
+		}
+		multiply = 0.75 #### - 25 %
+		}
+		if = {
+		limit = {
+			OR = {scope:actor = {OR = {is_at_war_with = scope:recipient
+								is_at_war_with = scope:recipient.top_liege
+								is_at_war_with = scope:recipient.liege}}				
+				scope:actor.liege = {OR = {is_at_war_with = scope:recipient
+								is_at_war_with = scope:recipient.top_liege
+								is_at_war_with = scope:recipient.liege}}}
+		}
+		multiply = 3
+	}
+min = 1
+}
+
+medium_level_report_cost = {
+value = low_level_report_cost
+add = 3
+multiply = 2
+if = {
+		limit = {scope:recipient = {
+		NOT = {has_character_flag = had_high_level_report}
+		OR = {has_character_flag = had_low_level_report
+		has_character_flag = had_medium_level_report}}}
+		multiply = 0.85
+		}
+if = {
+		limit = {scope:recipient = {
+		has_character_flag = had_high_level_report}}
+		multiply = 0.5
+		}
+min = 5
+max = 25
+}
+
+high_level_report_cost = {
+value = medium_level_report_cost
+multiply = 2
+if = {
+		limit = {scope:recipient = {
+		NOT = {has_character_flag = had_high_level_report}
+		has_character_flag = had_medium_level_report}}
+		multiply = 0.9
+		}
+if = {
+		limit = {scope:recipient = {
+		has_character_flag = had_high_level_report}}
+		multiply = 0.5
+		}
+if = {
+		limit = {scope:recipient = {
+		has_character_flag = had_high_level_report_twice}}
+		multiply = 0.5
+		}
+if = {
+		limit = {scope:actor = {is_liege_or_above_of = scope:recipient}}
+		multiply = 0.6
+		}
+min = {
+value = 15
+if = {
+		limit = {scope:recipient = {
+		has_character_flag = had_high_level_report_twice}}
+		multiply = 0.5
+		}
+}
+max = 100
+}
+
+reduction_value = { ### NOT USED
+value = 50
+if = {
+		limit = {scope:recipient = {
+		has_character_flag = had_high_level_report}}
+		multiply = 1.5
+		}
+if = {
+		limit = {scope:recipient = {
+		has_character_flag = had_high_level_report_twice}}
+		multiply = 2
+		}
+if = {
+		limit = {scope:recipient.intrigue < 9}
+		multiply = 1.5
+		}
+if = {
+		limit = {scope:recipient = { 
+							OR = {has_trait = arrogant
+								has_trait = trusting
+								has_bad_traits_for_spying_trigger = yes}
+				}}
+		multiply = 1.5
+		}
+if = {
+		limit = {scope:recipient = { 
+					probably_unintelligent_trigger = yes
+				}}
+		multiply = 1.2
+		}
+if = {
+		limit = {scope:recipient = {
+								probably_intelligent_trigger = yes
+						}}
+		multiply = 0.9
+		}
+if = {
+		limit = {scope:recipient = {
+								is_a_very_elusive_person_trigger = yes
+						}}
+		multiply = 0.8
+		}
+if = {
+		limit = {scope:recipient = {
+								OR = {has_trait = deceitful
+								has_trait = paranoid}
+						}}
+		multiply = 0.8
+		}
+if = {
+		limit = {scope:recipient = {
+								has_trait = schemer}}
+		multiply = 0.8
+		}
+if = {
+		limit = {scope:recipient.intrigue > 16}
+		multiply = 0.8
+		}
+if = {
+		limit = {scope:recipient.intrigue > 24}
+		multiply = 0.8
+		}
+if = {
+		limit = {
+			exists = scope:recipient.host.cp:councillor_spymaster
+				NOT = { scope:recipient.host.cp:councillor_spymaster = scope:actor.cp:councillor_spymaster }
+				scope:recipient.host.cp:councillor_spymaster = {
+					is_performing_council_task = task_disrupt_schemes}}
+		multiply = scope:recipient.host.cp:councillor_spymaster.spymaster_find_secrets_disrupt_schemes_modifier_factor
+	}
+if = {
+		limit = { ##REDUCTION
+				scope:recipient.host = { 
+					has_character_modifier = servant_informants_modifier
+				}}
+			multiply = 0.8
+	}
+if = {
+		limit = { ##REDUCTION
+				scope:recipient.host = { 
+					has_perk = court_of_shadows_perk
+				}}
+			multiply = 0.8
+	}
+if = {
+		limit = { ##REDUCTION
+				scope:recipient.host = { 
+					has_character_modifier = employer_booner_lady_in_waiting_2_modifier
+				}}
+			multiply = 0.8
+	}
+if = {
+		limit = { ##REDUCTION
+				scope:recipient.host = { 
+					has_character_modifier = employer_booner_lady_in_waiting_3_modifier
+				}}
+			multiply = 0.8
+	}
+if = {
+		limit = { ##REDUCTION
+				scope:recipient.host = { 
+					has_focus = intrigue_intimidation_focus
+				}}
+			multiply = 0.8
+	}
+if = {
+		limit = { ##REDUCTION
+				scope:recipient.host = { 
+					dread >= 20
+				}}
+			multiply = 0.8
+	}
+if = {
+		limit = { ##REDUCTION
+				OR = {scope:recipient.host = { 
+					has_focus = intrigue_skulduggery_focus}
+					scope:recipient = { 
+					has_focus = intrigue_skulduggery_focus}}}
+			multiply = 0.8
+	}
+if = {
+		limit = { ##REDUCTION
+				OR = {scope:recipient.host = { 
+					has_lifestyle = intrigue_lifestyle}
+					scope:recipient = { 
+					has_lifestyle = intrigue_lifestyle}}}
+			multiply = 0.8
+	}
+if = {
+		limit = { ##REDUCTION
+					scope:recipient = { 
+				OR = {
+					has_trait = education_intrigue 
+					intrigue > 16}}}
+			multiply = 0.8
+	}
+
+}

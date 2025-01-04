@@ -1,0 +1,248 @@
+﻿namespace = send_emissary_event
+
+
+send_emissary_event.1001 = { 
+	type = character_event
+	title = send_emissary_event.1001.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					root = {
+					exists = cp:councillor_chancellor
+					is_landless_adventurer = no}
+				}
+				desc = {
+				desc = send_emissary_event.1001.desc_councillor
+				first_valid = {
+					triggered_desc = {
+						trigger = {
+							scope:recipient = {
+							is_liege_or_above_of = root
+							has_character_flag = good_outcome_emissary}
+							}
+						desc = send_emissary_event.1001.desc_councillor_liege_good
+						}
+					triggered_desc = {
+						trigger = {
+							scope:recipient = {
+							is_liege_or_above_of = root
+							has_character_flag = bad_outcome_emissary}
+							}
+						desc = send_emissary_event.1001.desc_councillor_liege_bad
+						}
+					triggered_desc = {
+						trigger = {
+							scope:recipient = {
+							is_vassal_or_below_of = root
+							NOR = {has_character_flag = good_outcome_emissary
+									has_character_flag = bad_outcome_emissary}}
+							}
+						desc = send_emissary_event.1001.desc_councillor_vassal_neutral
+						}
+					triggered_desc = {
+						trigger = {
+							scope:recipient = {
+							is_vassal_or_below_of = root
+							has_character_flag = good_outcome_emissary}
+							}
+						desc = send_emissary_event.1001.desc_councillor_vassal_good
+						}
+					triggered_desc = {
+						trigger = {
+							scope:recipient = {
+							is_vassal_or_below_of = root
+							has_character_flag = bad_outcome_emissary}
+							}
+						desc = send_emissary_event.1001.desc_councillor_vassal_bad
+						}
+					triggered_desc = {
+						trigger = {
+							scope:recipient = {
+							has_character_flag = good_outcome_emissary}
+							}
+						desc = send_emissary_event.1001.desc_councillor_good
+						}
+					triggered_desc = {
+						trigger = {
+							scope:recipient = {
+							has_character_flag = bad_outcome_emissary}
+							}
+						desc = send_emissary_event.1001.desc_councillor_bad
+						}
+					}
+				}
+			}
+			triggered_desc = {
+				trigger = {
+					root = {is_landless_adventurer = yes}
+				}
+				desc = {
+				first_valid = {
+					triggered_desc = {
+						trigger = {
+							scope:recipient = {has_character_flag = good_outcome_emissary}
+							}
+						desc = send_emissary_event.1001.desc_landless_good
+						}
+					triggered_desc = {
+						trigger = {
+							scope:recipient = {has_character_flag = bad_outcome_emissary}
+							}
+						desc = send_emissary_event.1001.desc_landless_bad
+						}
+					}
+				}
+			}
+		}
+		triggered_desc = {
+				trigger = {
+					scope:recipient = {has_character_flag = raised_suspicion}
+				}
+				desc = send_emissary_event.1001.desc_councillor_vassal_suspicion
+			}
+		
+	}
+	theme = diplomacy
+	override_background = {
+		trigger = { root = { is_landless_adventurer = yes} }
+		reference = terrain
+	}
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+	right_portrait = {
+		character = root
+		triggered_animation = {
+			trigger = { scope:recipient = {has_character_flag = bad_outcome_emissary}} 
+			animation = disapproval
+		}
+		triggered_animation = {
+			trigger = { scope:recipient = {has_character_flag = good_outcome_emissary}} 
+			animation = steward
+		}
+		triggered_animation = {
+			trigger = { scope:recipient = {NOR = {has_character_flag = good_outcome_emissary
+									has_character_flag = bad_outcome_emissary}}} 
+			animation = personality_rational
+		}
+		animation = idle
+	}
+	lower_left_portrait = scope:recipient
+
+	trigger = {
+	scope:recipient = {OR = {scope:actor = {is_landless_adventurer = no}
+						AND = {scope:actor = {is_landless_adventurer = yes
+						OR = {has_character_flag = good_outcome_emissary
+							has_character_flag = bad_outcome_emissary}}}}}
+	}
+
+	immediate = {
+			if = {
+				limit = {scope:actor = {is_landless_adventurer = no}
+						exists = cp:councillor_chancellor}
+						scope:actor.cp:councillor_chancellor = {save_scope_as = councillor_chancellor}
+			}
+			if = {
+				limit = {
+				scope:actor = {is_landless_adventurer = no
+				any_targeting_faction = {
+				any_faction_member = { 
+				this = scope:recipient }}}
+				exists = cp:councillor_chancellor 
+				scope:actor.cp:councillor_chancellor = {NOT = {exists = joined_faction}}
+					}
+					
+				random_list = {
+				100 = {
+				
+						}
+				20 = {
+					modifier = {
+					scope:actor.cp:councillor_chancellor.intrigue > 24
+					add = 25
+					}
+					modifier = {
+					scope:actor.cp:councillor_chancellor.intrigue > 16
+					add = 15
+					}
+					modifier = {
+					scope:actor.cp:councillor_chancellor = {OR = {has_trait = deceitful
+																has_trait = shrewd}}
+					factor = 1.5
+					}
+					modifier = {
+					scope:recipient.ai_sociability > 50
+					factor = 1.5
+					}
+					modifier = {
+					scope:recipient.ai_rationality < 0
+					factor = 2
+					}
+					modifier = {
+					scope:recipient.ai_honor < -25
+					factor = 0.5
+					} 
+					scope:recipient = {
+				add_character_flag = {
+					flag = raised_suspicion
+					days = 1
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = { #good
+		name = send_emissary_event.1001.a
+		trigger = {
+			scope:recipient = {has_character_flag = good_outcome_emissary}
+					}
+		scope:recipient = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 30
+			}
+		}
+		stress_impact = {
+			base = minor_stress_impact_loss
+			gregarious = minor_stress_impact_loss
+			}
+		custom_tooltip = { 
+				text = "send_emissary_interaction_effect"
+					}
+		}
+	option = { #bad
+		name = send_emissary_event.1001.b
+		trigger = {
+			scope:recipient = {has_character_flag = bad_outcome_emissary}
+					}
+		scope:recipient = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = -30
+				}
+			}
+		stress_impact = {
+			base = minor_stress_impact_gain
+			gregarious = minor_stress_impact_gain
+			}
+		custom_tooltip = { 
+				text = "send_emissary_interaction_effect"
+					}
+		}
+	option = { #neutral
+		name = send_emissary_event.1001.c
+		trigger = {
+			scope:recipient = {NOR = {has_character_flag = good_outcome_emissary
+									has_character_flag = bad_outcome_emissary}}
+					}
+		custom_tooltip = { 
+				text = "send_emissary_interaction_effect"
+					}
+		}
+	}

@@ -1,0 +1,72 @@
+﻿
+ask_guest_interaction = {
+	category = interaction_category_diplomacy
+	icon = copts_blessing_unknown 
+	desc = ask_guest_interaction_desc
+	common_interaction = yes
+	interface_priority = 150
+	is_highlighted = { scope:recipient = { 
+			exists = var:last_visited_ruler
+			NOT = {var:last_visited_ruler = scope:actor}
+			is_pool_guest_of = scope:actor
+			is_adult = yes}}
+	greeting = positive
+	ignores_pending_interaction_block = no
+	
+	cooldown_against_recipient = { years = 1 }
+	
+	is_shown = {
+		NOT = {
+			scope:recipient = scope:actor
+			
+		}
+		
+		scope:actor = {
+		is_ai = no
+		is_landless_adventurer = no
+		}
+		
+		scope:recipient = { 
+			exists = var:last_visited_ruler
+			NOT = {var:last_visited_ruler = scope:actor}
+			OR = {is_pool_guest_of = scope:actor
+			is_courtier_of = scope:actor}
+			has_character_flag = can_ask_information
+			is_adult = yes
+			is_capable_of_being_asked_info_trigger = yes
+			NOT = {has_character_flag = was_asked_information}
+			scope:recipient.var:last_visited_ruler = {is_ruler = yes
+													is_alive = yes}
+
+			}
+		}
+	
+	is_valid_showing_failures_only = {
+	scope:actor = {
+	is_available = yes
+	is_adult = yes 
+		}
+	}
+
+	on_accept = {
+			custom_tooltip = { 
+				text = "ask_guest_interaction_effect"
+					}
+			if = {
+				limit = {scope:recipient = {exists = var:last_visited_ruler}
+							NOT = {scope:recipient.var:last_visited_ruler = scope:actor} 
+							scope:recipient.var:last_visited_ruler = {is_ruler = yes
+																		is_alive = yes}}
+				scope:actor = {	trigger_event = obf_interaction.0006}
+			}
+			
+		}
+
+	ai_accept =	{
+		base = 100
+	}
+	
+	ai_will_do = {
+		base = 0
+		}
+	}

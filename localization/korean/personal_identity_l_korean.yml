@@ -1,0 +1,16 @@
+﻿l_english:
+
+personal_identity_discovery_decision:0 "Personal Identity Discovery"
+personal_identity_discovery_decision_desc:0 "Amidst the tapestries of identity, you stand on the cusp of a personal revelation, ready to unravel the threads of your desires and inclinations. The path of self-discovery beckons, inviting you to embrace your true essence and make a defining choice about the nature of your affections."
+personal_identity_discovery_decision_tooltip: "Embrace a Moment of Self-Discovery: Reflect on your innermost feelings and navigate the path of self-awareness, making a heartfelt decision that shapes your understanding of affection and desire."
+personal_identity_discovery_decision_selection_tooltip: "Embrace a Moment of Self-Discovery: Reflect on your innermost feelings and navigate the path of self-awareness, making a heartfelt decision that shapes your understanding of affection and desire."
+personal_identity_discovery_decision_confirm: "Self-Discovery"
+ 
+  
+set_sexuality.0001.t:0 "Embracing Self-Discovery"
+set_sexuality.0001.desc:0 "As you find a quiet moment to yourself, your thoughts turn inward, reflecting upon the many facets of your identity. Among the thoughts that cross your mind, your own sexual orientation stands out, a puzzle piece of your true self that you've yet to fully comprehend.\n\nIn this introspective moment, you ponder the nature of attraction, the complexities of your heart's desires, and the ways in which your orientation shapes your interactions with the world around you. As you explore these thoughts, you come to realize that understanding your own sexual preference is not just a personal journey, but an essential part of embracing your whole self."
+set_sexuality.0001.a:0 "You realize you are asexual"
+set_sexuality.0001.b:0 "You realize you are bisexual"
+set_sexuality.0001.c:0 "You realize you are homosexual"
+set_sexuality.0001.d:0 "You realize you are heterosexual"
+set_sexuality.0001.e:0 "Content with who you are, your heart finds peace."
