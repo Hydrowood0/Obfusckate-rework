@@ -495,9 +495,6 @@ types GuestListWindow
 							size = { 30 30 }
 
 							coa_house_small = {
-								##########changed by obfusCKate: Start
-								visible = "[Or(Character.IsDeadAndValid,ShowHouse)]"
-								##########changed by obfusCKate: End
 								datacontext = "[Character.GetHouse]"
 								scale = 0.55
 								parentanchor = center

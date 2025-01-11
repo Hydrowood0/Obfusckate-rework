@@ -229,7 +229,7 @@ macro = {
 	replace_with = "True"
 }
 macro = {
-	description = "Is obf loaded & Character.IsLocalPlayer?"
+	description = "Is obf loaded, Character.IsLocalPlayer?"
 	definition = "ObfIsLocalPlayer"
 	replace_with = "Character.IsLocalPlayer"
 }
@@ -319,7 +319,7 @@ macro = {
 
 macro = {
 	description = "Show dread For Player?"
-	definition = "ShowDread"
+	definition = "ShowDreadForPlayer"
 	replace_with = "GetScriptedGui('gui_show_dread_icon_on_portraits_for_player').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
 }
 macro = {
@@ -328,6 +328,11 @@ macro = {
 	replace_with = "GetScriptedGui('gui_show_dread_icon_for_liege_or_host').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
 }
 
+macro = {
+	description = "Show dread in value or text?"
+	definition = "ShowDread"
+	replace_with = "GetScriptedGui('gui_dread_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
 
 macro = {
 	description = "Show known languages For Player?"
@@ -370,7 +375,13 @@ macro = {
 macro = {
 	description = "Show house For Player?"
 	definition = "ShowHouse"
-	replace_with = "GetScriptedGui('gui_house_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+	replace_with = "ShowHouseFor(Character)"
+}
+
+macro = {
+	description = "Show house For Player?"
+	definition = "ShowHouseFor(Target)"
+	replace_with = "Or(Target.IsDeadAndValid, GetScriptedGui('gui_house_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Target.MakeScope ).End ) )"
 }
 
 macro = {
@@ -461,4 +472,31 @@ macro = {
 	description = "show piety to player?"
 	definition = "ShowPiety"
 	replace_with = "GetScriptedGui('gui_piety_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+
+macro = {
+	description = "show vassal tab to player?"
+	definition = "ShowVassalTab"
+	replace_with = "GetScriptedGui('gui_show_vassals_tab').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+
+macro = {
+	description = "show courtier tab to player?"
+	definition = "ShowCourtierTab"
+	replace_with = "GetScriptedGui('gui_show_courtiers_tab').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "show focus?"
+	definition = "ShowFocus"
+	replace_with = "GetScriptedGui('gui_should_choose_focus').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "show memories?"
+	definition = "ShowMemories"
+	replace_with = "GetScriptedGui('gui_show_memories').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "show kill list?"
+	definition = "ShowKillList"
+	replace_with = "GetScriptedGui('gui_show_known_kill_list').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
 }

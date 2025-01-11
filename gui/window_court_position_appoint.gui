@@ -233,14 +233,11 @@ window = {
 					hbox_list_sort_buttons = {
 						layoutpolicy_horizontal = expanding
 
-						#changed by obfusCKate:Start
-						block "sort_dropdown" {
+						blockoverride "sort_dropdown" {
 							dropdown_sort_characterlist = {
-								visible = "[DropdownsEnabled]"
 								name = "eligible_courtiers_sort_options"
 							}
 						}
-						#changed by obfusCKate:End
 
 						blockoverride "skill_sort_buttons" {}
 					}
@@ -671,14 +668,14 @@ types AppointCourtPositionTypes
 									layoutpolicy_vertical = expanding
 									text_single = {
 										name = "character_relation"
-										###changed by obfusCKate: Start
-										visible = no
-										###changed by obfusCKate: End
 										layoutpolicy_horizontal = expanding
 										raw_text = "[Character.GetAIPersonality]"
 										default_format = "#low"
 										autoresize = no
 										align = nobaseline
+										###changed by obfusCKate: Start
+										visible = "[ObfLoaded]"
+										###changed by obfusCKate: End
 										alwaystransparent = yes
 									}
 								}

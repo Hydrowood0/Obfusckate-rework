@@ -715,8 +715,10 @@ types CouncilWindow
 
 				#Changed by obfusCKate: Start
 				obf_portrait_opinion_to_liege = {
-					parentanchor = bottom|hcenter
-					position = { 0 -2 }
+					blockoverride "position" {
+						parentanchor = bottom|hcenter
+						position = { 0 -2 }
+					}
 				}
 				portrait_opinion = {
 					visible = "[And(Not(ObfLoaded), And(Character.IsValid, Not(Character.IsLocalPlayer) ) )]"

@@ -1204,10 +1204,15 @@ types PortraitTypes
             position = { -30 10 }
             parentanchor = bottom|hcenter
             using = portrait_base
-            using = obf_portrait_character_view_main_template
+
             portrait_texture = "[Character.GetAnimatedPortrait(Illustration.GetEnvironment(Character.Self), 'camera_character_view_main', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
             mask = "gfx/portraits/portrait_mask_character_view.dds"
             effectname = "NoHighlight"
+
+            using = obf_portrait_character_view_main_template
+            obf_highlight_player_blinded = {
+                visible = "[And(And(PlayerKnowCharacterPortrait, PortraitsDisabled), GetScriptedGui('gui_character_is_blind').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End ))]"
+            }
 
             highlight_icon = {
                 name = "prison_bars"
@@ -2034,7 +2039,7 @@ types PortraitTypes
         icon = {
             block "dread_logic" { 
                 #Changed by ObfusCKate: Start 
-                visible = "[And(Character.ShouldShowDreadEffectIcon,ShowDread)]"
+                visible = "[And(Character.ShouldShowDreadEffectIcon,ShowDreadForPlayer)]"
 			    #Changed by ObfusCKate: End
                 frame = "[Character.GetPlayerDreadEffectIconFrame]"
                 tooltip = "[Character.GetPlayerDreadEffectTooltip]"
@@ -2092,7 +2097,7 @@ types PortraitTypes
         icon = {
             name = "dread"
             #Changed by ObfusCKate: Start
-            visible = "[And(Character.ShouldShowDreadEffectIcon,ShowDread)]"
+            visible = "[And(Character.ShouldShowDreadEffectIcon,ShowDreadForPlayer)]"
 		    #Changed by ObfusCKate: End
             size = { 16 16 }
             texture = "gfx/interface/icons/portraits/dread_values.dds"

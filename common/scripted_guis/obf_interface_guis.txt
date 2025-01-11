@@ -1120,52 +1120,59 @@ character
 #House
 
 gui_house_known = {
-saved_scopes = {
-character
-}
+	saved_scopes = {
+		character
+	}
 	is_valid = {
-	root = {is_incapable = no
-		age >= 6}
-	exists = scope:character
-	scope:character = {
-	OR = {
-	this = root
-		matchmaker.highest_held_title_tier >= tier_kingdom 
-		highest_held_title_tier >= tier_empire
-		prestige_level >= 4
-		piety_level >= 4
-		dynasty.dynasty_prestige_level >= 4
-			AND = { in_diplomatic_range = root
-			OR = {prestige_level >= 3
-				piety_level >= 3
-				influence_level >= 3
-					legitimacy_level >= 4
-					dynasty.dynasty_prestige_level >= 3
-			highest_held_title_tier >= tier_kingdom}}
-			has_character_flag = has_been_spied
-			has_character_flag = emissary_sent
-			scope:character.house = root.house
-	obf_is_fellow_vassal_or_liege_councillor = yes
-	obf_has_high_level_knowledge_flags = yes
-	obf_has_relation_that_would_talk_about_him = yes
-	obf_has_close_or_intimate_relation = yes
-	obf_has_near_intimate_or_close_relation = yes
-			obf_is_ally_or_neighbor = yes 
-			has_character_flag = partially_spied_2
-			has_character_flag = had_high_level_report
-			has_character_flag = had_medium_level_report
-			has_character_flag = had_low_level_report
-			obf_can_be_hired_as_mercenary = yes
-		AND = {has_character_flag = partially_spied
+		root = {
+			is_incapable = no
+			age >= 6
+		}
+		scope:character ?= {
 			OR = {
-			influence_level >= 2
-			has_trait = arrogant}}
-	
+				this = root
+				matchmaker.highest_held_title_tier >= tier_kingdom 
+				highest_held_title_tier >= tier_empire
+				prestige_level >= 4
+				piety_level >= 4
+				dynasty.dynasty_prestige_level >= 4
+				AND = {
+					in_diplomatic_range = root
+					OR = {
+						prestige_level >= 3
+						piety_level >= 3
+						influence_level >= 3
+						legitimacy_level >= 4
+						dynasty.dynasty_prestige_level >= 3
+						highest_held_title_tier >= tier_kingdom
+					}
+				}
+				has_character_flag = has_been_spied
+				has_character_flag = emissary_sent
+				scope:character.house = root.house
+				obf_is_fellow_vassal_or_liege_councillor = yes
+				obf_has_high_level_knowledge_flags = yes
+				obf_has_relation_that_would_talk_about_him = yes
+				obf_has_close_or_intimate_relation = yes
+				obf_has_near_intimate_or_close_relation = yes
+				obf_is_ally_or_neighbor = yes 
+				has_character_flag = partially_spied_2
+				has_character_flag = had_high_level_report
+				has_character_flag = had_medium_level_report
+				has_character_flag = had_low_level_report
+				obf_can_be_hired_as_mercenary = yes
+				AND = {
+					has_character_flag = partially_spied
+					OR = {
+						influence_level >= 2
+						has_trait = arrogant
 					}
 				}
 			}
 		}
-	
+	}
+}
+
 #domain
 
 gui_show_domain = {
@@ -1608,38 +1615,48 @@ character
 #Show characters in list
 		
 gui_show_chars_in_list = { ###### ROOT IS CHARACTER IN LIST - PLAYER IS PLAYER
-saved_scopes = {
-player
-}
+	saved_scopes = {
+		player
+	}
 	is_valid = {
-	OR = {
-
-	AND = {root.liege = scope:player.liege
-				OR = {is_councillor_of = scope:player.liege
-					is_ruler = yes}}
-	AND = {exists = scope:player.liege
-			scope:player = {OR = {
-		is_knight = yes
-		is_councillor = yes}}
-			OR = {	
-		is_knight_of = scope:player.liege
-        is_courtier_of = scope:player.liege
-        is_pool_guest_of = scope:player.liege
-				}}
-					
-		this = scope:player.liege
-		is_at_same_location = scope:player
-		prestige_level >= 4
-		AND = { in_diplomatic_range = root
-			prestige_level >= 3}
+		OR = {
+			scope:player ?= ROOT
+			AND = {
+				root.liege = scope:player.liege
+				OR = {
+					is_councillor_of = scope:player.liege
+					is_ruler = yes
+				}
+			}
+			AND = {
+				scope:player = {
+					is_independent_ruler = no
+					OR = {
+						is_knight = yes
+						is_councillor = yes
+					}
+				}
+				OR = {	
+					is_knight_of = scope:player.liege
+					is_courtier_of = scope:player.liege
+					is_pool_guest_of = scope:player.liege
+				}
+			}
+			this = scope:player.liege
+			is_at_same_location = scope:player
+			prestige_level >= 4
+			AND = {
+				in_diplomatic_range = root
+				prestige_level >= 3
+			}
 			has_character_flag = had_high_level_report
 			has_character_flag = had_medium_level_report
 			has_character_flag = had_low_level_report
-		has_character_flag = partially_spied_2
-		has_character_flag = partially_spied
+			has_character_flag = partially_spied_2
+			has_character_flag = partially_spied
 			has_character_flag = emissary_sent
 			has_character_flag = has_been_spied
-	obf_has_high_level_knowledge_flags = yes
+			obf_has_high_level_knowledge_flags = yes
 		}
 	}
 }

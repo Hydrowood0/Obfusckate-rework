@@ -275,7 +275,9 @@ window = {
 
 					################changed by obfusCKate: Start (some conflits if left visible)
 					obf_portrait_opinion_to_liege = {
-						datacontext = "[CharacterWindow.GetCharacter]"
+						blockoverride "datacontext" {
+							datacontext = "[CharacterWindow.GetCharacter]"
+						}
 					}
 					portrait_opinion = {
 						name = "liege_opinion" 
@@ -343,8 +345,10 @@ window = {
 
 				################changed by obfusCKate: Start (some conflits if left visible)
 				obf_portrait_opinion_to_liege = {
-					parentanchor = top|hcenter
-					position = { -10 110 }
+					blockoverride "position" {
+						parentanchor = top|hcenter
+						position = { -10 110 }
+					}
 				}
 				############changed by obfusCKate: End (some conflits if left visible)
 
@@ -637,7 +641,7 @@ window = {
 				button_normal = {
 					name = "open_barbershop"
 					#changed by obfusCKate: Start
-					visible = "[And(Character.CanCustomizePortrait,ShowPortrait)]"	
+					visible = "[And(Character.CanCustomizePortrait, ShowPortrait)]"	
 					#changed by obfusCKate: End
 
 					size = { 35 35 }
@@ -662,7 +666,7 @@ window = {
 				button_normal = {
 					name = "open_kill_list"
 					#Changed by obfusCKate: Start
-					visible = "[And(Character.HasKillsKnownTo( GetPlayer ),GetScriptedGui('gui_show_known_kill_list').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
+					visible = "[And(Character.HasKillsKnownTo( GetPlayer ), RUI_Ch_OBFS_macro_28)]"
 					#Changed by obfusCKate: End
 
 					size = { 35 35 }
@@ -716,7 +720,7 @@ window = {
 					size = { 35 35 }
 
 					##########changed by obfusCKate: Start
-					visible = "[GetScriptedGui('gui_should_choose_focus').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+					visible = "[ShowFocus]"
 					##########changed by obfusCKate: End
 					tooltip = "PLAYER_LIFESTYLE_TOOLTIP"
 					using = tooltip_ne
@@ -986,9 +990,9 @@ window = {
 							spacing = -5
 							vbox = {
 								##########changed by obfusCKate: Start
-								visible = "[ObfIsLocalPlayer]"
+								using = obf_prowess_tooltip
+								#tooltip = "[Character.GetProwessBreakdown]"
 								##########changed by obfusCKate: End
-								tooltip = "[CharacterWindow.GetCharacter.GetProwessBreakdown]"
 								using = tooltip_ne
 								spacing = -3
 
@@ -1002,14 +1006,14 @@ window = {
 
 								text_single = {
 									name = "prowess_value"
-									text = "[CharacterWindow.GetCharacter.GetProwess|0]"
+									##########changed by obfusCKate: Start
+									using = obf_prowess_text
+									#text = "[Character.GetProwess|0]"
+									##########changed by obfusCKate: End
 									align = nobaseline
 								}
 							}
 						}
-						##########changed by obfusCKate: Start
-						obf_vbox_prowess = {}
-						##########changed by obfusCKate: End
 
 						vbox = {
 							tooltip = "ADMIN_WINDOW_THEME_GOVERNOR_EFFICIENCY_TT"
@@ -1169,7 +1173,7 @@ window = {
 			widget = {
 				name = "house"
 				##########changed by obfusCKate: Start
-				visible = "[Or(Character.IsDeadAndValid,ShowHouse)]"
+				visible = "[ShowHouse]"
 				##########changed by obfusCKate: End
 				datacontext = "[Character.GetHouse]"
 				layoutpolicy_vertical = expanding
@@ -2641,14 +2645,15 @@ window = {
 			vbox_character_list = {
 				datacontext = "[CharacterWindow.GetCourt]"
 				#Changed by obfusCKate:start
-				visible = "[And(GetScriptedGui('gui_show_courtiers_tab').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),CharacterWindow.IsTabShown('court'))]"
+				visible = "[And(ShowCourtierTab,CharacterWindow.IsTabShown('court'))]"
+				#Changed by obfusCKate:end
 				blockoverride "sort_dropdown" {
 					dropdown_sort_characterlist = {
-					visible = "[DropdownsEnabled]"
+						# unique name needed to distinct from vassal sort options
 						name = "court_sort_options"
 					}
 				}
-				#Changed by obfusCKate:end
+
 				blockoverride "scrollbox_margins" {
 					margin_right = 15
 					margin_top = 10
@@ -2663,13 +2668,11 @@ window = {
 						#setitemsizefromcell = yes
 						layoutpolicy_vertical = expanding
 						layoutpolicy_horizontal = expanding
+						####Changed by obfusCKate: END ## THIS HIDES UNKNOWN CHARACTERS IN COURT
 
-						item = {    
+						item = {
 							widget_courtier_item = {  
 								datacontext = "[CharacterListItem.GetCharacter]" 
-								visible = "[GetScriptedGui('gui_show_chars_in_list').IsValid( GuiScope.SetRoot(CharacterListItem.GetCharacter.MakeScope).AddScope( 'player', GetPlayer.MakeScope ).End )]"
-								layoutpolicy_horizontal = expanding
-								####Changed by obfusCKate: END ## THIS HIDES UNKNOWN CHARACTERS IN COURT
 
 								# blockoverride "description_relation_text" {
 								# 	text = "[Character.GetSpecialGuestRelationDescription]"
@@ -2728,17 +2731,16 @@ window = {
 
 			vbox_character_list = {
 				#Changed by obfusCKate:start
-				visible = "[And(GetScriptedGui('gui_show_vassals_tab').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),CharacterWindow.IsTabShown('vassals'))]"
+				visible = "[And(ShowVassalTab,CharacterWindow.IsTabShown('vassals'))]"
+				#changed by obfusCKate: End
 				datacontext = "[CharacterWindow.GetVassals]"
 
 				blockoverride "sort_dropdown" {
 					dropdown_sort_characterlist = {
-						visible = "[DropdownsEnabled]"
 						# unique name needed to distinct from court sort options
 						name = "vassal_sort_options"
 					}
 				}
-				#changed by obfusCKate: End
 
 				blockoverride "scrollbox_margins" {
 					margin = { 0 5 }

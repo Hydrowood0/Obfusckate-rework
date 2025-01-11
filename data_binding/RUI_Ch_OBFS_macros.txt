@@ -1,0 +1,176 @@
+﻿macro = {
+	description = "Show military strength For Player?"
+	definition = "RUI_Ch_OBFS_macro_01"
+	replace_with = "ShowMilitaryStrength"
+}
+
+macro = {
+	description = "Show military progress bar For Player?"
+	definition = "RUI_Ch_OBFS_macro_02"
+	replace_with = "ShowMilitaryProgressBar"
+}
+
+macro = {
+	description = "Show legitimacy For Player?"
+	definition = "RUI_Ch_OBFS_macro_03"
+	replace_with = "ShowLegitimacy"
+}
+
+macro = {
+	description = "Show influence to Player?"
+	definition = "RUI_Ch_OBFS_macro_04"
+	replace_with = "ShowInfluence"
+}
+
+macro = {
+	description = "Show diplomacy For Player?"
+	definition = "RUI_Ch_OBFS_macro_05"
+	replace_with = "ShowDiplomacy"
+}
+
+macro = {
+	description = "obf loaded?"
+	definition = "RUI_Ch_OBFS_macro_06"
+	replace_with = "ObfLoaded"
+}
+
+macro = {
+	description = "is this character male and sexuality known by player?"
+	definition = "RUI_Ch_OBFS_macro_07"
+	replace_with = "ShowSexualityMale"
+}
+macro = {
+	description = "is this character female and sexuality known by player?"
+	definition = "RUI_Ch_OBFS_macro_08"
+	replace_with = "ShowSexualityFemale"
+}
+
+macro = {
+	description = "if obf loaded, is local player?"
+	definition = "RUI_Ch_OBFS_macro_09"
+	replace_with = "ObfIsLocalPlayer"
+}
+
+macro = {
+	description = "show vassal tab to player?"
+	definition = "RUI_Ch_OBFS_macro_10"
+	replace_with = "ShowVassalTab"
+}
+
+macro = {
+	description = "show courtier tab to player?"
+	definition = "RUI_Ch_OBFS_macro_11"
+	replace_with = "ShowCourtierTab"
+}
+
+macro = {
+	description = "Show dread in value or text?"
+	definition = "RUI_Ch_OBFS_macro_12"
+	replace_with = "ShowDread"
+}
+
+macro = {
+	description = "Show relations tab For Player?"
+	definition = "RUI_Ch_OBFS_macro_13"
+	replace_with = "ShowRelationsTab"
+}
+
+macro = {
+	description = "Show intimate relations For Player?"
+	definition = "RUI_Ch_OBFS_macro_14"
+	replace_with = "ShowIntimateRelations"
+}
+
+macro = {
+	description = "Show family tab For Player?"
+	definition = "RUI_Ch_OBFS_macro_15"
+	replace_with = "ShowFamilyTab"
+}
+
+macro = {
+	description = "Show titles & claims For Player?"
+	definition = "RUI_Ch_OBFS_macro_16"
+	replace_with = "ShowTitlesClaims"
+}
+
+macro = {
+	description = "Show domain For Player?"
+	definition = "RUI_Ch_OBFS_macro_17"
+	replace_with = "ShowDomain"
+}
+
+macro = {
+	description = "Show house For Player?"
+	definition = "RUI_Ch_OBFS_macro_18"
+	replace_with = "ShowHouse"
+}
+
+macro = {
+	description = "Show house For target?"
+	definition = "RUI_Ch_OBFS_macro_19(Target)"
+	replace_with = "ShowHouseFor(Target)"
+}
+
+macro = {
+	description = "Show faith & culture For Player?"
+	definition = "RUI_Ch_OBFS_macro_20"
+	replace_with = "ShowFaithCulture"
+}
+macro = {
+	description = "Show modifiers For Player?"
+	definition = "RUI_Ch_OBFS_macro_21"
+	replace_with = "ShowModifiers"
+}
+
+macro = {
+	description = "Show government efficiency For Player?"
+	definition = "RUI_Ch_OBFS_macro_22"
+	replace_with = "ShowGovernmentEfficency"
+}
+
+macro = {
+	description = "Show health For Player?"
+	definition = "RUI_Ch_OBFS_macro_23"
+	replace_with = "ShowHealth"
+}
+
+macro = {
+	description = "Show known languages For Player?"
+	definition = "RUI_Ch_OBFS_macro_24"
+	replace_with = "ShowKnownLanguages"
+}
+macro = {
+	description = "Show exact age For Player?"
+	definition = "RUI_Ch_OBFS_macro_25"
+	replace_with = "ShowExactAge"
+}
+
+macro = {
+	description = "show focus?"
+	definition = "RUI_Ch_OBFS_macro_26"
+	replace_with = "ShowFocus"
+}
+
+macro = {
+	description = "show memories?"
+	definition = "RUI_Ch_OBFS_macro_27"
+	replace_with = "ShowMemories"
+}
+
+macro = {
+	description = "show kill list?"
+	definition = "RUI_Ch_OBFS_macro_28"
+	replace_with = "ShowKillList"
+}
+
+macro = {
+	description = "Show portriat For Player, or game rule set enabled?"
+	definition = "RUI_Ch_OBFS_macro_29"
+	replace_with = "ShowPortrait"
+}
+
+macro = {
+	description = "Show portrait status For Player?"
+	definition = "RUI_Ch_OBFS_macro_30"
+	replace_with = "ShowPortraitStatus"
+}

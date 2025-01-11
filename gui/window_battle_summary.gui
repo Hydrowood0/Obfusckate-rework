@@ -1029,7 +1029,7 @@ window = {
 														}
 
 														icon = {
-															visible = "[And( BattleEvent.IsWound, BattleEvent.IsShow( BattleSummaryWindow.IsPlayerAttacker ) )]"
+															visible = "[And( BattleEvent.IsWound, BattleEvent.IsShowForPlayer( BattleSummaryWindow.IsPlayerAttacker ) )]"
 															size = { 25 25 }
 															texture = "gfx/interface/icons/icon_wounded.dds"
 															tooltip = "BATTLE_SUMMARY_KNIGHTS_WOUNDED_TT"
@@ -1117,7 +1117,7 @@ window = {
 														}
 
 														icon = {
-															visible = "[And( BattleEvent.IsWound, Not( BattleEvent.IsShow( BattleSummaryWindow.IsPlayerAttacker ) ) )]"
+															visible = "[And( BattleEvent.IsWound, Not( BattleEvent.IsShowForPlayer( BattleSummaryWindow.IsPlayerAttacker ) ) )]"
 															size = { 25 25 }
 															texture = "gfx/interface/icons/icon_wounded.dds"
 															tooltip = "BATTLE_SUMMARY_KNIGHTS_WOUNDED_TT"

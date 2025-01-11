@@ -64,9 +64,9 @@ window = {
 	
 					item = {
 						widget_character_list_item_finder = {
-						visible = "[GetScriptedGui('gui_show_chars_in_list').IsValid( GuiScope.SetRoot(CharacterListItem.GetCharacter.MakeScope).AddScope( 'player', GetPlayer.MakeScope ).End )]"
-						layoutpolicy_horizontal = expanding
-						####Changed by obfusCKate: END ## THIS HIDES UNKNOWN CHARACTERS IN COURT
+							visible = "[GetScriptedGui('gui_show_chars_in_list').IsValid( GuiScope.SetRoot(CharacterListItem.GetCharacter.MakeScope).AddScope( 'player', GetPlayer.MakeScope ).End )]"
+							layoutpolicy_horizontal = expanding
+							####Changed by obfusCKate: END ## THIS HIDES UNKNOWN CHARACTERS IN COURT
 							size = { 650 94 }
 						}
 					}

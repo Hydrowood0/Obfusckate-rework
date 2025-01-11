@@ -641,7 +641,7 @@ window = {
 												size = { 45 35 }
 												visible = "[Character.IsValid]"
 												#changed by obfusCKate: Start
-												tooltip = " "
+												#tooltip = "[Character.GetCommanderAdvantageDesc]"
 												#changed by obfusCKate: End
 
 												hbox = {

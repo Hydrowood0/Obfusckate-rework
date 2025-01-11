@@ -906,7 +906,7 @@ types GameTooltipTypes
 						hbox = {
 							name = "house"
 							##########changed by obfusCKate: Start
-							visible = "[Or(Character.IsDeadAndValid,ShowHouse)]"
+							visible = "[ShowHouse]"
 							##########changed by obfusCKate: End
 							datacontext = "[Character.GetHouse]"
 							margin = { 10 5 }

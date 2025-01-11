@@ -169,9 +169,8 @@ window = {
 											layoutpolicy_horizontal = expanding
 											maximumsize = { 0 -1 }
 											margin_right = 10
-											##########changed by obfusCKate: Start
-											visible = "[And(Character.HasDynasty,Or(Character.IsDeadAndValid,ShowHouse))]"
-											##########changed by obfusCKate: End
+
+											visible = "[Character.HasDynasty]"
 
 											coa_house_small = {
 												datacontext = "[Character.GetHouse]"

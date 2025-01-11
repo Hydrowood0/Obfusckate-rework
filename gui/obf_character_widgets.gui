@@ -1,30 +1,11 @@
 ﻿types character_window{
-	type obf_vbox_prowess = vbox {
-		visible = "[ShowProwess]"
-		tooltip = "PROWESS_VALUES_CHARACTER_TOOLTIP"
-		using = tooltip_ne
-		spacing = -3
-
-		using = Animation_Character_Window_Refresh
-
-		icon = {
-			name = "prowess_icon"
-			size = { 32 32 }
-			texture = "gfx/interface/icons/icon_prowess.dds"
-		}
-
-		text_single = {
-			name = "prowess_value"
-			text = "PROWESS_VALUES_CHARACTER"
-			align = nobaseline
-		}
-	}
-
 	type obf_button_open_known_character_list = button_normal { ###Button for known characters List - OPTIONAL
 		name = "open_known_characters_list"
 		visible = "[And(Or(KnownListShortcutBottomDisabled,KnownListShortcutEnabled),Character.IsLocalPlayer)]"
 
-		size = { 30 30 }
+		block "size" {
+			size = { 30 30 }
+		}
 		datacontext = "[Character]"
 		tooltip = "SHORTCUT_KNOWN_CHARACTERS"
 		using = tooltip_ne
@@ -40,7 +21,9 @@
 				blend_mode = normal
 			}
 			texture = "gfx/interface/icons/gw_effect_friendly_diplomacy.dds"
-			size = { 25 25 }
+			block "icon_size" {
+				size = { 25 25 }
+			}
 			onclick = "[GetScriptedGui('obf_toggle_reset').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
 			parentanchor = center
 		}
@@ -64,8 +47,13 @@
 		name = "blind_character"
 		visible = "[GetScriptedGui('gui_character_is_blind').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End )]"
 		visible_at_creation = no
-		size = { 205% 95% }
-		position = { 0 25 }
+		block "size" {
+			size = { 205% 95% }
+		}
+		block "position" {
+			parentanchor = center
+			position = { 180 15 }
+		}
 		alpha = 0.92
 		effectname = "NoHighlight"
 		texture = "gfx/portraits/portrait_mask_event.dds"
@@ -210,7 +198,11 @@
 		size = { 195 225 }
 		using = portrait_base_unknown
 		visible = "[Not(ShowPortrait)]"
+
+		#gfxtype = framedbuttongfx
 		effectname = "NoHighlight"
+		#texture = "gfx/portraits/unknown_portraits/unknown.dds"
+
 		block "portrait_button" {}
 	}
 	type obf_unknown_portrait_shoulders = portrait_button {
@@ -219,7 +211,7 @@
 		using = portrait_base_unknown
 		visible = "[Not(ShowPortrait)]"
 
-		#gfxtype = framedbuttongfx
+		gfxtype = framedbuttongfx
 		effectname = "NoHighlight"
 		texture = "gfx/portraits/unknown_portraits/unknown_council.dds"
 
@@ -243,7 +235,10 @@
 		}
 
 		obf_highlight_player_blinded = {
-			position = { 10 -22 }
+			blockoverride "position" {
+				parentanchor = center
+				position = { 180 -22 }
+			}
 		}
 
 		block "portrait_button" {}
@@ -365,7 +360,9 @@
 		text = "CHARACTER_AGE_ACQUAINTANCE"
 		default_format = "#low"
 		tooltip = "BIRTHDAY_ACQUAINTANCE"
-		fontsize = 17
+		block "fontsize" {
+			fontsize = 17
+		}
 		align = nobaseline
 	}
 	type obf_rumours_interaction_icon = icon{
@@ -387,16 +384,18 @@
 		visible = "[Not(PlayerKnowCharacterPortrait)]"
 		icon = {
 			visible = "[Not(Character.IsFemale)]"
-			size = { 20 20 }
+			block "size" {
+				size = { 20 20 }
+			}
 			texture = "gfx/interface/icons/sex_icon_male.dds"
-			tooltip = "SEXUALITY_TT"
 		}
 
 		icon = {
 			visible = "[Character.IsFemale]"
-			size = { 20 20 }
+			block "size" {
+				size = { 20 20 }
+			}
 			texture = "gfx/interface/icons/sex_icon_female.dds"
-			tooltip = "SEXUALITY_TT"
 		}
 	}
 
@@ -620,7 +619,8 @@
 
 	type obf_portrait_opinion_to_liege = portrait_opinion {
 		visible = "[And(Or(ShowOpinionAboutLiege, ObjectsEqual(GetPlayer, Character.GetLiege)), And( And(Character.IsValid, Character.GetLiege.IsValid), Not(Character.IsLocalPlayer) ) )]"
-
+		block "position" {}
+		block "datacontext" {}
 		blockoverride "dread_logic" { 
 			visible = "[And(Character.ShouldShowDreadEffectIconFor( Character.GetLiege ), ShowDreadForLiege)]"
 			frame = "[Character.GetDreadEffectIconFrameFor( Character.GetLiege )]"
@@ -661,6 +661,15 @@ template obf_skill_tooltip {
 	tooltip = "[SelectLocalization(Character.IsLocalPlayer, Concatenate(SkillItem.GetSkillBreakdownTooltip, Concatenate(Localize('SkillEffectBreak'), SkillItem.GetSkillEffects)), SelectLocalization(GetScriptedGui('gui_skills_are_not_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ) ,'SKILL_ITEM_TOOLTIP_NO_RE_NO_SEC', SelectLocalization(GetScriptedGui('gui_skills_are_roughly_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ), 'SKILL_ITEM_TOOLTIP_NO_RE', 'SKILL_ITEM_TOOLTIP_OB')))]"
 }
 
+template obf_prowess_text {
+	text = "[SelectLocalization(Character.IsLocalPlayer, 'CHARACTER_PROWESS_VALUE', 'PROWESS_VALUES_CHARACTER')]"
+}
+
+template obf_prowess_tooltip {
+	visible = "[Or(ShowProwess, ObfIsLocalPlayer)]"
+	tooltip = "[SelectLocalization(Character.IsLocalPlayer, Character.GetProwessBreakdown, 'PROWESS_VALUES_CHARACTER_TOOLTIP')]"
+}
+
 template obf_gold_template {
 	visible = "[Or(ShowGoldExact,ShowGoldRough)]"
 	tooltip = "[SelectLocalization(ShowGoldExact,'CHARACTER_GOLD_TOOLTIP', SelectLocalization(ShowGoldRough,'OBF_GOLD_TOOLTIP', ''))]"
@@ -686,10 +695,11 @@ template obf_piety_text_template {
 }
 
 template obf_dread_template {
-	tooltip = "[SelectLocalization(ObfIsLocalPlayer, Character.GetDreadBreakdown, SelectLocalization(GetScriptedGui('gui_dread_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ), 'OBF_DREAD_TOOLTIP', ''))]"
+	tooltip = "[SelectLocalization(ObfIsLocalPlayer, Character.GetDreadBreakdown, 'OBF_DREAD_TOOLTIP')]"
+	visible = "[Or(ObfIsLocalPlayer, ShowDread)]"
 }
 template obf_dread_text_template {
-	text = "[SelectLocalization(ObfIsLocalPlayer, 'CharacterDread', SelectLocalization(GetScriptedGui('gui_dread_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ), 'OBF_DREAD_CHARACTER', ''))]"
+	text = "[SelectLocalization(ObfIsLocalPlayer, 'CharacterDread', 'OBF_DREAD_CHARACTER')]"
 }
 
 
@@ -757,9 +767,6 @@ template portrait_base_unknown {
 
 template obf_portrait_character_view_main_template {
 	visible = "[Or(And(PlayerKnowCharacterPortrait, PortraitsDisabled), And(ExpressionsDisabled, PortraitsEnabled))]"
-	obf_highlight_player_blinded = {
-		visible = "[And(And(PlayerKnowCharacterPortrait, PortraitsDisabled), GetScriptedGui('gui_character_is_blind').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End ))]"
-	}
 }
 
 template obf_court_tab_count {

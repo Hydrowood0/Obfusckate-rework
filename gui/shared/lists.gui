@@ -275,9 +275,6 @@ types Lists
 								size = { 35 40 }
 								
 								coa_house_tiny = {
-									##########changed by obfusCKate: Start
-									visible = "[Or(Character.IsDeadAndValid,ShowHouse)]"
-									##########changed by obfusCKate: End 
 									datacontext = "[Character.GetHouse]"
 									parentanchor = center
 								}
@@ -578,9 +575,6 @@ types Lists
 										size = { 45 40 }
 
 										coa_house_small = {
-											##########changed by obfusCKate: Start
-											visible = "[Or(Character.IsDeadAndValid,ShowHouse)]"
-											##########changed by obfusCKate: End
 											datacontext = "[Character.GetHouse]"
 											parentanchor = center
 											scale = 0.7
@@ -817,6 +811,9 @@ types Lists
 
 	type dropdown_sort_characterlist = dropDown {
 		name = "sort_options"
+		#changed by obfusCKate:Start
+		visible = "[DropdownsEnabled]"
+		#changed by obfusCKate:End
 		block "size_button_drop" {   ########### only used for character finder
 			size = { 190 33 }
 		}
@@ -1118,12 +1115,9 @@ types Lists
 		}
 
 		block "sort_dropdown" {
-			#changed by obfusCKate:Start
-			dropdown_sort_characterlist = {
-				visible = "[DropdownsEnabled]"
-			}
-			#changed by obfusCKate:End
+			dropdown_sort_characterlist = {}
 		}
+
 		button_standard = {
 			#changed by obfusCKate:Start
 			visible = "[DropdownsEnabled]"
@@ -1423,6 +1417,9 @@ types Lists
 	}
 
 	type widget_courtier_item = widget {
+		#changed by obfusCKate:Start
+		visible = "[GetScriptedGui('gui_show_chars_in_list').IsValid( GuiScope.SetRoot(CharacterListItem.GetCharacter.MakeScope).AddScope( 'player', GetPlayer.MakeScope ).End )]"
+		#changed by obfusCKate:End
 		size = { 0 125 }
 
 		hbox = {
@@ -1554,9 +1551,6 @@ types Lists
 							size = { 45 40 }
 
 							coa_house_small = {
-								##########changed by obfusCKate: Start
-								visible = "[Or(Character.IsDeadAndValid,ShowHouse)]"
-								##########changed by obfusCKate: End
 								datacontext = "[Character.GetHouse]"
 								parentanchor = center
 								scale = 0.7

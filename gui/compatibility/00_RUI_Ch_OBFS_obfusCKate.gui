@@ -1,0 +1,167 @@
+﻿# MOD名 / MOD Name .......... obfusCKate
+# 互換性ID / Comp ID ........ *OBFS
+# 作成者 / Author ........... Jp78
+# Workshop ID ............... 2874007571
+# 対応日付 / Support Date ... 2024/12/29
+
+template RUI_Ch_OBFS_template_01 {
+    using = obf_dread_template
+}
+
+template RUI_Ch_OBFS_template_02 {
+    using = obf_dread_text_template
+}
+
+template RUI_Ch_OBFS_template_03 {
+    using = obf_piety_template
+}
+
+template RUI_Ch_OBFS_template_04 {
+    using = obf_piety_text_template
+}
+
+template RUI_Ch_OBFS_template_05 {
+    using = obf_prestige_template
+}
+
+template RUI_Ch_OBFS_template_06 {
+    using = obf_prestige_text_template
+}
+
+template RUI_Ch_OBFS_template_07 {
+    using = obf_gold_template
+}
+
+template RUI_Ch_OBFS_template_08 {
+    using = obf_gold_text_template
+}
+
+template RUI_Ch_OBFS_template_09 {
+	text_single = {
+		default_format = "#low"
+        tooltip = "[AddLocalizationIf(Not(ObfIsLocalPlayer), 'COURTIERS_COUNT_TT_OB')]"
+        raw_text = "  [ShowStringWithParentheses(SelectLocalization(ObfIsLocalPlayer,'CHARACTER_WINDOW_COURT_TAB_COUNT', SelectLocalization(ShowEstimateTabCount, SelectLocalization( LessThanOrEqualTo_int32( CharacterWindow.GetTabItemsCount('court'), '(int32)5' ), 'FEW_COURTIERS_OB',SelectLocalization(LessThanOrEqualTo_int32( CharacterWindow.GetTabItemsCount('court'), '(int32)15' ),'SOME_COURTIERS_OB', 'MANY_COURTIERS_OB')),'')))]"
+        fontsize_min = 14
+    }
+}
+
+template RUI_Ch_OBFS_template_10 {
+	text_single = {
+		default_format = "#low"
+        tooltip = "[AddLocalizationIf(Not(ObfIsLocalPlayer), 'VASSALS_COUNT_TT_OB')]"
+        raw_text = "  #low [ShowStringWithParentheses(SelectLocalization(ShowTabCount,'CHARACTER_WINDOW_VASSAL_TAB_COUNT', SelectLocalization(ShowEstimateTabCount, SelectLocalization( LessThanOrEqualTo_int32( CharacterWindow.GetTabItemsCount('vassal'), '(int32)10' ), 'FEW_VASSALS_OB',SelectLocalization(LessThanOrEqualTo_int32( CharacterWindow.GetTabItemsCount('vassal'), '(int32)20' ),'SOME_VASSALS_OB', 'MANY_VASSALS_OB')),'')))]#!"
+        fontsize_min = 14
+    }
+}
+
+template RUI_Ch_OBFS_template_11 {
+    using = obf_prowess_tooltip
+}
+
+template RUI_Ch_OBFS_template_12 {
+    using = obf_prowess_text
+}
+
+template RUI_Ch_OBFS_template_13 {
+    using = obf_skill_tooltip
+}
+
+template RUI_Ch_OBFS_template_14 {
+    using = obf_skill_text
+}
+
+template RUI_Ch_OBFS_template_15 {
+    text = "[Character.Custom2('diplomacy_skill_value_text_reverse', GetPlayer)]"
+}
+
+template RUI_Ch_OBFS_template_16 {
+    text = "[Character.Custom2('martial_skill_value_text_reverse', GetPlayer)]"
+}
+
+template RUI_Ch_OBFS_template_17 {
+    text = "[Character.Custom2('stewardship_skill_value_text_reverse', GetPlayer)]"
+}
+
+template RUI_Ch_OBFS_template_18 {
+    text = "[Character.Custom2('intrigue_skill_value_text_reverse', GetPlayer)]"
+}
+
+template RUI_Ch_OBFS_template_19 {
+    text = "[Character.Custom2('learning_skill_value_text_reverse', GetPlayer)]"
+}
+
+template RUI_Ch_OBFS_template_20 {
+	text = "[SelectLocalization(Character.IsLocalPlayer, 'CHARACTER_PROWESS_VALUE', SelectLocalization(ShowProwess,'PROWESS_VALUES_CHARACTER', ''))]"
+}
+
+template RUI_Ch_OBFS_template_21 {
+	using = obf_portrait_character_view_main_template
+}
+
+types CharacterWindow
+{
+	type RUI_Ch_OBFS_type_01 = obf_button_ask_military_advice {
+        size = { 75 55 }
+    }
+	type RUI_Ch_OBFS_type_02 = obf_rumours_icon {
+        size = { 30 30 }
+    }
+    type RUI_Ch_OBFS_type_03 = obf_gender_portrait_unknown {
+        visible = "[Not(Or(RUI_Ch_OBFS_macro_07, RUI_Ch_OBFS_macro_08))]"
+        blockoverride "size" {
+            size = { 35 35 }
+        }
+    }
+    type RUI_Ch_OBFS_type_04 = text_single {
+        maximumsize = { 155 -1 }
+        name = "ai_personality"
+        using = obf_personality_template
+        using = tooltip_se
+
+        fontsize_min = 13
+        align = nobaseline
+    }
+    type RUI_Ch_OBFS_type_05 = obf_button_open_known_character_list {
+        blockoverride "size" {
+            size = { 40 40 }
+        }
+        blockoverride "icon_size" {
+            size = { 30 30 }
+        }
+    }
+    type RUI_Ch_OBFS_type_06 = obf_character_age_acquaintance {}
+    type RUI_Ch_OBFS_type_07 = obf_portrait_opinion_to_liege {}
+    type RUI_Ch_OBFS_type_08 = obf_highlight_player_blinded {
+        blockoverride "size" {
+			size = { 132% 100% }
+		}
+        blockoverride "position" {
+			position = { -20 20 }
+		}
+    }
+    type RUI_Ch_OBFS_type_09 = obf_highlight_player_blinded {
+        visible = "[And(And(PlayerKnowCharacterPortrait, PortraitsDisabled), GetScriptedGui('gui_character_is_blind').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End ))]"
+        blockoverride "size" {
+			size = { 118% 100% }
+		}
+        blockoverride "position" {
+            parentanchor = center
+			position = { -20 20 }
+		}
+    }
+    type RUI_Ch_OBFS_type_10 = obf_unknown_portrait_torso {
+        size = { 200 300 }
+		position = { -30 0 }
+		gfxtype = framedbuttongfx
+		texture = "gfx/portraits/unknown_portraits/unknown.dds"
+        obf_highlight_player_blinded = {
+            blockoverride "size" {
+			    size = { 118% 100% }
+            }
+            blockoverride "position" {
+                parentanchor = center
+                position = { 60 0 }
+            }
+        }
+    }
+}
