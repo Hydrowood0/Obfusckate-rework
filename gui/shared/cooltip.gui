@@ -55,6 +55,7 @@ container = {
 	using = GlossaryTooltipWidget
 }
 
+
 template character_opinion_tooltip {
 	widget = {
 		using = GeneralTooltipSetup
@@ -103,93 +104,10 @@ template character_opinion_tooltip {
 
 					block "ott_opinion_value_text"
 					{
-
-						raw_text = " "
-						margin = {40 0}
-						max_width = 150
-						
-						text_single = {
-			name = "Excellent"
-			visible = "[GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ), '(int32)86')]"
-			text = "cooltip_opinion_excellent"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
-			default_format = "#true_white"
-			using = Font_Size_Medium
-			margin = {6 -2}
-
-			}
-			text_single = {
-			name = "vgood"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ),'(int32)85'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ), '(int32)60'))]"
-			text = "cooltip_opinion_very_good"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
-			default_format = "#true_white"
-			using = Font_Size_Medium
-			margin = {-1 -2}
-			}
-			text_single = {
-			name = "good"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ),'(int32)59'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ), '(int32)30'))]"
-			text = "cooltip_opinion_good"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
-			default_format = "#true_white"
-			using = Font_Size_Medium
-			margin = {16 -2}
-			}
-			text_single = {
-			name = "decent"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ),'(int32)29'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ), '(int32)10'))]"
-			text = "cooltip_opinion_decent"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
-			default_format = "#true_white"
-			using = Font_Size_Medium
-			margin = {10 -2}
-			}
-			text_single = {
-			name = "Neutral"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ),'(int32)9'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ), '(int32)-9'))]"
-			text = "cooltip_opinion_neutral"
-			default_format = "#Y"
-			using = Font_Size_Medium
-			margin = {12 -2}
-			}
-			text_single = {
-			name = "poor"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ),'(int32)-10'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ), '(int32)-29'))]"
-			text = "cooltip_opinion_poor"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
-			default_format = "#true_white"
-			using = Font_Size_Medium
-			margin = {20 -2}
-			}
-			text_single = {
-			name = "awful"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ),'(int32)-30'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ), '(int32)-59'))]"
-			text = "cooltip_opinion_awful"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
-			default_format = "#true_white"
-			using = Font_Size_Medium
-			margin = {15 -2}
-			}
-			text_single = {
-			name = "terrible"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ),'(int32)-60'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ), '(int32)-85'))]"
-			text = "cooltip_opinion_terrible"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
-			default_format = "#true_white"
-			using = Font_Size_Medium
-			margin = {9 -2}
-			}
-			text_single = {
-			name = "abysmal"
-			visible = "[LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ),'(int32)-86')]"
-			text = "cooltip_opinion_abysmal"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
-			default_format = "#true_white"
-			using = Font_Size_Medium
-			margin = {5 -2}
-			}
-						
+						#Changed by ObfusCKate: Start
+						text = "[OpinionText(GetPlayer)]"
+						fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
+						#Changed by ObfusCKate: End
 					}
 
 					default_format = "#true_white"
@@ -235,9 +153,9 @@ template character_opinion_tooltip {
 				text_multi = {
 					block "ott_opinion_breakdown_text"
 					{
-					#Changed by ObfusCKate: Start
-					visible = "[GetScriptedGui('gui_opinion_breakdown_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-					#Changed by ObfusCKate: end
+						#Changed by ObfusCKate: Start
+						visible = "[ShowOpinionBreakdown]"
+						#Changed by ObfusCKate: end
 						text = "[Character.GetOpinionBreakdownText( GetPlayer )]"
 					}
 
@@ -550,19 +468,7 @@ types GameTooltipTypes
 
 				background = {
 					using = Background_Header_Tall
-																											
-								   
 					margin = { 15 0 }
-						
-
-					   
-				   
-																										 
-									
-							  
-								
-				 
-	  
 				}
 
 				block "header_tt" {
@@ -690,7 +596,6 @@ types GameTooltipTypes
 				using = DefaultTooltipText
 				margin = { 10 5 }
 				margin_top = 10
-	 
 			}
 		}
 	}
@@ -767,8 +672,8 @@ types GameTooltipTypes
 
 									portrait_opinion = {
 										#Changed by ObfusCKate: Start
-									visible = "[GetScriptedGui('gui_opinion_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-									#Changed by ObfusCKate: End
+										visible = "[ShowOpinion]"
+										#Changed by ObfusCKate: End
 									}
 
 									expand = {}
@@ -781,7 +686,7 @@ types GameTooltipTypes
 								
 								#Changed by obfusCKate:Start
 								text_multi = {
-								visible = "[Or(And(Character.IsDeadAndValid,Character.HasRelationTo(GetPlayer)),GetScriptedGui('gui_show_exact_age').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
+									visible = "[Or(And(Character.IsDeadAndValid,Character.HasRelationTo(GetPlayer)),ShowExactAge)]"
 									name = "character_name"
 									text = "CHARACTER_TT_NAME_AGE"
 									default_format = "#high"
@@ -791,7 +696,7 @@ types GameTooltipTypes
 								}
 								
 								text_multi = {
-								visible = "[Not(Or(And(Character.IsDeadAndValid,Character.HasRelationTo(GetPlayer)),GetScriptedGui('gui_show_exact_age').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))]"
+									visible = "[Not(Or(And(Character.IsDeadAndValid,Character.HasRelationTo(GetPlayer)),ShowExactAge))]"
 									name = "character_name_2"
 									text = "[Character.GetUINameNotMeNoTooltip]"
 									default_format = "#high"
@@ -807,8 +712,8 @@ types GameTooltipTypes
 
 									icon = {
 										#Changed by ObfusCKate: Start
-										visible = "[GetScriptedGui('gui_show_health').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-									#Changed by ObfusCKate: End
+										visible = "[ShowHealth]"
+										#Changed by ObfusCKate: End
 										size = { 23 23 }
 										framesize = { 60 60 }
 										frame = "[Character.GetHealthIconFrame]"
@@ -854,7 +759,7 @@ types GameTooltipTypes
 							text_single = {
 								#Changed by ObfusCKate: Start
 								visible = "[GetScriptedGui('gui_personality_is_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-							#Changed by ObfusCKate: End
+								#Changed by ObfusCKate: End
 								text = "[Character.GetAIPersonalityNoTooltip]"
 								default_format = "#L"
 								tooltip = "AI_PERSONALITY_TT"
@@ -881,8 +786,8 @@ types GameTooltipTypes
 
 								icon = {
 									#Changed by ObfusCKate: Start
-								visible = "[GetScriptedGui('gui_sexuality_for_males').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-								#Changed by ObfusCKate: End
+									visible = "[ShowSexualityMale]"
+									#Changed by ObfusCKate: End
 									size = { 20 20 }
 									framesize = { 40 40 }
 									frame = "[Character.GetSexualityFrame]"
@@ -892,8 +797,8 @@ types GameTooltipTypes
 
 								icon = {
 									#Changed by ObfusCKate: Start
-								visible = "[GetScriptedGui('gui_sexuality_for_females').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-							#Changed by ObfusCKate: End
+									visible = "[ShowSexualityFemale]"
+									#Changed by ObfusCKate: End
 									size = { 20 20 }
 									framesize = { 40 40 }
 									frame = "[Character.GetSexualityFrame]"
@@ -955,8 +860,8 @@ types GameTooltipTypes
 
 						hbox = {
 							name = "faith_and_culture"
-						##########changed by obfusCKate: Start
-							visible = "[Or(And(Character.IsDeadAndValid, Character.HasRelationTo(GetPlayer)),GetScriptedGui('gui_faith_and_culture_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
+							##########changed by obfusCKate: Start
+							visible = "[Or(And(Character.IsDeadAndValid, Character.HasRelationTo(GetPlayer)),ShowFaithCulture)]"
 							##########changed by obfusCKate: End
 							button_religion_icon = {
 								name = "faith_button"
@@ -1001,8 +906,8 @@ types GameTooltipTypes
 						hbox = {
 							name = "house"
 							##########changed by obfusCKate: Start
-					visible = "[Or(Character.IsDeadAndValid,GetScriptedGui('gui_house_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-				##########changed by obfusCKate: End
+							visible = "[Or(Character.IsDeadAndValid,ShowHouse)]"
+							##########changed by obfusCKate: End
 							datacontext = "[Character.GetHouse]"
 							margin = { 10 5 }
 
@@ -1072,8 +977,8 @@ types GameTooltipTypes
 				cooltip_paragraph = {
 					layoutpolicy_horizontal	= expanding
 					##########changed by obfusCKate: Start
-					visible = "[GetScriptedGui('gui_show_titles_and_claims').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-				##########changed by obfusCKate: End
+					visible = "[ShowTitlesClaims]"
+					##########changed by obfusCKate: End
 					text = "[Character.GetHeirToDesc]"
 				}
 
@@ -1464,6 +1369,7 @@ template maa_type_container_tooltip
 						}
 						expand = {}
 					}
+
 					hbox = {
 						layoutpolicy_horizontal = expanding
 
@@ -1473,7 +1379,6 @@ template maa_type_container_tooltip
 						expand = {}
 					}
 
-
 					hbox = {
 						layoutpolicy_horizontal = expanding
 
@@ -1482,9 +1387,8 @@ template maa_type_container_tooltip
 						}
 						expand = {}
 					}
-				}
 				
-				hbox = {
+					hbox = {
 						visible = "[IsLandlessAdventurer( GetPlayer )]"
 						layoutpolicy_horizontal = expanding
 
@@ -1493,6 +1397,7 @@ template maa_type_container_tooltip
 						}
 						expand = {}
 					}
+				}
 
 				divider_light = {
 					layoutpolicy_horizontal = expanding
@@ -1632,6 +1537,7 @@ widget = {
 					}
 					expand = {}
 				}
+
 				hbox = {
 					layoutpolicy_horizontal = expanding
 
@@ -1640,7 +1546,6 @@ widget = {
 					}
 					expand = {}
 				}
-
 
 				hbox = {
 					layoutpolicy_horizontal = expanding
@@ -2015,7 +1920,6 @@ template regiment_container_text_tooltip
 						layoutpolicy_horizontal = expanding
 						text = "[Regiment.GetProvisionsCostString]"
 					}
-					
 				}
 
 				divider_light = {
@@ -2160,9 +2064,9 @@ template unit_icon_item_tooltip {
 				}
 
 				hbox = {
-				#changed by obfusCKate: start
-				visible = no
-				#changed by obfusCKate: End
+					#changed by obfusCKate: start
+					visible = no
+					#changed by obfusCKate: End
 					tooltip = "[Character.GetCommanderAdvantageDesc]"
 					icon = {
 						name = "skill_icon"
@@ -3093,28 +2997,10 @@ template CountyTitleTooltipLanguage
 	}
 }
 
-										
-						   
-							  
-				   
-									
-   
-
-								
-				   
-   
-									
-										
-   
-  
- 
-
 container = {
 	alwaystransparent = no
 	name = "LandedTitleTooltip"
 	using = LandedTitleTooltipTextLink
-
-							   
 }
 
 container = {
@@ -3223,8 +3109,6 @@ types StaticModifierTooltipTypes
 		blockoverride "main_description" {
 			vbox = {
 				layoutpolicy_horizontal = expanding
-				margin_bottom = 20
-
 				textbox = {
 					layoutpolicy_horizontal = expanding
 					max_width = 400
@@ -3444,6 +3328,7 @@ template dynasty_house_tooltip {
 			text = [house|E]
 		}
 		blockoverride "extra_data" {
+
 			cooltip_paragraph = {
 				name = "my_house"
 				visible = "[DynastyHouse.IsPlayerMember]"
@@ -4084,6 +3969,7 @@ types CultureTooltips
 				background = {
 					using = Background_Header_Tall
 				}
+
 				hbox = {
 					layoutpolicy_horizontal = expanding
 
@@ -6160,7 +6046,6 @@ template phase_effect_tooltip_war {
 
 		blockoverride "main_description" {
 			vbox = {
-					  
 
 				textbox = {
 					layoutpolicy_horizontal = expanding
@@ -6210,7 +6095,6 @@ template phase_effect_tooltip_culture {
 
 		blockoverride "main_description" {
 			vbox = {
-					  
 
 				textbox = {
 					layoutpolicy_horizontal = expanding
@@ -6260,7 +6144,6 @@ template phase_effect_tooltip_faith {
 
 		blockoverride "main_description" {
 			vbox = {
-					  
 
 				textbox = {
 					layoutpolicy_horizontal = expanding
@@ -6310,7 +6193,6 @@ template phase_effect_tooltip_other {
 
 		blockoverride "main_description" {
 			vbox = {
-					  
 
 				textbox = {
 					layoutpolicy_horizontal = expanding
@@ -6386,7 +6268,6 @@ template struggle_tooltip {
 			}
 
 			blockoverride "main_description" {
-					  
 
 				vbox = {
 					name = "current_phase_information"
@@ -6581,7 +6462,6 @@ template struggle_tooltip_light {
 			}
 
 			blockoverride "main_description" {
-					  
 
 				vbox = {
 					name = "current_phase_information"
@@ -6659,7 +6539,6 @@ types StrugglePhaseTypes
 				layoutpolicy_horizontal = expanding
 				max_width = 400
 				margin_top = 5
-					  
 				using = DefaultTooltipText
 				multiline = yes
 				text = STRUGGLE_PHASE_DESCRIPTION
@@ -6843,7 +6722,6 @@ template house_unity_stage_tooltip {
 				layoutpolicy_horizontal = expanding
 				max_width = 400
 				margin_top = 5
-					  
 				using = DefaultTooltipText
 				multiline = yes
 				text = "[HouseUnityStage.GetDescription]"
@@ -7196,8 +7074,6 @@ template accolade_tooltip {
 
 			blockoverride "main_description" {
 				vbox = {
-					   
-
 					hbox = {
 						layoutpolicy_horizontal = expanding
 
@@ -7316,7 +7192,6 @@ template accolade_type_tooltip {
 					visible = "[Not(Accolade.IsValid)]"
 					layoutpolicy_horizontal = expanding
 					datamodel = "[DataModelFirst( AccoladeType.GetRanks, '(int32)1' )]"
-					   
 					spacing = 5
 
 					item = {
@@ -7567,7 +7442,6 @@ template accolade_types_tooltip {
 
 					datamodel = "[KnightsView.GetPotentialAccoladeTypes( Character.Self )]"
 
-					   
 					spacing = 5
 
 					item = {
@@ -7687,15 +7561,12 @@ types GameTooltipTypes
 
 				text_label_left  = {
 					layoutpolicy_horizontal = expanding
-					 
 					text = "TAX_OPTION_EFFECT_LABEL"
 				}
 
 				text_multi = {
 					layoutpolicy_horizontal = expanding
-					
 					margin_top = 5
-					   
 					using = DefaultTooltipText
 					multiline = yes
 					text = "[TaxSlotObligation.GetEffectText]"

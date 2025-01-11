@@ -1216,12 +1216,14 @@ types IntrigueWindow
 
 									texture = "gfx/interface/icons/schemes/icon_scheme_success.dds"
 								}
+
 								text_single = {
 									name = "success_chance"
 									text = "SCHEME_WINDOW_SUCCESS_CHANCE"
 									align = nobaseline
 									max_width = 310
-								} 
+								}
+
 								expand = {}
 							}
 
@@ -1337,9 +1339,7 @@ types IntrigueWindow
 			}
 
 			hbox = {
-				
 				visible = "[Not( IsDataModelEmpty(Scheme.GetModifiers))]"
-				
 				layoutpolicy_horizontal = expanding
 				margin_bottom = 5
 				margin_left = 10

@@ -39,16 +39,12 @@ types PortraitTypes
         }
     }
 
-    # The standard portrait types. CoA, opinion and status icons are included by default; use blockovveride to disable them.
+    # The standard portrait types. CoA, opinion and status icons are included by default; use blockoverride to disable them.
 
     ## Extra small head portrait. These are smaller than we would like, so only use if you really, really have to.
 	type portrait_head_small = widget {
 		size = { 85 90 }
 
-																												  
-									   
-						
-  
 		background = {
 			using = Background_Area_Solid
 
@@ -68,27 +64,30 @@ types PortraitTypes
 			margin = { -4 -4 }
 			alpha = 0.4
 		}
-		#changed by obfusCKate:Start
+
         widget = {
             size = { 100% 100% }
             using = Portrait_Background_Glows
+		    #changed by obfusCKate:Start
 			visible = "[Not(GlowEnabled)]"
+		    #changed by obfusCKate:end
             block "empty_character" {}
         }
-		
-		widget = {
-            size = { 100% 100% }
-            using = Portrait_Background_Glows_Expressions_enabled
-			visible = "[GlowEnabled]"
-            block "empty_character" {}
-        }
-		
-		
+
+		#widget = {
+        #    size = { 100% 100% }
+        #    using = Portrait_Background_Glows_Expressions_enabled
+		#	visible = "[GlowEnabled]"
+        #    block "empty_character" {}
+        #}
+
 		portrait_button = {
             parentanchor = bottom|hcenter
             size = { 80 100 }
             using = portrait_base
-			visible = "[Or(PortraitsEnabled,And(PortraitsDisabled,GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))]"
+		    #changed by obfusCKate:Start
+			visible = "[ShowPortrait]"
+		    #changed by obfusCKate:end
             block "portrait_texture"
             {
                 portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
@@ -116,44 +115,9 @@ types PortraitTypes
 
             block "portrait_button" {}
         }
-		portrait_button = {
-            parentanchor = bottom|hcenter
-            size = { 80 100 }
-            using = portrait_base
-			visible = "[And(Not( Character.IsFemale ),And(PortraitsDisabled,Not(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))))]"
- block "portrait_texture"
-            {
-                portrait_texture = "gfx/portraits/obf_unknown_male.dds"
-				size = { 120% 95%}
-				alpha = 0.2
-
-            }
-
-            mask = "gfx/portraits/portrait_mask_event_letter.dds"
-            effectname = "NoHighlight"
-
-
-            block "portrait_button" {}
-        }
-		portrait_button = {
-            parentanchor = bottom|hcenter
-            size = { 80 100 }
-            using = portrait_base
-			visible = "[And( Character.IsFemale,And(PortraitsDisabled,Not(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))))]"
- block "portrait_texture"
-            {
-                portrait_texture = "gfx/portraits/obf_unknown_female.dds"
-				size = { 120% 95%}
-				alpha = 0.2
-
-            }
-
-            mask = "gfx/portraits/portrait_mask_event_letter.dds"
-            effectname = "NoHighlight"
-
-
-            block "portrait_button" {}
-        }
+		#changed by obfusCKate:Start
+		obf_unknown_portrait_male = {}
+		obf_unknown_portrait_female = {}
 		#changed by obfusCKate:end
 
         widget_portrait_frame = {}
@@ -236,6 +200,7 @@ types PortraitTypes
             block "onclick" {}
         }
     }
+
 	### Portrait used in the relationship tab
 	# Has extra relationship icon from the view of the current character (not necessarily the player)
 	type portrait_head_small_relationship = widget {
@@ -267,12 +232,14 @@ types PortraitTypes
 
             block "empty_character" {}
         }
-		#Changed by obfusCKate: Start
+
         portrait_button = {
             parentanchor = bottom|hcenter
             size = { 80 100 }
             using = portrait_base
-			visible = "[Or(PortraitsEnabled,And(PortraitsDisabled,GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))]"
+		    #Changed by obfusCKate: Start
+			visible = "[ShowPortrait]"
+		    #Changed by obfusCKate: end
             block "portrait_texture"
             {
                 portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
@@ -300,44 +267,9 @@ types PortraitTypes
 
             block "portrait_button" {}
         }
-		portrait_button = {
-            parentanchor = bottom|hcenter
-            size = { 80 100 }
-            using = portrait_base
-			visible = "[And(Not( Character.IsFemale ),And(PortraitsDisabled,Not(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))))]"
-		block "portrait_texture"
-            {
-                portrait_texture = "gfx/portraits/obf_unknown_male.dds"
-				size = { 120% 95%}
-				alpha = 0.2
-
-            }
-
-            mask = "gfx/portraits/portrait_mask_event_letter.dds"
-            effectname = "NoHighlight"
-
-
-            block "portrait_button" {}
-        }
-		portrait_button = {
-            parentanchor = bottom|hcenter
-            size = { 80 100 }
-            using = portrait_base
-			visible = "[And( Character.IsFemale,And(PortraitsDisabled,Not(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))))]"
-		block "portrait_texture"
-            {
-                portrait_texture = "gfx/portraits/obf_unknown_female.dds"
-				size = { 120% 95%}
-				alpha = 0.2
-
-            }
-
-            mask = "gfx/portraits/portrait_mask_event_letter.dds"
-            effectname = "NoHighlight"
-
-
-            block "portrait_button" {}
-        }
+		#Changed by obfusCKate: Start
+        obf_unknown_portrait_male = {}
+		obf_unknown_portrait_female = {}
 		#Changed by obfusCKate: end
 
         widget_portrait_frame = {}
@@ -574,7 +506,6 @@ types PortraitTypes
 			texture = "gfx/interface/window_legend_chronicle/marginalia_portrait_gold_bg.dds"
 		}
 		
-
 		portrait_button = {
 			datacontext = "[Legend.GetProtagonist]"
 			parentanchor = bottom|hcenter
@@ -589,7 +520,6 @@ types PortraitTypes
 			block "portrait_texture"
 			{
 				portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
-				position = {0 -5}
 			}
 
 			mask = "gfx/portraits/portrait_mask_head.dds"
@@ -646,12 +576,7 @@ types PortraitTypes
 			}
 
 			background = {
-									
-				visible = "[Character.IsHovered]"
-										
-								  
-									 
-										  
+				visible = "[Character.IsHovered]"  
 				texture = "gfx/portraits/portrait_frame.dds"
 				using = Color_Grey
 				alpha = 0.7
@@ -715,12 +640,13 @@ types PortraitTypes
             block "empty_character" {}
         }
 		
-		#changed by obfusCKate:Start
 		portrait_button = {
             parentanchor = bottom|hcenter
             size = { 100 125 }
             using = portrait_base
-			visible = "[Or(PortraitsEnabled,And(PortraitsDisabled,GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))]"
+		    #changed by obfusCKate:Start
+			visible = "[ShowPortrait]"
+		    #Changed by obfusCKate: end
             block "portrait_texture" {
                 portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
             }
@@ -747,44 +673,9 @@ types PortraitTypes
 
             block "portrait_button" {}
         }
-		portrait_button = {
-            parentanchor = bottom|hcenter
-            size = { 80 100 }
-            using = portrait_base
-			visible = "[And(Not( Character.IsFemale ),And(PortraitsDisabled,Not(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))))]"
-		block "portrait_texture"
-            {
-                portrait_texture = "gfx/portraits/obf_unknown_male.dds"
-				size = { 120% 95%}
-				alpha = 0.2
-
-            }
-
-            mask = "gfx/portraits/portrait_mask_event_letter.dds"
-            effectname = "NoHighlight"
-
-
-            block "portrait_button" {}
-        }
-		portrait_button = {
-            parentanchor = bottom|hcenter
-            size = { 80 100 }
-            using = portrait_base
-			visible = "[And( Character.IsFemale,And(PortraitsDisabled,Not(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))))]"
-		block "portrait_texture"
-            {
-                portrait_texture = "gfx/portraits/obf_unknown_female.dds"
-				size = { 120% 95%}
-				alpha = 0.2
-
-            }
-
-            mask = "gfx/portraits/portrait_mask_event_letter.dds"
-            effectname = "NoHighlight"
-
-
-            block "portrait_button" {}
-        }
+		#changed by obfusCKate:Start
+		obf_unknown_portrait_male = {}
+		obf_unknown_portrait_female = {}
 		#Changed by obfusCKate: end
 
         widget_portrait_frame = {}
@@ -866,12 +757,14 @@ types PortraitTypes
                 using = Portrait_Background_Glows
             }
         }
-		#changed by obfusCKate: Start
+
         portrait_button = {
             parentanchor = bottom|hcenter
             size = { 145 175 }
             using = portrait_base
-			visible = "[Or(PortraitsEnabled,And(PortraitsDisabled,GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))]"
+		    #changed by obfusCKate:Start
+			visible = "[ShowPortrait]"
+		    #Changed by obfusCKate: End
             block "portrait_texture"
             {
                 portrait_texture = "[Character.GetPortrait('environment_shoulders', 'camera_shoulders', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
@@ -898,20 +791,8 @@ types PortraitTypes
 
             block "portrait_button" {}
         }
-		portrait_button = {
-            parentanchor = bottom|hcenter
-            size = { 145 175 }
-            using = portrait_base
-			visible = "[And(PortraitsDisabled,Not(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))]"
-
-
-             gfxtype = framedbuttongfx
-		effectname = "NoHighlight"
-		texture = "gfx/portraits/unknown_portraits/unknown_council.dds"
-
-
-            block "portrait_button" {}
-        }
+		#changed by obfusCKate:Start
+        obf_unknown_portrait_shoulders = {}
 		#Changed by obfusCKate: End
 
         portrait_status_icons = {
@@ -973,20 +854,24 @@ types PortraitTypes
             size = { 100% 100% }
             using = Portrait_Background_Glows
         }
-		#changed by obfusCKate: Start
+
         portrait_button = {
             parentanchor = bottom|hcenter
             size = { 195 225 }
             using = portrait_base
-			visible = "[Or(PortraitsEnabled,And(PortraitsDisabled,GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))]"
+		    #changed by obfusCKate: Start
+			visible = "[ShowPortrait]"
+		    #Changed by obfusCKate: End
             block "portrait_texture"
             {
                 portrait_texture = "[Character.GetPortrait('environment_torso', 'camera_torso', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
             }
+
             block "portrait_mask"
 			{
 				mask = "gfx/portraits/portrait_mask_torso.dds"
 			}
+
             effectname = "NoHighlight"
 
             highlight_icon = {
@@ -1007,19 +892,8 @@ types PortraitTypes
 
             block "portrait_button" {}
         }
-		portrait_button = {
-            parentanchor = bottom|hcenter
-            size = { 195 225 }
-            using = portrait_base
-			visible = "[And(PortraitsDisabled,Not(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))]"
-
-
-
-
-            effectname = "NoHighlight"
-
-            block "portrait_button" {}
-        }
+		#changed by obfusCKate: Start
+        obf_unknown_portrait_torso = {}
 		#changed by obfusCKate: End
 
         block "portrait_status_icons" {
@@ -1086,12 +960,13 @@ types PortraitTypes
             using = Portrait_Background_Glows
         }
 		
-		#changed by obfusCKate: Start
         portrait_button = {
             parentanchor = bottom|hcenter
             size = { 240 330 }
             using = portrait_base
-			visible = "[Or(PortraitsEnabled,And(PortraitsDisabled,GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))]"
+		    #changed by obfusCKate: Start
+			visible = "[ShowPortrait]"
+		    #changed by obfusCKate: End
             block "portrait_texture" {
                 portrait_texture = "[Character.GetPortrait('environment_body', 'camera_body', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
             }
@@ -1120,35 +995,8 @@ types PortraitTypes
 
             block "portrait_button" {}
         }
-		portrait_button = {
-            parentanchor = bottom|hcenter
-            size = { 240 320 }
-            using = portrait_base
-			visible = "[And(PortraitsDisabled,Not(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))]"
-            gfxtype = framedbuttongfx
-		effectname = "NoHighlight"
-		texture = "gfx/portraits/unknown_portraits/unknown_council.dds"
-		
-		###changed by obfusCKate: Start
-		highlight_icon = {
-                name = "selected"
-                visible = "[Character.IsValid]"
-                visible_at_creation = no
-                size = { 85% 85% }
-                effectname = "NoHighlight"
-                 texture = "gfx/portraits/unknown_portraits/unknown_spouse.dds"
-				framesize = { 550 780 }
-				position = {20 30}
-
-            }
-		###changed by obfusCKate: End
-
-
-            block "portrait_button" {}
-
-        }
-
-		
+		#changed by obfusCKate: Start
+        obf_unknown_portrait_body = {}
 		#changed by obfusCKate: End
 
         block "portrait_icons" {
@@ -1344,16 +1192,19 @@ types PortraitTypes
         blockoverride "glow_local_player" {}
         blockoverride "glow_selected" {}
         blockoverride "grayscale" {}
-		
+
 		#changed by obfusCKate:Start
-		
+
 		##########PORTRAITS ENABLED#################
-			portrait_button = { ############Portraits enabled & Expressions disabled
+        ############Portraits enabled & Expressions disabled
+        # Portraits disabled & Expressions disabled Known
+        # handled by template
+		portrait_button = {
             size = { 300 421 }
             position = { -30 10 }
             parentanchor = bottom|hcenter
             using = portrait_base
-			visible = "[And(ExpressionsDisabled, PortraitsEnabled)]"
+            using = obf_portrait_character_view_main_template
             portrait_texture = "[Character.GetAnimatedPortrait(Illustration.GetEnvironment(Character.Self), 'camera_character_view_main', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
             mask = "gfx/portraits/portrait_mask_character_view.dds"
             effectname = "NoHighlight"
@@ -1378,110 +1229,13 @@ types PortraitTypes
 
             block "portrait_button" {}
         }
-			
-		
 		##########END PORTRAITS ENABLED#################
-		
+
 		##############PORTRAITS DISABLED###############
-        portrait_button = { #Portraits disabled & Expressions disabled Known
-            size = { 300 421 }
-            position = { -30 10 }
-            parentanchor = bottom|hcenter
-            using = portrait_base
-			visible = "[And(PortraitsDisabled,GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-			portrait_texture = "[Character.GetAnimatedPortrait(Illustration.GetEnvironment(Character.Self), 'camera_character_view_main', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
-            mask = "gfx/portraits/portrait_mask_character_view.dds"
-            effectname = "NoHighlight"
-
-            highlight_icon = {
-                name = "prison_bars"
-                visible = "[Character.IsImprisoned]"
-                visible_at_creation = no
-                size = { 100% 100% }
-                position = { 0 20 }
-
-                effectname = "NoHighlight"
-                texture = "gfx/portraits/portrait_prison_character_view.dds"
-
-                modify_texture = {
-                    name = "mask"
-                    texture = "gfx/portraits/portrait_mask_character_view.dds"
-                    spriteType = Corneredstretched
-                    blend_mode = alphamultiply
-                }
-            }
-			#changed by obfusCKate: Start
-			highlight_icon = {
-                name = "blind_character"
-                visible = "[GetScriptedGui('gui_character_is_blind').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End )]"
-                visible_at_creation = no
-                size = { 205% 95% }
-                position = { 0 20 }
-				alpha = 0.92
-                effectname = "NoHighlight"
-                texture = "gfx/portraits/portrait_mask_event.dds"
-
-                modify_texture = {
-                    name = "mask"
-                    texture = "gfx/portraits/portrait_mask_character_view.dds"
-                    spriteType = Corneredstretched
-                    blend_mode = multiply
-                }
-            }
-			#changed by obfusCKate: End
-
-            block "portrait_button" {}
-        }
-		
 		#changed by obfusCKate: Start
-		portrait_button = { #Portraits disabled & Expressions disabled UnKnown
-            size = { 300 338 }
-            position = { -30 20 }
-            parentanchor = vcenter|hcenter|hcenter
-            using = portrait_base
-			visible = "[And(PortraitsDisabled,Not(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))]"
-
-		effectname = "NoHighlight"
-		
-			highlight_icon = {
-                size = { 100% 100% }
-                position = { 0 0 }
-		texture = "gfx/portraits/unknown_portraits/unknown_spouse.dds"
-		framesize = { 554 780 }
-		alpha = 0.9
-		}
-
-
-		
-			
-			highlight_icon = {
-                name = "blind_character"
-                visible = "[GetScriptedGui('gui_character_is_blind').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End )]"
-                visible_at_creation = no
-                size = { 205% 95% }
-                position = { 10 -22 }
-				alpha = 0.92
-                effectname = "NoHighlight"
-                texture = "gfx/portraits/portrait_mask_event.dds"
-
-                modify_texture = {
-                    name = "mask"
-                    texture = "gfx/portraits/portrait_mask_character_view.dds"
-                    spriteType = Corneredstretched
-                    blend_mode = alphamultiply
-                }
-            }
-			#changed by obfusCKate: End
-
-
-            block "portrait_button" {}
-        }
-		
-		
-		
-		##############END PORTRAITS DISABLED###############
-		
+        obf_unknown_portrait_character_view_main = {}
 		#changed by obfusCKate:End
+		##############END PORTRAITS DISABLED###############
 
         portrait_status_icons = {
             parentanchor = bottom|right
@@ -1500,8 +1254,7 @@ types PortraitTypes
             }
         }
     }
-	
-	
+
     type portrait_character_view_spouse = margin_widget {
         size = { 300 300 }
         margin = { 3 3 }
@@ -1511,12 +1264,12 @@ types PortraitTypes
             using = Portrait_Background_Glows
         }
 		#changed by obfusCKate: Start
-		 portrait_button = {
+		portrait_button = {
             size = { 350 338 }
             position = { 0 10 }
             parentanchor = bottom|hcenter
             using = portrait_base
-			visible = "[PortraitsEnabled]"
+			visible = "[Or(PortraitsEnabled,PlayerKnowCharacterPortrait)]"
             portrait_texture = "[Character.GetAnimatedPortrait(Illustration.GetEnvironment( Character.Self ), 'camera_character_view_spouse', Select_CString( Character.IsDiarchOf( Character.GetLiege ), 'chancellor', 'idle' ), PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
             mask = "gfx/portraits/portrait_mask_character_view.dds"
             effectname = "NoHighlight"
@@ -1541,58 +1294,9 @@ types PortraitTypes
 
             block "portrait_button" {}
         }
-		 portrait_button = {
-            size = { 350 338 }
-            position = { 0 10 }
-            parentanchor = bottom|hcenter
-            using = portrait_base
-			visible = "[And(PortraitsDisabled,GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-            portrait_texture = "[Character.GetAnimatedPortrait(Illustration.GetEnvironment( Character.Self ), 'camera_character_view_spouse', Select_CString( Character.IsDiarchOf( Character.GetLiege ), 'chancellor', 'idle' ), PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
-            mask = "gfx/portraits/portrait_mask_character_view.dds"
-            effectname = "NoHighlight"
 
-            highlight_icon = {
-                name = "prison_bars"
-                visible = "[Character.IsImprisoned]"
-                visible_at_creation = no
-                size = { 100% 100% }
-                position = { 0 20 }
+        obf_unknown_portrait_character_view_spouse = {}
 
-                effectname = "NoHighlight"
-                texture = "gfx/portraits/portrait_prison_character_view.dds"
-
-                modify_texture = {
-                    name = "mask"
-                    texture = "gfx/portraits/portrait_mask_character_view.dds"
-                    spriteType = Corneredstretched
-                    blend_mode = alphamultiply
-                }
-            }
-
-            block "portrait_button" {}
-        }
-		
-        portrait_button = {
-            size = { 350 338 }
-            position = { 0 50 }
-            parentanchor = bottom|hcenter
-            using = portrait_base
-
-            visible = "[And(PortraitsDisabled,Not(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))]"
-
-		effectname = "NoHighlight"
-		
-		highlight_icon = {
-                size = { 100% 100% }
-                position = { 0 20 }
-		texture = "gfx/portraits/unknown_portraits/unknown_council.dds"
-		alpha = 0.9
-		}
-
-
-
-            block "portrait_button" {}
-        }
 		#changed by obfusCKate: End
 
         # flowcontainer = {
@@ -1662,7 +1366,7 @@ types PortraitTypes
                 size = { 500 558 }
                 using = portrait_base
                 parentanchor = hcenter|bottom
-				visible = "[Or(PortraitsEnabled,And(PortraitsDisabled,GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))]"
+				visible = "[ShowPortrait]"
                 portrait_texture = "[Character.GetAnimatedPortrait('environment_event_standard', 'environment_event_standard', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
                 background_texture = "gfx/portraits/portrait_transparent.dds"
                 texture = "gfx/portraits/portrait_transparent.dds"
@@ -1671,32 +1375,8 @@ types PortraitTypes
 
                 block "portrait_button" {}
             }
-			
-			  portrait_button = {
-            position = { 60 0 }
-            parentanchor = vcenter|hcenter
-            using = portrait_base
-
-            visible = "[And(PortraitsDisabled,Not(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))]"
-            gfxtype = framedbuttongfx
-				effectname = "NoHighlight"
-				texture = "gfx/portraits/unknown_portraits/unknown_council.dds"
-
-				framesize = { 500 800 }
-				alpha = 0.7
-				
-				modify_texture = {
-					name = "mask"
-					texture = "gfx/portraits/unknown_portraits/unknown_council.dds"
-					spriteType = Corneredstretched
-					blend_mode = overlay
-				}
-
-            block "portrait_button" {}
-        }
-			
-			
-			#Changed by obfusCKate:End
+			obf_unknown_portrait_event = {}
+		    #Changed by obfusCKate:End
         }
     }
 
@@ -1895,7 +1575,7 @@ types PortraitTypes
 			position = { 0 -9 }
 			size = { 90 112 }
 			using = portrait_base
-			visible = "[Or(PortraitsEnabled,And(PortraitsDisabled,GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))]"
+			visible = "[ShowPortrait]"
 			portrait_texture = "[Character.GetPortrait('environment_shoulders', 'camera_scheme_widget_microscopic', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
 
 			mask = "gfx/portraits/scheme_hud_portrait_mask.dds"
@@ -1921,46 +1601,8 @@ types PortraitTypes
 
 			block "portrait_button" {}
 		}
-		portrait_button = {
-            parentanchor = vcenter|hcenter
-           size = { 70 80 }
-			position = {0 -15}
-            using = portrait_base
-			visible = "[And(Not( Character.IsFemale ),And(PortraitsDisabled,Not(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))))]"
-		block "portrait_texture"
-            {
-                portrait_texture = "gfx/portraits/obf_unknown_male.dds"
-				size = { 90% 70%}
-				alpha = 0.3
-
-            }
-
-            mask = "gfx/portraits/portrait_mask_event_letter.dds"
-            effectname = "NoHighlight"
-
-
-            block "portrait_button" {}
-        }
-		portrait_button = {
-            parentanchor = vcenter|hcenter
-            size = { 70 80 }
-			position = {0 -10}
-            using = portrait_base
-			visible = "[And( Character.IsFemale,And(PortraitsDisabled,Not(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))))]"
-		block "portrait_texture"
-            {
-                portrait_texture = "gfx/portraits/obf_unknown_female.dds"
-				size = { 80% 70%}
-				alpha = 0.3
-
-            }
-
-            mask = "gfx/portraits/portrait_mask_event_letter.dds"
-            effectname = "NoHighlight"
-
-
-            block "portrait_button" {}
-        }
+        obf_unknown_portrait_male_scheme = {}
+        obf_unknown_portrait_female_scheme = {}
 		#Changed by obfusCKate: end
 	}
 
@@ -2026,7 +1668,7 @@ types PortraitTypes
 
             parentanchor = bottom|hcenter
             using = portrait_base
-			visible = "[Or(PortraitsEnabled,And(PortraitsDisabled,GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))]"
+			visible = "[ShowPortrait]"
             portrait_texture = "[Character.GetAnimatedPortrait(Illustration.GetEnvironment(Character.Self), 'camera_body', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
             mask = "gfx/portraits/portrait_mask_torso.dds"
             effectname = "NoHighlight"
@@ -2035,24 +1677,7 @@ types PortraitTypes
                 mask = "gfx/portraits/portrait_mask_council.dds"
             }
         }
-		
-		portrait_button = {
-            position = { 0 4 }
-            block "portrait_size"
-            {
-                size = { 260 320 }
-            }
-
-            parentanchor = bottom|hcenter
-            using = portrait_base
-			visible = "[And(PortraitsDisabled,Not(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))]"
-            mask = "gfx/portraits/unknown_portraits/button_unknown_head.dds"
-            effectname = "NoHighlight"
-
-            block "mask" {
-                mask = "gfx/portraits/portrait_mask_council.dds"
-            }
-        }
+        obf_unknown_portrait_regency = {}
 		#changed by obfusCKate: End
 
         portrait_status_icons = {
@@ -2092,7 +1717,7 @@ types PortraitTypes
             parentanchor = bottom|hcenter
             using = portrait_base
 			#changed by obfusCKate:Start
-			visible = "[Or(PortraitsEnabled,And(PortraitsDisabled,GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))]"
+			visible = "[ShowPortrait]"
 			#changed by obfusCKate:End
             portrait_texture = "[Character.GetAnimatedPortrait('environment_war_overview', 'camera_war_overview', Select_CString(WarParticipantItem.IsAttacker, 'war_attacker', 'war_defender'), PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
             mask = "gfx/portraits/portrait_mask_torso.dds"
@@ -2135,39 +1760,39 @@ types PortraitTypes
         shaderfile = "gfx/FX/jomini/gui_portrait.shader"
         effectname = "NoHighlight"
 
-        state = {
-            name = _mouse_enter
-            on_start = "[Character.OnMouseEnter]"
-            scale = 1.05
-            using = Animation_Curve_Default
-            duration = 0.05
-        }
+		state = {
+			name = _mouse_enter
+			on_start = "[Character.OnMouseEnter]"
+			scale = 1.35
+			using = Animation_Curve_Default
+			duration = 0.05
+		}
 
-        state = {
-            name = _mouse_leave
-            on_start = "[Character.OnMouseLeave]"
-            using = Animation_Curve_Default
-            duration = 0.05
-            scale = 1
-        }
+		state = {
+			name = _mouse_leave
+			on_start = "[Character.OnMouseLeave]"
+			using = Animation_Curve_Default
+			duration = 0.05
+			scale = 1.3
+		}
 
-        state = {
-            name = _mouse_release
-            start_sound = {
-                soundeffect = "event:/SFX/UI/Character/sfx_ui_character_portrait_select"
-            }
-        }
+		state = {
+			name = _mouse_release
+			start_sound = {
+				soundeffect = "event:/SFX/UI/Character/sfx_ui_character_portrait_select"
+			}
+		}
 
-        onclick = "[DefaultOnCharacterClick(Character.GetID)]"
-        onrightclick = "[DefaultOnCharacterRightClick(Character.GetID)]"
-        button_ignore = none
+		onclick = "[DefaultOnCharacterClick(Character.GetID)]"
+		onrightclick = "[DefaultOnCharacterRightClick(Character.GetID)]"
+		button_ignore = none
 
-        clicksound = "event:/SFX/UI/Character/sfx_ui_character_portrait_select"
-        oversound = "event:/SFX/UI/Character/sfx_ui_character_portrait_pointer_over"
+		clicksound = "event:/SFX/UI/Character/sfx_ui_character_portrait_select"
+		oversound = "event:/SFX/UI/Character/sfx_ui_character_portrait_pointer_over"
 
-        portrait_texture = "[Character.GetAnimatedPortrait('environment_hud', 'camera_shoulders', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
-        background_texture = "gfx/portraits/portrait_transparent.dds"
-        texture = "gfx/portraits/portrait_transparent.dds"
+		portrait_texture = "[Character.GetAnimatedPortrait('environment_hud', 'camera_torso', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+		background_texture = "gfx/portraits/portrait_transparent.dds"
+		texture = "gfx/portraits/portrait_transparent.dds"
         mask = "gfx/portraits/portrait_mask_blank.dds"
 
         highlight_icon = {
@@ -2214,8 +1839,6 @@ types PortraitTypes
         tooltip_visible = no
 
         using = portrait_base
-
-        onclick = "[DefaultOnCharacterClick(Character.GetID)]"
 
         portrait_texture = "[Character.GetAnimatedPortrait('environment_body', 'camera_lifestyles', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
         mask = "gfx/portraits/portrait_mask_blank.dds"
@@ -2281,8 +1904,6 @@ types PortraitTypes
             color = { 0.9 0.8 0.6 0.6 }
         }
     }
-
-    
 
     ### Bottom left HUD portrait for the activity planner
     type portrait_activity_planner = portrait_button {
@@ -2397,7 +2018,7 @@ types PortraitTypes
     type portrait_opinion = flowcontainer {
         name = "tutorial_highlight_portrait_opinion"
         #Changed by ObfusCKate: Start
-        visible = "[And(And(Character.IsValid, And(Character.IsAlive, Not(Character.IsLocalPlayer))),GetScriptedGui('gui_opinion_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
+        visible = "[And(And(Character.IsValid, And(Character.IsAlive, Not(Character.IsLocalPlayer))),ShowOpinion)]"
 		#Changed by ObfusCKate: End
         ignoreinvisible = yes
 
@@ -2413,8 +2034,8 @@ types PortraitTypes
         icon = {
             block "dread_logic" { 
                 #Changed by ObfusCKate: Start 
-                visible = "[And(Character.ShouldShowDreadEffectIcon,GetScriptedGui('gui_show_dread_icon_on_portraits_for_player').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-			#Changed by ObfusCKate: End
+                visible = "[And(Character.ShouldShowDreadEffectIcon,ShowDread)]"
+			    #Changed by ObfusCKate: End
                 frame = "[Character.GetPlayerDreadEffectIconFrame]"
                 tooltip = "[Character.GetPlayerDreadEffectTooltip]"
             }
@@ -2435,106 +2056,18 @@ types PortraitTypes
         text_single = {
             name = "tutorial_highlight_character_view_opinion"
             #Changed by ObfusCKate: Start
-            visible = "[And(Character.IsValid,GetScriptedGui('gui_opinion_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-
+            visible = "[And(Character.IsValid,ShowOpinion)]"
+            max_width = 80
             align = nobaseline
-			#Changed by ObfusCKate: End
-
+			margin = { 3 0 }
             tooltipwidget = character_opinion_tooltip
             using = tooltip_es
             default_format = "#true_white"
 
-            #changed by obfusCKate: Start
-			
             block "opinion_text" {
-			margin = {35 12}
-			max_width = 80
-
-			
-			text_single = {
-			name = "Excellent"
-			visible = "[GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ), '(int32)86')]"
-			text = "cooltip_opinion_excellent"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
-			default_format = "#true_white"
-			using = Font_Size_Small
-			margin = {6 -2}
-
+				text = "[OpinionText(GetPlayer)]"
+                fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
 			}
-			text_single = {
-			name = "vgood"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ),'(int32)85'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ), '(int32)60'))]"
-			text = "cooltip_opinion_very_good"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
-			default_format = "#true_white"
-			using = Font_Size_Small
-			margin = {-1 -2}
-			}
-			text_single = {
-			name = "good"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ),'(int32)59'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ), '(int32)30'))]"
-			text = "cooltip_opinion_good"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
-			default_format = "#true_white"
-			using = Font_Size_Small
-			margin = {16 -2}
-			}
-			text_single = {
-			name = "decent"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ),'(int32)29'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ), '(int32)10'))]"
-			text = "cooltip_opinion_decent"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
-			default_format = "#true_white"
-			using = Font_Size_Small
-			margin = {11 -2}
-			}
-			text_single = {
-			name = "Neutral"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ),'(int32)9'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ), '(int32)-9'))]"
-			text = "cooltip_opinion_neutral"
-			default_format = "#Y"
-			using = Font_Size_Small
-			margin = {9 -2}
-			}
-			text_single = {
-			name = "poor"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ),'(int32)-10'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ), '(int32)-29'))]"
-			text = "cooltip_opinion_poor"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
-			default_format = "#true_white"
-			using = Font_Size_Small
-			margin = {20 -2}
-			}
-			text_single = {
-			name = "awful"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ),'(int32)-30'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ), '(int32)-59'))]"
-			text = "cooltip_opinion_awful"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
-			default_format = "#true_white"
-			using = Font_Size_Small
-			margin = {15 -2}
-			}
-			text_single = {
-			name = "terrible"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ),'(int32)-60'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ), '(int32)-85'))]"
-			text = "cooltip_opinion_terrible"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
-			default_format = "#true_white"
-			using = Font_Size_Small
-			margin = {9 -2}
-			}
-			text_single = {
-			name = "abysmal"
-			visible = "[LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ),'(int32)-86')]"
-			text = "cooltip_opinion_abysmal"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
-			default_format = "#true_white"
-			using = Font_Size_Small
-			margin = {5 -2}
-			}
-			
-			}
-			
 			#changed by obfusCKate: end
         }
     }
@@ -2542,7 +2075,7 @@ types PortraitTypes
     type portrait_opinion_small = flowcontainer {
         #name = "tutorial_highlight_portrait_opinion"
 		#Changed by ObfusCKate: Start
-        visible = "[And(And(Character.IsValid, And(Character.IsAlive, Not(Character.IsLocalPlayer))),GetScriptedGui('gui_opinion_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
+        visible = "[And(And(Character.IsValid, And(Character.IsAlive, Not(Character.IsLocalPlayer))),ShowOpinion)]"
 		#Changed by ObfusCKate: End
         ignoreinvisible = yes
         margin_right = 2
@@ -2559,8 +2092,8 @@ types PortraitTypes
         icon = {
             name = "dread"
             #Changed by ObfusCKate: Start
-           visible = "[And(Character.ShouldShowDreadEffectIcon,GetScriptedGui('gui_show_dread_icon_on_portraits_for_player').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-		#Changed by ObfusCKate: End
+            visible = "[And(Character.ShouldShowDreadEffectIcon,ShowDread)]"
+		    #Changed by ObfusCKate: End
             size = { 16 16 }
             texture = "gfx/interface/icons/portraits/dread_values.dds"
             framesize = { 40 40 }
@@ -2580,95 +2113,11 @@ types PortraitTypes
             default_format = "#true_white"
 			#Changed by ObfusCKate: Start
             block "opinion_text" {
-			 visible = "[GetScriptedGui('gui_opinion_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-                raw_text = " "
+			    visible = "[ShowOpinion]"
+				text = "[OpinionTextShort(GetPlayer)]"
                 fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
-				margin = {17 -2}
-				
-				text_single = {
-			name = "Excellent"
-			visible = "[GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ), '(int32)86')]"
-			raw_text = "excel"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
-			default_format = "#true_white"
-			fontsize = 14
-
-			margin = {2 -7}
-
-			}
-			text_single = {
-			name = "vgood"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ),'(int32)85'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ), '(int32)60'))]"
-			raw_text = "vgood"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
-			default_format = "#true_white"
-			fontsize = 14
-			margin = {-4 -8}
-			}
-			text_single = {
-			name = "good"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ),'(int32)59'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ), '(int32)30'))]"
-			raw_text = "good"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
-			default_format = "#true_white"
-			fontsize = 14
-			margin = {3 -8}
-			}
-			text_single = {
-			name = "decent"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ),'(int32)29'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ), '(int32)10'))]"
-			raw_text = "decnt"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
-			default_format = "#true_white"
-			fontsize = 14
-			margin = {-2 -8}
-			}
-			text_single = {
-			name = "Neutral"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ),'(int32)9'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ), '(int32)-9'))]"
-			raw_text = "neutr"
-			default_format = "#Y"
-			fontsize = 14
-			margin = {-1 -8}
-			}
-			text_single = {
-			name = "poor"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ),'(int32)-10'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ), '(int32)-29'))]"
-			raw_text = "poor"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
-			default_format = "#true_white"
-			fontsize = 14
-			margin = {3 -8}
-			}
-			text_single = {
-			name = "awful"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ),'(int32)-30'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ), '(int32)-59'))]"
-			raw_text = "awful"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
-			default_format = "#true_white"
-			fontsize = 14
-			margin = {0 -8}
-			}
-			text_single = {
-			name = "terrible"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ),'(int32)-60'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ), '(int32)-85'))]"
-			raw_text = "trrbl"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
-			default_format = "#true_white"
-			fontsize = 14
-			margin = {5 -8}
-			}
-			text_single = {
-			name = "abysmal"
-			visible = "[LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer ),'(int32)-86')]"
-			raw_text = "absm"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
-			default_format = "#true_white"
-			fontsize = 14
-			margin = {1 -8}
-			}
-			#Changed by ObfusCKate: End
             }
+			#Changed by ObfusCKate: End
         }
     }
 
@@ -2676,7 +2125,7 @@ types PortraitTypes
     {
         name = "has_inspiration"
 		##Changed by obfusCKate: Start
-        visible = "[And(Character.HasInspiration,GetScriptedGui('gui_portrait_status_icons_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
+        visible = "[And(Character.HasInspiration,ShowPortraitStatus)]"
 		##Changed by obfusCKate: End
         texture = "gfx/interface/icons/portraits/inspiration.dds"
         tooltip = "CHARACTER_HAS_INSPIRATION_TOOLTIP"
@@ -2686,7 +2135,7 @@ types PortraitTypes
     {
         name = "has_completed_inspiration"
 		##Changed by obfusCKate: Start
-        visible = "[And(And( Character.HasCompletedAnInspiration, Not( Character.HasInspiration ) ),GetScriptedGui('gui_portrait_status_icons_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
+        visible = "[And(And( Character.HasCompletedAnInspiration, Not( Character.HasInspiration ) ),ShowPortraitStatus)]"
 		##Changed by obfusCKate: End
         texture = "gfx/interface/icons/portraits/inspiration_complete.dds"
         tooltip = "CHARACTER_HAS_COMPLETED_AN_INSPIRATION_TOOLTIP"
@@ -2731,7 +2180,7 @@ types PortraitTypes
 				icon = {
 					name = "hostage_icon"
 					##Changed by obfusCKate: Start
-					visible = "[And(Character.IsHostage,GetScriptedGui('gui_portrait_status_icons_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
+					visible = "[And(Character.IsHostage,ShowPortraitStatus)]"
 					##Changed by obfusCKate: End
 					size = { 14 14 }
 					texture = "gfx/interface/icons/character_interactions/icon_hostage.dds"
@@ -2741,7 +2190,7 @@ types PortraitTypes
                 icon = {
                     name = "traveling_icon"
 					##Changed by obfusCKate: Start
-					visible = "[And(And(Character.IsTraveling, Character.GetTravelPlan.IsInTransit),GetScriptedGui('gui_portrait_status_icons_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
+					visible = "[And(And(Character.IsTraveling, Character.GetTravelPlan.IsInTransit),ShowPortraitStatus)]"
 					##Changed by obfusCKate: End
                     size = { 14 14 }
                     texture = "gfx/interface/icons/portraits/travel_small.dds"
@@ -2751,20 +2200,14 @@ types PortraitTypes
                 icon = {
                     name = "incapable"
 					##Changed by obfusCKate: Start
-					visible = "[And(Character.IsIncapable,GetScriptedGui('gui_portrait_status_icons_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
+					visible = "[And(Character.IsIncapable,ShowPortraitStatus)]"
 					##Changed by obfusCKate: End
                     size = { 14 14 }
                     texture = "gfx/interface/icons/portraits/incapable_small.dds"
                     tooltip = "CHARACTER_INCAPABLE_TOOLTIP"
                 }
 				#changed by obfusCKate: Start
-				icon = {
-                    name = "rumours"
-                    visible = "[RumoursShown]"
-                    size = { 14 14 }
-                    texture = "gfx/interface/icons/icon_group_of_characters.dds"
-                    tooltip = "RUMOUR_TT"
-                }
+                obf_rumours_interaction_icon = {}
 				#changed by obfusCKate: End
 
                 block "inspiration_status_icons"
@@ -2788,8 +2231,6 @@ types PortraitTypes
                     texture = "gfx/interface/icons/portraits/punishment_small.dds"
                     tooltip = "[Character.PunishmentTooltip]"
                 }
-				
-
 
                 icon = {
                     name = "hook"
@@ -2899,8 +2340,8 @@ types PortraitTypes
 			icon = {
 				name = "hostage_icon"
 				##Changed by obfusCKate: Start
-					visible = "[And(Character.IsHostage,GetScriptedGui('gui_portrait_status_icons_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-					##Changed by obfusCKate: End
+                visible = "[And(Character.IsHostage,ShowPortraitStatus)]"
+                ##Changed by obfusCKate: End
 				size = { 20 20 }
 				texture = "gfx/interface/icons/character_interactions/icon_hostage.dds"
 				tooltip = "[Character.GetHostageTooltip]"
@@ -2908,9 +2349,9 @@ types PortraitTypes
 
             icon = {
                 name = "traveling_icon"
-					##Changed by obfusCKate: Start
-					visible = "[And(And(Character.IsTraveling, Character.GetTravelPlan.IsInTransit),GetScriptedGui('gui_portrait_status_icons_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-					##Changed by obfusCKate: End
+                ##Changed by obfusCKate: Start
+                visible = "[And(And(Character.IsTraveling, Character.GetTravelPlan.IsInTransit),ShowPortraitStatus)]"
+                ##Changed by obfusCKate: End
                 size = { 20 20 }
                 texture = "gfx/interface/icons/portraits/travel.dds"
                 tooltip = "CHARACTER_TRAVELING_TOOLTIP"
@@ -2918,9 +2359,9 @@ types PortraitTypes
 
             icon = {
                 name = "incapable"
-					##Changed by obfusCKate: Start
-					visible = "[And(Character.IsIncapable,GetScriptedGui('gui_portrait_status_icons_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-					##Changed by obfusCKate: End
+                ##Changed by obfusCKate: Start
+                visible = "[And(Character.IsIncapable,ShowPortraitStatus)]"
+                ##Changed by obfusCKate: End
                 size = { 20 20 }
                 texture = "gfx/interface/icons/portraits/incapable.dds"
                 tooltip = "CHARACTER_INCAPABLE_TOOLTIP"
@@ -2944,7 +2385,6 @@ types PortraitTypes
                 texture = "gfx/interface/icons/portraits/punishment.dds"
                 tooltip = "[Character.PunishmentTooltip]"
             }
-			
 
             icon = {
                 name = "hook"
@@ -3008,6 +2448,7 @@ types PortraitTypes
                 frame = "[Character.GetDynastyHeadRelationFrame('(bool)yes')]"
                 tooltip = "[Character.GetDynastyHeadRelationTooltip]"
             }
+
 			icon = {
 				name = "favorite_child"
 				visible = "[Character.IsFavoriteChildOf( GetPlayer )]"
@@ -3397,6 +2838,7 @@ types portrait_icons
 
         using = Portrait_Relation_Icon_Small_Size
     }
+
 	type grudge_relation_icon_small = icon
 	{
 		name = "grudge"

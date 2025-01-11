@@ -1007,7 +1007,6 @@ window = {
 													hbox = {
 														spacing = 2
 
-														
 														icon = {
 															#changed by obfusCKate: start
 															visible = no
@@ -1030,7 +1029,7 @@ window = {
 														}
 
 														icon = {
-															visible = "[And( BattleEvent.IsWound, BattleEvent.IsShowForPlayer( BattleSummaryWindow.IsPlayerAttacker ) )]"
+															visible = "[And( BattleEvent.IsWound, BattleEvent.IsShow( BattleSummaryWindow.IsPlayerAttacker ) )]"
 															size = { 25 25 }
 															texture = "gfx/interface/icons/icon_wounded.dds"
 															tooltip = "BATTLE_SUMMARY_KNIGHTS_WOUNDED_TT"
@@ -1118,7 +1117,7 @@ window = {
 														}
 
 														icon = {
-															visible = "[And( BattleEvent.IsWound, Not( BattleEvent.IsShowForPlayer( BattleSummaryWindow.IsPlayerAttacker ) ) )]"
+															visible = "[And( BattleEvent.IsWound, Not( BattleEvent.IsShow( BattleSummaryWindow.IsPlayerAttacker ) ) )]"
 															size = { 25 25 }
 															texture = "gfx/interface/icons/icon_wounded.dds"
 															tooltip = "BATTLE_SUMMARY_KNIGHTS_WOUNDED_TT"
@@ -1127,7 +1126,7 @@ window = {
 														text_single = {
 															name = "prowess_value"
 															minimumsize = { 10 0 }
-																#changed by obfusCKate: start
+															#changed by obfusCKate: start
 															text = "[BattleEvent.GetRightCharacter( BattleSummaryWindow.IsPlayerAttacker )]"
 															#changed by obfusCKate: end
 															tooltip = "prowess"
@@ -1136,7 +1135,7 @@ window = {
 														}
 
 														icon = {
-														#changed by obfusCKate: start
+															#changed by obfusCKate: start
 															visible = no
 															#changed by obfusCKate: end
 															name = "prowess_icon"

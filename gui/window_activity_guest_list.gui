@@ -495,9 +495,9 @@ types GuestListWindow
 							size = { 30 30 }
 
 							coa_house_small = {
-							##########changed by obfusCKate: Start
-										visible = "[Or(Character.IsDeadAndValid,GetScriptedGui('gui_house_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-										##########changed by obfusCKate: End
+								##########changed by obfusCKate: Start
+								visible = "[Or(Character.IsDeadAndValid,ShowHouse)]"
+								##########changed by obfusCKate: End
 								datacontext = "[Character.GetHouse]"
 								scale = 0.55
 								parentanchor = center
@@ -508,17 +508,16 @@ types GuestListWindow
 						#changed by obfusCKate: Start
 						dynamicgridbox = {
 							name = "traits_grid"
-							
-										#visible = "[GetScriptedGui('gui_show_traits_in_lists').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End )]"
-										#changed by obfusCKate: End
+
+							#visible = "[GetScriptedGui('gui_show_traits_in_lists').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End )]"
+							#changed by obfusCKate: End
 							datamodel = "[CharacterListItem.GetTraits]"
 							datamodel_reuse_widgets = no
 							flipdirection = yes
-									size = { 150 60 }
-
-									maxhorizontalslots = 8
-									maxverticalslots = 1
-			#changed by obfusCKate: End
+							size = { 150 60 }
+							maxhorizontalslots = 8
+							maxverticalslots = 1
+							#changed by obfusCKate: End
 							item = {
 								container = {
 									visible = "[Trait.IsValid]"
@@ -602,8 +601,8 @@ types GuestListWindow
 
 								tooltip = "ACTIVITY_GUEST_WILL_DECLINE"
 								###changed by obfusCKate: Start
-									tooltip_visible = no
-									###changed by obfusCKate: End
+								tooltip_visible = no
+								###changed by obfusCKate: End
 							}
 						}
 					}

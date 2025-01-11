@@ -2740,7 +2740,7 @@ types MapIcons
 				# Using percentages so it's relative to the size of the top widget
 				size = { 95% 105% }
 				using = portrait_base
-				visible = "[Or(PortraitsEnabled,And(PortraitsDisabled,GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))]"
+				visible = "[ShowPortraitForPlayer]"
 				portrait_texture = "[Character.GetPortrait('environment_head', 'camera_shoulders', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
 				mask = "gfx/portraits/portrait_mask_map.dds"
 				effectname = "NoHighlight"

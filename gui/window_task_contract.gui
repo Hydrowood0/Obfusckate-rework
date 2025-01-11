@@ -386,14 +386,12 @@
 				margin_bottom = 10
 				layoutpolicy_horizontal = expanding
 
-
 				widget = {
 					visible = "[Character.IsValid]"
 					name = "portrait section"
 					size = { 200 200}
 					datacontext = "[TaskContract.GetEmployer]"
 					
-
 					icon = {
 						name = "portrait_background"
 						size = { 240 250 }
@@ -448,8 +446,8 @@
 					}
 
 					portrait_button = {
-					#changed by obfusCKate:Start
-						visible = "[And(Or(PortraitsEnabled,And(PortraitsDisabled,GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))),Not(TaskContract.IsCriminal))]"
+						#changed by obfusCKate:Start
+						visible = "[And(ShowPortrait,Not(TaskContract.IsCriminal))]"
 						#changed by obfusCKate:end
 						position = { 0 -30 }
 						size = { 200 240 }
@@ -465,7 +463,7 @@
 					portrait_button = {
 						#visible = "[TaskContract.IsCriminal]"
 						#changed by obfusCKate:Start
-						visible = "[And(Or(PortraitsEnabled,And(PortraitsDisabled,GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))),And(TaskContract.IsCriminal, Not( GreaterThan_CFixedPoint( TaskContract.MakeScope.Var('animation').GetValue, '(CFixedPoint)0' ) )))]"
+						visible = "[And(ShowPortrait,And(TaskContract.IsCriminal, Not( GreaterThan_CFixedPoint( TaskContract.MakeScope.Var('animation').GetValue, '(CFixedPoint)0' ) )))]"
 						#changed by obfusCKate:end
 
 						#visible = "[And(Not( IsPauseMenuShown ), )]"
@@ -486,7 +484,7 @@
 
 					portrait_button = {
 						#changed by obfusCKate:Start
-						visible = "[And(Or(PortraitsEnabled,And(PortraitsDisabled,GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))),And(TaskContract.IsCriminal, GreaterThan_CFixedPoint( TaskContract.MakeScope.Var('animation').GetValue, '(CFixedPoint)0' ) ))]"
+						visible = "[And(ShowPortrait,And(TaskContract.IsCriminal, GreaterThan_CFixedPoint( TaskContract.MakeScope.Var('animation').GetValue, '(CFixedPoint)0' ) ))]"
 						#changed by obfusCKate:end
 
 						position = { 0 -30 }

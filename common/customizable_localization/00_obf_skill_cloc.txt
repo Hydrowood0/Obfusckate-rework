@@ -1,0 +1,314 @@
+﻿diplomacy_skill_value_text_reverse = {
+	type = character
+	text = {
+		localization_key = diplomacy_skill_value_text
+	}
+}
+
+diplomacy_skill_value_text = {
+	type = character
+
+	text = {
+		trigger = {
+			scope:second ?= ROOT
+		}
+		localization_key = CHARACTER_DIPLOMACY_VALUE
+	}
+	text = {
+		trigger = {
+			scope:second ?= {
+				save_temporary_scope_as = character
+				gui_skills_diplo_for_known = yes
+			}
+		}
+		localization_key = SKILL_DIPLOMACY_VALUES_KNOWN_CHARACTER
+	}
+	text = {
+		trigger = {
+			scope:second ?= {
+				save_temporary_scope_as = character
+				gui_any_skill_for_humble = yes
+			}
+		}
+		localization_key = SKILL_DIPLOMACY_VALUES_HUMBLE_CHARACTER
+	}
+	text = {
+		trigger = {
+			scope:second ?= {
+				save_temporary_scope_as = character
+				gui_skills_diplo_for_illusory = yes
+			}
+		}
+		localization_key = SKILL_VALUES_ILLUSORY_DIPLOMAT_CHARACTER
+	}
+	text = {
+		trigger = {
+			scope:second ?= {
+				save_temporary_scope_as = character
+				gui_skills_are_roughly_known = yes
+			}
+		}
+		localization_key = SKILL_DIPLOMACY_VALUES_NO_RELATED_CHARACTER
+	}
+	text = {
+		trigger = {
+			scope:second ?= {
+				save_temporary_scope_as = character
+				gui_skills_are_not_known = yes
+			}
+		}
+		localization_key = SKILL_UNKNOWN
+	}
+}
+
+martial_skill_value_text_reverse = {
+	type = character
+	text = {
+		localization_key = martial_skill_value_text
+	}
+}
+
+martial_skill_value_text = {
+	type = character
+
+	text = {
+		trigger = {
+			scope:second ?= ROOT
+		}
+		localization_key = CHARACTER_MARTIAL_VALUE
+	}
+	text = {
+		trigger = {
+			scope:second ?= {
+				save_temporary_scope_as = character
+				gui_skills_martial_for_known = yes
+			}
+		}
+		localization_key = SKILL_MARTIAL_VALUES_KNOWN_CHARACTER
+	}
+	text = {
+		trigger = {
+			scope:second ?= {
+				save_temporary_scope_as = character
+				gui_any_skill_for_humble = yes
+			}
+		}
+		localization_key = SKILL_MARTIAL_VALUES_HUMBLE_CHARACTER
+	}
+	text = {
+		trigger = {
+			scope:second ?= {
+				save_temporary_scope_as = character
+				gui_skills_martial_for_illusory = yes
+			}
+		}
+		localization_key = SKILL_VALUES_ILLUSORY_WARRIOR_CHARACTER
+	}
+	text = {
+		trigger = {
+			scope:second ?= {
+				save_temporary_scope_as = character
+				gui_skills_are_roughly_known = yes
+			}
+		}
+		localization_key = SKILL_MARTIAL_VALUES_NO_RELATED_CHARACTER
+	}
+	text = {
+		trigger = {
+			scope:second ?= {
+				save_temporary_scope_as = character
+				gui_skills_are_not_known = yes
+			}
+		}
+		localization_key = SKILL_UNKNOWN
+	}
+}
+
+stewardship_skill_value_text_reverse = {
+	type = character
+	text = {
+		localization_key = stewardship_skill_value_text
+	}
+}
+
+stewardship_skill_value_text = {
+	type = character
+
+	text = {
+		trigger = {
+			scope:second ?= ROOT
+		}
+		localization_key = CHARACTER_STEWARDSHIP_VALUE
+	}
+	text = {
+		trigger = {
+			scope:second ?= {
+				save_temporary_scope_as = character
+				gui_skills_steward_for_known = yes
+			}
+		}
+		localization_key = SKILL_STEWARDSHIP_VALUES_KNOWN_CHARACTER
+	}
+	text = {
+		trigger = {
+			scope:second ?= {
+				save_temporary_scope_as = character
+				gui_any_skill_for_humble = yes
+			}
+		}
+		localization_key = SKILL_STEWARDSHIP_VALUES_HUMBLE_CHARACTER
+	}
+	text = {
+		trigger = {
+			scope:second ?= {
+				save_temporary_scope_as = character
+				gui_skills_steward_for_illusory = yes
+			}
+		}
+		localization_key = SKILL_VALUES_ILLUSORY_ADMINISTRATOR_CHARACTER
+	}
+	text = {
+		trigger = {
+			scope:second ?= {
+				save_temporary_scope_as = character
+				gui_skills_are_roughly_known = yes
+			}
+		}
+		localization_key = SKILL_STEWARDSHIP_VALUES_NO_RELATED_CHARACTER
+	}
+	text = {
+		trigger = {
+			scope:second ?= {
+				save_temporary_scope_as = character
+				gui_skills_are_not_known = yes
+			}
+		}
+		localization_key = SKILL_UNKNOWN
+	}
+}
+
+intrigue_skill_value_text_reverse = {
+	type = character
+	text = {
+		localization_key = intrigue_skill_value_text
+	}
+}
+
+intrigue_skill_value_text = {
+	type = character
+
+	text = {
+		trigger = {
+			scope:second ?= ROOT
+		}
+		localization_key = CHARACTER_INTRIGUE_VALUE
+	}
+	text = {
+		trigger = {
+			scope:second ?= {
+				save_temporary_scope_as = character
+				gui_skills_intrigue_for_known = yes
+			}
+		}
+		localization_key = SKILL_INTRIGUE_VALUES_KNOWN_CHARACTER
+	}
+	text = {
+		trigger = {
+			scope:second ?= {
+				save_temporary_scope_as = character
+				gui_any_skill_for_humble = yes
+			}
+		}
+		localization_key = SKILL_INTRIGUE_VALUES_HUMBLE_CHARACTER
+	}
+	text = {
+		trigger = {
+			scope:second ?= {
+				save_temporary_scope_as = character
+				gui_skills_intrigue_for_illusory = yes
+			}
+		}
+		localization_key = SKILL_VALUES_ILLUSORY_INTRIGUER_CHARACTER
+	}
+	text = {
+		trigger = {
+			scope:second ?= {
+				save_temporary_scope_as = character
+				gui_skills_are_roughly_known = yes
+			}
+		}
+		localization_key = SKILL_INTRIGUE_VALUES_NO_RELATED_CHARACTER
+	}
+	text = {
+		trigger = {
+			scope:second ?= {
+				save_temporary_scope_as = character
+				gui_skills_are_not_known = yes
+			}
+		}
+		localization_key = SKILL_UNKNOWN
+	}
+}
+
+learning_skill_value_text_reverse = {
+	type = character
+	text = {
+		localization_key = learning_skill_value_text
+	}
+}
+
+learning_skill_value_text = {
+	type = character
+
+	text = {
+		trigger = {
+			scope:second ?= ROOT
+		}
+		localization_key = CHARACTER_LEARNING_VALUE
+	}
+	text = {
+		trigger = {
+			scope:second ?= {
+				save_temporary_scope_as = character
+				gui_skills_learning_for_known = yes
+			}
+		}
+		localization_key = SKILL_LEARNING_VALUES_KNOWN_CHARACTER
+	}
+	text = {
+		trigger = {
+			scope:second ?= {
+				save_temporary_scope_as = character
+				gui_any_skill_for_humble = yes
+			}
+		}
+		localization_key = SKILL_LEARNING_VALUES_HUMBLE_CHARACTER
+	}
+	text = {
+		trigger = {
+			scope:second ?= {
+				save_temporary_scope_as = character
+				gui_skills_learning_for_illusory = yes
+			}
+		}
+		localization_key = SKILL_VALUES_ILLUSORY_SCHOLAR_CHARACTER
+	}
+	text = {
+		trigger = {
+			scope:second ?= {
+				save_temporary_scope_as = character
+				gui_skills_are_roughly_known = yes
+			}
+		}
+		localization_key = SKILL_LEARNING_VALUES_NO_RELATED_CHARACTER
+	}
+	text = {
+		trigger = {
+			scope:second ?= {
+				save_temporary_scope_as = character
+				gui_skills_are_not_known = yes
+			}
+		}
+		localization_key = SKILL_UNKNOWN
+	}
+}

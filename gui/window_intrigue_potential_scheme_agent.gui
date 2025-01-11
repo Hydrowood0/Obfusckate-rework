@@ -170,20 +170,18 @@ window = {
 										margin_right = 10
 
 										# Skills
-										#Disabled by obfusCKate:Start
-										#hbox = {
-										#	name = "skills_grid"
-										#	layoutpolicy_horizontal = expanding
-										#
-										#	expand = {}
-										#	
-										#	datamodel = "[CharacterListItem.GetSkillItems]"
-										#
-										#	item = {
-										#		widget_skill_item_no_icon = {}
-										#	}
-										#}
-										#Disabled by obfusCKate:End
+										hbox = {
+											name = "skills_grid"
+											layoutpolicy_horizontal = expanding
+
+											expand = {}
+
+											datamodel = "[CharacterListItem.GetSkillItems]"
+
+											item = {
+												widget_skill_item_no_icon = {}
+											}
+										}
 
 										expand = {}
 

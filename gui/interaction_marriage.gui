@@ -378,8 +378,8 @@ window = {
 								layoutpolicy_vertical = expanding
 								margin_left = 5
 								##########changed by obfusCKate: Start
-							visible = "[GetScriptedGui('gui_faith_and_culture_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-							##########changed by obfusCKate: End
+								visible = "[ShowFaithCulture]"
+								##########changed by obfusCKate: End
 
 								# Faith
 								icon = {

@@ -137,9 +137,9 @@ window = {
 					}
 
 					filter_item = {
-					#changed by obfusCKate: Start
-					visible = no
-					#changed by obfusCKate: End
+						#changed by obfusCKate: Start
+						visible = no
+						#changed by obfusCKate: End
 						layoutpolicy_horizontal = expanding
 						datacontext = "[CharacterSelectionList.GetFilter('sexuality_filter')]"
 					}

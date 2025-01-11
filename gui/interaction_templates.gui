@@ -152,15 +152,14 @@ types CharacterInteraction
 					}
 
 					text_multi = {
-					name = "children_chance_info"
-					layoutpolicy_horizontal = expanding
-					max_width = 510
-					autoresize = yes
-					#changed by obfusCKate: Start
-					raw_text = " "
-					#changed by obfusCKate: End
-					
-				}
+						name = "children_chance_info"
+						layoutpolicy_horizontal = expanding
+						max_width = 510
+						autoresize = yes
+						#changed by obfusCKate: Start
+						raw_text = " "
+						#changed by obfusCKate: End
+					}
 
 					text_multi = {
 						name = "inbreeding_risk"
@@ -192,11 +191,11 @@ types CharacterInteraction
 				hbox = {
 				layoutpolicy_horizontal = expanding
 
-				text_label_center = {
-				#added by obfusCKate: Start
-				visible = no
-				#added by obfusCKate: End
+				text_label_left = {
 					name = "traits_header"
+					#added by obfusCKate: Start
+					visible = no
+					#added by obfusCKate: End
 					text = "INHERITABLE_TRAITS"
 				}
 
@@ -209,8 +208,9 @@ types CharacterInteraction
 				visible = no
 				#added by obfusCKate: End
 				text = "NO_INHERITABLE_TRAITS"
-				default_format = "#low;italic"
-				margin = { 5 15 }
+					align = nobaseline
+					default_format = "#low;italic"
+					margin = { 4 16 }
 			}
 
 				overlappingitembox = {
@@ -219,8 +219,8 @@ types CharacterInteraction
 					name = "traits"
 					datamodel = "[MatchOffer.GetInheritableTraitItems]"
 					#added by obfusCKate: Start
-				visible = no
-				#added by obfusCKate: End
+					visible = no
+					#added by obfusCKate: End
 
 					item = {
 						container = {
@@ -290,9 +290,9 @@ types CharacterInteraction
 						}
 
 						strength_balance = {
-						#added by obfusCKate:Start
-						visible = no
-						#added by obfusCKate:End
+							#added by obfusCKate:Start
+							visible = no
+							#added by obfusCKate:End
 							datacontext = "[AllianceInfo.GetMilitaryInfo]"
 							blockoverride "StrengthBalanceAllies" {}
 						}
@@ -330,9 +330,9 @@ types CharacterInteraction
 		}
 
 		text_multi = {
-		#added by obfusCKate: Start
-		visible = no
-		#added by obfusCKate: End
+			#added by obfusCKate: Start
+			visible = no
+			#added by obfusCKate: End
 			name = "children_house_info"
 			layoutpolicy_horizontal = expanding
 			max_width = 510
@@ -599,12 +599,6 @@ types CharacterInteraction
 			layoutpolicy_horizontal = expanding
 
 			### Left
-						 
-									 
-																																								  
-								   
-	
-
 			vbox = {
 				layoutpolicy_horizontal = expanding
 				layoutpolicy_vertical = expanding
@@ -623,7 +617,6 @@ types CharacterInteraction
 				}
 			}
 
-			
 			vbox = {
 				datacontext = "[CharacterInteractionConfirmationWindow.GetSecondaryRecipient]"
 				visible = "[CharacterInteractionConfirmationWindow.ShouldShowSecondaryRecipient]"
@@ -634,14 +627,6 @@ types CharacterInteraction
 				expand = {}
 
 				portrait_head = {}
-																																				  
-	 
-	
-
-						 
-									  
-																																 
-																																																																																				 
 
 				hbox = {
 					spacing = 5
@@ -654,16 +639,11 @@ types CharacterInteraction
 					}
 
 					change_revert_buttons = {
-							   
-				   
-	
 
 						blockoverride "size"
 						{
 							size = { 32 32 }
 						}
-				   
-					   
 
 						blockoverride "size_icon"
 						{
@@ -699,27 +679,10 @@ types CharacterInteraction
 				spacing = 5
 
 				expand = {}
-						   
-						
 
 				portrait_shoulders = {
 					name = "right_background_portrait"
-																																								 
-	  
-								   
-	  
-																																					 
-	  
-								
-	  
-																																								 
-	  
-								  
-	  
-																																					 
-	  
 				}
-	
 
 				text_label_center = {
 					visible = "[Not( ObjectsEqual( CharacterInteractionConfirmationWindow.GetActor, CharacterInteractionConfirmationWindow.GetRecipient ) )]"
@@ -728,7 +691,6 @@ types CharacterInteraction
 					max_width = 170
 				}
 			}
-
 		}
 	}
 
@@ -1062,6 +1024,7 @@ types CharacterInteraction
 		spacing = 5
 		
 		datacontext = "[InteractionEffectsDescription.GetDisplayedEffects]"
+		
 		# Duplicate recipient if it's player - player info should go first
 		vbox_character_interaction_effects_me = {
 			datacontext = "[InteractionEffectsDescription.GetRecipient]"
@@ -1192,16 +1155,9 @@ types CharacterInteraction
 			}
 		}
 
-
 		scrollbox_character_interaction_effects_wrapper = {}
 
 	}
-				
-							   
-							  
-																															 
-																						
-				 
 
 	type scrollbox_character_interaction_effects_wrapper = container {
 		datacontext = "[InteractionEffectsDescription.GetDisplayedEffects]"
@@ -1394,7 +1350,6 @@ types CharacterInteraction
 			layoutpolicy_horizontal = expanding
 			spacing = 5
 
-
 			vbox = {
 				layoutpolicy_vertical = expanding
 				margin = { 15 0 }
@@ -1522,7 +1477,6 @@ types CharacterInteraction
 				#changed by obfusCKate: End
 			}
 
-
 			vbox = {
 				maximumsize = { 120 46 }
 				parentanchor = center
@@ -1612,8 +1566,6 @@ types CharacterInteraction
 		visible = "[CharacterInteractionConfirmationWindow.HasOnDeclineSummary]"
 		text = "[CharacterInteractionConfirmationWindow.GetOnDeclineSummary]"
 	}
-
-
 
 	# Options to consider before accepting and interaction
 	type vbox_interaction_options = vbox {
@@ -1705,7 +1657,6 @@ types CharacterInteraction
 							checked = "[OptionItem.HasOption]"
 							onclick = "[OptionItem.OnClick]"
 							enabled = "[And(OptionItem.IsValid, OptionItem.CanBeChanged)]"
-
 						}
 
 						text_single = {
@@ -1727,7 +1678,6 @@ types CharacterInteraction
 
 		vbox = {
 			name = "exclusive_options"
-																																	 
 			layoutpolicy_horizontal = expanding
 			visible = "[CharacterInteractionConfirmationWindow.HasExclusiveOptions]"
 			datamodel = "[CharacterInteractionConfirmationWindow.GetOptionItems]"
@@ -1760,6 +1710,7 @@ types CharacterInteraction
 							layoutpolicy_horizontal = expanding
 							text = "[OptionItem.GetName]"
 							align = nobaseline
+							fontsize_min = 10
 							max_width = 420
 						}
 					}
@@ -1930,7 +1881,7 @@ types CharacterInteraction
 							}
 							
 							text_single = {
-							#changed by ObfusCKate:Start
+								#changed by ObfusCKate:Start
 								visible = no
 								#changed by ObfusCKate:End
 								name = "secrecy"
@@ -1938,8 +1889,6 @@ types CharacterInteraction
 								align = nobaseline
 								using = Font_Size_Medium
 							}
-
-
 						}
 					}
 
@@ -2500,6 +2449,8 @@ types CharacterInteraction
 				using = Font_Size_Big
 				using = Font_Type_Flavor
 				align = nobaseline
+				fontsize_min = 16
+				max_width = 440
 
 				background = {
 					using = Background_Area_Dark
@@ -2540,9 +2491,12 @@ types CharacterInteraction
 		button_round = {
 			name = "change"
 			alwaystransparent = no
+
 			tooltip = "CHANGE_CHARACTER"
 			using = tooltip_below
+
 			block "size" {}
+
 			block "ReplaceVisible"
 			{
 				visible = yes
@@ -2559,12 +2513,15 @@ types CharacterInteraction
 				}
 			}
 		}
+
 		button_round = {
 			name = "revert"
 			alwaystransparent = no
 			tooltip = "CANCEL"
 			using = tooltip_below
+
 			block "size" {}
+
 			button_cancel = {
 				parentanchor = center
 				
@@ -2750,7 +2707,6 @@ types CharacterInteraction
 			alpha = 0.7
 		}
 
-
 		hbox = {
 			layoutpolicy_horizontal = expanding
 			layoutpolicy_vertical = expanding
@@ -2772,8 +2728,6 @@ types CharacterInteraction
 
 			block "portrait" {}
 		}
-
-
 	}
 }
 
@@ -2787,7 +2741,6 @@ types InteractionCharacterList
 		vbox = {
 			layoutpolicy_horizontal = expanding
 
-
 			text_single = {
 				name = "select_someone_label"
 				text = "[CharacterInteractionConfirmationWindow.GetPrompt]"
@@ -2800,11 +2753,6 @@ types InteractionCharacterList
 		vbox_character_list = {
 			layoutpolicy_horizontal = expanding
 			layoutpolicy_vertical = expanding
-
-									
-	
-				
-	
 
 			blockoverride "special_character"
 			{
@@ -2825,9 +2773,6 @@ types InteractionCharacterList
 			{
 				hbox = {
 					# Candidate Score
-									  
-
-			
 					widget = {
 						visible = "[CharacterInteractionConfirmationWindow.HasSelectedCandidateScoreSortOption]"
 						size = { 63 30 }
@@ -2841,10 +2786,7 @@ types InteractionCharacterList
 							background = {
 								margin_left = 30
 								margin_right = 30
-
-						 
-							  
-																																						
+																													
 								texture = "gfx/interface/component_tiles/tile_title_bg_01.dds"
 								spriteType = Corneredtiled
 								spriteborder = { 40 8 }
@@ -2852,7 +2794,6 @@ types InteractionCharacterList
 
 								modify_texture = {
 									name = "mask"
-																															
 									texture = "gfx/interface/component_masks/mask_fade_horizontal_middle_thick.dds"
 									spriteType = Corneredstretched
 									spriteborder = { 0 0 }
@@ -2866,10 +2807,7 @@ types InteractionCharacterList
 							size = { 30 30 }
 							texture = "gfx/interface/icons/flat_icons/election_vote_strength.dds"
 						}
-								   
-		
 
-								  
 						tooltipwidget = {
 							widget_value_breakdown_tooltip = {
 								block "score_breakdown" {
@@ -2877,14 +2815,6 @@ types InteractionCharacterList
 								}
 							}
 						}
-
-					 
-					
-							 
-								   
-																																						  
-																	  
-	   
 					}
 
 					# Governor Efficiency
@@ -2893,8 +2823,6 @@ types InteractionCharacterList
 						size = { 65 30 }
 
 						tooltip = "ADMIN_WINDOW_THEME_GOVERNOR_EFFICIENCY_TT"
-			 
-									   
 
 						text_single = {
 							name = "char_governor_efficiency_value"
@@ -2906,11 +2834,6 @@ types InteractionCharacterList
 							background = {
 								margin_left = 30
 								margin_right = 30
-						
-																  
-																	 
-								   
-		
 
 								texture = "gfx/interface/component_tiles/tile_title_bg_01.dds"
 								spriteType = Corneredtiled
@@ -2929,25 +2852,11 @@ types InteractionCharacterList
 
 						icon = {
 							size = { 30 30 }
-
-				 
-						  
 							texture = "gfx/interface/icons/icon_skill_governor_efficiency.dds"
-						  
-		  
-
-					   
-																																	 
-						
-						
-						  
-																																						
-		  
-		 
-		
 						}
 					}
 
+					# Acceptance
 					hbox = {
 						visible = "[Not(CharacterInteractionConfirmationWindow.IsForcedToAccept)]"
 
@@ -2983,4 +2892,3 @@ types InteractionCharacterList
 		}
 	}
 }
-

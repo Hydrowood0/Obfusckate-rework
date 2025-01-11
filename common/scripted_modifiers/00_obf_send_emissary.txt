@@ -9,7 +9,7 @@ send_emissary_modifier = {
 			desc = BASE_RELUCTANCE
 		}
 		modifier = {
-			scope:recipient = {is_healty = no}
+			scope:recipient = {is_healthy = no}
 			add = -25
 		}
 		

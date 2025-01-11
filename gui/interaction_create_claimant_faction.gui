@@ -268,95 +268,11 @@ window = {
 									}
 									#changed by obfusCKate: Start
 									text_single = {
-			name = "Excellent"
-			visible = "[And(GetScriptedGui('gui_show_opinion_about_liege').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer.GetLiege ), '(int32)86'))]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_EXCELLENT"
-			tooltip = "CLAIMANT_FACTION_OPINION_TOOLTIP_OB"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer.GetLiege )]"
-			default_format = "#true_white"
-			using = Font_Size_Medium
-			margin = {6 -2}
-
-			}
-			text_single = {
-			name = "vgood"
-			visible = "[And(GetScriptedGui('gui_show_opinion_about_liege').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer.GetLiege ),'(int32)85'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer.GetLiege ), '(int32)60')))]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_VERY_GOOD"
-			tooltip = "CLAIMANT_FACTION_OPINION_TOOLTIP_OB"
-			fonttintcolor = "[Character.GetOpinionOfTint( Character.GetLiege )]"
-			default_format = "#true_white"
-			using = Font_Size_Medium
-			margin = {-1 -2}
-			}
-			text_single = {
-			name = "good"
-			visible = "[And(GetScriptedGui('gui_show_opinion_about_liege').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer.GetLiege ),'(int32)59'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer.GetLiege ), '(int32)30')))]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_GOOD"
-			tooltip = "CLAIMANT_FACTION_OPINION_TOOLTIP_OB"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer.GetLiege )]"
-			default_format = "#true_white"
-			using = Font_Size_Medium
-			margin = {16 -2}
-			}
-			text_single = {
-			name = "decent"
-			visible = "[And(GetScriptedGui('gui_show_opinion_about_liege').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer.GetLiege ),'(int32)29'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer.GetLiege ), '(int32)10')))]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_DECENT"
-			tooltip = "CLAIMANT_FACTION_OPINION_TOOLTIP_OB"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer.GetLiege )]"
-			default_format = "#true_white"
-			using = Font_Size_Medium
-			margin = {10 -2}
-			}
-			text_single = {
-			name = "Neutral"
-			visible = "[And(GetScriptedGui('gui_show_opinion_about_liege').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer.GetLiege ),'(int32)9'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer.GetLiege ), '(int32)-9')))]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_NEUTRAL"
-			tooltip = "CLAIMANT_FACTION_OPINION_TOOLTIP_OB"
-			default_format = "#Y"
-			using = Font_Size_Medium
-			margin = {7 -2}
-			}
-			text_single = {
-			name = "poor"
-			visible = "[And(GetScriptedGui('gui_show_opinion_about_liege').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer.GetLiege ),'(int32)-10'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer.GetLiege ), '(int32)-29')))]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_POOR"
-			tooltip = "CLAIMANT_FACTION_OPINION_TOOLTIP_OB"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer.GetLiege )]"
-			default_format = "#true_white"
-			using = Font_Size_Medium
-			margin = {20 -2}
-			}
-			text_single = {
-			name = "awful"
-			visible = "[And(GetScriptedGui('gui_show_opinion_about_liege').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer.GetLiege ),'(int32)-30'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer.GetLiege ), '(int32)-59')))]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_AWFUL"
-			tooltip = "CLAIMANT_FACTION_OPINION_TOOLTIP_OB"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer.GetLiege )]"
-			default_format = "#true_white"
-			using = Font_Size_Medium
-			margin = {15 -2}
-			}
-			text_single = {
-			name = "terrible"
-			visible = "[And(GetScriptedGui('gui_show_opinion_about_liege').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),And(LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer.GetLiege ),'(int32)-60'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer.GetLiege ), '(int32)-85')))]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_TERRIBLE"
-			tooltip = "CLAIMANT_FACTION_OPINION_TOOLTIP_OB"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer.GetLiege )]"
-			default_format = "#true_white"
-			using = Font_Size_Medium
-			margin = {9 -2}
-			}
-			text_single = {
-			name = "abysmal"
-			visible = "[And(GetScriptedGui('gui_show_opinion_about_liege').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),LessThanOrEqualTo_int32(Character.GetOpinionOf( GetPlayer.GetLiege ),'(int32)-86'))]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_ABYSMAL"
-			tooltip = "CLAIMANT_FACTION_OPINION_TOOLTIP_OB"
-			fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer.GetLiege )]"
-			default_format = "#true_white"
-			using = Font_Size_Medium
-			margin = {5 -2}
-			}
+										visible = "[ShowOpinionAboutLiege]"
+										layoutpolicy_horizontal = expanding
+										text = "[OpinionText(GetPlayer.GetLiege)]"
+										fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer.GetLiege )]"
+									}
 									#changed by obfusCKate: End
 
 									hbox = {

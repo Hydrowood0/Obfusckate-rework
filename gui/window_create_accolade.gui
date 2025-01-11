@@ -343,7 +343,8 @@ window = {
 				text = "KNIGHTS_SUBHEADER"
 				default_format = "#medium"
 			}
-		}  
+		}
+
 		scrollbox = {
 			name = "accolade_candidate_list_tutorial_uses_this"
 
@@ -454,9 +455,9 @@ window = {
 												layoutpolicy_vertical = expanding
 												margin = { 4 4 }
 
-												#changed by obfusCKate: start
-													text_label_center  = {
-														text = "PROWESS_VALUES_KNIGHTS"
+												text_label_center  = {
+													#changed by obfusCKate: start
+													text = "PROWESS_VALUES_KNIGHTS"
 													#changed by obfusCKate: End
 													using = Font_Size_Big
 													default_format = "#high"

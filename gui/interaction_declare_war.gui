@@ -114,9 +114,9 @@ window = {
 							margin_bottom = -4
 
 							hbox = {
-							#changed by obfusCKate: Start
-							visible = no
-							#changed by obfusCKate: End
+								#changed by obfusCKate: Start
+								visible = no
+								#changed by obfusCKate: End
 								name = "your_army"
 								margin_top = 6
 								margin_bottom = 6
@@ -148,9 +148,9 @@ window = {
 							}
 
 							hbox = {
-							#Changed by obfusCKate: Start
-							visible = no
-							#Changed by obfusCKate: end
+								#Changed by obfusCKate: Start
+								visible = no
+								#Changed by obfusCKate: end
 								name = "enemy_army"
 								margin_top = 6
 								margin_bottom = 6
@@ -174,10 +174,10 @@ window = {
 							}
 						}
 
-					hbox = {
+						hbox = {
 							name = "gold"
 							spacing = 80
-						#Changed by ObfusCKate: removed code that showed gold when declaring war
+							#Changed by ObfusCKate: removed code that showed gold when declaring war
 
 							
 							
@@ -776,8 +776,8 @@ window = {
 									hbox = {
 										layoutpolicy_horizontal = expanding
 										#changed by obfusCKate: Start
-								visible = no
-								#changed by obfusCKate: End
+										visible = no
+										#changed by obfusCKate: End
 										text_single = {
 											name = "ally_military_strength_text"
 											text = "DECLARE_WAR_ALLY_MILITARY_STRENGTH_DESC"

@@ -1904,7 +1904,7 @@ types ArmyWindow
 		}
 
 		army_quality_icon = {
-		#changed by obfusCKate: Start
+			#changed by obfusCKate: Start
 			visible = "[Character.IsLocalPlayer]"
 			tooltip_visible = "[Character.IsLocalPlayer]"
 			#changed by obfusCKate: End

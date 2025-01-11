@@ -25,14 +25,14 @@ template character_age_or_death_text
 
 		block "character_age"
 		{
-			text_single = {
 			#Changed by obfusCKate; Start
-			visible = "[Or(And(Character.IsDeadAndValid,Character.HasRelationTo(GetPlayer)),GetScriptedGui('gui_show_exact_age').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
+			text_single = {
+				visible = "[Or(And(Character.IsDeadAndValid,Character.HasRelationTo(GetPlayer)),ShowExactAge)]"
 				text = "[Character.GetAge]"
 				align = nobaseline
 			}
 			text_single = {
-			visible = "[Or(And(Character.IsDeadAndValid,Not(Character.HasRelationTo(GetPlayer))),And(GetScriptedGui('gui_show_approx_age').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Not(GetScriptedGui('gui_show_exact_age').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))))]"
+				visible = "[Or(And(Character.IsDeadAndValid,Not(Character.HasRelationTo(GetPlayer))),And(ShowApproxAge,Not(ShowExactAge)))]"
 				raw_text = "CHARACTER_AGE_ACQUAINTANCE"
 				align = nobaseline
 			}
@@ -40,9 +40,9 @@ template character_age_or_death_text
 		}
 
 		icon = {
-		##########changed by obfusCKate: Start
-				visible = "[GetScriptedGui('gui_show_health').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-		#########changed by obfusCKate: End
+			##########changed by obfusCKate: Start
+			visible = "[ShowHealth]"
+			#########changed by obfusCKate: End
 			size = { 23 23 }
 			framesize = { 60 60 }
 			frame = "[Character.GetHealthIconFrame]"
@@ -106,7 +106,7 @@ types Lists
 	## Character Skill Value
 
 	type widget_skill_item_no_icon = widget {
-		tooltip = "SKILL_ITEM_TOOLTIP"
+		using = obf_skill_tooltip
 		using = tooltip_se
 		size = { 32 25 }
 
@@ -115,7 +115,7 @@ types Lists
 			parentanchor = center
 			margin_bottom = 4
 			align = center
-			text = "[SkillItem.GetValue]"
+			using = obf_skill_text
 		}
 
 		background = {
@@ -180,16 +180,24 @@ types Lists
 
 				block "button_content"
 				{
-					hbox = {
-						vbox = {
+					vbox = {
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+
+						# Name
+						hbox = {
 							layoutpolicy_horizontal = expanding
 							layoutpolicy_vertical = expanding
 
-							# Name and age
+							# Age & Relation
 							vbox = {
 								layoutpolicy_horizontal = expanding
 								layoutpolicy_vertical = expanding
+
 								margin_left = 10
+
+								min_width = 320
+								max_width = 320
 
 								text_single = {
 									layoutpolicy_horizontal = expanding
@@ -226,742 +234,176 @@ types Lists
 										}
 									}
 								}
+
 								block "character_description_extra" {}
 							}
 
-							# Dynasty
-							hbox = {
-								layoutpolicy_horizontal = expanding
+							expand = {}
+
+							# Skills
+							vbox = {
 								layoutpolicy_vertical = expanding
-								margin_left = 5
 
-								widget = {
-									size = { 45 60 }
-									
-									coa_house_small = {
-									##########changed by obfusCKate: Start
-					visible = "[Or(Character.IsDeadAndValid,GetScriptedGui('gui_house_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-				##########changed by obfusCKate: End 
-										datacontext = "[Character.GetHouse]"
-										scale = 0.7
-									}
-								}
- 
-								# Traits
-								###changed by obfusCKate	
-								dynamicgridbox = {
-									name = "traits_grid"
-									datamodel = "[CharacterListItem.GetTraits]"
-									flipdirection = yes
-									size = { 150 60 }
+								hbox = {
+									name = "skills_grid"
 
-									maxhorizontalslots = 8
-									maxverticalslots = 1
+									datamodel = "[CharacterListItem.GetSkillItems]"
+									margin_right = 3
+									margin_top = 3
 
 									item = {
-										container = {
-											#Changed by ObfusCKate: Start
-											visible = "[Trait.IsValid]"
-											#visible = "[GetScriptedGui('gui_show_traits_in_lists').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End )]"
-										#Changed by ObfusCKate: End
-
-											icon_trait = {
-												blockoverride "icon_size"
-												{
-													size = { 30 30 }
-												}
-
-												blockoverride "tooltip_placement"
-												{
-													using = tooltip_se
-												}
-
-												blockoverride "glow_radius"
-												{
-													glow_radius = 3
-												}
-											}
-										}
+										widget_skill_item_no_icon = {}
 									}
 								}
 
-								block "bottom_middle_box" {
-									expand  = {}
-								}
-
+								expand = {}
 							}
+
+							block "extra_skills" {}
 						}
 
 						expand = {}
 
-						vbox = {
-							minimumsize = { 200 0 }
-							datacontext = "[CharacterListItem.GetCharacter]"
+						# Dynasty
+						hbox = {
+							layoutpolicy_horizontal = expanding
 							layoutpolicy_vertical = expanding
-							margin_top = 5
-							margin_right = 5
+							margin_left = 5
+							spacing = 5
 
-							#HUGE change by obfusCKate: Start
-							
-						hbox = {##
-								name = "obf_hbox_skills"
-								minimumsize = { 160 0 }
+							widget = {
+								size = { 35 40 }
 								
-								widget = {#DIPLO FOR KNOWN
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_diplo_for_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_diplo"
-										text = "SKILL_DIPLOMACY_VALUES_KNOWN_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 1
-									
-										}
-									}
+								coa_house_tiny = {
+									##########changed by obfusCKate: Start
+									visible = "[Or(Character.IsDeadAndValid,ShowHouse)]"
+									##########changed by obfusCKate: End 
+									datacontext = "[Character.GetHouse]"
+									parentanchor = center
 								}
-								widget = {#DIPLO FOR HUMBLE
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_any_skill_for_humble').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_diplo_humble"
-										text = "SKILL_DIPLOMACY_VALUES_HUMBLE_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 1
-									
-										}
-									}
-								}
-								widget = {#DIPLO FOR ILLUSORY DIPLOMAT
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_diplo_for_illusory').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_illusory_diplomat"
-										text = "SKILL_VALUES_ILLUSORY_DIPLOMAT_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 1
-									
-										}
-									}
-								}
-								widget = {#DIPLO FOR NO RELATED
-									size = { 32 32 } 
-										
-									visible = "[GetScriptedGui('gui_skills_are_roughly_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_diplomacy_no_related"
-										text = "SKILL_DIPLOMACY_VALUES_NO_RELATED_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 1
-									
-										}
-									}
-								}
-								widget = {#DIPLO FOR UNKNOWN
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_not_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_diplomacy_unknown"
-										text = "SKILL_UNKNOWN"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE_NO_SEC"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 1
-									
-										}
-									}
-								}
-								widget = {
-									size = { 32 32 }
-									
-									visible = "[GetScriptedGui('gui_skills_martial_for_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_martial"
-										text = "SKILL_MARTIAL_VALUES_KNOWN_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 2
-									
-										}
-									}
-								}
-								widget = {
-										size = { 32 32 }
-										
-										visible = "[GetScriptedGui('gui_any_skill_for_humble').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-										text_single = {
-											name = "value_martial_humble"
-											text = "SKILL_MARTIAL_VALUES_HUMBLE_CHARACTER"
-											tooltip = "SKILL_ITEM_TOOLTIP_OB"
-											parentanchor = center
-										margin_bottom = 4
-										align = center
-										
-											background = {
-												name = "skill_icon_bg"
-												texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-												framesize = { 70 26 }
-												margin = { 10 0 }
-												frame = 2   
-											}
-										}
-									}
-								widget = {#MARTIAL FOR ILLUSORY WARRIOR
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_martial_for_illusory').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_illusory_diplomat"
-										text = "SKILL_VALUES_ILLUSORY_WARRIOR_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 2
-									
-										}
-									}
-								}
-								widget = {#Martial FOR NO RELATED
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_roughly_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_martial_no_related"
-										text = "SKILL_MARTIAL_VALUES_NO_RELATED_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 2
-									
-										}
-									}
-								}
-								widget = {#MARTIAL FOR UNKNOWN
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_not_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_martial_unknown"
-										text = "SKILL_UNKNOWN"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE_NO_SEC"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 2
-									
-										}
-									}
-								}
-
-								widget = {
-									size = { 32 32 }
-									
-									visible = "[GetScriptedGui('gui_skills_steward_for_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_stewardship"
-										text = "SKILL_STEWARDSHIP_VALUES_KNOWN_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 3
-									
-										}
-									}
-								}
-								
-								widget = {
-										size = { 32 32 }
-										
-										visible = "[GetScriptedGui('gui_any_skill_for_humble').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-										text_single = {
-											name = "value_stewardship_humble"
-											text = "SKILL_STEWARDSHIP_VALUES_HUMBLE_CHARACTER"
-											tooltip = "SKILL_ITEM_TOOLTIP_OB"
-											parentanchor = center
-										margin_bottom = 4
-										align = center
-										
-											background = {
-												name = "skill_icon_bg"
-												texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-												framesize = { 70 26 }
-												margin = { 10 0 }
-												frame = 3   
-											}
-										}
-									}
-									widget = {
-											size = { 32 32 }
-												
-											visible = "[GetScriptedGui('gui_skills_steward_for_illusory').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-											text_single = {
-												name = "value_illusory_administrator"
-												text = "SKILL_VALUES_ILLUSORY_ADMINISTRATOR_CHARACTER"
-												tooltip = "SKILL_ITEM_TOOLTIP_OB"
-												parentanchor = center
-										margin_bottom = 4
-										align = center
-
-											background = {
-												name = "skill_icon_bg"
-												texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-												framesize = { 70 26 }
-												margin = { 10 0 }
-												frame = 3
-											}
-										}
-									}
-									widget = {#Stewardship FOR NO RELATED
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_roughly_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_stewardship_no_related"
-										text = "SKILL_STEWARDSHIP_VALUES_NO_RELATED_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 3
-									
-										}
-									}
-								}
-								widget = {#STEWARDSHIP FOR UNKNOWN
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_not_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_stewardship_unknown"
-										text = "SKILL_UNKNOWN"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE_NO_SEC"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 3
-									
-										}
-									}
-								}
-
-								widget = {
-									size = { 32 32 }
-									
-									visible = "[GetScriptedGui('gui_skills_intrigue_for_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_intrigue"
-										text = "SKILL_INTRIGUE_VALUES_KNOWN_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 4
-									
-										}
-									}
-								}
-								widget = {
-									size = { 32 32 }
-									
-									visible = "[GetScriptedGui('gui_any_skill_for_humble').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_intrigue_humble"
-										text = "SKILL_INTRIGUE_VALUES_HUMBLE_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-										background = {
-											name = "skill_icon_bg"
-											texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-											framesize = { 70 26 }
-											margin = { 10 0 }
-											frame = 4  
-										}
-									}
-								}
-								widget = {
-										size = { 32 32 }
-											
-										visible = "[GetScriptedGui('gui_skills_intrigue_for_illusory').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-										text_single = {
-											name = "value_illusory_intriguer"
-											text = "SKILL_VALUES_ILLUSORY_INTRIGUER_CHARACTER"
-											tooltip = "SKILL_ITEM_TOOLTIP_OB"
-											parentanchor = center
-										margin_bottom = 4
-										align = center
-
-										background = {
-											name = "skill_icon_bg"
-											texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-											framesize = { 70 26 }
-											margin = { 10 0 }
-											frame = 4
-										}
-									}
-								}
-								widget = {#Intrigue FOR NO RELATED
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_roughly_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_intrigue_no_related"
-										text = "SKILL_INTRIGUE_VALUES_NO_RELATED_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 4
-									
-										}
-									}
-								}
-								widget = {#Intrigue FOR UNKNOWN
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_not_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_intrigue_unknown"
-										text = "SKILL_UNKNOWN"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE_NO_SEC"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 4
-									
-										}
-									}
-								}
-
-								widget = {
-									size = { 32 32 }
-									
-									visible = "[GetScriptedGui('gui_skills_learning_for_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_learning"
-										text = "SKILL_LEARNING_VALUES_KNOWN_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 5
-									
-										}
-									}
-								}
-								widget = {
-										size = { 32 32 }
-										
-										visible = "[GetScriptedGui('gui_any_skill_for_humble').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-										text_single = {
-											name = "value_learning_humble"
-											text = "SKILL_LEARNING_VALUES_HUMBLE_CHARACTER" 
-											tooltip = "SKILL_ITEM_TOOLTIP_OB"
-											parentanchor = center
-										margin_bottom = 4
-										align = center
-										
-											background = {
-												name = "skill_icon_bg"
-												texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-												framesize = { 70 26 }
-												margin = { 10 0 }
-												frame = 5   
-											}
-										}
-									}
-									widget = {
-											size = { 32 32 }
-												
-											visible = "[GetScriptedGui('gui_skills_learning_for_illusory').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-											
-											text_single = {
-												name = "value_illusory_scholar"
-												text = "SKILL_VALUES_ILLUSORY_SCHOLAR_CHARACTER"
-												tooltip = "SKILL_ITEM_TOOLTIP_OB"
-												parentanchor = center
-										margin_bottom = 4
-										align = center
-
-											background = {
-												name = "skill_icon_bg"
-												texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-												framesize = { 70 26 }
-												margin = { 10 0 }
-												frame = 5
-											}
-										}
-									}
-									widget = {#lEARNING FOR NO RELATED
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_roughly_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-									
-									text_single = {
-										name = "value_learning_no_related"
-										text = "SKILL_LEARNING_VALUES_NO_RELATED_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 5
-									
-										}
-									}
-								}
-								widget = {#Learning FOR UNKNOWN
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_not_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-									
-									text_single = {
-										name = "value_learning_unknown"
-										text = "SKILL_UNKNOWN"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE_NO_SEC"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 5
-									
-										}
-									}
-								}
-									
 							}
-							
-							
-						#HUGE change by obfusCKate: End	
-							
 
-							block "extra_skills" {}
+							# Traits
+							###changed by obfusCKate
+							dynamicgridbox = {
+								name = "traits_grid"
+								datamodel = "[CharacterListItem.GetTraits]"
+								flipdirection = yes
+								size = { 150 60 }
+								maxhorizontalslots = 8
+								maxverticalslots = 1
+
+								item = {
+									container = {
+										#Changed by ObfusCKate: Start
+										visible = "[Trait.IsValid]"
+										#visible = "[GetScriptedGui('gui_show_traits_in_lists').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End )]"
+										#Changed by ObfusCKate: End
+
+										icon_trait = {
+											parentanchor = center
+
+											blockoverride "icon_size"
+											{
+												size = { 30 30 }
+											}
+
+											blockoverride "tooltip_placement"
+											{
+												using = tooltip_se
+											}
+
+											blockoverride "glow_radius"
+											{
+												glow_radius = 3
+											}
+										}
+									}
+								}
+							}
+							# didn't override it on purpose
+							block "bottom_middle_box" {
+								expand = {}
+							}
 
 							expand = {}
 
-							block "bottom_right_box"
-							{
-								hbox = {
-									layoutpolicy_horizontal = expanding
-									layoutpolicy_vertical = expanding
+							vbox = {
+								minimumsize = { 200 0 }
+								datacontext = "[CharacterListItem.GetCharacter]"
+								layoutpolicy_vertical = expanding
+								margin_right = 5
 
-									# Realm
-									widget = {
-										size = {55 58 }
-										##########changed by obfusCKate: Start
-										visible = "[And(Not( IsDataModelEmpty( CharacterListItem.GetTitleItems ) ),GetScriptedGui('gui_show_titles_and_claims').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-									##########changed by obfusCKate: End
-										block "claims_visibility" {}
+								expand = {}
 
-										datacontext = "[CharacterListItem.GetFirstClaim]"
+								block "bottom_right_box"
+								{
+									hbox = {
+										layoutpolicy_horizontal = expanding
+										layoutpolicy_vertical = expanding
 
-										coa_title_tiny_crown = {
-											using = tooltip_ne
-											datacontext = "[Claim.GetTitle]"
-											highlight_icon = {
-												name = "pressed_claim"
-												visible = "[And(Claim.IsPressed, Not(Claim.IsImplicit))]"
-												texture = "gfx/interface/icons/title_status/icon_claim_pressed.dds"
-												size = { 24 24 }
-												parentanchor = bottom|right
+										# Realm
+										widget = {
+											size = { 55 58 }
+											##########changed by obfusCKate: Start
+											visible = "[And(Not( IsDataModelEmpty( CharacterListItem.GetTitleItems ) ),ShowTitlesClaims)]"
+											##########changed by obfusCKate: End
+											block "claims_visibility" {}
+
+											datacontext = "[CharacterListItem.GetFirstClaim]"
+
+											coa_title_tiny_crown = {
+												using = tooltip_ne
+												datacontext = "[Claim.GetTitle]"
+
+												highlight_icon = {
+													name = "pressed_claim"
+													visible = "[And(Claim.IsPressed, Not(Claim.IsImplicit))]"
+													texture = "gfx/interface/icons/title_status/icon_claim_pressed.dds"
+													size = { 24 24 }
+													parentanchor = bottom|right
+												}
+
+												highlight_icon = {
+													name = "unpressed_claim"
+													visible = "[And(Not(Claim.IsPressed), Not(Claim.IsImplicit))]"
+													texture = "gfx/interface/icons/title_status/icon_claim_unpressed.dds"
+													size = { 24 24 }
+													parentanchor = bottom|right
+												}
+
+												highlight_icon = {
+													name = "implicit_claim"
+													visible = "[Claim.IsImplicit]"
+													texture = "gfx/interface/icons/title_status/icon_claim_implicit.dds"
+													size = { 24 24 }
+													parentanchor = bottom|right
+												}
+
+												blockoverride "coa_tooltip"
+												{
+													tooltip = "CHARACTER_LIST_CLAIM_TOOLTIP"
+												}
 											}
 
-											highlight_icon = {
-												name = "unpressed_claim"
-												visible = "[And(Not(Claim.IsPressed), Not(Claim.IsImplicit))]"
-												texture = "gfx/interface/icons/title_status/icon_claim_unpressed.dds"
-												size = { 24 24 }
-												parentanchor = bottom|right
-											}
-
-											highlight_icon = {
-												name = "implicit_claim"
-												visible = "[Claim.IsImplicit]"
-												texture = "gfx/interface/icons/title_status/icon_claim_implicit.dds"
-												size = { 24 24 }
-												parentanchor = bottom|right
-											}
-
-											blockoverride "coa_tooltip"
-											{
+											text_single = {
+												align = right
+												minimumsize = { 15 0 }
+												parentanchor = vcenter|right
+												text = "[CharacterListItem.GetTitleItemCount]"
 												tooltip = "CHARACTER_LIST_CLAIM_TOOLTIP"
 											}
 										}
 
-										text_single = {
-											align = right
-											minimumsize = { 15 0 }
-											parentanchor = vcenter|right
-											text = "[CharacterListItem.GetTitleItemCount]"
-											tooltip = "CHARACTER_LIST_CLAIM_TOOLTIP"
-										}
-									}
-
-									expand = {}
-
-									# Religion
-									vbox = {
-										layoutpolicy_vertical = expanding
-
-										margin_bottom = 20
-										
 										expand = {}
 
+										# Religion & Culture
 										hbox = {
-										
-										##########changed by obfusCKate: Start
-							visible = "[GetScriptedGui('gui_faith_and_culture_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-							##########changed by obfusCKate: End
+											layoutpolicy_vertical = expanding
+											##########changed by obfusCKate: Start
+											visible = "[ShowFaithCulture]"
+											##########changed by obfusCKate: End
+											# Faith
 											icon = {
 												name = "faith_button"
 												size = { 35 35 }
@@ -970,36 +412,38 @@ types Lists
 												texture = "[Faith.GetIcon]"
 											}
 
+											# Culture
 											widget = {
 												datacontext = "[Character.GetCulture]"
-												size = { 120 24 }
-
-												tooltipwidget = {
-													culture_tooltip = {}
-												}
-												using = tooltip_se
+												size = { 120 30 }
 
 												hbox = {
-													spacing = 3
-
 													icon = {
 														name = "culture"
 														texture = "gfx/interface/icons/icon_culture.dds"
-														size = { 24 24 }
+														size = { 30 30 }
 													}
 
 													text_multi = {
 														layoutpolicy_horizontal = expanding
-														min_width = 95
-														max_width = 95
+														min_width = 90
+														max_width = 90
 														autoresize = yes
 														text = "CULTURE_LISTS_WINDOW"
 													}
 												}
+
+												tooltipwidget = {
+													culture_tooltip = {}
+												}
+
+												using = tooltip_se
 											}
+
 										}
 									}
 								}
+								expand = {}
 							}
 						}
 					}
@@ -1076,7 +520,7 @@ types Lists
 									using = Font_Size_Medium
 									layoutpolicy_horizontal = expanding
 									align = nobaseline
-									text = "[Character.GetUINameNoTooltip]"
+									text = "[Character.GetUINameNoTooltip|U]"
 									autoresize = no
 									fontsize_min = 14
 								}
@@ -1111,588 +555,7 @@ types Lists
 							}
 
 							# Skills
-							#HUGE change by obfusCKate: Start
-							
-						hbox = {##
-								name = "obf_hbox_skills"
-								minimumsize = { 160 0 }
-								
-								widget = {#DIPLO FOR KNOWN
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_diplo_for_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_diplo"
-										text = "SKILL_DIPLOMACY_VALUES_KNOWN_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 1
-									
-										}
-									}
-								}
-								widget = {#DIPLO FOR HUMBLE
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_any_skill_for_humble').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_diplo_humble"
-										text = "SKILL_DIPLOMACY_VALUES_HUMBLE_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 1
-									
-										}
-									}
-								}
-								widget = {#DIPLO FOR ILLUSORY DIPLOMAT
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_diplo_for_illusory').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_illusory_diplomat"
-										text = "SKILL_VALUES_ILLUSORY_DIPLOMAT_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 1
-									
-										}
-									}
-								}
-								widget = {#DIPLO FOR NO RELATED
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_roughly_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_diplomacy_no_related"
-										text = "SKILL_DIPLOMACY_VALUES_NO_RELATED_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 1
-									
-										}
-									}
-								}
-								widget = {#DIPLO FOR UNKNOWN
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_not_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_diplomacy_unknown"
-										text = "SKILL_UNKNOWN"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE_NO_SEC"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 1
-									
-										}
-									}
-								}
-								widget = {
-									size = { 32 32 }
-									
-									visible = "[GetScriptedGui('gui_skills_martial_for_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_martial"
-										text = "SKILL_MARTIAL_VALUES_KNOWN_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 2
-									
-										}
-									}
-								}
-								widget = {
-										size = { 32 32 }
-										
-										visible = "[GetScriptedGui('gui_any_skill_for_humble').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-										text_single = {
-											name = "value_martial_humble"
-											text = "SKILL_MARTIAL_VALUES_HUMBLE_CHARACTER"
-											tooltip = "SKILL_ITEM_TOOLTIP_OB"
-											parentanchor = center
-										margin_bottom = 4
-										align = center
-										
-											background = {
-												name = "skill_icon_bg"
-												texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-												framesize = { 70 26 }
-												margin = { 10 0 }
-												frame = 2   
-											}
-										}
-									}
-								widget = {#MARTIAL FOR ILLUSORY WARRIOR
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_martial_for_illusory').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_illusory_diplomat"
-										text = "SKILL_VALUES_ILLUSORY_WARRIOR_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 2
-									
-										}
-									}
-								}
-								widget = {#Martial FOR NO RELATED
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_roughly_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_martial_no_related"
-										text = "SKILL_MARTIAL_VALUES_NO_RELATED_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 2
-									
-										}
-									}
-								}
-								widget = {#MARTIAL FOR UNKNOWN
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_not_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_martial_unknown"
-										text = "SKILL_UNKNOWN"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE_NO_SEC"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 2
-									
-										}
-									}
-								}
-
-								widget = {
-									size = { 32 32 }
-									
-									visible = "[GetScriptedGui('gui_skills_steward_for_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_stewardship"
-										text = "SKILL_STEWARDSHIP_VALUES_KNOWN_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 3
-									
-										}
-									}
-								}
-								
-								widget = {
-										size = { 32 32 }
-										
-											visible = "[GetScriptedGui('gui_any_skill_for_humble').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-										text_single = {
-											name = "value_stewardship_humble"
-											text = "SKILL_STEWARDSHIP_VALUES_HUMBLE_CHARACTER"
-											tooltip = "SKILL_ITEM_TOOLTIP_OB"
-											parentanchor = center
-										margin_bottom = 4
-										align = center
-										
-											background = {
-												name = "skill_icon_bg"
-												texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-												framesize = { 70 26 }
-												margin = { 10 0 }
-												frame = 3   
-											}
-										}
-									}
-									widget = {
-											size = { 32 32 }
-												
-											visible = "[GetScriptedGui('gui_skills_steward_for_illusory').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-											text_single = {
-												name = "value_illusory_administrator"
-												text = "SKILL_VALUES_ILLUSORY_ADMINISTRATOR_CHARACTER"
-												tooltip = "SKILL_ITEM_TOOLTIP_OB"
-												parentanchor = center
-										margin_bottom = 4
-										align = center
-
-											background = {
-												name = "skill_icon_bg"
-												texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-												framesize = { 70 26 }
-												margin = { 10 0 }
-												frame = 3
-											}
-										}
-									}
-									widget = {#Stewardship FOR NO RELATED
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_roughly_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_stewardship_no_related"
-										text = "SKILL_STEWARDSHIP_VALUES_NO_RELATED_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 3
-									
-										}
-									}
-								}
-								widget = {#STEWARDSHIP FOR UNKNOWN
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_not_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_stewardship_unknown"
-										text = "SKILL_UNKNOWN"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE_NO_SEC"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 3
-									
-										}
-									}
-								}
-
-								widget = {
-									size = { 32 32 }
-									
-									visible = "[GetScriptedGui('gui_skills_intrigue_for_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_intrigue"
-										text = "SKILL_INTRIGUE_VALUES_KNOWN_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 4
-									
-										}
-									}
-								}
-								widget = {
-									size = { 32 32 }
-									
-									visible = "[GetScriptedGui('gui_any_skill_for_humble').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_intrigue_humble"
-										text = "SKILL_INTRIGUE_VALUES_HUMBLE_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-										background = {
-											name = "skill_icon_bg"
-											texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-											framesize = { 70 26 }
-											margin = { 10 0 }
-											frame = 4  
-										}
-									}
-								}
-								widget = {
-										size = { 32 32 }
-											
-										visible = "[GetScriptedGui('gui_skills_intrigue_for_illusory').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-										text_single = {
-											name = "value_illusory_intriguer"
-											text = "SKILL_VALUES_ILLUSORY_INTRIGUER_CHARACTER"
-											tooltip = "SKILL_ITEM_TOOLTIP_OB"
-											parentanchor = center
-										margin_bottom = 4
-										align = center
-
-										background = {
-											name = "skill_icon_bg"
-											texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-											framesize = { 70 26 }
-											margin = { 10 0 }
-											frame = 4
-										}
-									}
-								}
-								widget = {#Intrigue FOR NO RELATED
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_roughly_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_intrigue_no_related"
-										text = "SKILL_INTRIGUE_VALUES_NO_RELATED_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 4
-									
-										}
-									}
-								}
-								widget = {#Intrigue FOR UNKNOWN
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_not_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_intrigue_unknown"
-										text = "SKILL_UNKNOWN"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE_NO_SEC"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 4
-									
-										}
-									}
-								}
-
-								widget = {
-									size = { 32 32 }
-									
-									visible = "[GetScriptedGui('gui_skills_learning_for_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_learning"
-										text = "SKILL_LEARNING_VALUES_KNOWN_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 5
-									
-										}
-									}
-								}
-								widget = {
-										size = { 32 32 }
-										
-										visible = "[GetScriptedGui('gui_any_skill_for_humble').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-										text_single = {
-											name = "value_learning_humble"
-											text = "SKILL_LEARNING_VALUES_HUMBLE_CHARACTER" 
-											tooltip = "SKILL_ITEM_TOOLTIP_OB"
-											parentanchor = center
-										margin_bottom = 4
-										align = center
-										
-											background = {
-												name = "skill_icon_bg"
-												texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-												framesize = { 70 26 }
-												margin = { 10 0 }
-												frame = 5   
-											}
-										}
-									}
-									widget = {
-											size = { 32 32 }
-												
-											visible = "[GetScriptedGui('gui_skills_learning_for_illusory').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-											
-											text_single = {
-												name = "value_illusory_scholar"
-												text = "SKILL_VALUES_ILLUSORY_SCHOLAR_CHARACTER"
-												tooltip = "SKILL_ITEM_TOOLTIP_OB"
-												parentanchor = center
-										margin_bottom = 4
-										align = center
-
-											background = {
-												name = "skill_icon_bg"
-												texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-												framesize = { 70 26 }
-												margin = { 10 0 }
-												frame = 5
-											}
-										}
-									}
-									widget = {#lEARNING FOR NO RELATED
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_roughly_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]" 
-									
-									text_single = {
-										name = "value_learning_no_related"
-										text = "SKILL_LEARNING_VALUES_NO_RELATED_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 5
-									
-										}
-									}
-								}
-								widget = {#Learning FOR UNKNOWN
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_not_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-									
-									text_single = {
-										name = "value_learning_unknown"
-										text = "SKILL_UNKNOWN"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE_NO_SEC"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 5
-									
-										}
-									}
-								}
-									
-							}
-							
-							
-						#HUGE change by obfusCKate: End	
+							hbox_skills_grid = {}
 						}
 
 						### BOTTOM ROW ###
@@ -1715,9 +578,9 @@ types Lists
 										size = { 45 40 }
 
 										coa_house_small = {
-										##########changed by obfusCKate: Start
-										visible = "[Or(Character.IsDeadAndValid,GetScriptedGui('gui_house_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-										##########changed by obfusCKate: End
+											##########changed by obfusCKate: Start
+											visible = "[Or(Character.IsDeadAndValid,ShowHouse)]"
+											##########changed by obfusCKate: End
 											datacontext = "[Character.GetHouse]"
 											parentanchor = center
 											scale = 0.7
@@ -1761,7 +624,7 @@ types Lists
 														#Changed by ObfusCKate: Start
 														visible = "[Trait.IsValid]"
 														#visible = "[And(Trait.IsValid, GetScriptedGui('gui_show_traits_in_lists').IsValid( GuiScope.SetRoot( #GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-													#Changed by ObfusCKate: End
+														#Changed by ObfusCKate: End
 
 														blockoverride "icon_size"
 														{
@@ -1799,19 +662,17 @@ types Lists
 										layoutpolicy_vertical = expanding
 
 										block "claims" { # for kill list
-										##########changed by obfusCKate: Start
-					visible = "[GetScriptedGui('gui_show_titles_and_claims').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-				##########changed by obfusCKate: End
+											##########changed by obfusCKate: Start
+											visible = "[ShowTitlesClaims]"
+											##########changed by obfusCKate: End
 											widget_list_claims = {}
-											
 										}
 
 										# Religion and culture
 										hbox = {
-										##########changed by obfusCKate: Start
-							visible = "[GetScriptedGui('gui_faith_and_culture_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-							##########changed by obfusCKate: End
-							
+											##########changed by obfusCKate: Start
+											visible = "[ShowFaithCulture]"
+											##########changed by obfusCKate: End
 											layoutpolicy_horizontal = expanding
 											layoutpolicy_vertical = expanding
 											margin_left = 8
@@ -2088,6 +949,7 @@ types Lists
 		}
 	}
 
+	# change by obfusCKate: every skill value to custom2
 	## Same as hbox_skills_grid, except taking character instead of character list item
 	type hbox_skills_grid_character_model = hbox {
 		name = "hbox_skills_grid_character_model"
@@ -2101,7 +963,7 @@ types Lists
 				parentanchor = center
 				margin_bottom = 4
 				align = center
-				text = "[Character.GetSkill('diplomacy')]"
+				text = "[Character.Custom2('diplomacy_skill_value_text_reverse', GetPlayer)]"
 				tooltip = "diplomacy_concept"
 			}
 
@@ -2122,7 +984,7 @@ types Lists
 				parentanchor = center
 				margin_bottom = 4
 				align = center
-				text = "[Character.GetSkill('martial')]"
+				text = "[Character.Custom2('martial_skill_value_text_reverse', GetPlayer)]"
 				tooltip = "martial_concept"
 			}
 
@@ -2143,7 +1005,7 @@ types Lists
 				parentanchor = center
 				margin_bottom = 4
 				align = center
-				text = "[Character.GetSkill('stewardship')]"
+				text = "[Character.Custom2('stewardship_skill_value_text_reverse', GetPlayer)]"
 				tooltip = "stewardship_concept"
 			}
 
@@ -2164,7 +1026,7 @@ types Lists
 				parentanchor = center
 				margin_bottom = 4
 				align = center
-				text = "[Character.GetSkill('intrigue')]"
+				text = "[Character.Custom2('intrigue_skill_value_text_reverse', GetPlayer)]"
 				tooltip = "intrigue_concept"
 			}
 
@@ -2185,7 +1047,7 @@ types Lists
 				parentanchor = center
 				margin_bottom = 4
 				align = center
-				text = "[Character.GetSkill('learning')]"
+				text = "[Character.Custom2('learning_skill_value_text_reverse', GetPlayer)]"
 				tooltip = "learning_concept"
 			}
 
@@ -2199,587 +1061,20 @@ types Lists
 			}
 		}
 	}
-			#HUGE change by obfusCKate: Start
+
 	type hbox_skills_grid = hbox {
 		name = "skills_grid"
-								minimumsize = { 160 0 }
-								
-								widget = {#DIPLO FOR KNOWN
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_diplo_for_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+		minimumsize = { 160 0 }
 
-									text_single = {
-										name = "value_diplo"
-										text = "SKILL_DIPLOMACY_VALUES_KNOWN_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
+		block "skills_datamodel"
+		{
+			datamodel = "[CharacterListItem.GetSkillItems]"
+		}
 
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 1
-									
-										}
-									}
-								}
-								widget = {#DIPLO FOR HUMBLE
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_any_skill_for_humble').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_diplo_humble"
-										text = "SKILL_DIPLOMACY_VALUES_HUMBLE_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 1
-									
-										}
-									}
-								}
-								widget = {#DIPLO FOR ILLUSORY DIPLOMAT
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_diplo_for_illusory').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_illusory_diplomat"
-										text = "SKILL_VALUES_ILLUSORY_DIPLOMAT_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 1
-									
-										}
-									}
-								}
-								widget = {#DIPLO FOR NO RELATED
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_roughly_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_diplomacy_no_related"
-										text = "SKILL_DIPLOMACY_VALUES_NO_RELATED_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 1
-									
-										}
-									}
-								}
-								widget = {#DIPLO FOR UNKNOWN
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_not_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_diplomacy_unknown"
-										text = "SKILL_UNKNOWN"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE_NO_SEC"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 1
-									
-										}
-									}
-								}
-								widget = {
-									size = { 32 32 }
-									
-									visible = "[GetScriptedGui('gui_skills_martial_for_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_martial"
-										text = "SKILL_MARTIAL_VALUES_KNOWN_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 2
-									
-										}
-									}
-								}
-								widget = {
-										size = { 32 32 }
-										
-										visible = "[GetScriptedGui('gui_any_skill_for_humble').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-										text_single = {
-											name = "value_martial_humble"
-											text = "SKILL_MARTIAL_VALUES_HUMBLE_CHARACTER"
-											tooltip = "SKILL_ITEM_TOOLTIP_OB"
-											parentanchor = center
-										margin_bottom = 4
-										align = center
-										
-											background = {
-												name = "skill_icon_bg"
-												texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-												framesize = { 70 26 }
-												margin = { 10 0 }
-												frame = 2   
-											}
-										}
-									}
-								widget = {#MARTIAL FOR ILLUSORY WARRIOR
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_martial_for_illusory').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_illusory_diplomat"
-										text = "SKILL_VALUES_ILLUSORY_WARRIOR_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 2
-									
-										}
-									}
-								}
-								widget = {#Martial FOR NO RELATED
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_roughly_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_martial_no_related"
-										text = "SKILL_MARTIAL_VALUES_NO_RELATED_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 2
-									
-										}
-									}
-								}
-								widget = {#MARTIAL FOR UNKNOWN
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_not_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_martial_unknown"
-										text = "SKILL_UNKNOWN"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE_NO_SEC"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 2
-									
-										}
-									}
-								}
-
-								widget = {
-									size = { 32 32 }
-									
-									visible = "[GetScriptedGui('gui_skills_steward_for_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_stewardship"
-										text = "SKILL_STEWARDSHIP_VALUES_KNOWN_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 3
-									
-										}
-									}
-								}
-								
-								widget = {
-										size = { 32 32 }
-										
-										visible = "[GetScriptedGui('gui_any_skill_for_humble').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-										text_single = {
-											name = "value_stewardship_humble"
-											text = "SKILL_STEWARDSHIP_VALUES_HUMBLE_CHARACTER"
-											tooltip = "SKILL_ITEM_TOOLTIP_OB"
-											parentanchor = center
-										margin_bottom = 4
-										align = center
-										
-											background = {
-												name = "skill_icon_bg"
-												texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-												framesize = { 70 26 }
-												margin = { 10 0 }
-												frame = 3   
-											}
-										}
-									}
-									widget = {
-											size = { 32 32 }
-												
-											visible = "[GetScriptedGui('gui_skills_steward_for_illusory').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-											text_single = {
-												name = "value_illusory_administrator"
-												text = "SKILL_VALUES_ILLUSORY_ADMINISTRATOR_CHARACTER"
-												tooltip = "SKILL_ITEM_TOOLTIP_OB"
-												parentanchor = center
-										margin_bottom = 4
-										align = center
-
-											background = {
-												name = "skill_icon_bg"
-												texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-												framesize = { 70 26 }
-												margin = { 10 0 }
-												frame = 3
-											}
-										}
-									}
-									widget = {#Stewardship FOR NO RELATED
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_roughly_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_stewardship_no_related"
-										text = "SKILL_STEWARDSHIP_VALUES_NO_RELATED_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 3
-									
-										}
-									}
-								}
-								widget = {#STEWARDSHIP FOR UNKNOWN
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_not_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_stewardship_unknown"
-										text = "SKILL_UNKNOWN"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE_NO_SEC"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 3
-									
-										}
-									}
-								}
-
-								widget = {
-									size = { 32 32 }
-									
-									visible = "[GetScriptedGui('gui_skills_intrigue_for_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_intrigue"
-										text = "SKILL_INTRIGUE_VALUES_KNOWN_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 4
-									
-										}
-									}
-								}
-								widget = {
-									size = { 32 32 }
-									
-									visible = "[GetScriptedGui('gui_any_skill_for_humble').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_intrigue_humble"
-										text = "SKILL_INTRIGUE_VALUES_HUMBLE_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-										background = {
-											name = "skill_icon_bg"
-											texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-											framesize = { 70 26 }
-											margin = { 10 0 }
-											frame = 4  
-										}
-									}
-								}
-								widget = {
-										size = { 32 32 }
-											
-										visible = "[GetScriptedGui('gui_skills_intrigue_for_illusory').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-										text_single = {
-											name = "value_illusory_intriguer"
-											text = "SKILL_VALUES_ILLUSORY_INTRIGUER_CHARACTER"
-											tooltip = "SKILL_ITEM_TOOLTIP_OB"
-											parentanchor = center
-										margin_bottom = 4
-										align = center
-
-										background = {
-											name = "skill_icon_bg"
-											texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-											framesize = { 70 26 }
-											margin = { 10 0 }
-											frame = 4
-										}
-									}
-								}
-								widget = {#Intrigue FOR NO RELATED
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_roughly_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_intrigue_no_related"
-										text = "SKILL_INTRIGUE_VALUES_NO_RELATED_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 4
-									
-										}
-									}
-								}
-								widget = {#Intrigue FOR UNKNOWN
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_not_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_intrigue_unknown"
-										text = "SKILL_UNKNOWN"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE_NO_SEC"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 4
-									
-										}
-									}
-								}
-
-								widget = {
-									size = { 32 32 }
-									
-									visible = "[GetScriptedGui('gui_skills_learning_for_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-									text_single = {
-										name = "value_learning"
-										text = "SKILL_LEARNING_VALUES_KNOWN_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 5
-									
-										}
-									}
-								}
-								widget = {
-										size = { 32 32 }
-										
-										visible = "[GetScriptedGui('gui_any_skill_for_humble').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-										text_single = {
-											name = "value_learning_humble"
-											text = "SKILL_LEARNING_VALUES_HUMBLE_CHARACTER" 
-											tooltip = "SKILL_ITEM_TOOLTIP_OB"
-											parentanchor = center
-										margin_bottom = 4
-										align = center
-										
-											background = {
-												name = "skill_icon_bg"
-												texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-												framesize = { 70 26 }
-												margin = { 10 0 }
-												frame = 5   
-											}
-										}
-									}
-									widget = {
-											size = { 32 32 }
-												
-											visible = "[GetScriptedGui('gui_skills_learning_for_illusory').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-											
-											text_single = {
-												name = "value_illusory_scholar"
-												text = "SKILL_VALUES_ILLUSORY_SCHOLAR_CHARACTER"
-												tooltip = "SKILL_ITEM_TOOLTIP_OB"
-												parentanchor = center
-										margin_bottom = 4
-										align = center
-
-											background = {
-												name = "skill_icon_bg"
-												texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-												framesize = { 70 26 }
-												margin = { 10 0 }
-												frame = 5
-											}
-										}
-									}
-									widget = {#lEARNING FOR NO RELATED
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_roughly_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-									
-									text_single = {
-										name = "value_learning_no_related"
-										text = "SKILL_LEARNING_VALUES_NO_RELATED_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 5
-									
-										}
-									}
-								}
-								widget = {#Learning FOR UNKNOWN
-									size = { 32 32 }
-										
-									visible = "[GetScriptedGui('gui_skills_are_not_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-									
-									text_single = {
-										name = "value_learning_unknown"
-										text = "SKILL_UNKNOWN"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE_NO_SEC"
-										parentanchor = center
-										margin_bottom = 4
-										align = center
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 5
-									
-										}
-									}
-								}
-									
-							}
-							
-							
-						#HUGE change by obfusCKate: End	
+		item = {
+			widget_skill_item_no_icon = {}
+		}
+	}
 
 	type hbox_list_sort_buttons = hbox {
 		name = "sort_buttons"
@@ -2821,14 +1116,18 @@ types Lists
 			align = nobaseline
 			max_width = 90
 		}
-		#changed by obfusCKate:Start
+
 		block "sort_dropdown" {
+			#changed by obfusCKate:Start
 			dropdown_sort_characterlist = {
-			visible = "[DropdownsEnabled]"
+				visible = "[DropdownsEnabled]"
 			}
+			#changed by obfusCKate:End
 		}
 		button_standard = {
+			#changed by obfusCKate:Start
 			visible = "[DropdownsEnabled]"
+			#changed by obfusCKate:End
 			name = "sort_order"
 			size = { 25 25 }
 			onclick = "[CharacterSelectionList.RevertSortOrder]"
@@ -2851,112 +1150,19 @@ types Lists
 				}
 			}
 		}
-		#changed by obfusCKate:End
-		
+
 		#changed by obfusCKate:Start
-		###Relevance disabled - would filter by trait
-		#text_single = {
-		#	visible = "[Not(DropdownsEnabled)]"
-		#	raw_text = "Relevance"
-		#	default_format = "#E;L"
-		#	align = nobaseline
-		#}
-		#button_standard = {
-		#	visible = "[Not(DropdownsEnabled)]"
-		#	name = "sort_order_relevance"
-		#	size = { 25 25 }
-		#	onclick = "[CharacterSelectionList.SortBySkill('(int32)13')]"
-		#	tooltip = "CHARACTER_SORT_BY"
-		#	using = tooltip_nw
-		#
-		#	button_icon = {
-		#		alwaystransparent = yes
-		#		parentanchor = center
-		#		size = { 25 25 }
-		#		texture = "gfx/interface/icons/flat_icons/sort_icon.dds"
-		#		framesize = { 66 66 }
-		#
-		#		frame = "[BoolTo1And2(CharacterSelectionList.GetSortOrder)]"
-		#
-		#		blockoverride "button_frames"
-		#		{
-		#			effectname = "NoHighlight"
-		#		}
-		#	}
-		#}
-
-		text_single = {
-			visible = "[Not(DropdownsEnabled)]"
-			raw_text = "Age"
-			default_format = "#E;L"
-			align = nobaseline
-		}
-		button_standard = {
-			visible = "[Not(DropdownsEnabled)]"
-			name = "sort_order_age"
-			size = { 25 25 }
-			onclick = "[CharacterSelectionList.SortBySkill('(int32)6')]"
-
-			tooltip = "CHARACTER_SORT_BY"
-			using = tooltip_nw
-
-			button_icon = {
-				alwaystransparent = yes
-				parentanchor = center
-				size = { 25 25 }
-				texture = "gfx/interface/icons/flat_icons/sort_icon.dds"
-				framesize = { 66 66 }
-
-				frame = "[BoolTo1And2(CharacterSelectionList.GetSortOrder)]"
-
-				blockoverride "button_frames"
-				{
-					effectname = "NoHighlight"
-				}
-			}
-		}
-
-		text_single = {
-			visible = "[Not(DropdownsEnabled)]"
-			raw_text = "Rank"
-			default_format = "#E;L"
-			align = nobaseline
-		}
-		button_standard = {
-			visible = "[Not(DropdownsEnabled)]"
-			name = "sort_order_rank"
-			size = { 25 25 }
-			onclick = "[CharacterSelectionList.SortBySkill('(int32)7')]"
-
-			tooltip = "CHARACTER_SORT_BY"
-			using = tooltip_nw
-
-			button_icon = {
-				alwaystransparent = yes
-				parentanchor = center
-				size = { 25 25 }
-				texture = "gfx/interface/icons/flat_icons/sort_icon.dds"
-				framesize = { 66 66 }
-
-				frame = "[BoolTo1And2(CharacterSelectionList.GetSortOrder)]"
-
-				blockoverride "button_frames"
-				{
-					effectname = "NoHighlight"
-				}
-			}
-		}
+		obf_sort_buttons = {}
 		#changed by obfusCKate:End
 
 		expand = {}
 
-		#changed by obfusCKate: Start
 		block "skill_sort_buttons"
-#changed by obfusCKate: End
 		{
-		
 			hbox = {
+				#changed by obfusCKate: Start
 				visible = "[DropdownsEnabled]"
+				#changed by obfusCKate: End
 				button_standard_hover = {
 					name = "skill_diplomacy"
 					size = { 32 32 }
@@ -3275,16 +1481,15 @@ types Lists
 
 						text_single = {
 							name = "relation_to_court_owner"
-							layoutpolicy_horizontal = expanding
 							default_format = "#low"
-							autoresize = no
 							align = nobaseline
+							max_width = 370
 							visible = "[Not(Character.IsHostage)]"
 
-							#changed by obfusCKate: Start
-							block "description_of_relation" {
+							block "description_relation_text" {
+								#changed by obfusCKate: Start
 								text = "[Character.GetRelationToString( GetPlayer )]"
-							#changed by obfusCKate: End
+								#changed by obfusCKate: End
 								tooltip = "EXTENDED_RELATIONS_TOOLTIP"
 							}
 
@@ -3294,6 +1499,7 @@ types Lists
 								alpha = 0.5
 							}
 						}
+
 						text_single = {
 							name = "relation_to_court_hostage"
 							default_format = "#medium"
@@ -3311,7 +1517,6 @@ types Lists
 								alpha = 0.5
 							}
 						}
-
 						expand = {}
 					}
 				}
@@ -3349,9 +1554,9 @@ types Lists
 							size = { 45 40 }
 
 							coa_house_small = {
-							##########changed by obfusCKate: Start
-										visible = "[Or(Character.IsDeadAndValid,GetScriptedGui('gui_house_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-										##########changed by obfusCKate: End
+								##########changed by obfusCKate: Start
+								visible = "[Or(Character.IsDeadAndValid,ShowHouse)]"
+								##########changed by obfusCKate: End
 								datacontext = "[Character.GetHouse]"
 								parentanchor = center
 								scale = 0.7
@@ -3383,7 +1588,7 @@ types Lists
 											#Changed by ObfusCKate: Start
 											visible = "[Trait.IsValid]"
 											#visible = "[And(Trait.IsValid, GetScriptedGui('gui_show_traits_in_lists').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( #'character', Character.MakeScope ).End ))]"
-										#Changed by ObfusCKate: End
+											#Changed by ObfusCKate: End
 
 											blockoverride "icon_size"
 											{
@@ -3421,7 +1626,7 @@ types Lists
 											#Changed by ObfusCKate: Start
 											visible = "[Trait.IsValid]"
 											#visible = "[And(Trait.IsValid, GetScriptedGui('gui_show_traits_in_lists').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( #'character', Character.MakeScope ).End ))]"
-										#Changed by ObfusCKate: End
+											#Changed by ObfusCKate: End
 
 											blockoverride "icon_size"
 											{
@@ -3468,9 +1673,8 @@ types Lists
 
 						hbox = {
 							##########changed by obfusCKate: Start
-							visible = "[GetScriptedGui('gui_faith_and_culture_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+							visible = "[ShowFaithCulture]"
 							##########changed by obfusCKate: End
-						
 							margin_right = 5
 
 							button_religion_icon = {
@@ -3580,6 +1784,11 @@ types Lists
 
 								vassal_stance_icon = {
 									name = "vassal_stance"
+									size = { 30 30 }
+								}
+
+								vassal_expected_legitimacy_icon = {
+									name = "legitimacy_expectation"
 									size = { 30 30 }
 								}
 
@@ -3761,9 +1970,9 @@ types Lists
 
 									background = {
 										#TODO:this should only be visible if this character is not being taxed
-										visible = no
+										visible = "[Not(ObfLoaded)]"
 										texture = "gfx/interface/colors/red.dds"
-										alpha = 0.3
+										alpha = 0.2
 							
 										modify_texture = {
 											texture = "gfx/interface/component_masks/mask_dlc.dds"
@@ -3776,6 +1985,7 @@ types Lists
 										margin_left = 10
 										max_width = 250
 										align = nobaseline
+										alwaystransparent = yes
 
 										visible = "[Character.IsAssignedAsTaxpayer]"
 
@@ -3787,6 +1997,7 @@ types Lists
 										margin_left = 10
 										max_width = 250
 										align = nobaseline
+										alwaystransparent = yes
 
 										visible = "[Not( Character.IsAssignedAsTaxpayer )]"
 
@@ -3965,8 +2176,8 @@ types Lists
 				dynamicgridbox = {
 					name = "personality_traits"
 					#changed by obfusCKate: Start
-					#					visible = "[Or(Character.IsPlayer, #GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( #GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-										#changed by obfusCKate: End
+					#visible = "[Or(Character.IsPlayer, #GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( #GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
+					#changed by obfusCKate: End
 					datamodel = "[TraitArrays.GetPersonalityTraits]"
 					flipdirection = yes
 					maxhorizontalslots = 3
@@ -3996,7 +2207,7 @@ types Lists
 					datamodel = "[TraitArrays.GetTraits]"
 					visible = "[LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)5')]"
 					#changed by obfusCKate: Start
-										#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End #),LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)5'))]"
+					#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End #),LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)5'))]"
 					#changed by obfusCKate: End
 					flipdirection = yes
 
@@ -4018,7 +2229,7 @@ types Lists
 					datamodel = "[TraitArrays.GetTraits]"
 					visible = "[And(GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)5'), LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)7'))]"
 					#changed by obfusCKate: Start
-										#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End ), #And(GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)5'), #LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)7')))]"
+					#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End ), #And(GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)5'), #LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)7')))]"
 					#changed by obfusCKate: End
 					flipdirection = yes
 
@@ -4045,7 +2256,7 @@ types Lists
 					datamodel = "[TraitArrays.GetTraits]"
 					visible = "[And(GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)7'), LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)10'))]"
 					#changed by obfusCKate: Start
-										#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End ), #And(GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)7'), #LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)10')))]"
+					#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End ), #And(GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)7'), #LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)10')))]"
 					#changed by obfusCKate: End
 					flipdirection = yes
 
@@ -4072,8 +2283,8 @@ types Lists
 					datamodel = "[TraitArrays.GetTraits]"
 					visible = "[GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)10')]"
 					#changed by obfusCKate: Start
-										#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End ), #GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)10'))]"
-										#changed by obfusCKate: End
+					#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End ), #GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)10'))]"
+					#changed by obfusCKate: End
 					flipdirection = yes
 
 					maxhorizontalslots = 11
@@ -4105,8 +2316,8 @@ types Lists
 				dynamicgridbox = {
 					name = "personality_traits"
 					#changed by obfusCKate: Start
-					#					visible = "[GetScriptedGui('gui_show_personality_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-										#changed by obfusCKate: End
+					#visible = "[GetScriptedGui('gui_show_personality_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+					#changed by obfusCKate: End
 					datamodel = "[TraitArrays.GetPersonalityTraits]"
 					flipdirection = yes
 
@@ -4137,8 +2348,8 @@ types Lists
 					datamodel = "[TraitArrays.GetTraits]"
 					visible = "[LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)4')]"
 					#changed by obfusCKate: Start
-										#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End #),LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)4'))]"
-										#changed by obfusCKate: End
+					#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End #),LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)4'))]"
+					#changed by obfusCKate: End
 					flipdirection = yes
 
 					maxhorizontalslots = 5
@@ -4159,8 +2370,8 @@ types Lists
 					datamodel = "[TraitArrays.GetTraits]"
 					visible = "[And(GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)4'), LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)6'))]"
 					#changed by obfusCKate: Start
-										#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End ), #And(GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)4'), #LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)6')))]"
-										#changed by obfusCKate: End
+					#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End ), #And(GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)4'), #LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)6')))]"
+					#changed by obfusCKate: End
 					flipdirection = yes
 
 					maxhorizontalslots = 7
@@ -4186,8 +2397,8 @@ types Lists
 					datamodel = "[TraitArrays.GetTraits]"
 					visible = "[And(GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)6'), LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)8'))]"
 					#changed by obfusCKate: Start
-										#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End ), #And(GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)6'), #LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)8')))]"
-										#changed by obfusCKate: End
+					#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End ), #And(GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)6'), #LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)8')))]"
+					#changed by obfusCKate: End
 					flipdirection = yes
 
 					maxhorizontalslots = 10
@@ -4213,8 +2424,8 @@ types Lists
 					datamodel = "[TraitArrays.GetTraits]"
 					visible = "[GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)8')]"
 					#changed by obfusCKate: Start
-										#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End ), #GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)8'))]"
-										#changed by obfusCKate: End
+					#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End ), #GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)8'))]"
+					#changed by obfusCKate: End
 					flipdirection = yes
 
 					maxhorizontalslots = 9
@@ -4257,8 +2468,8 @@ types Lists
 				dynamicgridbox = {
 					name = "personality_traits"
 					#changed by obfusCKate: Start
-									#	visible = "[GetScriptedGui('gui_show_personality_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End )]"
-										#changed by obfusCKate: End
+					#visible = "[GetScriptedGui('gui_show_personality_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End )]"
+					#changed by obfusCKate: End
 					datamodel = "[TraitArrays.GetPersonalityTraits]"
 					flipdirection = yes
 
@@ -4289,8 +2500,8 @@ types Lists
 					datamodel = "[TraitArrays.GetTraits]"
 					visible = "[LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)4')]"
 					#changed by obfusCKate: Start
-										#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End #),LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)4'))]"
-										#changed by obfusCKate: End
+					#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End #),LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)4'))]"
+					#changed by obfusCKate: End
 					flipdirection = yes
 
 					maxhorizontalslots = 4
@@ -4309,9 +2520,9 @@ types Lists
 				dynamicgridbox = {
 					name = "traits_small"
 					datamodel = "[TraitArrays.GetTraits]"
-						visible = "[And(GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)4'), LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)6'))]"
+					visible = "[And(GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)4'), LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)6'))]"
 					#changed by obfusCKate: Start
-										#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End ), #And(GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)4'), #LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)6')))]"
+					#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End ), #And(GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)4'), #LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)6')))]"
 					#changed by obfusCKate: End
 					flipdirection = yes
 
@@ -4338,8 +2549,8 @@ types Lists
 					datamodel = "[TraitArrays.GetTraits]"
 					visible = "[GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)6')]"
 					#changed by obfusCKate: Start
-										#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End ), #GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)6'))]"
-										#changed by obfusCKate: End
+					#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End ), #GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)6'))]"
+					#changed by obfusCKate: End
 					flipdirection = yes
 
 					maxhorizontalslots = 7
@@ -4371,8 +2582,8 @@ types Lists
 				dynamicgridbox = {
 					name = "personality_traits"
 					#changed by obfusCKate: Start
-										#visible = "[GetScriptedGui('gui_show_personality_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End )]"
-										#changed by obfusCKate: End
+					#visible = "[GetScriptedGui('gui_show_personality_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End )]"
+					#changed by obfusCKate: End
 					datamodel = "[TraitArrays.GetPersonalityTraits]"
 					flipdirection = yes
 
@@ -4403,8 +2614,8 @@ types Lists
 					datamodel = "[TraitArrays.GetTraits]"
 					visible = "[LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)4')]"
 					#changed by obfusCKate: Start
-										#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End #),LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)4'))]"
-										#changed by obfusCKate: End
+					#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End #),LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)4'))]"
+					#changed by obfusCKate: End
 					flipdirection = yes
 
 					maxhorizontalslots = 4
@@ -4425,8 +2636,8 @@ types Lists
 					datamodel = "[TraitArrays.GetTraits]"
 					visible = "[And(GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)4'), LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)6'))]"
 					#changed by obfusCKate: Start
-										#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End ), #And(GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)4'), #LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)6')))]"
-										#changed by obfusCKate: End
+					#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End ), #And(GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)4'), #LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)6')))]"
+					#changed by obfusCKate: End
 					flipdirection = yes
 
 					maxhorizontalslots = 6
@@ -4452,8 +2663,8 @@ types Lists
 					datamodel = "[TraitArrays.GetTraits]"
 					visible = "[GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)6')]"
 					#changed by obfusCKate: Start
-										#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End ), #GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)6'))]"
-										#changed by obfusCKate: End
+					#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End ), #GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)6'))]"
+					#changed by obfusCKate: End
 					flipdirection = yes
 
 					maxhorizontalslots = 6
@@ -4496,8 +2707,11 @@ types Scrollbar
 
 		scrollbarpolicy_horizontal = always_off
 
-		scrollbar_vertical = {
-			using = Scrollbar_Vertical
+		block "scrollbox_scrollbar_vertical"
+		{
+			scrollbar_vertical = {
+				using = Scrollbar_Vertical
+			}
 		}
 
 		block "scrollbox_background"
