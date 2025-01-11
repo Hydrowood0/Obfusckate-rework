@@ -225,7 +225,6 @@ types IconTypes
 			
             block "icon_size"  
             {
-			
                 size = { 50 50 }
             }
             block "glow"
@@ -259,9 +258,9 @@ types IconTypes
         }
         block "tooltip_placement"
         {
-		#changed by obfusCKate:Start
-		tooltip_visible = "[Or(And(And(Trait.IsPersonality,Or(And(PersonalityTraitsVisible,Character.IsAdult),And(PersonalityTraitsVisible,PersonalityTraitsVisibleForChildren))), Or(Character.IsLocalPlayer,GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))), And(Not(Or(And(Not(Or(Character.IsLocalPlayer,GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))),ShrewdOrDull),Or(And(Not(Or(Character.IsLocalPlayer,Or(GetScriptedGui('gui_show_education_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))),IsEducationTrait),Trait.IsPersonality))),Or(Character.IsLocalPlayer, Or(And(ShowMetaTraits,Or(And(GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Not(TraitIsPhysicallTrait)), And(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End), TraitIsPhysicallTrait))),Or(And(HideSomeMetaTraits,Or(And(GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Not(TraitIsPhysicallTrait)),And(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End), TraitIsPhysicallTrait))),And(HideMetaTraits,Or(And(GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Not(TraitIsPhysicallTrait)), And(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End), TraitIsPhysicallTrait))))))))]"
-		#changed by obfusCKate:End
+			#changed by obfusCKate:Start
+			tooltip_visible = "[Or(And(And(Trait.IsPersonality,Or(And(PersonalityTraitsVisible,Character.IsAdult),And(PersonalityTraitsVisible,PersonalityTraitsVisibleForChildren))), Or(Character.IsLocalPlayer,GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))), And(Not(Or(And(Not(Or(Character.IsLocalPlayer,GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))),ShrewdOrDull),Or(And(Not(Or(Character.IsLocalPlayer,Or(GetScriptedGui('gui_show_education_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))),IsEducationTrait),Trait.IsPersonality))),Or(Character.IsLocalPlayer, Or(And(ShowMetaTraits,Or(And(GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Not(TraitIsPhysicallTrait)), And(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End), TraitIsPhysicallTrait))),Or(And(HideSomeMetaTraits,Or(And(GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Not(TraitIsPhysicallTrait)),And(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End), TraitIsPhysicallTrait))),And(HideMetaTraits,Or(And(GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Not(TraitIsPhysicallTrait)), And(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End), TraitIsPhysicallTrait))))))))]"
+			#changed by obfusCKate:End
             using = tooltip_se
         }
     }
@@ -448,6 +447,7 @@ types IconTypes
 		size = { 44 44 }
 		texture = "gfx/interface/icons/dynasty/ce1_legitimacy_legacy_track.dds"
 	}
+
 	type icon_gold = icon
 	{
 		texture = "gfx/interface/icons/icon_gold.dds"

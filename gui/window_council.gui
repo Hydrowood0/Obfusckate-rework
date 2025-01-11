@@ -299,11 +299,11 @@ types CouncilWindow
 					value = "[ActiveCouncilTask.GetProgressFloat]"
 
 					####Changed_by_obfusCKate:Start
-					#
-					#
-					#tooltipwidget = {
-					#	council_task_progress_breakdown_widget = {}
-					#}
+					tooltipwidget = {
+						council_task_progress_breakdown_widget = {
+							visible = "[Not(ObfLoaded)]"
+						}
+					}
 					####Changed_by_obfusCKate:Start
 
 					text_single = {
@@ -341,9 +341,11 @@ types CouncilWindow
 					min = 0
 					max = "[ActiveCouncilTask.GetProgressMaxFloat]"
 					####Changed_by_obfusCKate:Start
-					#tooltipwidget = {
-					#	council_task_progress_breakdown_widget = {}
-					#}
+					tooltipwidget = {
+						council_task_progress_breakdown_widget = {
+							visible = "[Not(ObfLoaded)]"
+						}
+					}
 					####Changed_by_obfusCKate:Start
 					using = tooltip_ws
 					text_single = {
@@ -552,7 +554,7 @@ types CouncilWindow
 						}
 					}
 				}
-				
+
 				vbox = {
 					layoutpolicy_horizontal = expanding
 					margin_left = 6
@@ -575,17 +577,15 @@ types CouncilWindow
 						fontsize_min = 13
 					}
 				}
-				
+
 				#changed by obfusCKate: Start
 				skill_icon_label = {
-				visible = "[GetScriptedGui('gui_allow_sort_known_char_list').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End )]"
 					datacontext = "[GuiCouncilPosition.GetMainSkillItem]"
-
+					visible = "[AllowSortKnownChar]"
 
 					blockoverride "icon_size"
 					{
 						size = { 35 35 }
-						
 					}
 
 					blockoverride "font_size" {
@@ -598,24 +598,23 @@ types CouncilWindow
 					{
 						tooltip_visible = "[And( ActiveCouncilTask.HasMainSkill, ActiveCouncilTask.HasCouncillor )]"
 						#changed by obfusCKate: Start
-						tooltip = "SKILL_ITEM_TOOLTIP_COUNCIL" 
+						tooltip = "SKILL_ITEM_TOOLTIP_COUNCIL"
 						#changed by obfusCKate: End
 					}
 					blockoverride "value" {
 						hbox = {
 							layoutpolicy_horizontal = expanding
 							layoutpolicy_vertical = expanding
-					margin_top = -15
-					text_multi = {
-					margin_left = -4
-				margin_right = -5 
-					max_width = 180
-					text = "COUNCIL_EFFICIENCY"
-					
-					fontsize_min = 11
-				}
-								
+							margin_top = -15
+							text_multi = {
+								margin_left = -4
+								margin_right = -5
+								max_width = 180
+								text = "COUNCIL_EFFICIENCY"
+
+								fontsize_min = 11
 							}
+						}
 					}
 				}
 			}
@@ -660,15 +659,11 @@ types CouncilWindow
 								align = nobaseline
 								default_format = "#clickable"
 							}
-							
-							
 
 							container = {
 								visible = "[CouncilTaskType.HasMainSkill]"
 								parentanchor = right|vcenter
-								margin_left = 10
-								margin_right = 15
-								spacing = 25
+
 
 								skill_icon_label_vertical = {
 									datacontext = "[GuiCouncilPosition.GetSkillItemForTask(CouncilTaskType.Self)]"
@@ -717,16 +712,39 @@ types CouncilWindow
 					}
 					fontsize = 14
 				}
-				
+
 				#Changed by obfusCKate: Start
+				obf_portrait_opinion_to_liege = {
+					parentanchor = bottom|hcenter
+					position = { 0 -2 }
+				}
 				portrait_opinion = {
-					visible = "[And(Character.IsValid, Not(Character.IsLocalPlayer) )]"
+					visible = "[And(Not(ObfLoaded), And(Character.IsValid, Not(Character.IsLocalPlayer) ) )]"
+					#Changed by ObfusCKate: End
 					parentanchor = bottom|hcenter
 					position = { 0 -2 }
 
-				#Changed by ObfusCKate: End
+					blockoverride "opinion_text"
+					{
+						text = "[Character.GetOpinionOf( Character.GetLiege )|=]"
+						fonttintcolor = "[Character.GetOpinionOfTint( Character.GetLiege )]"
+					}
 
-					
+					blockoverride "ott_heading_text"
+					{
+						text = "[Character.GetOpinionHeadingText( Character.GetLiege )]"
+					}
+
+					blockoverride "ott_opinion_value_text"
+					{
+						text = "[Character.GetOpinionOf( Character.GetLiege )|=]"
+						fonttintcolor = "[Character.GetOpinionOfTint( Character.GetLiege )]"
+					}
+
+					blockoverride "ott_opinion_breakdown_text"
+					{
+						text = "[Character.GetOpinionBreakdownText( Character.GetLiege )|=]"
+					}
 				}
 
 				background = {
@@ -1071,13 +1089,14 @@ types CouncilTaskTypes
 				{
 					visible = "[Not( ActiveCouncilTask.GetTaskType.IsInfiniteTask )]"
 				}
-					####Changed_by_obfusCKate:Start
-					#text = COUNCIL_TASK_PROGRESSBAR_TOOLTIP_HEADER
-					#
-					#tooltipwidget = {
-					#	council_task_progress_breakdown_widget = {}
-					#}
-					####Changed_by_obfusCKate:Start
+				####Changed_by_obfusCKate:Start
+				text = "[SelectLocalization(ObfLoaded,'','COUNCIL_TASK_PROGRESSBAR_TOOLTIP_HEADER')]"
+				tooltipwidget = {
+					council_task_progress_breakdown_widget = {
+						visible = "[Not(ObfLoaded)]"
+					}
+				}
+				####Changed_by_obfusCKate:Start
 			}
 
 			text_multi = {
@@ -1189,7 +1208,6 @@ types CouncilTaskTypes
 							}
 						}
 					}
-					
 
 					blockoverride "missing_councillor"
 					{
@@ -1445,229 +1463,15 @@ types CouncilTaskTypes
 						using = Mask_Rough_Edges
 						alpha = 0.7
 					}
- 
+
 					background = {
 						texture = "gfx/interface/component_masks/mask_vignette.dds"
 						color = { 0.15 0.15 0.15 1 }
 						alpha = 0.3
 					}
-					
-					#changed by obfusCKate: Start ### Spy network 
-					progressbar = {
-					visible = "[And(Not(LessThanOrEqualTo_CFixedPoint( GetPlayer.MakeScope.Var('spy_network').GetValue, '(CFixedPoint)0' )),And(Or(GetScriptedGui('stop_spy_network').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),GetScriptedGui('start_spy_network').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End )),And(ActiveCouncilTask.HasCouncillor, Not(CouncilWindow.IsLiegeCouncilShown))))]"
-					tooltip = "NETWORK_COVERAGE_TT"
-					using = tooltip_nw
- 
-					position = {205 145}		
-			size = { 50 15 }
-			value = "[GetPlayer.MakeScope.Var('spy_network').GetValue]"
-			min = 0
-			max = 200
-			progresstexture = "gfx/interface/progressbars/war_progress_blue.dds"
-			noprogresstexture = "gfx/interface/progressbars/war_progress_noprogress.dds"
-
-		}
-
-					button_tertiary = {
-					name = "High_Budget"				 
-					size = { 55 25 }
-					datacontext = "[Character]"
-					visible = "[And(GetScriptedGui('spy_network_budget_max').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(ActiveCouncilTask.HasCouncillor, Not(CouncilWindow.IsLiegeCouncilShown)))]"
-					onclick = "[GetScriptedGui('spy_network_budget_max').Execute( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
-					text = "MAX_BUDGET"		
-					tooltip = "MAX_BUDGET_TT"
-					using = tooltip_ws
-					position = {200 55}
-					 modify_texture = {
-					 visible = "[GetScriptedGui('highlight_budget_max').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
-                                    name = "glow_high"
-								color = { 0.0 0.5 0.0 1 }
-								alpha = 0.5
-
-                                }
- 
-				}
-					button_tertiary = {
-					name = "medium_Budget"				 
-					size = { 55 25 }
-					datacontext = "[Character]" 
-					visible = "[And(GetScriptedGui('spy_network_budget_med').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(ActiveCouncilTask.HasCouncillor, Not(CouncilWindow.IsLiegeCouncilShown)))]"
-					onclick = "[GetScriptedGui('spy_network_budget_med').Execute( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
-					text = "MEDIUM_BUDGET"		
-					tooltip = "MEDIUM_BUDGET_TT"
-					using = tooltip_ws
-					position = {200 75}
-					 modify_texture = {
-					 visible = "[GetScriptedGui('highlight_budget_med').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
-                                    name = "glow_med"
-								color = { 0.0 0.0 0.7 1 }
-								alpha = 0.5
-                                }
- 
-				}
-				button_tertiary = {
-					name = "low_Budget"			 
-					size = { 55 25 }
-					datacontext = "[Character]"
-					visible = "[And(GetScriptedGui('spy_network_budget_min').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(ActiveCouncilTask.HasCouncillor, Not(CouncilWindow.IsLiegeCouncilShown)))]"
-					onclick = "[GetScriptedGui('spy_network_budget_min').Execute( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
-					text = "LOW_BUDGET"		
-					tooltip = "LOW_BUDGET_TT" 
-					using = tooltip_ws 
-					position = {200 95}
-					 modify_texture = {
-					 visible = "[GetScriptedGui('highlight_budget_min').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
-                                    name = "glow_low"
-								color = { 0.5 0.5 0 0 }
-									alpha = 0.5	
-                                }
- 
-				}
-				button_tertiary = { 
-					name = "no_Budget"				 
-					size = { 55 25 }
-					datacontext = "[Character]"
-					visible = "[And(GetScriptedGui('spy_network_budget_none').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(ActiveCouncilTask.HasCouncillor, Not(CouncilWindow.IsLiegeCouncilShown)))]"
-					onclick = "[GetScriptedGui('spy_network_budget_none').Execute( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
-					text = "NO_BUDGET"		
-					tooltip = "NO_BUDGET_TT"
-					using = tooltip_ws
-					position = {200 115} 
-					 modify_texture = {
-					 visible = "[GetScriptedGui('highlight_budget_none').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
-                                    name = "glow_none"
-								color = { 0.8 0.0 0.0 0.0 }
-								alpha = 0.5
-                                } 
- 
-				}
-				
-					button_round = {
-					name = "start_network"				
-					size = { 40 40 }
-					datacontext = "[Character]"
-					visible = "[And(GetScriptedGui('start_spy_network').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(ActiveCouncilTask.HasCouncillor, Not(CouncilWindow.IsLiegeCouncilShown)))]"
-					onclick = "[GetScriptedGui('start_spy_network').Execute( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
-					tooltip = "PAUSE_NETWORK_GROWTH_TT"
-					using = tooltip_nw
-					parentanchor = hcenter|vcenter 
-					position = {45 -50}
-					color = { 0.0 0.9 0.0 1 }
-					
-							state = {
-									name = _mouse_enter
-									alpha = 1
-									duration = 0.1
-									using = Animation_Curve_Default
-								}
-
-								state = {
-									name = _mouse_leave
-									alpha = 0.5
-									duration = 0.1
-									using = Animation_Curve_Default
-								}
-					
-					
-					icon = {
-						texture = "gfx/interface/music_player/button_play_s1.dds"
-						size = { 36 36 }  
-						parentanchor = center
-						modify_texture = {
-                                    name = "disabled"
-									visible = "[Not(GetScriptedGui('start_spy_network').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).End ))]"
-									color = { 0.4 0.0 0.0 1 }
-									blend_mode = overlay
-                                }
-						
-						 
-					}
-					modify_texture = {
-                                    name = "disabled_outline"
-									visible = "[Not(GetScriptedGui('start_spy_network').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).End ))]"
-									color = { 1 0.0 0.0 0.2 }
-									blend_mode = multiply
-                                }
-					modify_texture = {
-                                    name = "enabled_outline"
-									visible = "[GetScriptedGui('start_spy_network').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
-									color = { 0.5 0.8 0.5 1 }
-									blend_mode = normal
-                                }  
-				}
-					button_round = {  
-					name = "stop_network"				
-					size = { 40 40 }
-					datacontext = "[Character]"
-					visible = "[And(GetScriptedGui('stop_spy_network').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(GetScriptedGui('stop_spy_network').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(ActiveCouncilTask.HasCouncillor, Not(CouncilWindow.IsLiegeCouncilShown))))]"
-					onclick = "[GetScriptedGui('stop_spy_network').Execute( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
-					tooltip = "PROMOTE_NETWORK_GROWTH_TT"
-					using = tooltip_nw
-					parentanchor = hcenter|vcenter
-					position = {45 -50}
-					color = { 0.8 0.0 0.0 1 }
-					icon = {
-						texture = "gfx/interface/icons/scheme_countermeasure_types/strengthen_sentries_t1.dds"
-						size = { 45 45 }
-						parentanchor = center
-						alpha = 0.8
-						
-
-                                modify_texture = {
-                                    name = "glow"
-                                    texture = "gfx/interface/component_effects/effect_shimmer.dds"
-
-                                    translate_uv = { 0.2 0.2 }
-                                }
-								 
-								#### Shimmer ####
-                                state = { 
-                                    trigger_when = "[GetScriptedGui('stop_spy_network').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
-                                    name = _show
-                                    next = shimmer
-                                    duration = 0.2
-                                    scale = 0.9
-
-                                    modify_texture = {
-                                        name = "glow"
-                                        translate_uv = { 1 -1 }
-                                    }
-                                }
-
-                                state = {
-                                    name = shimmer 
-                                    next = pause
-                                    duration = 1.5
-                                    scale = 0.9
-                                    position = { 0 0 }
-
-                                    bezier = { 0 0.9 1 0.4 }
-
-                                    modify_texture = {
-                                        name = "glow"
-                                        translate_uv = { -1 1 }
-                                    }
-                                }
-
-                                state = {
-                                    name = pause
-                                    next = shimmer
-                                    duration = 0
-                                    delay = 0
-
-                                    modify_texture = {
-                                        name = "glow"
-                                        translate_uv = { 1 -1 }
-                                    }
-                                }
-								
-						
-						
-					}
-					
-				}
+					#changed by obfusCKate: Start ### Spy network
+					obf_hbox_spy_network_manage = {}
 					#changed by obfusCKate: End
-					
 				}
 			}
 		}

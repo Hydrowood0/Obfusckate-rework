@@ -224,7 +224,7 @@ types army_select_commander
 			hbox = {
 				#changed by obfusCKate: Start
 				tooltip = "COMMANDER_ADVANTAGE_TT"
-			#changed by obfusCKate: End
+				#changed by obfusCKate: End
 
 				icon = {
 					name = "skill_icon"

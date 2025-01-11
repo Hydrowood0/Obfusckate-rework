@@ -121,7 +121,7 @@ types Lists
 				align = center
 				text = "SKILL_PROWESS_VALUES_KNOWN_CHARACTER"
 				default_format = "#true_white"
-				visible = "[GetScriptedGui('gui_prowess_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+				visible = "[ShowProwess]"
 				tooltip = "prowess_concept"
 			}
 
@@ -626,13 +626,13 @@ types Lists
 
 
 		text_single = {
-			visible = "[GetScriptedGui('gui_allow_sort_known_char_list').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End )]"
+			visible = "[AllowSortKnownChar]"
 			text = "SORT_BY"
 			align = vcenter
 		}	
 		
 		button_tertiary = {
-			visible = "[Not(GetScriptedGui('gui_allow_sort_known_char_list').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End ))]"
+			visible = "[Not(AllowSortKnownChar)]"
 			text = "UNABLE_TO_SORT"
 			tooltip = "UNABLE_TO_SORT_TT"
 			align = nobaseline
@@ -643,7 +643,7 @@ types Lists
 			margin = {-3 0}
 			button_standard_hover = {
 					name = "sort_by_age"
-					visible = "[GetScriptedGui('gui_allow_sort_known_char_list').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End )]"
+					visible = "[AllowSortKnownChar]"
 					size = { 30 30 }
 					
 					icon = {
@@ -663,7 +663,7 @@ types Lists
 				}
 			button_standard_hover = {
 					name = "sort_by_rank"
-					visible = "[GetScriptedGui('gui_allow_sort_known_char_list').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End )]"
+					visible = "[AllowSortKnownChar]"
 					size = { 30 30 }
 
 					icon = {
@@ -684,7 +684,7 @@ types Lists
 			}
 				button_standard_hover = {
 					name = "skill_diplomacy_known_list"
-					visible = "[GetScriptedGui('gui_allow_sort_known_char_list').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End )]"
+					visible = "[AllowSortKnownChar]"
 					size = { 30 30 }
 
 					icon = {
@@ -707,7 +707,7 @@ types Lists
 
 				button_standard_hover = {
 					name = "skill_martial_known_list"
-					visible = "[GetScriptedGui('gui_allow_sort_known_char_list').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End )]"
+					visible = "[AllowSortKnownChar]"
 					size = { 30 30 }
 
 					icon = {
@@ -730,7 +730,7 @@ types Lists
 
 				button_standard_hover = {
 					name = "skill_stewardship"
-					visible = "[GetScriptedGui('gui_allow_sort_known_char_list').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End )]"
+					visible = "[AllowSortKnownChar]"
 					size = { 30 30 }
 
 					icon = {
@@ -753,7 +753,7 @@ types Lists
 
 				button_standard_hover = {
 					name = "skill_intrigue"
-					visible = "[GetScriptedGui('gui_allow_sort_known_char_list').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End )]"
+					visible = "[AllowSortKnownChar]"
 					size = { 30 30 }
 
 					icon = {
@@ -776,7 +776,7 @@ types Lists
 
 				button_standard_hover = {
 					name = "skill_learning"
-					visible = "[GetScriptedGui('gui_allow_sort_known_char_list').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End )]"
+					visible = "[AllowSortKnownChar]"
 					size = { 30 30 }
 
 					icon = {
@@ -798,7 +798,7 @@ types Lists
 				}
 				button_standard_hover = {
 					name = "skill_prowess"
-					visible = "[GetScriptedGui('gui_allow_sort_known_char_list').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End )]"
+					visible = "[AllowSortKnownChar]"
 					size = { 30 30 }
 
 					icon = {

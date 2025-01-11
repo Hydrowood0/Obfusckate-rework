@@ -408,11 +408,12 @@ window = {
 												vbox = {
 													layoutpolicy_vertical = expanding
 													margin = { 10 0 }
-													#changed by obfusCKate: start
-													visible = "[GetScriptedGui('gui_prowess_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+
 													text_label_center  = {
-														text = "PROWESS_VALUES_KNIGHTS"
-													#changed by obfusCKate: End
+														#changed by obfusCKate: start
+														using = obf_knight_prowess
+														#text = "[prowess_i][Character.GetSkill( 'prowess' )]"
+														#changed by obfusCKate: End
 														using = Font_Size_Big
 														default_format = "#high"
 													}

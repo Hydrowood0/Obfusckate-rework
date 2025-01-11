@@ -59,13 +59,15 @@ window = {
 							name = "sort_dropdown"
 							#changed by obfusCKate:Start
 							blockoverride "dropdown_active_item_properties"
-							{	visible = "[DropdownsEnabled]"
+							{
+								visible = "[DropdownsEnabled]"
 								text = "[ClaimantSortOption.GetName]"
 							}
 
 							blockoverride "dropdown_item_properties"
-							{		visible = "[DropdownsEnabled]"
-									text = "[ClaimantSortOption.GetName]"
+							{
+								visible = "[DropdownsEnabled]"
+								text = "[ClaimantSortOption.GetName]"
 							}
 							#changed by obfusCKate:End
 						}
@@ -151,8 +153,8 @@ window = {
 												strength_balance = {
 													name = "strength_balance"
 													##########changed by obfusCKate: Start
-												visible = "[GetScriptedGui('gui_show_diplomacy_items').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-												##########changed by obfusCKate: End
+													visible = "[ShowDiplomacy]"
+													##########changed by obfusCKate: End
 													datacontext = "[GuiClaimant.GetMilitaryStrengthInfo]"
 													using = tooltip_ne
 												}
@@ -167,12 +169,11 @@ window = {
 											layoutpolicy_horizontal = expanding
 											maximumsize = { 0 -1 }
 											margin_right = 10
-									##########changed by obfusCKate: Start
-					visible = "[And(Character.HasDynasty,Or(Character.IsDeadAndValid,GetScriptedGui('gui_house_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))]"
-				##########changed by obfusCKate: End
+											##########changed by obfusCKate: Start
+											visible = "[And(Character.HasDynasty,Or(Character.IsDeadAndValid,ShowHouse))]"
+											##########changed by obfusCKate: End
 
 											coa_house_small = {
-											
 												datacontext = "[Character.GetHouse]"
 											}
 

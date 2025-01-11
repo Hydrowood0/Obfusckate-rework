@@ -195,6 +195,7 @@ types Filters {
 								blockoverride "editbox_properties"
 								{
 									name = "text_filter"
+									focus_on_visible = yes
 									ontextedited = "[CharacterSelectionList.SetPattern]"
 									oneditingfinished = "[CharacterSelectionList.FinishEdit]"
 								}
@@ -492,6 +493,7 @@ types Filters {
 														using = religion_tooltip
 													}
 												}
+
 												hbox = {
 													layoutpolicy_horizontal = expanding
 													margin = { 10 0 }

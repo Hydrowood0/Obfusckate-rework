@@ -499,13 +499,13 @@ window = {
 							layoutpolicy_horizontal = expanding
 
 							text_loyalty_label = {
-							#changed by obfusCKate: Start
+								#changed by obfusCKate: Start
 								visible = no
+								#changed by obfusCKate: End
 								blockoverride "breakdown_datacontext"
 								{
 									datacontext = "[DiarchyWindow.GetDisplayedDiarch]"
 								}
-							#changed by obfusCKate: End
 							}
 
 							expand = {}
@@ -617,8 +617,8 @@ window = {
 
 								icon = {
 									#changed by obfusCKate: Start
-								visible = no
-								#changed by obfusCKate: End
+									visible = no
+									#changed by obfusCKate: End
 									texture = "gfx/interface/icons/loyalty.dds"
 									size = { 30 30 }
 									framesize = { 60 60 }
@@ -637,8 +637,8 @@ window = {
 									layoutpolicy_vertical = expanding
 									margin = { 0 8 }
 									#changed by obfusCKate: Start
-								visible = no
-								#changed by obfusCKate: End
+									visible = no
+									#changed by obfusCKate: End
 									divider_light = {
 										layoutpolicy_vertical = expanding
 									}
@@ -911,9 +911,9 @@ types DiarchyWindowTypes {
 
 							vbox = {
 								text_aptitude_label = {
-								#changed by obfusCKate: Start
-								visible = no
-								#changed by obfusCKate: End
+									#changed by obfusCKate: Start
+									visible = no
+									#changed by obfusCKate: End
 									layoutpolicy_horizontal = expanding
 									text = "DIARCHY_WINDOW_DIARCH_APTITUDE_LIST"
 								}

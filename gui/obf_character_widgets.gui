@@ -1,0 +1,811 @@
+﻿types character_window{
+	type obf_vbox_prowess = vbox {
+		visible = "[ShowProwess]"
+		tooltip = "PROWESS_VALUES_CHARACTER_TOOLTIP"
+		using = tooltip_ne
+		spacing = -3
+
+		using = Animation_Character_Window_Refresh
+
+		icon = {
+			name = "prowess_icon"
+			size = { 32 32 }
+			texture = "gfx/interface/icons/icon_prowess.dds"
+		}
+
+		text_single = {
+			name = "prowess_value"
+			text = "PROWESS_VALUES_CHARACTER"
+			align = nobaseline
+		}
+	}
+
+	type obf_button_open_known_character_list = button_normal { ###Button for known characters List - OPTIONAL
+		name = "open_known_characters_list"
+		visible = "[And(Or(KnownListShortcutBottomDisabled,KnownListShortcutEnabled),Character.IsLocalPlayer)]"
+
+		size = { 30 30 }
+		datacontext = "[Character]"
+		tooltip = "SHORTCUT_KNOWN_CHARACTERS"
+		using = tooltip_ne
+
+		icon = {
+			texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+			size = { 100% 100% }
+		}
+
+		button_icon = {
+			modify_texture = {
+				color = { 0.1 0 0 0.5 }
+				blend_mode = normal
+			}
+			texture = "gfx/interface/icons/gw_effect_friendly_diplomacy.dds"
+			size = { 25 25 }
+			onclick = "[GetScriptedGui('obf_toggle_reset').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+			parentanchor = center
+		}
+	}
+
+	type obf_button_ask_military_advice = button_tertiary {
+		name = "ask_military_advice"
+		visible = "[And(Character.HasLandedTitles,And(AskAdvisorsInteractionValid,Not(ShowMilitaryStrength)))]"		
+		size = { 100 35 }
+		datacontext = "[Character]"
+		onclick = "[CharacterWindow.GetCharacter.OpenPlayerInteraction('ask_advisors_opinion_interaction')]"
+		text_single = {
+			parentanchor = center
+			text = "MILITARY_STRENGHT_OB"
+			tooltip = "ASK_MILITARY_ADVICE_OB_TT"
+		}
+		using = tooltip_sw
+	}
+
+	type obf_highlight_player_blinded = highlight_icon {
+		name = "blind_character"
+		visible = "[GetScriptedGui('gui_character_is_blind').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End )]"
+		visible_at_creation = no
+		size = { 205% 95% }
+		position = { 0 25 }
+		alpha = 0.92
+		effectname = "NoHighlight"
+		texture = "gfx/portraits/portrait_mask_event.dds"
+
+		modify_texture = {
+			name = "mask"
+			texture = "gfx/portraits/portrait_mask_character_view.dds"
+			spriteType = Corneredstretched
+			blend_mode = alphamultiply
+		}
+	}
+
+	type obf_unknown_portrait_male = portrait_button {
+		parentanchor = bottom|hcenter
+		size = { 80 100 }
+		using = portrait_base_unknown
+		visible = "[And(Not( Character.IsFemale ),Not(ShowPortrait))]"
+		block "portrait_texture"
+		{
+			portrait_texture = "gfx/portraits/obf_unknown_male.dds"
+			size = { 120% 95% }
+			alpha = 0.2
+		}
+
+		mask = "gfx/portraits/portrait_mask_event_letter.dds"
+		effectname = "NoHighlight"
+		block "portrait_button" {}
+	}
+	type obf_unknown_portrait_female = portrait_button {
+		parentanchor = bottom|hcenter
+		size = { 80 100 }
+		using = portrait_base_unknown
+		visible = "[And(Character.IsFemale,Not(ShowPortrait))]"
+		block "portrait_texture"
+		{
+			portrait_texture = "gfx/portraits/obf_unknown_female.dds"
+			size = { 120% 95% }
+			alpha = 0.2
+		}
+
+		mask = "gfx/portraits/portrait_mask_event_letter.dds"
+		effectname = "NoHighlight"
+		block "portrait_button" {}
+	}
+	type obf_unknown_portrait_male_scheme = obf_unknown_portrait_male {
+		blockoverride "portrait_texture" {
+			portrait_texture = "gfx/portraits/obf_unknown_male.dds"
+			size = { 90% 70% }
+			alpha = 0.3
+		}
+	}
+	type obf_unknown_portrait_female_scheme = obf_unknown_portrait_female {
+		blockoverride "portrait_texture" {
+			portrait_texture = "gfx/portraits/obf_unknown_female.dds"
+			size = { 90% 70% }
+			alpha = 0.3
+		}
+	}
+	# should be same with vanilla ones except visible and portrait_texture
+	type obf_unknown_portrait_regency = portrait_button {
+		position = { 0 4 }
+		block "portrait_size"
+		{
+			size = { 260 320 }
+		}
+		parentanchor = bottom|hcenter
+		using = portrait_base_unknown
+		visible = "[Not(ShowPortrait)]"
+		mask = "gfx/portraits/unknown_portraits/button_unknown_head.dds"
+		effectname = "NoHighlight"
+
+		block "mask" {
+			mask = "gfx/portraits/portrait_mask_council.dds"
+		}
+	}
+	type obf_unknown_portrait_event = portrait_button {
+		position = { 60 0 }
+		parentanchor = vcenter|hcenter
+		using = portrait_base_unknown
+
+		visible = "[Not(ShowPortrait)]"
+		gfxtype = framedbuttongfx
+		effectname = "NoHighlight"
+		texture = "gfx/portraits/unknown_portraits/unknown_council.dds"
+
+		framesize = { 500 800 }
+		alpha = 0.7
+		
+		modify_texture = {
+			name = "mask"
+			texture = "gfx/portraits/unknown_portraits/unknown_council.dds"
+			spriteType = Corneredstretched
+			blend_mode = overlay
+		}
+		block "portrait_button" {}
+	}
+	type obf_unknown_portrait_character_view_spouse = portrait_button {
+		size = { 350 338 }
+		position = { 0 50 }
+		parentanchor = bottom|hcenter
+		using = portrait_base_unknown
+
+		visible = "[Not(ShowPortrait)]"
+
+		effectname = "NoHighlight"
+	
+		highlight_icon = {
+			size = { 100% 100% }
+			position = { 0 20 }
+			texture = "gfx/portraits/unknown_portraits/unknown_council.dds"
+			alpha = 0.9
+		}
+		block "portrait_button" {}
+	}
+
+	type obf_unknown_portrait_body = portrait_button {
+		parentanchor = bottom|hcenter
+		size = { 240 320 }
+		using = portrait_base_unknown
+		visible = "[Not(ShowPortrait)]"
+		#gfxtype = framedbuttongfx
+		effectname = "NoHighlight"
+		texture = "gfx/portraits/unknown_portraits/unknown_council.dds"
+	
+		###changed by obfusCKate: Start
+		highlight_icon = {
+			name = "selected"
+			visible = "[Character.IsValid]"
+			visible_at_creation = no
+			size = { 85% 85% }
+			effectname = "NoHighlight"
+			texture = "gfx/portraits/unknown_portraits/unknown_spouse.dds"
+			framesize = { 550 780 }
+			position = {20 30}
+		}
+		###changed by obfusCKate: End
+		block "portrait_button" {}
+	}
+
+	type obf_unknown_portrait_torso = portrait_button {
+		parentanchor = bottom|hcenter
+		size = { 195 225 }
+		using = portrait_base_unknown
+		visible = "[Not(ShowPortrait)]"
+		effectname = "NoHighlight"
+		block "portrait_button" {}
+	}
+	type obf_unknown_portrait_shoulders = portrait_button {
+		parentanchor = bottom|hcenter
+		size = { 145 175 }
+		using = portrait_base_unknown
+		visible = "[Not(ShowPortrait)]"
+
+		#gfxtype = framedbuttongfx
+		effectname = "NoHighlight"
+		texture = "gfx/portraits/unknown_portraits/unknown_council.dds"
+
+		block "portrait_button" {}
+	}
+	type obf_unknown_portrait_character_view_main = portrait_button {
+		size = { 300 338 }
+		position = { -30 20 }
+		parentanchor = vcenter|hcenter
+		using = portrait_base_unknown
+		visible = "[Not(ShowPortrait)]"
+
+		effectname = "NoHighlight"
+	
+		highlight_icon = {
+			size = { 100% 100% }
+			position = { 0 0 }
+			texture = "gfx/portraits/unknown_portraits/unknown_spouse.dds"
+			framesize = { 554 780 }
+			alpha = 0.9
+		}
+
+		obf_highlight_player_blinded = {
+			position = { 10 -22 }
+		}
+
+		block "portrait_button" {}
+	}
+
+	type obf_sort_buttons = hbox {
+		visible = "[Not(DropdownsEnabled)]"
+		block "margins" {
+			margin_left = 20
+			margin_right = 30
+			margin_top = 5
+			spacing = 5
+		}
+		###Relevance disabled - would filter by trait
+		#text_single = {
+		#	raw_text = "Relevance"
+		#	default_format = "#E;L"
+		#	align = nobaseline
+		#}
+		#button_standard = {
+		#	name = "sort_order_relevance"
+		#	size = { 25 25 }
+		#	onclick = "[CharacterSelectionList.SortBySkill('(int32)13')]"
+		#	tooltip = "CHARACTER_SORT_BY"
+		#	using = tooltip_nw
+		#
+		#	button_icon = {
+		#		alwaystransparent = yes
+		#		parentanchor = center
+		#		size = { 25 25 }
+		#		texture = "gfx/interface/icons/flat_icons/sort_icon.dds"
+		#		framesize = { 66 66 }
+		#
+		#		frame = "[BoolTo1And2(CharacterSelectionList.GetSortOrder)]"
+		#
+		#		blockoverride "button_frames"
+		#		{
+		#			effectname = "NoHighlight"
+		#		}
+		#	}
+		#}
+
+		text_single = {
+			text = "CHARACTER_SORT_AGE"
+			default_format = "#E;L"
+			align = nobaseline
+		}
+		button_standard = {
+			name = "sort_order_age"
+			size = { 25 25 }
+			onclick = "[CharacterSelectionList.SortBySkill('(int32)6')]"
+
+			tooltip = "CHARACTER_SORT_BY"
+			using = tooltip_nw
+
+			button_icon = {
+				alwaystransparent = yes
+				parentanchor = center
+				size = { 25 25 }
+				texture = "gfx/interface/icons/flat_icons/sort_icon.dds"
+				framesize = { 66 66 }
+
+				frame = "[BoolTo1And2(CharacterSelectionList.GetSortOrder)]"
+
+				blockoverride "button_frames"
+				{
+					effectname = "NoHighlight"
+				}
+			}
+		}
+
+		text_single = {
+			text = "SORT_RANK"
+			default_format = "#E;L"
+			align = nobaseline
+		}
+		button_standard = {
+			name = "sort_order_rank"
+			size = { 25 25 }
+			onclick = "[CharacterSelectionList.SortBySkill('(int32)7')]"
+
+			tooltip = "CHARACTER_SORT_BY"
+			using = tooltip_nw
+
+			button_icon = {
+				alwaystransparent = yes
+				parentanchor = center
+				size = { 25 25 }
+				texture = "gfx/interface/icons/flat_icons/sort_icon.dds"
+				framesize = { 66 66 }
+
+				frame = "[BoolTo1And2(CharacterSelectionList.GetSortOrder)]"
+
+				blockoverride "button_frames"
+				{
+					effectname = "NoHighlight"
+				}
+			}
+		}
+	}
+
+	type obf_button_put_under_surveilance = button_round {
+		name = "put_under_surveilance"				
+		size = { 35 35 }
+		datacontext = "[Character]"
+		#onclick = "[GetScriptedGui('put_under_surveilance').Execute( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
+		tooltip = "INCREASE_SURVEILLANCE_OF_CHARACTER_TT"
+		using = tooltip_es
+		
+		icon = {
+			texture = "gfx/interface/icons/scheme_types/debug_secret.dds"
+			size = { 25 25 }
+			parentanchor = center
+		}
+	}
+	type obf_character_age_acquaintance = text_single {
+		visible = "[And(Or(PlayerKnowCharacterPortrait,ShowApproxAge),Not(ShowExactAge))]"
+		name = "character_age_acquaintance"
+		text = "CHARACTER_AGE_ACQUAINTANCE"
+		default_format = "#low"
+		tooltip = "BIRTHDAY_ACQUAINTANCE"
+		fontsize = 17
+		align = nobaseline
+	}
+	type obf_rumours_interaction_icon = icon{
+		name = "rumours"
+		visible = "[RumoursInteractionShown]"
+		size = { 14 14 }
+		texture = "gfx/interface/icons/icon_group_of_characters.dds"
+		tooltip = "RUMOUR_TT"
+	}
+	type obf_rumours_icon = icon {
+		visible = "[GetScriptedGui('gui_rumours_icon_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+		size = { 20 20 }
+		texture = "gfx/interface/icons/icon_group_of_characters.dds"
+		tooltip = "RUMOUR_TT"
+	}
+
+	####Gender for when the portrait is not visible
+	type obf_gender_portrait_unknown = container {
+		visible = "[Not(PlayerKnowCharacterPortrait)]"
+		icon = {
+			visible = "[Not(Character.IsFemale)]"
+			size = { 20 20 }
+			texture = "gfx/interface/icons/sex_icon_male.dds"
+			tooltip = "SEXUALITY_TT"
+		}
+
+		icon = {
+			visible = "[Character.IsFemale]"
+			size = { 20 20 }
+			texture = "gfx/interface/icons/sex_icon_female.dds"
+			tooltip = "SEXUALITY_TT"
+		}
+	}
+
+	# county window
+	type obf_fort_icon = icon {
+		name = "icon_fort"
+		visible = "[Not(Or(SpyNetworkHigh,ShowHoldingStats))]"
+		texture = "gfx/interface/window_siege/fort_icon.dds"
+		size = { 30 25 }
+	}
+	type obf_county_intel_level = text_single {
+		visible = "[Not(Or(IsLandlessAdventurer( GetPlayer ),Or(Character.IsLocalPlayer,Character.IsOtherLiegeOrAbove( GetPlayer ))))]"
+		text = "COUNTY_INTEL_LEVEL"
+		tooltip = "COUNTY_INTEL_LEVEL_TT"
+		default_format = "#high"
+	}
+	# council
+	type obf_hbox_spy_network_manage = container {
+		progressbar = {
+			visible = "[And(Not(LessThanOrEqualTo_CFixedPoint( GetPlayer.MakeScope.Var('spy_network').GetValue, '(CFixedPoint)0' )),And(Or(GetScriptedGui('stop_spy_network').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),GetScriptedGui('start_spy_network').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End )),And(ActiveCouncilTask.HasCouncillor, Not(CouncilWindow.IsLiegeCouncilShown))))]"
+			tooltip = "NETWORK_COVERAGE_TT"
+			using = tooltip_nw
+
+			position = {205 145}
+			size = { 50 15 }
+			value = "[GetPlayer.MakeScope.Var('spy_network').GetValue]"
+			min = 0
+			max = 200
+			progresstexture = "gfx/interface/progressbars/war_progress_blue.dds"
+			noprogresstexture = "gfx/interface/progressbars/war_progress_noprogress.dds"
+		}
+
+		button_tertiary = {
+			name = "High_Budget"
+			size = { 55 25 }
+			datacontext = "[Character]"
+			visible = "[And(GetScriptedGui('spy_network_budget_max').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(ActiveCouncilTask.HasCouncillor, Not(CouncilWindow.IsLiegeCouncilShown)))]"
+			onclick = "[GetScriptedGui('spy_network_budget_max').Execute( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
+			text = "MAX_BUDGET"
+			tooltip = "MAX_BUDGET_TT"
+			using = tooltip_ws
+			position = {200 55}
+			modify_texture = {
+				visible = "[GetScriptedGui('highlight_budget_max').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
+				name = "glow_high"
+				color = { 0.0 0.5 0.0 1 }
+				alpha = 0.5
+			}
+		}
+
+		button_tertiary = {
+			name = "medium_Budget"
+			size = { 55 25 }
+			datacontext = "[Character]"
+			visible = "[And(GetScriptedGui('spy_network_budget_med').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(ActiveCouncilTask.HasCouncillor, Not(CouncilWindow.IsLiegeCouncilShown)))]"
+			onclick = "[GetScriptedGui('spy_network_budget_med').Execute( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
+			text = "MEDIUM_BUDGET"
+			tooltip = "MEDIUM_BUDGET_TT"
+			using = tooltip_ws
+			position = {200 75}
+			modify_texture = {
+				visible = "[GetScriptedGui('highlight_budget_med').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
+				name = "glow_med"
+				color = { 0.0 0.0 0.7 1 }
+				alpha = 0.5
+			}
+		}
+
+		button_tertiary = {
+			name = "low_Budget"
+			size = { 55 25 }
+			datacontext = "[Character]"
+			visible = "[And(GetScriptedGui('spy_network_budget_min').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(ActiveCouncilTask.HasCouncillor, Not(CouncilWindow.IsLiegeCouncilShown)))]"
+			onclick = "[GetScriptedGui('spy_network_budget_min').Execute( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
+			text = "LOW_BUDGET"
+			tooltip = "LOW_BUDGET_TT"
+			using = tooltip_ws
+			position = {200 95}
+			modify_texture = {
+				visible = "[GetScriptedGui('highlight_budget_min').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
+				name = "glow_low"
+				color = { 0.5 0.5 0 0 }
+				alpha = 0.5
+			}
+		}
+		button_tertiary = {
+			name = "no_Budget"
+			size = { 55 25 }
+			datacontext = "[Character]"
+			visible = "[And(GetScriptedGui('spy_network_budget_none').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(ActiveCouncilTask.HasCouncillor, Not(CouncilWindow.IsLiegeCouncilShown)))]"
+			onclick = "[GetScriptedGui('spy_network_budget_none').Execute( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
+			text = "NO_BUDGET"
+			tooltip = "NO_BUDGET_TT"
+			using = tooltip_ws
+			position = {200 115}
+			modify_texture = {
+				visible = "[GetScriptedGui('highlight_budget_none').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
+				name = "glow_none"
+				color = { 0.8 0.0 0.0 0.0 }
+				alpha = 0.5
+			}
+		}
+
+		button_round = {
+			name = "start_network"
+			size = { 40 40 }
+			datacontext = "[Character]"
+			visible = "[And(GetScriptedGui('start_spy_network').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(ActiveCouncilTask.HasCouncillor, Not(CouncilWindow.IsLiegeCouncilShown)))]"
+			onclick = "[GetScriptedGui('start_spy_network').Execute( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
+			tooltip = "PAUSE_NETWORK_GROWTH_TT"
+			using = tooltip_nw
+			parentanchor = hcenter|vcenter
+			position = {45 0}
+			color = { 0.0 0.9 0.0 1 }
+			state = {
+				name = _mouse_enter
+				alpha = 1
+				duration = 0.1
+				using = Animation_Curve_Default
+			}
+
+			state = {
+				name = _mouse_leave
+				alpha = 0.5
+				duration = 0.1
+				using = Animation_Curve_Default
+			}
+
+
+			icon = {
+				texture = "gfx/interface/music_player/button_play_s1.dds"
+				size = { 36 36 }
+				parentanchor = center
+				modify_texture = {
+					name = "disabled"
+					visible = "[Not(GetScriptedGui('start_spy_network').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).End ))]"
+					color = { 0.4 0.0 0.0 1 }
+					blend_mode = overlay
+				}
+			}
+			modify_texture = {
+				name = "disabled_outline"
+				visible = "[Not(GetScriptedGui('start_spy_network').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).End ))]"
+				color = { 1 0.0 0.0 0.2 }
+				blend_mode = multiply
+			}
+			modify_texture = {
+				name = "enabled_outline"
+				visible = "[GetScriptedGui('start_spy_network').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
+				color = { 0.5 0.8 0.5 1 }
+				blend_mode = normal
+			}
+		}
+		button_round = {
+			name = "stop_network"
+			size = { 40 40 }
+			datacontext = "[Character]"
+			visible = "[And(GetScriptedGui('stop_spy_network').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(GetScriptedGui('stop_spy_network').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(ActiveCouncilTask.HasCouncillor, Not(CouncilWindow.IsLiegeCouncilShown))))]"
+			onclick = "[GetScriptedGui('stop_spy_network').Execute( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
+			tooltip = "PROMOTE_NETWORK_GROWTH_TT"
+			using = tooltip_nw
+			parentanchor = hcenter|vcenter
+			position = {45 0}
+			color = { 0.8 0.0 0.0 1 }
+			icon = {
+				texture = "gfx/interface/icons/scheme_countermeasure_types/strengthen_sentries_t1.dds"
+				size = { 45 45 }
+				parentanchor = center
+				alpha = 0.8
+
+				modify_texture = {
+					name = "glow"
+					texture = "gfx/interface/component_effects/effect_shimmer.dds"
+
+					translate_uv = { 0.2 0.2 }
+				}
+
+				#### Shimmer ####
+				state = {
+					trigger_when = "[GetScriptedGui('stop_spy_network').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
+					name = _show
+					next = shimmer
+					duration = 0.2
+					scale = 0.9
+
+					modify_texture = {
+						name = "glow"
+						translate_uv = { 1 -1 }
+					}
+				}
+
+				state = {
+					name = shimmer
+					next = pause
+					duration = 1.5
+					scale = 0.9
+					position = { 0 0 }
+
+					bezier = { 0 0.9 1 0.4 }
+
+					modify_texture = {
+						name = "glow"
+						translate_uv = { -1 1 }
+					}
+				}
+
+				state = {
+					name = pause
+					next = shimmer
+					duration = 0
+					delay = 0
+
+					modify_texture = {
+						name = "glow"
+						translate_uv = { 1 -1 }
+					}
+				}
+			}
+		}
+	}
+
+	type obf_portrait_opinion_to_liege = portrait_opinion {
+		visible = "[And(Or(ShowOpinionAboutLiege, ObjectsEqual(GetPlayer, Character.GetLiege)), And( And(Character.IsValid, Character.GetLiege.IsValid), Not(Character.IsLocalPlayer) ) )]"
+
+		blockoverride "dread_logic" { 
+			visible = "[And(Character.ShouldShowDreadEffectIconFor( Character.GetLiege ), ShowDreadForLiege)]"
+			frame = "[Character.GetDreadEffectIconFrameFor( Character.GetLiege )]"
+			tooltip = "[Character.GetDreadEffectTooltipFor( Character.GetLiege )]"
+		}
+
+		blockoverride "opinion_text"
+		{
+			text = "[OpinionText( Character.GetLiege )]"
+			fonttintcolor = "[Character.GetOpinionOfTint( Character.GetLiege )]"
+		}
+
+		blockoverride "ott_heading_text"
+		{
+			visible = "[Or(ShowOpinionAboutLiege, ObjectsEqual(GetPlayer, Character.GetLiege))]"
+			text = "[Character.GetOpinionHeadingText( Character.GetLiege )]"
+		}
+
+		blockoverride "ott_opinion_value_text"
+		{
+			text = "[OpinionText( Character.GetLiege )]"
+			fonttintcolor = "[Character.GetOpinionOfTint( Character.GetLiege )]"
+		}
+
+		blockoverride "ott_opinion_breakdown_text"
+		{
+			visible = "[And(ShowOpinionBreakdown, ObjectsEqual(GetPlayer, Character.GetLiege))]"
+			text = "[Character.GetOpinionBreakdownText( Character.GetLiege )|=]"
+		}
+	}
+}
+
+template obf_skill_text {
+	text = "[AddLocalizationIf(EqualTo_int32(SkillItem.GetFrame,'(int32)1'), Character.Custom2('diplomacy_skill_value_text_reverse', GetPlayer))][AddLocalizationIf(EqualTo_int32(SkillItem.GetFrame,'(int32)2'), Character.Custom2('martial_skill_value_text_reverse', GetPlayer))][AddLocalizationIf(EqualTo_int32(SkillItem.GetFrame,'(int32)3'), Character.Custom2('stewardship_skill_value_text_reverse', GetPlayer))][AddLocalizationIf(EqualTo_int32(SkillItem.GetFrame,'(int32)4'), Character.Custom2('intrigue_skill_value_text_reverse', GetPlayer))][AddLocalizationIf(EqualTo_int32(SkillItem.GetFrame,'(int32)5'), Character.Custom2('learning_skill_value_text_reverse', GetPlayer))]"
+}
+
+template obf_skill_tooltip {
+	tooltip = "[SelectLocalization(Character.IsLocalPlayer, Concatenate(SkillItem.GetSkillBreakdownTooltip, Concatenate(Localize('SkillEffectBreak'), SkillItem.GetSkillEffects)), SelectLocalization(GetScriptedGui('gui_skills_are_not_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ) ,'SKILL_ITEM_TOOLTIP_NO_RE_NO_SEC', SelectLocalization(GetScriptedGui('gui_skills_are_roughly_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ), 'SKILL_ITEM_TOOLTIP_NO_RE', 'SKILL_ITEM_TOOLTIP_OB')))]"
+}
+
+template obf_gold_template {
+	visible = "[Or(ShowGoldExact,ShowGoldRough)]"
+	tooltip = "[SelectLocalization(ShowGoldExact,'CHARACTER_GOLD_TOOLTIP', SelectLocalization(ShowGoldRough,'OBF_GOLD_TOOLTIP', ''))]"
+}
+template obf_gold_text_template {
+	text = "[SelectLocalization(ShowGoldExact,'CHARACTER_GOLD', SelectLocalization(ShowGoldRough,'OBF_GOLD_CHARACTER', ''))]"
+}
+
+template obf_prestige_template {
+	visible = "[GetScriptedGui('gui_piety_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+	tooltip = "OBF_PIETY_LEVEL_TOOLTIP"
+}
+template obf_prestige_text_template {
+	text = "OBF_PIETY_LEVEL_CHARACTER"
+}
+
+template obf_piety_template {
+	visible = "[GetScriptedGui('gui_prestige_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+	tooltip = "OBF_PRESTIGE_LEVEL_TOOLTIP"
+}
+template obf_piety_text_template {
+	text = "OBF_PRESTIGE_LEVEL_CHARACTER"
+}
+
+template obf_dread_template {
+	tooltip = "[SelectLocalization(ObfIsLocalPlayer, Character.GetDreadBreakdown, SelectLocalization(GetScriptedGui('gui_dread_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ), 'OBF_DREAD_TOOLTIP', ''))]"
+}
+template obf_dread_text_template {
+	text = "[SelectLocalization(ObfIsLocalPlayer, 'CharacterDread', SelectLocalization(GetScriptedGui('gui_dread_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ), 'OBF_DREAD_CHARACTER', ''))]"
+}
+
+
+template portrait_base_unknown {
+	block "grayscale" {
+		grayscale = "[Not(Character.IsAlive)]"
+	}
+
+	gfxtype = portraitbuttongfx
+	shaderfile = "gfx/FX/jomini/gui_portrait.shader"
+
+	intersectionmask = no
+
+	texture = "gfx/portraits/portrait_transparent.dds"
+
+	clicksound = "event:/SFX/UI/Character/sfx_ui_character_portrait_select"
+	oversound = "event:/SFX/UI/Character/sfx_ui_character_portrait_pointer_over"
+
+	block "portrait_button_template_onmouseenter"
+	{
+		state = {
+			name = _mouse_enter
+			on_start = "[Character.OnMouseEnter]"
+		}
+	}
+	block "portrait_button_template_onmouseleave"
+	{
+		state = {
+			name = _mouse_leave
+			on_start = "[Character.OnMouseLeave]"
+		}
+	}
+
+	block "portrait_button_template_onclick"
+	{
+		onclick = "[DefaultOnCharacterClick(Character.GetID)]"
+	}
+
+	block "portrait_button_template_onrightclick"
+	{
+		onrightclick = "[DefaultOnCharacterRightClick(Character.GetID)]"
+		button_ignore = none
+	}
+
+	filter_mouse = right
+
+	block "portrait_button_template_tooltip"
+	{
+		tooltip_visible = "[Not(IsInteractionMenuOpenForCharacter(Character.GetID))]"
+
+		tooltipwidget = {
+			cooltip_type = {
+				blockoverride "interaction_info" {
+					text = "CHARACTER_TOOLTIP_INSTRUCTION"
+				}
+			}
+		}
+	}
+
+	using = tooltip_es
+	tooltip_offset = { 0 0 }
+	tooltip_verticalbehavior = slide
+	tooltip_horizontalbehavior = mirror
+}
+
+template obf_portrait_character_view_main_template {
+	visible = "[Or(And(PlayerKnowCharacterPortrait, PortraitsDisabled), And(ExpressionsDisabled, PortraitsEnabled))]"
+	obf_highlight_player_blinded = {
+		visible = "[And(And(PlayerKnowCharacterPortrait, PortraitsDisabled), GetScriptedGui('gui_character_is_blind').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End ))]"
+	}
+}
+
+template obf_court_tab_count {
+	visible = "[Or(ShowEstimateTabCount, ObfIsLocalPlayer)]"
+	tooltip = "[AddLocalizationIf(Not(ObfIsLocalPlayer), 'COURTIERS_COUNT_TT_OB')]"
+	text = "[SelectLocalization(ObfIsLocalPlayer,'CHARACTER_WINDOW_COURT_TAB_COUNT', SelectLocalization(ShowEstimateTabCount, SelectLocalization( LessThanOrEqualTo_int32( CharacterWindow.GetTabItemsCount('court'), '(int32)5' ), 'FEW_COURTIERS_OB',SelectLocalization(LessThanOrEqualTo_int32( CharacterWindow.GetTabItemsCount('court'), '(int32)15' ),'SOME_COURTIERS_OB', 'MANY_COURTIERS_OB')),''))]"
+	fontsize_min = 14
+}
+
+template obf_vassal_tab_count {
+	visible = "[Or(ShowEstimateTabCount, ShowTabCount)]"
+	tooltip = "[AddLocalizationIf(Not(ShowTabCount), 'VASSALS_COUNT_TT_OB')]"
+	text = "[SelectLocalization(ShowTabCount,'CHARACTER_WINDOW_VASSAL_TAB_COUNT', SelectLocalization(ShowEstimateTabCount, SelectLocalization( LessThanOrEqualTo_int32( CharacterWindow.GetTabItemsCount('vassal'), '(int32)10' ), 'FEW_VASSALS_OB',SelectLocalization(LessThanOrEqualTo_int32( CharacterWindow.GetTabItemsCount('vassal'), '(int32)20' ),'SOME_VASSALS_OB', 'MANY_VASSALS_OB')),''))]"
+	fontsize_min = 14
+}
+
+template obf_personality_template {
+	visible = "[Or(Or(Character.IsLocalPlayer, PersonalityImpression), Or(PersonalityBasic, PersonalityKnown))]"
+	text = "[SelectLocalization(Character.IsLocalPlayer, 'PLAYER_PERSONALITY_TEXT', SelectLocalization(PersonalityKnown,'CHARACTER_PERSONALITY_TEXT',SelectLocalization(PersonalityBasic,'OBF_PERSONALITY','OBF_FIRST_IMPRESSION')))]"
+	tooltip = "[SelectLocalization(Character.IsLocalPlayer, 'PLAYER_PERSONALITY_TT_OBF',SelectLocalization(PersonalityKnown,'AI_PERSONALITY_TT',SelectLocalization(PersonalityBasic,'OBF_PERSONALITY_TOOLTIP','OBF_FIRST_IMPRESSION_TOOLTIP')))]"
+}
+
+template obf_Visible_Spy_Low_Holding {
+	visible = "[Or(SpyNetworkLow,ShowHoldingStats)]"
+}
+template obf_Visible_Spy_Medium_Holding {
+	visible = "[Or(SpyNetworkMedium,ShowHoldingStats)]"
+}
+template obf_Visible_Spy_High_Holding {
+	visible = "[Or(SpyNetworkHigh,ShowHoldingStats)]"
+}
+template obf_Visible_Spy_High_With_Holding {
+	visible = "[And(Or(SpyNetworkHigh,ShowHoldingStats), HoldingView.HasHolding)]"
+}
+template obf_Visible_Spy_Medium_With_Holding {
+	visible = "[And(Or(SpyNetworkMedium,ShowHoldingStats), HoldingView.HasHolding)]"
+}
+template obf_Visible_Spy_Low_With_Holding {
+	visible = "[And(Or(SpyNetworkLow,ShowHoldingStats), HoldingView.HasHolding)]"
+}
+template obf_knight_prowess {
+	visible = "[ShowProwess]"
+	text = "PROWESS_VALUES_KNIGHTS"
+}
+# for other mod overriding sth when obf loaded
+template obf_empty_template_1 {}
+template obf_empty_template_2 {}
+template obf_empty_template_3 {}
+template obf_empty_template_4 {}

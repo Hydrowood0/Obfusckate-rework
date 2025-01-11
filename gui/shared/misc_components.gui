@@ -73,7 +73,7 @@ types Miscelaneous
 		{
 			#Changed by ObfusCKate: Start
 			tooltip = "SKILL_ITEM_TOOLTIP_ME"
-		#Changed by ObfusCKate: End
+			#Changed by ObfusCKate: End
 		}
 
 		icon = {
@@ -197,15 +197,13 @@ types Miscelaneous
 
 					#changed by obfusCKate: Start
 					hbox = {
-						visible = "[GetScriptedGui('gui_military_strength_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+						visible = "[ShowMilitaryStrength]"
 						tooltip = "[GuiMilitaryStrength.GetRatioDescription]"
-					
 							#changed by obfusCKate: Start
 							icon = {
-									name = "icon_combat_strength"
-									size = { 20 20 }
-									texture = "gfx/interface/icons/icon_soldier.dds"
-							
+								name = "icon_combat_strength"
+								size = { 20 20 }
+								texture = "gfx/interface/icons/icon_soldier.dds"
 							}
 							text_single = {
 							margin = {10 2}
@@ -236,7 +234,7 @@ types Miscelaneous
 		}
 	}
 
-	### Brief: hbox_expandable_toggle_field
+	### Brief: button_expandable_toggle_field
 	# Creates a field that governs the state of a collapsible widget.
 	#
 	# Use in a widget that a PdxGuiFoldOut set, by BindFoldOutContext or the Create_Resetting_Fold_Out template
@@ -257,12 +255,10 @@ types Miscelaneous
 	#
 	type button_expandable_toggle_field = button_tertiary {
 		layoutpolicy_horizontal = expanding
-				   
 
 		block "onclick"
 		{
 			onclick = "[PdxGuiFoldOut.Toggle]"
-			  
 		}
 
 		hbox = {
@@ -272,7 +268,6 @@ types Miscelaneous
 
 			button_expand_fold_out = {
 				block "foldout_button" {}
-									  
 			}
 
 			text_single = {
@@ -280,15 +275,7 @@ types Miscelaneous
 				align = nobaseline
 				alwaystransparent = yes
 
-							   
-
-				   
-										
-					   
-							
-
 				block "text" {}
-	 
 			}
 		}
 	}

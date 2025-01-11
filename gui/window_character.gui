@@ -273,221 +273,45 @@ window = {
 					}
 
 
+					################changed by obfusCKate: Start (some conflits if left visible)
+					obf_portrait_opinion_to_liege = {
+						datacontext = "[CharacterWindow.GetCharacter]"
+					}
 					portrait_opinion = {
 						name = "liege_opinion" 
 
 						datacontext = "[CharacterWindow.GetCharacter]"
-						visible = "[And( Character.GetLiege.IsValid, And( Character.IsAlive, Not(Character.IsLocalPlayer ) ) )]"
+						visible = "[And(Not(ObfLoaded), And( Character.GetLiege.IsValid, And( Character.IsAlive, Not(Character.IsLocalPlayer ) ) ) )]"
+						############changed by obfusCKate: End (some conflits if left visible)
 
-						blockoverride "dread_logic" { 
-							############changed by obfusCKate: Start
-						visible = "[And(Character.ShouldShowDreadEffectIconFor( Character.GetLiege ), GetScriptedGui('gui_show_dread_icon_for_liege_or_host').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-					###########changed by obfusCKate: End
+						blockoverride "dread_logic" {
+							visible = "[Character.ShouldShowDreadEffectIconFor( Character.GetLiege )]"
 							frame = "[Character.GetDreadEffectIconFrameFor( Character.GetLiege )]"
 							tooltip = "[Character.GetDreadEffectTooltipFor( Character.GetLiege )]"
 						}
 
 						blockoverride "opinion_text"
-					{
-					#########changed by obfusCKate: Start
-					margin = {22 0}
-					raw_text = "       "
-
-					visible = "[GetScriptedGui('gui_show_opinion_about_liege').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-
-						text_single = {
-			name = "Excellent"
-			visible = "[GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)86')]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_EXCELLENT"
-			fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCharacter.GetLiege )]"
-			default_format = "#true_white"
-
-			margin = {1 -3}
-
-			}
-			text_single = {
-			name = "great"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)85'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)60'))]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_VERY_GOOD"
-			fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCharacter.GetLiege )]"
-			default_format = "#true_white"
-
-			margin = {1 -3}
-			}
-			text_single = {
-			name = "good"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)59'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)30'))]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_GOOD"
-			fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCharacter.GetLiege )]"
-			default_format = "#true_white"
-
-			margin = {10 -3}
-			}
-			text_single = {
-			name = "decent"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)29'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)10'))]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_DECENT"
-			fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCharacter.GetLiege )]"
-			default_format = "#true_white"
-
-			margin = {5 -3}
-			}
-			text_single = {
-			name = "Neutral"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)9'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)-9'))]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_NEUTRAL"
-			default_format = "#Y"
-
-			margin = {5 -3}
-			}
-			text_single = {
-			name = "poor"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)-10'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)-29'))]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_POOR"
-			fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCharacter.GetLiege )]"
-			default_format = "#true_white"
-
-			margin = {12 -3}
-			}
-			text_single = {
-			name = "awful"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)-30'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)-59'))]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_AWFUL"
-			fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCharacter.GetLiege )]"
-			default_format = "#true_white"
-
-			margin = {10 -3}
-			}
-			text_single = {
-			name = "terrible"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)-60'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)-85'))]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_TERRIBLE"
-			fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCharacter.GetLiege )]"
-			default_format = "#true_white"
-
-			margin = {1 -3}
-			}
-			text_single = {
-			name = "abysmal"
-			visible = "[LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)-86')]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_ABYSMAL"
-			fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCharacter.GetLiege )]"
-			default_format = "#true_white"
-
-			margin = {1 -3}
-			}
-			##########changed by obfusCKate: End
-					} 
+						{
+							text = "[Character.GetOpinionOf( Character.GetLiege )|=]"
+							fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCharacter.GetLiege )]"
+						}
 
 						blockoverride "ott_heading_text"
-					{
-					############changed by obfusCKate: Start
-					visible = "[GetScriptedGui('gui_show_opinion_about_liege').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-					##########changed by obfusCKate: End
-						text = "[Character.GetOpinionHeadingText( CharacterWindow.GetCharacter.GetLiege )]"
-					}
+						{
+							text = "[Character.GetOpinionHeadingText( CharacterWindow.GetCharacter.GetLiege )]"
+						}
 
 						blockoverride "ott_opinion_value_text"
-					{
-					#changed by obfusCKate: Start
-					visible = "[GetScriptedGui('gui_show_opinion_about_liege').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+						{
+							text = "[Character.GetOpinionOf( Character.GetLiege )|=]"
+							fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCharacter.GetLiege )]"
+						}
 
-						raw_text = " "
-						margin = {35 0}
-						max_width = 150
-
-					text_single = {
-			name = "Excellent"
-			visible = "[GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)86')]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_EXCELLENT"
-			fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCharacter.GetLiege )]"
-			default_format = "#true_white"
-			using = Font_Size_Medium
-			margin = {6 -2}
-
-			}
-			text_single = {
-			name = "vgood"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)85'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)60'))]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_VERY_GOOD"
-			fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCharacter.GetLiege )]"
-			default_format = "#true_white"
-			using = Font_Size_Medium
-			margin = {-1 -2}
-			}
-			text_single = {
-			name = "good"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)59'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)30'))]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_GOOD"
-			fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCharacter.GetLiege )]"
-			default_format = "#true_white"
-			using = Font_Size_Medium
-			margin = {16 -2}
-			} 
-			text_single = {
-			name = "decent"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)29'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)10'))]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_DECENT"
-			fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCharacter.GetLiege )]"
-			default_format = "#true_white"
-			using = Font_Size_Medium
-			margin = {10 -2}
-			}
-			text_single = {
-			name = "Neutral"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)9'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)-9'))]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_NEUTRAL"
-			default_format = "#Y"
-			using = Font_Size_Medium
-			margin = {7 -2}
-			}
-			text_single = {
-			name = "poor"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)-10'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)-29'))]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_POOR"
-			fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCharacter.GetLiege )]"
-			default_format = "#true_white"
-			using = Font_Size_Medium
-			margin = {20 -2}
-			}
-			text_single = {
-			name = "awful"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)-30'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)-59'))]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_AWFUL"
-			fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCharacter.GetLiege )]"
-			default_format = "#true_white"
-			using = Font_Size_Medium
-			margin = {15 -2}
-			}
-			text_single = {
-			name = "terrible"
-			visible = "[And(LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)-60'),GreaterThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ), '(int32)-85'))]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_TERRIBLE"
-			fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCharacter.GetLiege )]"
-			default_format = "#true_white"
-			using = Font_Size_Medium
-			margin = {9 -2}
-			}
-			text_single = {
-			name = "abysmal"
-			visible = "[LessThanOrEqualTo_int32(Character.GetOpinionOf( Character.GetLiege ),'(int32)-86')]"
-			text = "CHARACTER_WINDOW_OPINION_OF_LIEGE_HEADING_ABYSMAL"
-			fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCharacter.GetLiege )]"
-			default_format = "#true_white"
-			using = Font_Size_Medium
-			margin = {5 -2}
-			}
-			###########changed by obfusCKate: End
+						blockoverride "ott_opinion_breakdown_text"
+						{
+							text = "[Character.GetOpinionBreakdownText( CharacterWindow.GetCharacter.GetLiege )]"
+						}
 					}
-
-					blockoverride "ott_opinion_breakdown_text"
-					{
-					#changed by obfusCKate: start
-					visible = no
-					#############changed by obfusCKate: end
-						text = "[Character.GetOpinionBreakdownText( CharacterWindow.GetCharacter.GetLiege )]"
-					}
-				}
 					expand = {}
 				}
 			}
@@ -517,12 +341,18 @@ window = {
 					text = "[host|E]"
 				}
 
+				################changed by obfusCKate: Start (some conflits if left visible)
+				obf_portrait_opinion_to_liege = {
+					parentanchor = top|hcenter
+					position = { -10 110 }
+				}
+				############changed by obfusCKate: End (some conflits if left visible)
 
 				portrait_opinion = {
 					name = "liege_opinion"
 					datacontext = "[CharacterWindow.GetCharacter]"
 					################changed by obfusCKate: Start (some conflits if left visible)
-					visible = no
+					visible = "[Not(ObfLoaded)]"
 					############changed by obfusCKate: End (some conflits if left visible)
 					parentanchor = top|hcenter
 					position = { -10 110 }
@@ -677,7 +507,6 @@ window = {
 				}
 			}
 			
-
 			flowcontainer = {
 				parentanchor = bottom|left
 				position = { 5 -5 }
@@ -686,21 +515,8 @@ window = {
 				direction = vertical
 				
 				#changed by obfusCKate: Start ### Surveilance button - Was not used
-				#button_round = {
-				#	name = "put_under_surveilance"				
-				#	size = { 35 35 }
-				#	datacontext = "[Character]"
-				#	onclick = "[GetScriptedGui('put_under_surveilance').Execute( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
-				#	tooltip = "INCREASE_SURVEILLANCE_OF_CHARACTER_TT"
-				#	using = tooltip_es
-				#	
-				#icon = {
-				#		texture = "gfx/interface/icons/scheme_types/debug_secret.dds"
-				#		size = { 25 25 }
-				#		parentanchor = center
-				#	}
-				#}
-			#changed by obfusCKate: End
+				#obf_button_put_under_surveilance = {}
+				#changed by obfusCKate: End
 
 				container = {
 					visible = "[Character.IsLocalPlayer]"
@@ -796,8 +612,8 @@ window = {
 
 				container = {
 					#########changed by obfusCKate:Start
-					visible = "[And(GreaterThan_int32(GetDataModelSize(Character.GetKnownLanguages), '(int32)1'),GetScriptedGui('gui_show_known_languages').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-				#########changed by obfusCKate:End
+					visible = "[And(GreaterThan_int32(GetDataModelSize(Character.GetKnownLanguages), '(int32)1'),ShowKnownLanguages)]"
+					#########changed by obfusCKate:End
 					parentanchor = hcenter
 					tooltip = "KNOWN_LANGUAGES_TOOLTIP"
 					widget = {
@@ -821,8 +637,7 @@ window = {
 				button_normal = {
 					name = "open_barbershop"
 					#changed by obfusCKate: Start
-						visible = "[And(Character.CanCustomizePortrait,Or(PortraitsEnabled,And(PortraitsDisabled,GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))))]"
-						
+					visible = "[And(Character.CanCustomizePortrait,ShowPortrait)]"	
 					#changed by obfusCKate: End
 
 					size = { 35 35 }
@@ -1044,7 +859,7 @@ window = {
 								name = "character_name"
 								raw_text = "[Character.GetUINameNotMeNoTooltip], "
 								margin_left = 2
-								max_width = 400
+								max_width = 398
 								fontsize = 20
 								fontsize_min = 14
 								align = nobaseline
@@ -1053,7 +868,7 @@ window = {
 							}
 							####Changed by obfusCKate: Start
 							text_single = {
-					visible = "[GetScriptedGui('gui_show_exact_age').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+								visible = "[ShowExactAge]"
 								name = "character_age"
 								raw_text = " [Character.GetAge]"
 								default_format = "#low"
@@ -1061,16 +876,7 @@ window = {
 								fontsize = 20
 								align = nobaseline
 							}
-
-							text_single = {
-								visible = "[And(Or(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),GetScriptedGui('gui_show_approx_age').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )),Not(GetScriptedGui('gui_show_exact_age').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))]"
-								name = "character_age_acquaintance"
-								raw_text = "CHARACTER_AGE_ACQUAINTANCE"
-								default_format = "#low"
-								tooltip = "BIRTHDAY_ACQUAINTANCE" 
-								fontsize = 17
-								align = nobaseline
-							}
+							obf_character_age_acquaintance = {}
 							####Changed by obfusCKate: End
 
 							hbox = {
@@ -1078,17 +884,15 @@ window = {
 								spacing = -3
 
 								icon = {
-								##########changed by obfusCKate: Start
-									visible = "[Or(Character.IsLocalPlayer,GetScriptedGui('gui_show_health').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-								#########changed by obfusCKate: End
+									##########changed by obfusCKate: Start
+									visible = "[ShowHealth]"
+									#########changed by obfusCKate: End
 									size = { 23 23 }
 									framesize = { 60 60 }
 									frame = "[Character.GetHealthIconFrame]"
 									texture = "gfx/interface/icons/character_status/icon_health.dds"
 									tooltip = "[Character.GetHealthInfo]"
 								}
-
-								
 								icon = {
 									visible = "[Character.IsDeadAndValid]"
 									size = { 23 23 }
@@ -1098,33 +902,8 @@ window = {
 							}
 							
 							#Added by obfusCKate: Start
-							button_normal = {###Button for known characters List - OPTIONAL
-								name = "open_known_characters_list"
-								visible = "[And(Or(KnownListShortcutBottomDisabled,KnownListShortcutEnabled),Character.IsLocalPlayer)]"
-
-								size = { 30 30 }
-								datacontext = "[Character]"
-								tooltip = "SHORTCUT_KNOWN_CHARACTERS"
-								using = tooltip_ne
-
-								icon = {
-								texture = "gfx/interface/buttons/button_lifestyles_base.dds"
-									size = { 100% 100% }
-								}
-
-								button_icon = {
-								modify_texture = {
-									color = { 0.1 0 0 0.5 }
-									blend_mode = normal
-											}
-									texture = "gfx/interface/icons/gw_effect_friendly_diplomacy.dds"  
-									size = { 25 25 }
-									onclick = "[GetScriptedGui('obf_toggle_reset').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-									parentanchor = center
-									}
-								}
-								#Added by obfusCKate: End
-
+							obf_button_open_known_character_list = {}
+							#Added by obfusCKate: End
 							expand = {}
 						}
 
@@ -1155,797 +934,89 @@ window = {
 						using = Background_Area
 					}
 					
-
 					hbox = {
 						name = "tutorial_highlight_skills"
-						
-							#HUGE change by obfusCKate: Start
-							
-						hbox = {##
-								name = "obf_hbox_skills"
-								minimumsize = { 160 0 }
-								
-						hbox = {#THE PLAYER
-								name = "skills_grid_me"
-								datamodel = "[CharacterWindow.GetSkills]"
-								margin = { 2 0 }
-								visible = "[Character.IsPlayer]"
-								using = Animation_Character_Window_Refresh
 
-								item = {
+						hbox = {
+							name = "skills_grid"
+							datamodel = "[CharacterWindow.GetSkills]"
+							margin = { 2 0 }
 
-									vbox = {
-									
-										tooltip = "SKILL_ITEM_TOOLTIP_ME"
-									
-										using = tooltip_ne
-										spacing = -3
+							using = Animation_Character_Window_Refresh
 
-										icon = {
-											name = "skill_icon"
-											size = { 32 32 }
-											framesize = { 60 60 }
+							item = {
+								vbox = {
+									##########changed by obfusCKate: Start
+									using = obf_skill_tooltip
+									#tooltip = "SKILL_ITEM_TOOLTIP"
+									##########changed by obfusCKate: End
+									using = tooltip_ne
+									spacing = -3
+
+									icon = {
+										name = "skill_icon"
+										size = { 32 32 }
+										framesize = { 60 60 }
+										frame = "[SkillItem.GetFrame]"
+										texture = "gfx/interface/icons/icon_skills.dds"
+									}
+
+									text_single = {
+										name = "skill_value"
+										##########changed by obfusCKate: Start
+										using = obf_skill_text
+										#text = "[SkillItem.GetValue]"
+										##########changed by obfusCKate: End
+										default_format = "#high"
+										align = nobaseline
+
+										background = {
+											name = "skill_icon_bg"
+											texture = "gfx/interface/window_character/character_view_skills_bg.dds"
 											frame = "[SkillItem.GetFrame]"
-											texture = "gfx/interface/icons/icon_skills.dds"
+											framesize = { 70 26 }
+											margin = { 10 0 }
 										}
-										text_single = {
-											name = "skill_value"
-											text = "SKILL_VALUES_MAIN_CHARACTER"
-											default_format = "#high"
-											align = nobaseline
-
-											background = {
-												name = "skill_icon_bg"
-												texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-												frame = "[SkillItem.GetFrame]"
-												framesize = { 70 26 }
-												margin = { 10 0 }
-											}
-										}
-										
 									}
 								}
 							}
-								vbox = {#DIPLO FOR KNOWN
-									size = { 32 32 }
-									spacing = -3	
-									visible = "[GetScriptedGui('gui_skills_diplo_for_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-									icon = {
-										name = "skill_icon"
-										size = { 32 32 }
-										framesize = { 60 60 }
-										frame = "1"
-										texture = "gfx/interface/icons/icon_skills.dds"
-										}
-									text_single = {
-										name = "value_diplo"
-										text = "SKILL_DIPLOMACY_VALUES_KNOWN_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										align = nobaseline
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 1
-									
-										}
-									}
-								}
-								vbox = {#DIPLO FOR HUMBLE
-									size = { 32 32 }
-									spacing = -3	
-									visible = "[GetScriptedGui('gui_any_skill_for_humble').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-									icon = {
-										name = "skill_icon"
-										size = { 32 32 }
-										framesize = { 60 60 }
-										frame = "1"
-										texture = "gfx/interface/icons/icon_skills.dds"
-										}
-									text_single = {
-										name = "value_diplo_humble"
-										text = "SKILL_DIPLOMACY_VALUES_HUMBLE_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										align = nobaseline
- 
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 1
-									
-										}
-									}
-								}
-								vbox = {#DIPLO FOR ILLUSORY DIPLOMAT
-									size = { 32 32 }
-									spacing = -3	
-									visible = "[GetScriptedGui('gui_skills_diplo_for_illusory').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-									icon = {
-										name = "skill_icon"
-										size = { 32 32 }
-										framesize = { 60 60 }
-										frame = "1"
-										texture = "gfx/interface/icons/icon_skills.dds"
-										}
-									text_single = {
-										name = "value_illusory_diplomat"
-										text = "SKILL_VALUES_ILLUSORY_DIPLOMAT_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										align = nobaseline
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 1
-									
-										}
-									}
-								}
-								vbox = {#DIPLO FOR NO RELATED
-									size = { 32 32 }
-									spacing = -3	
-									visible = "[GetScriptedGui('gui_skills_are_roughly_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-									icon = {
-										name = "skill_icon"
-										size = { 32 32 }
-										framesize = { 60 60 }
-										frame = "1"
-										texture = "gfx/interface/icons/icon_skills.dds"
-										}
-									text_single = {
-										name = "value_diplomacy_no_related"
-										text = "SKILL_DIPLOMACY_VALUES_NO_RELATED_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE"
-										align = nobaseline
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 1
-									
-										}
-									}
-								}
-								vbox = {#DIPLO FOR UNKNOWN
-									size = { 32 32 }
-									spacing = -3	
-									visible = "[GetScriptedGui('gui_skills_are_not_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-									icon = {
-										name = "skill_icon"
-										size = { 32 32 }
-										framesize = { 60 60 }
-										frame = "1"
-										texture = "gfx/interface/icons/icon_skills.dds"
-										}
-									text_single = {
-										name = "value_diplomacy_unknown"
-										text = "SKILL_UNKNOWN"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE_NO_SEC"
-										align = nobaseline
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 1
-									
-										}
-									}
-								}
-								vbox = {
-									size = { 32 32 }
-									spacing = -3
-									visible = "[GetScriptedGui('gui_skills_martial_for_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-									icon = {
-										name = "skill_icon"
-										size = { 32 32 }
-										framesize = { 60 60 }
-										frame = "2"
-										texture = "gfx/interface/icons/icon_skills.dds"
-										}
-									text_single = {
-										name = "value_martial"
-										text = "SKILL_MARTIAL_VALUES_KNOWN_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										align = nobaseline
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 2
-									
-										}
-									}
-								}
-								vbox = {
-										size = { 32 32 }
-										spacing = -3
-										visible = "[GetScriptedGui('gui_any_skill_for_humble').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-										icon = {
-											name = "skill_icon"
-											size = { 32 32 }
-											framesize = { 60 60 }
-											frame = "2"   
-											texture = "gfx/interface/icons/icon_skills.dds"
-										}
-										text_single = {
-											name = "value_martial_humble"
-											text = "SKILL_MARTIAL_VALUES_HUMBLE_CHARACTER"
-											tooltip = "SKILL_ITEM_TOOLTIP_OB"
-											align = nobaseline
-											background = {
-												name = "skill_icon_bg"
-												texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-												framesize = { 70 26 }
-												margin = { 10 0 }
-												frame = 2   
-											}
-										}
-									}
-								vbox = {#MARTIAL FOR ILLUSORY WARRIOR
-									size = { 32 32 }
-									spacing = -3	
-									visible = "[GetScriptedGui('gui_skills_martial_for_illusory').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-									icon = {
-										name = "skill_icon"
-										size = { 32 32 }
-										framesize = { 60 60 }
-										frame = "2"
-										texture = "gfx/interface/icons/icon_skills.dds"
-										}
-									text_single = {
-										name = "value_illusory_diplomat"
-										text = "SKILL_VALUES_ILLUSORY_WARRIOR_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										align = nobaseline
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 2
-									
-										}
-									}
-								}
-								vbox = {#Martial FOR NO RELATED
-									size = { 32 32 }
-									spacing = -3	
-									visible = "[GetScriptedGui('gui_skills_are_roughly_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-									icon = {
-										name = "skill_icon"
-										size = { 32 32 }
-										framesize = { 60 60 }
-										frame = "2"
-										texture = "gfx/interface/icons/icon_skills.dds"
-										}
-									text_single = {
-										name = "value_martial_no_related"
-										text = "SKILL_MARTIAL_VALUES_NO_RELATED_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE"
-										align = nobaseline
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 2
-									
-										}
-									}
-								}
-								vbox = {#MARTIAL FOR UNKNOWN
-									size = { 32 32 }
-									spacing = -3	
-									visible = "[GetScriptedGui('gui_skills_are_not_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-									icon = {
-										name = "skill_icon"
-										size = { 32 32 }
-										framesize = { 60 60 }
-										frame = "2"
-										texture = "gfx/interface/icons/icon_skills.dds"
-										}
-									text_single = {
-										name = "value_martial_unknown"
-										text = "SKILL_UNKNOWN"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE_NO_SEC"
-										align = nobaseline
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 2
-									
-										}
-									}
-								}
-
-								vbox = {
-									size = { 32 32 }
-									spacing = -3
-									visible = "[GetScriptedGui('gui_skills_steward_for_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-									icon = {
-										name = "skill_icon"
-										size = { 32 32 }
-										framesize = { 60 60 }
-										frame = "3"
-										texture = "gfx/interface/icons/icon_skills.dds"
-										}
-									text_single = {
-										name = "value_stewardship"
-										text = "SKILL_STEWARDSHIP_VALUES_KNOWN_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										align = nobaseline
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 3
-									
-										}
-									}
-								}
-								
-								vbox = {
-										size = { 32 32 }
-										spacing = -3
-										visible = "[GetScriptedGui('gui_any_skill_for_humble').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-										icon = {
-											name = "skill_icon"
-											size = { 32 32 }
-											framesize = { 60 60 }
-											frame = "3"  
-											texture = "gfx/interface/icons/icon_skills.dds"
-										}
-										text_single = {
-											name = "value_stewardship_humble"
-											text = "SKILL_STEWARDSHIP_VALUES_HUMBLE_CHARACTER"
-											tooltip = "SKILL_ITEM_TOOLTIP_OB"
-											align = nobaseline
-											background = {
-												name = "skill_icon_bg"
-												texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-												framesize = { 70 26 }
-												margin = { 10 0 }
-												frame = 3   
-											}
-										}
-									}
-									vbox = {
-											size = { 32 32 }
-											spacing = -3	
-											visible = "[GetScriptedGui('gui_skills_steward_for_illusory').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-											icon = {
-												name = "skill_icon"
-												size = { 32 32 }
-												framesize = { 60 60 }
-												frame = "3"
-												texture = "gfx/interface/icons/icon_skills.dds"
-											}
-											text_single = {
-												name = "value_illusory_administrator"
-												text = "SKILL_VALUES_ILLUSORY_ADMINISTRATOR_CHARACTER"
-												tooltip = "SKILL_ITEM_TOOLTIP_OB"
-												align = nobaseline
-
-											background = {
-												name = "skill_icon_bg"
-												texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-												framesize = { 70 26 }
-												margin = { 10 0 }
-												frame = 3
-											}
-										}
-									}
-									vbox = {#Stewardship FOR NO RELATED
-									size = { 32 32 }
-									spacing = -3	
-									visible = "[GetScriptedGui('gui_skills_are_roughly_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-									icon = {
-										name = "skill_icon"
-										size = { 32 32 }
-										framesize = { 60 60 }
-										frame = "3"
-										texture = "gfx/interface/icons/icon_skills.dds"
-										}
-									text_single = {
-										name = "value_stewardship_no_related"
-										text = "SKILL_STEWARDSHIP_VALUES_NO_RELATED_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE"
-										align = nobaseline
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 3
-									
-										}
-									}
-								}
-								vbox = {#STEWARDSHIP FOR UNKNOWN
-									size = { 32 32 }
-									spacing = -3	
-									visible = "[GetScriptedGui('gui_skills_are_not_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-									icon = {
-										name = "skill_icon"
-										size = { 32 32 }
-										framesize = { 60 60 }
-										frame = "3"
-										texture = "gfx/interface/icons/icon_skills.dds"
-										}
-									text_single = {
-										name = "value_stewardship_unknown"
-										text = "SKILL_UNKNOWN"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE_NO_SEC"
-										align = nobaseline
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 3
-									
-										}
-									}
-								}
-
-								vbox = {
-									size = { 32 32 }
-									spacing = -3
-									visible = "[GetScriptedGui('gui_skills_intrigue_for_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-									icon = {
-										name = "skill_icon"
-										size = { 32 32 }
-										framesize = { 60 60 }
-										frame = "4"
-										texture = "gfx/interface/icons/icon_skills.dds"
-										}
-									text_single = {
-										name = "value_intrigue"
-										text = "SKILL_INTRIGUE_VALUES_KNOWN_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										align = nobaseline
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 4
-									
-										}
-									}
-								}
-								vbox = {
-									size = { 32 32 }
-									spacing = -3
-									visible = "[GetScriptedGui('gui_any_skill_for_humble').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-									icon = {
-										name = "skill_icon"
-										size = { 32 32 }
-										framesize = { 60 60 }
-										frame = "4"  
-										texture = "gfx/interface/icons/icon_skills.dds"
-									}
-									text_single = {
-										name = "value_intrigue_humble"
-										text = "SKILL_INTRIGUE_VALUES_HUMBLE_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										align = nobaseline
-										background = {
-											name = "skill_icon_bg"
-											texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-											framesize = { 70 26 }
-											margin = { 10 0 }
-											frame = 4  
-										}
-									}
-								}
-								vbox = {
-										size = { 32 32 }
-										spacing = -3	
-										visible = "[GetScriptedGui('gui_skills_intrigue_for_illusory').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-										icon = {
-											name = "skill_icon"
-											size = { 32 32 }
-											framesize = { 60 60 }
-											frame = "4"
-											texture = "gfx/interface/icons/icon_skills.dds"
-										}
-										text_single = {
-											name = "value_illusory_intriguer"
-											text = "SKILL_VALUES_ILLUSORY_INTRIGUER_CHARACTER"
-											tooltip = "SKILL_ITEM_TOOLTIP_OB"
-											align = nobaseline
-
-										background = {
-											name = "skill_icon_bg"
-											texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-											framesize = { 70 26 }
-											margin = { 10 0 }
-											frame = 4
-										}
-									}
-								}
-								vbox = {#Intrigue FOR NO RELATED
-									size = { 32 32 }
-									spacing = -3	
-									visible = "[GetScriptedGui('gui_skills_are_roughly_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-									icon = {
-										name = "skill_icon"
-										size = { 32 32 }
-										framesize = { 60 60 }
-										frame = "4"
-										texture = "gfx/interface/icons/icon_skills.dds"
-										}
-									text_single = {
-										name = "value_intrigue_no_related"
-										text = "SKILL_INTRIGUE_VALUES_NO_RELATED_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE"
-										align = nobaseline
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 4
-									
-										}
-									}
-								}
-								vbox = {#Intrigue FOR UNKNOWN
-									size = { 32 32 }
-									spacing = -3	
-									visible = "[GetScriptedGui('gui_skills_are_not_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-									icon = {
-										name = "skill_icon"
-										size = { 32 32 }
-										framesize = { 60 60 }
-										frame = "4"
-										texture = "gfx/interface/icons/icon_skills.dds"
-										}
-									text_single = {
-										name = "value_intrigue_unknown"
-										text = "SKILL_UNKNOWN"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE_NO_SEC"
-										align = nobaseline
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 4
-									
-										}
-									}
-								}
-
-								vbox = {
-									size = { 32 32 }
-									spacing = -3
-									visible = "[GetScriptedGui('gui_skills_learning_for_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-									icon = {
-										name = "skill_icon"
-										size = { 32 32 }
-										framesize = { 60 60 }
-										frame = "5"
-										texture = "gfx/interface/icons/icon_skills.dds"
-										}
-									text_single = {
-										name = "value_learning"
-										text = "SKILL_LEARNING_VALUES_KNOWN_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_OB"
-										align = nobaseline
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 5
-									
-										}
-									}
-								}
-								vbox = {
-										size = { 32 32 }
-										spacing = -3
-										visible = "[GetScriptedGui('gui_any_skill_for_humble').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-										icon = {
-											name = "skill_icon"
-											size = { 32 32 }
-											framesize = { 60 60 }
-											frame = "5"   
-											texture = "gfx/interface/icons/icon_skills.dds"
-										}
-										text_single = {
-											name = "value_learning_humble"
-											text = "SKILL_LEARNING_VALUES_HUMBLE_CHARACTER" 
-											tooltip = "SKILL_ITEM_TOOLTIP_OB"
-											align = nobaseline
-											background = {
-												name = "skill_icon_bg"
-												texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-												framesize = { 70 26 }
-												margin = { 10 0 }
-												frame = 5   
-											}
-										}
-									}
-									vbox = {
-											size = { 32 32 }
-											spacing = -3	
-											visible = "[GetScriptedGui('gui_skills_learning_for_illusory').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-											icon = {
-												name = "skill_icon"
-												size = { 32 32 }
-												framesize = { 60 60 }
-												frame = "5"
-												texture = "gfx/interface/icons/icon_skills.dds"
-											}
-											text_single = {
-												name = "value_illusory_scholar"
-												text = "SKILL_VALUES_ILLUSORY_SCHOLAR_CHARACTER"
-												tooltip = "SKILL_ITEM_TOOLTIP_OB"
-												align = nobaseline
-
-											background = {
-												name = "skill_icon_bg"
-												texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-												framesize = { 70 26 }
-												margin = { 10 0 }
-												frame = 5
-											}
-										}
-									}
-									vbox = {#lEARNING FOR NO RELATED
-									size = { 32 32 }
-									spacing = -3	
-									visible = "[GetScriptedGui('gui_skills_are_roughly_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-									icon = {
-										name = "skill_icon"
-										size = { 32 32 }
-										framesize = { 60 60 }
-										frame = "5"
-										texture = "gfx/interface/icons/icon_skills.dds"
-										}
-									text_single = {
-										name = "value_learning_no_related"
-										text = "SKILL_LEARNING_VALUES_NO_RELATED_CHARACTER"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE"
-										align = nobaseline
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 5
-									
-										}
-									}
-								}
-								vbox = {#Learning FOR UNKNOWN
-									size = { 32 32 }
-									spacing = -3	
-									visible = "[GetScriptedGui('gui_skills_are_not_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-									icon = {
-										name = "skill_icon"
-										size = { 32 32 }
-										framesize = { 60 60 }
-										frame = "5"
-										texture = "gfx/interface/icons/icon_skills.dds"
-										}
-									text_single = {
-										name = "value_learning_unknown"
-										text = "SKILL_UNKNOWN"
-										tooltip = "SKILL_ITEM_TOOLTIP_NO_RE_NO_SEC"
-										align = nobaseline
-
-									background = {
-										name = "skill_icon_bg"
-										texture = "gfx/interface/window_character/character_view_skills_bg.dds"
-										framesize = { 70 26 }
-										margin = { 10 0 }
-										frame = 5
-									
-										}
-									}
-								}
-									
-							}
-							
-						
-					
-							
-							
-							
-						#HUGE change by obfusCKate: End	
-						
-						#HUGE change by obfusCKate: Start
-						##########CODE DELETED FOR NEW VERSION WITH DECEPTIVE PERSONALITIES	
-						
-									#HUGE change by obfusCKate: End
-
-						spacer = {
-							size = { 10 0 }
 						}
+
 						hbox = {
 							spacing = -5
-						########changed by obfusCKate: Start
-						vbox = {
-						
-								visible = "[Character.IsPlayer]"
-							
-							tooltip = "[CharacterWindow.GetCharacter.GetProwessBreakdown]"
-							using = tooltip_ne
-							spacing = -3
+							vbox = {
+								##########changed by obfusCKate: Start
+								visible = "[ObfIsLocalPlayer]"
+								##########changed by obfusCKate: End
+								tooltip = "[CharacterWindow.GetCharacter.GetProwessBreakdown]"
+								using = tooltip_ne
+								spacing = -3
 
-							using = Animation_Character_Window_Refresh
+								using = Animation_Character_Window_Refresh
 
-							icon = {
-								name = "prowess_icon"
-								size = { 32 32 }
-								texture = "gfx/interface/icons/icon_prowess.dds"
-							}
+								icon = {
+									name = "prowess_icon"
+									size = { 32 32 }
+									texture = "gfx/interface/icons/icon_prowess.dds"
+								}
 
-							text_single = {
-								name = "prowess_value"
-								text = "[CharacterWindow.GetCharacter.GetProwess|0]"
-								align = nobaseline
-							}
-						}
-					}
-						vbox = { 
-								visible = "[GetScriptedGui('gui_prowess_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-							tooltip = "PROWESS_VALUES_CHARACTER_TOOLTIP"
-							using = tooltip_ne
-							spacing = -3
-
-							using = Animation_Character_Window_Refresh
-
-							icon = {
-								name = "prowess_icon"
-								size = { 32 32 }
-								texture = "gfx/interface/icons/icon_prowess.dds"
-							}
-
-							text_single = {
-								name = "prowess_value"
-								text = "PROWESS_VALUES_CHARACTER"
-								align = nobaseline
+								text_single = {
+									name = "prowess_value"
+									text = "[CharacterWindow.GetCharacter.GetProwess|0]"
+									align = nobaseline
+								}
 							}
 						}
+						##########changed by obfusCKate: Start
+						obf_vbox_prowess = {}
 						##########changed by obfusCKate: End
-						
+
 						vbox = {
 							tooltip = "ADMIN_WINDOW_THEME_GOVERNOR_EFFICIENCY_TT"
 							using = tooltip_ne
 							spacing = -3
 							##########changed by obfusCKate: Start
-							visible = "[And(GetScriptedGui('gui_show_efficiency').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Or( Character.GetGovernment.HasRule( 'administrative' ), And( And( Not( Character.HasLandedTitles ), Not( Character.HasLiege ) ), GetPlayer.GetGovernment.HasRule( 'administrative' ) ) ))]"
+							visible = "[And(ShowGovernmentEfficency, Or( Character.GetGovernment.HasRule( 'administrative' ), And( And( Not( Character.HasLandedTitles ), Not( Character.HasLiege ) ), GetPlayer.GetGovernment.HasRule( 'administrative' ) ) ))]"
 							##########changed by obfusCKate: End
 							margin_right = 3
 
@@ -1964,7 +1035,6 @@ window = {
 							}
 						}
 						
-
 						divider_light = {
 							layoutpolicy_vertical = expanding
 						}
@@ -1977,8 +1047,8 @@ window = {
 					hbox = {
 						name = "faith_and_culture"
 						##########changed by obfusCKate: Start
-							visible = "[Or(Character.IsLocalPlayer,Or(And(Character.IsDeadAndValid, Character.HasRelationTo(GetPlayer)),GetScriptedGui('gui_faith_and_culture_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))]"
-							##########changed by obfusCKate: End
+						visible = "[Or(And(Character.IsDeadAndValid, Character.HasRelationTo(GetPlayer)),ShowFaithCulture)]"
+						##########changed by obfusCKate: End
 						layoutpolicy_horizontal = expanding
 
 						using = Animation_Character_Window_Refresh
@@ -2043,8 +1113,8 @@ window = {
 								fixedgridbox = {
 									name = "modifiers_grid"
 									##########changed by obfusCKate: Start
-							visible = "[GetScriptedGui('gui_show_modifiers').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-							##########changed by obfusCKate: End
+									visible = "[ShowModifiers]"
+									##########changed by obfusCKate: End
 									datamodel = "[CharacterWindow.GetTimedModifiers]"
 									addcolumn = 23
 									addrow = 23
@@ -2074,7 +1144,7 @@ window = {
 
 								text_single = {
 									###Changed by obfusCKate:Start
-									visible = "[And(CharacterWindow.IsExtraModifiersNumberShown,GetScriptedGui('gui_show_modifiers').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
+									visible = "[And(CharacterWindow.IsExtraModifiersNumberShown,ShowModifiers)]"
 									###Changed by obfusCKate:End
 									min_width = 22
 									margin_bottom = 10
@@ -2099,7 +1169,7 @@ window = {
 			widget = {
 				name = "house"
 				##########changed by obfusCKate: Start
-					visible = "[Or(ObjectsEqual(Character.GetHouse,GetPlayer.GetHouse),Or(Character.IsDeadAndValid,GetScriptedGui('gui_house_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))]"
+				visible = "[Or(Character.IsDeadAndValid,ShowHouse)]"
 				##########changed by obfusCKate: End
 				datacontext = "[Character.GetHouse]"
 				layoutpolicy_vertical = expanding
@@ -2232,10 +1302,10 @@ window = {
 
 						vbox = {
 							datacontext = "[CharacterWindow.GetCharacter]"
-					##########changed by obfusCKate: Start
-					visible = "[And(And( Not( Character.GetPrimaryTitle.HasFaction ), And( Character.HasLandedTitles, Character.IsAlive ) ),GetScriptedGui('gui_show_domain').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-					tooltip_visible = "[Character.IsPlayer]"
-				##########changed by obfusCKate: End
+							##########changed by obfusCKate: Start
+							visible = "[And(And( Not( Character.GetPrimaryTitle.HasFaction ), And( Character.HasLandedTitles, Character.IsAlive ) ),ShowDomain)]"
+							tooltip_visible = "[Character.IsPlayer]"
+							##########changed by obfusCKate: End
 							tooltip = "[Character.GetDomainLimitTooltip]"
 							spacing = -2
 
@@ -2245,17 +1315,16 @@ window = {
 							}
 
 							icon = {
+								name = "domain_icon"
+								size = { 30 30 }
+								texture = "gfx/interface/icons/icon_domain.dds"
+							}
 
-							name = "domain_icon"
-							size = { 30 30 }
-							texture = "gfx/interface/icons/icon_domain.dds"
-						}
-
-						text_single = {
-							name = "domain_limit"
-							text = "[Character.GetDomainSize]/[Character.GetDomainLimit]"
-							default_format = "#high"
-							align = center|nobaseline
+							text_single = {
+								name = "domain_limit"
+								text = "[Character.GetDomainSize]/[Character.GetDomainLimit]"
+								default_format = "#high"
+								align = center|nobaseline
 							}
 						}
 
@@ -2356,8 +1425,8 @@ window = {
 
 							vbox_titles_claims_box = {
 								##########changed by obfusCKate: Start
-					visible = "[Or(Character.IsLocalPlayer,GetScriptedGui('gui_show_titles_and_claims').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-				##########changed by obfusCKate: End
+								visible = "[ShowTitlesClaims]"
+								##########changed by obfusCKate: End
 								layoutpolicy_horizontal = expanding
 								layoutpolicy_vertical = expanding
 
@@ -2404,7 +1473,7 @@ window = {
 
 						vbox_diplomacy_box = {
 							##########changed by obfusCKate: Start
-							visible = "[And(Or(Character.IsLocalPlayer,GetScriptedGui('gui_show_diplomacy_items').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )),GreaterThan_int32( GetDataModelSize(CharacterWindow.GetDiplomacyItems), '(int32)0' ))]"
+							visible = "[And(ShowDiplomacy,GreaterThan_int32( GetDataModelSize(CharacterWindow.GetDiplomacyItems), '(int32)0' ))]"
 							##########changed by obfusCKate: End
 							using = Animation_Character_Window_Refresh
  
@@ -2458,9 +1527,9 @@ window = {
 
 					text_single = {
 						align = center
-							##########changed by obfusCKate: Start
-							visible = "[Character.IsLocalPlayer]"
-							##########changed by obfusCKate: End
+						##########changed by obfusCKate: Start
+						visible = "[ObfIsLocalPlayer]"
+						##########changed by obfusCKate: End
 						text = "[CharacterWindow.GetTabItemsCount('family')]"
 						default_format = "#low"
 						margin_right = 15
@@ -2492,8 +1561,8 @@ window = {
 					text_single = {
 						align = center
 						##########changed by obfusCKate: Start
-							visible = "[Character.IsLocalPlayer]"
-							##########changed by obfusCKate: End
+						visible = "[ObfIsLocalPlayer]"
+						##########changed by obfusCKate: End
 						text = "[CharacterWindow.GetTabItemsCount('relations')]"
 						default_format = "#low"
 						margin_right = 15
@@ -2524,53 +1593,15 @@ window = {
 					}
 
 					text_single = {
-					name = "count_visible"
 						align = center
 						##########changed by obfusCKate: Start
-							visible = "[Character.IsLocalPlayer]"
-							##########changed by obfusCKate: End
-						text = "[CharacterWindow.GetTabItemsCount('court')]"
+						using = obf_court_tab_count
+						#text = "[CharacterWindow.GetTabItemsCount('court')]"
+						##########changed by obfusCKate: End
 						default_format = "#low"
 						margin_right = 15
 						min_width = 30
 
-						using = Animation_Character_Window_Refresh
-					}
-					#Added by ObfusCKate: Start
-					text_single = {
-						align = center
-						visible = "[And(LessThanOrEqualTo_int32( CharacterWindow.GetTabItemsCount('court'), '(int32)5' ),GetScriptedGui('gui_tab_count_estimate_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-						text = "FEW_COURTIERS_OB"
-						tooltip = "COURTIERS_COUNT_TT_OB"
-						default_format = "#low"
-						margin_right = 15
-						min_width = 30
-						using = Font_Size_Tiny
-
-						using = Animation_Character_Window_Refresh
-					}
-					text_single = {
-						align = center
-						visible = "[And(And(GreaterThanOrEqualTo_int32( CharacterWindow.GetTabItemsCount('court'), '(int32)6' ), LessThanOrEqualTo_int32( CharacterWindow.GetTabItemsCount('court'), '(int32)15' )),GetScriptedGui('gui_tab_count_estimate_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-						text = "SOME_COURTIERS_OB"
-						tooltip = "COURTIERS_COUNT_TT_OB"
-						default_format = "#low"
-						margin_right = 15
-						min_width = 30
-						using = Font_Size_Tiny
-
-						using = Animation_Character_Window_Refresh
-					}
-					text_single = {
-						align = center
-						visible = "[And(GreaterThanOrEqualTo_int32( CharacterWindow.GetTabItemsCount('court'), '(int32)16' ), GetScriptedGui('gui_tab_count_estimate_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-						text = "MANY_COURTIERS_OB"
-						tooltip = "COURTIERS_COUNT_TT_OB"
-						default_format = "#low"
-						margin_right = 15
-						min_width = 30
-						using = Font_Size_Tiny
-						#Added by ObfusCKate: End
 						using = Animation_Character_Window_Refresh
 					}
 				}
@@ -2599,50 +1630,13 @@ window = {
 					text_single = {
 						align = center
 						#changed by ofusCKate: start
-					visible = "[GetScriptedGui('gui_tab_count_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-					#changed by ofusCKate: End
-						text = "[CharacterWindow.GetTabItemsCount('vassals')]"
+						using = obf_vassal_tab_count
+						#text = "[CharacterWindow.GetTabItemsCount('vassals')]"
+						#changed by ofusCKate: End
 						default_format = "#low"
 						margin_right = 15
 						min_width = 30
 
-						using = Animation_Character_Window_Refresh
-					}
-					#Added by ObfusCKate: Start
-					text_single = {
-						align = center
-						visible = "[And(LessThanOrEqualTo_int32( CharacterWindow.GetTabItemsCount('vassals'), '(int32)9' ),And(GetScriptedGui('gui_tab_count_estimate_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ), Not(GetScriptedGui('gui_tab_count_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))))]"
-						text = "FEW_VASSALS_OB"
-						tooltip = "VASSALS_COUNT_TT_OB"
-						default_format = "#low"
-						margin_right = 15
-						min_width = 30
-						using = Font_Size_Tiny
-
-						using = Animation_Character_Window_Refresh
-					}
-					text_single = {
-						align = center
-						visible = "[And(And(GreaterThanOrEqualTo_int32( CharacterWindow.GetTabItemsCount('vassals'), '(int32)10' ),LessThanOrEqualTo_int32( CharacterWindow.GetTabItemsCount('vassals'), '(int32)19' )),And(GetScriptedGui('gui_tab_count_estimate_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ), Not(GetScriptedGui('gui_tab_count_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))))]"
-						text = "SOME_VASSALS_OB"
-						tooltip = "VASSALS_COUNT_TT_OB"
-						default_format = "#low"
-						margin_right = 15 
-						min_width = 30
-						using = Font_Size_Tiny
-
-						using = Animation_Character_Window_Refresh
-					}
-					text_single = {
-						align = center
-						visible = "[And(GreaterThanOrEqualTo_int32( CharacterWindow.GetTabItemsCount('vassals'), '(int32)20' ), And(GetScriptedGui('gui_tab_count_estimate_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ), Not(GetScriptedGui('gui_tab_count_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))))]"
-						text = "MANY_VASSALS_OB"
-						tooltip = "VASSALS_COUNT_TT_OB"
-						default_format = "#low"
-						margin_right = 15
-						min_width = 30
-						using = Font_Size_Tiny
-						#Added by ObfusCKate: End
 						using = Animation_Character_Window_Refresh
 					}
 				}
@@ -2673,7 +1667,7 @@ window = {
 				vbox = {
 					name = "family_main_view"
 					#changed by obfusCKate: Start
-					visible = "[And(Or(Character.IsLocalPlayer, GetScriptedGui('gui_show_family_tab').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )),Not( Or(CharacterWindow.IsRelationExpanded( 'children' ), CharacterWindow.IsRelationExpanded( 'siblings' ) ) ))]"
+					visible = "[And(ShowFamilyTab,Not( Or(CharacterWindow.IsRelationExpanded( 'children' ), CharacterWindow.IsRelationExpanded( 'siblings' ) ) ))]"
 					#changed by obfusCKate: End
 
 					widget = {
@@ -3040,7 +2034,7 @@ window = {
 				vbox = {
 					name = "relations_main_view"
 					#changed by ofusCKate: start
-					visible = "[And(GetScriptedGui('gui_show_relations_tab').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),And(Not(CharacterWindow.AreRelationsExpanded( 'friends', 'rivals', 'lovers') ), Not(CharacterWindow.IsRelationExpanded('grudges')))) ]"
+					visible = "[And(ShowRelationsTab,And(Not(CharacterWindow.AreRelationsExpanded( 'friends', 'rivals', 'lovers') ), Not(CharacterWindow.IsRelationExpanded('grudges')))) ]"
 					#changed by ofusCKate: End
 
 					widget = {
@@ -3096,12 +2090,12 @@ window = {
 															size = { 60 60 }
 															position = {-2 -4}
 															texture = "gfx/interface/icons/flat_icons/plus.dds"
-															
+
 															glow = {
-															using = Color_Red
-															using = Glow_Standard
-															glow_radius = 5
-																}
+																using = Color_Red
+																using = Glow_Standard
+																glow_radius = 5
+															}
 														}
 														###Changed by obfusCKate: End
 													}
@@ -3140,12 +2134,12 @@ window = {
 															size = { 60 60 }
 															position = {-2 -4}
 															texture = "gfx/interface/icons/flat_icons/plus.dds"
-															
+
 															glow = {
-															using = Color_Red
-															using = Glow_Standard
-															glow_radius = 5
-																}
+																using = Color_Red
+																using = Glow_Standard
+																glow_radius = 5
+															}
 														}
 														###Changed by obfusCKate: End
 													}
@@ -3195,7 +2189,7 @@ window = {
 							vbox_character_row_relationship_item = {
 								name = "lovers_no_diarchy"
 								#changed by ofusCKate: start
-								visible = "[And(GetScriptedGui('gui_show_intimate_relations').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ), And( CharacterWindow.GetCharacter.IsAdult, Not( CharacterWindow.GetCharacter.HasActiveDiarchy ) ))]"
+								visible = "[And(ShowIntimateRelations, And( CharacterWindow.GetCharacter.IsAdult, Not( CharacterWindow.GetCharacter.HasActiveDiarchy ) ))]"
 								#changed by ofusCKate: End
 								layoutpolicy_vertical = expanding
 								layoutpolicy_horizontal = expanding
@@ -3230,7 +2224,7 @@ window = {
 							vbox_character_row_relationship_item = {
 								name = "lovers_diarchy"
 								#changed by ofusCKate: start
-								visible = "[And(GetScriptedGui('gui_show_intimate_relations').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ), And( CharacterWindow.GetCharacter.IsAdult, CharacterWindow.GetCharacter.HasActiveDiarchy ))]"
+								visible = "[And(ShowIntimateRelations, And( CharacterWindow.GetCharacter.IsAdult, CharacterWindow.GetCharacter.HasActiveDiarchy ))]"
 								#changed by ofusCKate: end
 								layoutpolicy_vertical = expanding
 								layoutpolicy_horizontal = expanding
@@ -3646,24 +2640,22 @@ window = {
 
 			vbox_character_list = {
 				datacontext = "[CharacterWindow.GetCourt]"
-				
-
 				#Changed by obfusCKate:start
 				visible = "[And(GetScriptedGui('gui_show_courtiers_tab').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),CharacterWindow.IsTabShown('court'))]"
-			blockoverride "sort_dropdown" {
+				blockoverride "sort_dropdown" {
 					dropdown_sort_characterlist = {
 					visible = "[DropdownsEnabled]"
 						name = "court_sort_options"
 					}
 				}
-			#Changed by obfusCKate:end
+				#Changed by obfusCKate:end
 				blockoverride "scrollbox_margins" {
 					margin_right = 15
 					margin_top = 10
 				}
 
 				blockoverride "container_implementation" {
-				####Changed by obfusCKate: Start ## THIS HIDES UNKNOWN CHARACTERS IN COURT
+					####Changed by obfusCKate: Start ## THIS HIDES UNKNOWN CHARACTERS IN COURT
 					vbox = { ###WAS FIXEDGRIDBOX
 						name = "characters_grid"
 						datamodel = "[CharacterSelectionList.GetList]"
@@ -3671,14 +2663,14 @@ window = {
 						#setitemsizefromcell = yes
 						layoutpolicy_vertical = expanding
 						layoutpolicy_horizontal = expanding
-		  
+
 						item = {    
 							widget_courtier_item = {  
 								datacontext = "[CharacterListItem.GetCharacter]" 
-						visible = "[GetScriptedGui('gui_show_chars_in_list').IsValid( GuiScope.SetRoot(CharacterListItem.GetCharacter.MakeScope).AddScope( 'player', GetPlayer.MakeScope ).End )]"
-						layoutpolicy_horizontal = expanding
-						####Changed by obfusCKate: END ## THIS HIDES UNKNOWN CHARACTERS IN COURT
-						
+								visible = "[GetScriptedGui('gui_show_chars_in_list').IsValid( GuiScope.SetRoot(CharacterListItem.GetCharacter.MakeScope).AddScope( 'player', GetPlayer.MakeScope ).End )]"
+								layoutpolicy_horizontal = expanding
+								####Changed by obfusCKate: END ## THIS HIDES UNKNOWN CHARACTERS IN COURT
+
 								# blockoverride "description_relation_text" {
 								# 	text = "[Character.GetSpecialGuestRelationDescription]"
 								# }
@@ -3718,9 +2710,9 @@ window = {
 						}
 
 						text_single = {
-						#Changed by ObfusCKate: Start
-						visible = "[Character.IsLocalPlayer]"
-						#Changed by ObfusCKate: End
+							#Changed by ObfusCKate: Start
+							visible = "[ObfIsLocalPlayer]"
+							#Changed by ObfusCKate: End
 							name = "character_count"
 							datacontext = "[CharacterSelectionList]"
 							text = "CHARACTER_FINDER_COUNT"
@@ -3735,13 +2727,13 @@ window = {
 			####################################
 
 			vbox_character_list = {
-				datacontext = "[CharacterWindow.GetVassals]"
-				
 				#Changed by obfusCKate:start
 				visible = "[And(GetScriptedGui('gui_show_vassals_tab').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),CharacterWindow.IsTabShown('vassals'))]"
+				datacontext = "[CharacterWindow.GetVassals]"
+
 				blockoverride "sort_dropdown" {
 					dropdown_sort_characterlist = {
-					visible = "[DropdownsEnabled]"
+						visible = "[DropdownsEnabled]"
 						# unique name needed to distinct from court sort options
 						name = "vassal_sort_options"
 					}
@@ -3818,9 +2810,9 @@ window = {
 						}
 
 						text_single = {
-						#Changed by ObfusCKate: Start
-						visible = "[Character.IsLocalPlayer]"
-						#Changed by ObfusCKate: End
+							#Changed by ObfusCKate: Start
+							visible = "[ObfIsLocalPlayer]"
+							#Changed by ObfusCKate: End
 							name = "character_count"
 							datacontext = "[CharacterSelectionList]"
 							text = "CHARACTER_FINDER_COUNT"
@@ -4404,9 +3396,9 @@ window = {
 						datacontext = "[CharacterSelectionList.GetFilter('inspiration_filter')]"
 					}
 					filter_item = {
-					######changed by obfusCKate: start
-						visible = no
-					#####changed by obfusCKate: End
+						######changed by obfusCKate: start
+						visible = "[Not(ObfLoaded)]"
+						#####changed by obfusCKate: End
 						layoutpolicy_horizontal = expanding
 						datacontext = "[CharacterSelectionList.GetFilter('sexuality_filter')]"
 					}
@@ -4702,7 +3694,7 @@ types CharacterWindow
 			block "value"
 			{
 				#changed by obfusCKate: Start
-					text = "SKILL_VALUES_UNKNOWN_CHARACTER"
+				text = "SKILL_VALUES_UNKNOWN_CHARACTER"
 				#changed by obfusCKate: End
 			}
 		}
@@ -4739,113 +3731,51 @@ types CharacterWindow
 				fontsize_min = 13
 				align = nobaseline
 			}
-			##########changed by obfusCKate: Start
-			text_single = {
-			name = "how_others_see_you"
-				maximumsize = { 200 -1 }
-				visible = "[Character.IsLocalPlayer]"
-				raw_text = " • #E #L How others see you #!#! • "
-				tooltip = "PLAYER_PERSONALITY_TT_OBF"  
-				using = tooltip_se
-
-				fontsize_min = 13
-				align = nobaseline
-			} 
-			##########changed by obfusCKate: End
 
 			text_single = {
-				maximumsize = { 149 -1 }
+				maximumsize = { 155 -1 }
 				name = "ai_personality"
 				##########changed by obfusCKate: Start
-							visible = "[GetScriptedGui('gui_personality_is_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+				using = obf_personality_template
+				#raw_text = " • #L [Character.GetAIPersonalityNoTooltip]#!"
+				#tooltip = "AI_PERSONALITY_TT"
 				##########changed by obfusCKate: End
-
-				raw_text = " • #L [Character.GetAIPersonalityNoTooltip]#!"
-				tooltip = "AI_PERSONALITY_TT"
-				using = tooltip_se
-
-				fontsize_min = 13
-				align = nobaseline
-			} 
-			#######changed by obfusCKate: Start
-			text_single = { 
-				maximumsize = { 149 -1 }
-				name = "ai_personality_acq"	 
-				##########changed by obfusCKate: Start
-							visible = "[And(GetScriptedGui('gui_basic_personality_is_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ), Not(GetScriptedGui('gui_personality_is_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))]"
-				##########changed by obfusCKate: End
-
-				text = "OBF_PERSONALITY"
-				tooltip = "OBF_PERSONALITY_TOOLTIP"
 				using = tooltip_se
 
 				fontsize_min = 13
 				align = nobaseline
 			}
-			text_single = {
-				maximumsize = { 149 -1 }
-				name = "ai_personality_basic"
-				##########changed by obfusCKate: Start
-							visible = "[And(GetScriptedGui('gui_first_impression_is_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ), Not(Or(GetScriptedGui('gui_basic_personality_is_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),GetScriptedGui('gui_personality_is_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))))]"
-				##########changed by obfusCKate: End
-				text = "OBF_FIRST_IMPRESSION"
-				tooltip = "OBF_FIRST_IMPRESSION_TOOLTIP"
-				using = tooltip_se
-
-				fontsize_min = 13
-				align = nobaseline
-			}
-			#######changed by obfusCKate: End
-			 
-			##########changed by obfusCKate: Start
-								####Gender for when the portrait is not visible
-									
-								text_single = {
-								visible = "[Not(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-								name = "gender_male"
-								text = "CHARACTER_IS_MALE_OR_FEMALE"
-								default_format = "#weak"
-								tooltip = "CHARACTER_GENDER_TOOLTIP" 
-								using = tooltip_es
-								fontsize_min = 13
-								align = nobaseline
-									}
-								##########changed by obfusCKate: End
-			
-			
 		}
 
 		icon = {
-							##########changed by obfusCKate: Start
-							visible = "[GetScriptedGui('gui_sexuality_for_males').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-				##########changed by obfusCKate: End
-								size = { 20 20 }
-								framesize = { 40 40 }
-								frame = "[Character.GetSexualityFrame]"
-								texture = "gfx/interface/icons/character_status/sexuality_icons_male.dds"
-								tooltip = "SEXUALITY_TT"
-							}
+			##########changed by obfusCKate: Start
+			visible = "[ShowSexualityMale]"
+			##########changed by obfusCKate: End
+			size = { 20 20 }
+			framesize = { 40 40 }
+			frame = "[Character.GetSexualityFrame]"
+			texture = "gfx/interface/icons/character_status/sexuality_icons_male.dds"
+			tooltip = "SEX_TT"
+		}
 
 		icon = {
-							##########changed by obfusCKate: Start
-							visible = "[GetScriptedGui('gui_sexuality_for_females').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-				##########changed by obfusCKate: End
-								size = { 20 20 }
-								framesize = { 40 40 }
-								frame = "[Character.GetSexualityFrame]"
-								texture = "gfx/interface/icons/character_status/sexuality_icons_female.dds"
-								tooltip = "SEXUALITY_TT"
-							}
-							#changed by obfusCKate: Start
-							
-		icon = {
-								visible = "[GetScriptedGui('gui_rumours_icon_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-								size = { 20 20 }
-								texture = "gfx/interface/icons/icon_group_of_characters.dds"
-								tooltip = "RUMOUR_TT" 
-							}
-							#changed by obfusCKate: End
-							
+			##########changed by obfusCKate: Start
+			visible = "[ShowSexualityFemale]"
+			##########changed by obfusCKate: End
+			size = { 20 20 }
+			framesize = { 40 40 }
+			frame = "[Character.GetSexualityFrame]"
+			texture = "gfx/interface/icons/character_status/sexuality_icons_female.dds"
+			tooltip = "SEX_TT"
+		}
+
+		##########changed by obfusCKate: Start
+		obf_gender_portrait_unknown = {}
+		##########changed by obfusCKate: End
+
+		#changed by obfusCKate: Start
+		obf_rumours_icon = {}
+		#changed by obfusCKate: End
 
 		expand = {}
 	}
@@ -5211,7 +4141,6 @@ types CharacterWindow
 		layoutpolicy_horizontal = expanding
 
 		button_standard_hover = {
-
 			layoutpolicy_horizontal = expanding
 			size = { 100 25 }
 			onclick = "[CharacterWindow.ToggleExpandedDiplomacy]"
@@ -5242,8 +4171,8 @@ types CharacterWindow
 		vbox = {
 			margin_top = 20
 			##########changed by obfusCKate: Start
-							visible = "[GetScriptedGui('gui_show_diplomacy_items').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-							##########changed by obfusCKate: End
+			visible = "[ShowDiplomacy]"
+			##########changed by obfusCKate: End
 
 			fixedgridbox = {
 				name = "diplomacy_items"
@@ -5610,6 +4539,7 @@ types CharacterWindow
 
 	type hbox_character_view_secondary_stats_bar = hbox {
 		name = "character_view_secondary_stats_bar"
+		visible = "[Character.IsAlive]"
 		spacing = 8
 		margin_bottom = 6
 		margin_top = 3
@@ -5629,9 +4559,9 @@ types CharacterWindow
 			hbox = {
 				expand = {}
 				#########changed by obfusCKate: Start
-				visible = "[GetScriptedGui('gui_wealth_shown').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-								#####changed by obfusCKate: End
-				tooltip = "[Character.GetGoldTooltipWithBalance]"
+				using = obf_gold_template
+				#tooltip = "[Character.GetGoldTooltipWithBalance]"
+				#####changed by obfusCKate: End
 
 				icon = {
 					name = "icon_gold"
@@ -5641,38 +4571,15 @@ types CharacterWindow
 
 				text_single = {
 					name = "total_gold"
-					text = "[Character.GetGold|0]"
+					#########changed by obfusCKate: Start
+					using = obf_gold_text_template
+					#text = "[Character.GetGold|0]"
+					#####changed by obfusCKate: End
 					default_format = "#high"
 					align = center|nobaseline
 					fontsize_min = 12
 					max_width = 50
 				}
-
-				expand = {}
-			}
-			#########changed by obfusCKate: Start
-			hbox = {
-				expand = {}
-							visible = "[And(GetScriptedGui('gui_wealth_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Not(GetScriptedGui('gui_wealth_shown').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))]"
-								
-								tooltip = "OBF_GOLD_TOOLTIP"
-
-				icon = {
-					name = "icon_gold"
-					size = { 30 30 }
-					texture = "gfx/interface/icons/icon_gold.dds"
-				}
-
-				text_single = {
-									name = "total_gold"
-									text = "OBF_GOLD_CHARACTER"
-									default_format = "#high"
-									align = center|nobaseline
-									fontsize_min = 12
-									max_width = 50
-								}
-								#####changed by obfusCKate: End
-								
 
 				expand = {}
 			}
@@ -5683,13 +4590,12 @@ types CharacterWindow
 			size = { 72 32 }
 
 			hbox = {
-			spacing = 2
-				#########changed by obfusCKate: Start
-								visible = "[GetScriptedGui('gui_prestige_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-								tooltip = "OBF_PRESTIGE_LEVEL_TOOLTIP"
-								#####changed by obfusCKate: End
-				
+				spacing = 2
 
+				#########changed by obfusCKate: Start
+				using = obf_prestige_template
+				#tooltip = "[Character.GetPrestigeTooltipWithBalance]"
+				#####changed by obfusCKate: End
 
 				divider_light = {
 					layoutpolicy_vertical = expanding
@@ -5706,8 +4612,9 @@ types CharacterWindow
 				text_single = {
 					name = "prestige"
 					#########changed by obfusCKate: Start
-									text = "OBF_PRESTIGE_LEVEL_CHARACTER"
-									#####changed by obfusCKate: End
+					using = obf_prestige_text_template
+					#text = "[Character.GetPrestige|0]"
+					#####changed by obfusCKate: End
 					default_format = "#high"
 					align = center|nobaseline
 					fontsize_min = 12
@@ -5724,10 +4631,8 @@ types CharacterWindow
 
 			hbox = {
 				#########changed by obfusCKate: Start
-				visible = "[GetScriptedGui('gui_piety_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-								
-								tooltip = "OBF_PIETY_LEVEL_TOOLTIP"
-								#####changed by obfusCKate: End
+				using = obf_piety_template
+				#####changed by obfusCKate: End
 
 				divider_light = {
 					layoutpolicy_vertical = expanding
@@ -5744,8 +4649,9 @@ types CharacterWindow
 				text_single = {
 					name = "piety"
 					#########changed by obfusCKate: Start
-									text = "OBF_PIETY_LEVEL_CHARACTER"
-									#####changed by obfusCKate: End
+					using = obf_piety_text_template
+					#text = "[Character.GetPiety|0]"
+					#####changed by obfusCKate: End
 					default_format = "#high"
 					align = center|nobaseline
 					fontsize_min = 12
@@ -5761,10 +4667,9 @@ types CharacterWindow
 			size = { 72 32 }
 
 			hbox = {
-			#########changed by obfusCKate: Start
-				visible = "[And(GetScriptedGui('gui_influence_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Character.GetGovernment.HasRule( 'administrative' ))]"
-								
-								#####changed by obfusCKate: End
+				#########changed by obfusCKate: Start
+				visible = "[And(ShowInfluence, Character.GetGovernment.HasRule( 'administrative' ))]"
+				#####changed by obfusCKate: End
 
 				tooltip = "[Character.GetInfluenceTooltipWithBalance]"
 
@@ -5804,9 +4709,9 @@ types CharacterWindow
 			using = tooltip_ne
 
 			hbox = {
-			#########changed by obfusCKate: Start
-				visible = "[And(GetScriptedGui('gui_legitimacy_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),And(LegitimacyType.IsValid, Character.GetGovernment.HasRule( 'legitimacy' )))]"
-			########changed by obfusCKate: End
+				#########changed by obfusCKate: Start
+				visible = "[And(ShowLegitimacy, And(LegitimacyType.IsValid, Character.GetGovernment.HasRule( 'legitimacy' )))]"
+				########changed by obfusCKate: End
 				tooltipwidget = {
 					legitimacy_hud_tooltip = {
 						datacontext = "[CharacterWindow.GetLegitimacyBar]"
@@ -5841,11 +4746,11 @@ types CharacterWindow
 			size = { 72 32 }
 
 			hbox = {
+				visible = "[Character.HasLandedTitles]"
 				#changed by obfusCKate: Start
-								visible = "[Character.IsLocalPlayer]"
-								#changed by obfusCKate: End
-
-				tooltip = "[Character.GetDreadBreakdown]"
+				using = obf_dread_template
+				#tooltip = "[Character.GetDreadBreakdown]"
+				#changed by obfusCKate: End
 
 				divider_light = {
 					layoutpolicy_vertical = expanding
@@ -5861,44 +4766,15 @@ types CharacterWindow
 
 				text_single = {
 					name = "total_dread"
-					text = "[Character.GetDread|0]"
+					#changed by obfusCKate: Start
+					using = obf_dread_text_template
+					#text = "[Character.GetDread|0]"
+					#changed by obfusCKate: End
 					default_format = "#high"
 					align = center|nobaseline
 					fontsize_min = 12
 					max_width = 50
 				}
-
-				expand = {}
-			}
-			#changed by obfusCKate: Start
-			hbox = {
-				
-					visible = "[And(Not(Character.IsLocalPlayer), GetScriptedGui('gui_dread_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-								
-
-				tooltip = "OBF_DREAD_TOOLTIP"
-
-				divider_light = {
-					layoutpolicy_vertical = expanding
-				}
-
-				expand = {}
-
-				icon = { 
-					name = "dread_icon"
-					size = { 30 30 }
-					texture = "gfx/interface/icons/icon_dread.dds"
-				}
-
-				text_single = {
-									name = "total_dread"
-									text = "OBF_DREAD_CHARACTER"
-									default_format = "#high"
-									align = center|nobaseline
-									fontsize_min = 12
-									max_width = 50
-								}
-				#changed by obfusCKate: End
 
 				expand = {}
 			}
@@ -5909,31 +4785,29 @@ types CharacterWindow
 			layoutpolicy_vertical = expanding
 		}
 		
-		#######changed by obfusCKate: Start
 		widget = {
-			tooltip_visible = "[And(Character.HasLandedTitles,GetScriptedGui('gui_military_strength_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
+			#######changed by obfusCKate: Start
+			tooltip_visible = "[And(Character.HasLandedTitles,ShowMilitaryStrength)]"
+			#######changed by obfusCKate: End
 			tooltip = "[CharacterWindow.GetMilitaryStrengthTooltip]"
-			size = { 72 32 }
+			size = { 95 32 }
 
 			hbox = {
-				visible = "[Character.HasLandedTitles]"
+				#######changed by obfusCKate: Start
+				visible = "[And(ShowMilitaryStrength, Character.HasLandedTitles)]"
+				#######changed by obfusCKate: End
 				spacing = 2
 
 				expand = {}
    
 				icon = {
 					name = "icon_combat_strength"
-					visible = "[And(Character.HasLandedTitles,GetScriptedGui('gui_military_strength_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
 					size = { 30 30 }
 					texture = "gfx/interface/icons/icon_soldier.dds"
 				}
 				
 				text_single = {
 					name = "military_total_strength"
-					
-								visible = "[And(Character.HasLandedTitles,GetScriptedGui('gui_military_strength_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
-									
-								#######changed by obfusCKate: End
 					text = "[CharacterWindow.GetCachedMilitaryStrengthText]"
 					default_format = "#high"
 					align = center|nobaseline
@@ -5941,35 +4815,24 @@ types CharacterWindow
 					max_width = 80
 
 					progressbar_standard = {
-									#changed by obfusCKate: Start
-										visible = "[GetScriptedGui('gui_military_strength_progress_bar_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
-										#changed by obfusCKate: End
-										name = "soldiers_max"
-										parentanchor = bottom|hcenter
-										position = { 0 5 }
-										size = { 33 8 }
-										min = 0
-										max = "[IntToFloat(CharacterWindow.GetMaxSoldiers)]"
-										value = "[IntToFloat(CharacterWindow.GetCurrentSoldiers)]"
-									}
+						name = "soldiers_max"
+						#changed by obfusCKate: Start
+						visible = "[ShowMilitaryProgressBar]"
+						#changed by obfusCKate: End
+						parentanchor = bottom|hcenter
+						position = { 0 5 }
+						size = { 33 8 }
+						min = 0
+						max = "[IntToFloat(CharacterWindow.GetMaxSoldiers)]"
+						value = "[IntToFloat(CharacterWindow.GetCurrentSoldiers)]"
+					}
 				}
-				
-				button_tertiary = {
-					name = "ask_military_advice"	 
-					visible = "[And(Character.HasLandedTitles,And(AskAdvisorsInteractionValid,Not(GetScriptedGui('gui_military_strength_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))))]"		
-					size = { 95 35 }
-					datacontext = "[Character]"
-					onclick = "[CharacterWindow.GetCharacter.OpenPlayerInteraction('ask_advisors_opinion_interaction')]"
-					text = "MILITARY_STRENGHT_OB"
-					tooltip = "ASK_MILITARY_ADVICE_OB_TT" 
-					using = tooltip_sw
-					
-				}
-
-				
 
 				expand = {}
 			}
+			#######changed by obfusCKate: Start
+			obf_button_ask_military_advice = {}
+			#######changed by obfusCKate: End
 		}
 
 		expand = {}

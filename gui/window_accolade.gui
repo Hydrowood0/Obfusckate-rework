@@ -127,9 +127,8 @@ window = {
 					margin_bottom = 8
 					margin_right = 16
 					#changed by obfusCKate: start
-
 					text = "PROWESS_VALUES_ACCLAIMED_KNIGHT"
-				#changed by obfusCKate: End
+					#changed by obfusCKate: End
 					using = Font_Size_Big
 					default_format = "#high"
 				}

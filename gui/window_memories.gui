@@ -88,7 +88,7 @@ window = {
 						size = { 220 285 }
 					}
 					using = portrait_base
-					visible = "[Or(PortraitsEnabled,And(PortraitsDisabled,GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))]"
+					visible = "[ShowPortrait]"
 					portrait_texture = "[Character.GetAnimatedPortrait( 'environment_council', 'camera_torso', 'chancellor', PdxGetWidgetScreenSize( PdxGuiWidget.Self ) )]"
 					mask = "gfx/portraits/portrait_mask_council.dds"
 					effectname = "NoHighlight"
@@ -97,7 +97,6 @@ window = {
 						mask = "gfx/portraits/portrait_mask_council.dds"
 					}
 				}
-					
 			}
 			#Changed by obfusCKate:End
 

@@ -122,7 +122,6 @@ window = {
 			layoutpolicy_vertical = expanding
 			layoutpolicy_horizontal = expanding
 			
-
 			scrollbox = {
 				layoutpolicy_vertical = expanding
 				layoutpolicy_horizontal = expanding
@@ -144,9 +143,6 @@ window = {
 						}
 
 						vbox_character_interaction_effects_contents = {}
-																																									  
-																																	 
-	   
 					}
 				}
 			}
@@ -251,14 +247,14 @@ window = {
 				layoutpolicy_horizontal = expanding
 				datacontext = "[CharacterSelectionList.GetCategory('personal_filter_category')]"
 				blockoverride "filters" {
-				#changed by obfusCKate: Start
+					#changed by obfusCKate: Start
 					filter_item = {
-					visible = no
+						visible = no
 						layoutpolicy_horizontal = expanding
 						datacontext = "[CharacterSelectionList.GetFilter('fertility_filter')]"
 					}
 					filter_item = {
-					visible = no
+						visible = no
 						layoutpolicy_horizontal = expanding
 						datacontext = "[CharacterSelectionList.GetFilter('health_filter')]"
 					}
@@ -271,12 +267,12 @@ window = {
 						datacontext = "[CharacterSelectionList.GetFilter('culture_filter')]"
 					}
 					filter_item = {
-					visible = no
+						visible = no
 						layoutpolicy_horizontal = expanding
 						datacontext = "[CharacterSelectionList.GetFilter('trait_filter')]"
 					}
 					filter_item = {
-					visible = no
+						visible = no
 						layoutpolicy_horizontal = expanding
 						datacontext = "[CharacterSelectionList.GetFilter('sexuality_filter')]"
 					}

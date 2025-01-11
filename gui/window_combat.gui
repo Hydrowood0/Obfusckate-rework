@@ -2255,7 +2255,6 @@ types CombatWindow
 	}
 
 	type maa_tooltip_widget = widget {
-		direction = vertical
 		alwaystransparent = no
 
 		widget = {
@@ -2401,9 +2400,6 @@ types CombatWindow
 				margin = { 10 0 }
 				layoutpolicy_horizontal = expanding
 
-														
-																																																		 
-
 				text = "COMBAT_WINDOW_MAA_TT_SCREEN"
 			}
 
@@ -2416,9 +2412,6 @@ types CombatWindow
 
 				margin = { 10 0 }
 				layoutpolicy_horizontal = expanding
-
-														
-																																																   
 
 				text = "COMBAT_WINDOW_MAA_TT_PURSUIT"
 			}

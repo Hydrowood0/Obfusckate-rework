@@ -2,7 +2,7 @@
 
 macro = {
 	description = "Rumours interaction Shown"
-	definition = "RumoursShown"
+	definition = "RumoursInteractionShown"
 	replace_with = "Character.IsPlayerInteractionShown('has_heard_rumours_interaction')"
 }
 
@@ -210,4 +210,255 @@ macro = {
 	description = "Spy Network High"
 	definition = "SpyNetworkHigh"
 	replace_with = "Character.IsPlayerInteractionShown('high_spy_network_coverage_interaction')"
+}
+
+macro = {
+	description = "return true"
+	definition = "True"
+	replace_with = "EqualTo_CFixedPoint('(CFixedPoint)0', '(CFixedPoint)0')"
+}
+macro = {
+	description = "return False"
+	definition = "False"
+	replace_with = "Not(True)"
+}
+
+macro = {
+	description = "Is obf loaded?"
+	definition = "ObfLoaded"
+	replace_with = "True"
+}
+macro = {
+	description = "Is obf loaded & Character.IsLocalPlayer?"
+	definition = "ObfIsLocalPlayer"
+	replace_with = "Character.IsLocalPlayer"
+}
+
+macro = {
+	description = "Show portriat For Player?"
+	definition = "PlayerKnowCharacterPortrait"
+	replace_with = "GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "Show portriat For Player, or game rule set enabled?"
+	definition = "ShowPortrait"
+	replace_with = "Or(PortraitsEnabled,PlayerKnowCharacterPortrait)"
+}
+
+macro = {
+	description = "Show Opinion For Player?"
+	definition = "ShowOpinion"
+	replace_with = "GetScriptedGui('gui_opinion_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "Show Opinion about liege For Player?"
+	definition = "ShowOpinionAboutLiege"
+	replace_with = "GetScriptedGui('gui_show_opinion_about_liege').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End )"
+}
+
+macro = {
+	description = "Selection Opinion Text"
+	definition = "OpinionText(TargetCharacter)"
+	replace_with = "SelectLocalization(GreaterThanOrEqualTo_int32(Character.GetOpinionOf( TargetCharacter ), '(int32)86'),'cooltip_opinion_excellent',SelectLocalization(GreaterThanOrEqualTo_int32(Character.GetOpinionOf( TargetCharacter ), '(int32)60'),'cooltip_opinion_very_good',SelectLocalization(GreaterThanOrEqualTo_int32(Character.GetOpinionOf( TargetCharacter ), '(int32)30'),'cooltip_opinion_good',SelectLocalization(GreaterThanOrEqualTo_int32(Character.GetOpinionOf( TargetCharacter ), '(int32)10'),'cooltip_opinion_decent',SelectLocalization(GreaterThanOrEqualTo_int32(Character.GetOpinionOf( TargetCharacter ), '(int32)-9'),'cooltip_opinion_neutral',SelectLocalization(GreaterThanOrEqualTo_int32(Character.GetOpinionOf( TargetCharacter ), '(int32)-29'),'cooltip_opinion_poor',SelectLocalization(GreaterThanOrEqualTo_int32(Character.GetOpinionOf( TargetCharacter ), '(int32)-59'),'cooltip_opinion_awful',SelectLocalization(GreaterThanOrEqualTo_int32(Character.GetOpinionOf( TargetCharacter ), '(int32)-85'), 'cooltip_opinion_terrible', 'cooltip_opinion_abysmal'))))))))"
+}
+
+macro = {
+	description = "Selection Opinion Text, short version"
+	definition = "OpinionTextShort(TargetCharacter)"
+	replace_with = "SelectLocalization(GreaterThanOrEqualTo_int32(Character.GetOpinionOf( TargetCharacter ), '(int32)86'),'cooltip_opinion_short_excellent',SelectLocalization(GreaterThanOrEqualTo_int32(Character.GetOpinionOf( TargetCharacter ), '(int32)60'),'cooltip_opinion_short_very_good',SelectLocalization(GreaterThanOrEqualTo_int32(Character.GetOpinionOf( TargetCharacter ), '(int32)30'),'cooltip_opinion_short_good',SelectLocalization(GreaterThanOrEqualTo_int32(Character.GetOpinionOf( TargetCharacter ), '(int32)10'),'cooltip_opinion_short_decent',SelectLocalization(GreaterThanOrEqualTo_int32(Character.GetOpinionOf( TargetCharacter ), '(int32)-9'),'cooltip_opinion_short_neutral',SelectLocalization(GreaterThanOrEqualTo_int32(Character.GetOpinionOf( TargetCharacter ), '(int32)-29'),'cooltip_opinion_short_poor',SelectLocalization(GreaterThanOrEqualTo_int32(Character.GetOpinionOf( TargetCharacter ), '(int32)-59'),'cooltip_opinion_short_awful',SelectLocalization(GreaterThanOrEqualTo_int32(Character.GetOpinionOf( TargetCharacter ), '(int32)-85'), 'cooltip_opinion_short_terrible', 'cooltip_opinion_short_abysmal'))))))))"
+}
+
+macro = {
+	description = "Show estimate count of tabs For Player?"
+	definition = "ShowEstimateTabCount"
+	replace_with = "And(Not(ShowTabCount), GetScriptedGui('gui_tab_count_estimate_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))"
+}
+
+macro = {
+	description = "Show count of tabs For Player?"
+	definition = "ShowTabCount"
+	replace_with = "GetScriptedGui('gui_tab_count_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "Show family tab For Player?"
+	definition = "ShowFamilyTab"
+	replace_with = "GetScriptedGui('gui_show_family_tab').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "Show relations tab For Player?"
+	definition = "ShowRelationsTab"
+	replace_with = "GetScriptedGui('gui_show_relations_tab').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "Show intimate relations For Player?"
+	definition = "ShowIntimateRelations"
+	replace_with = "GetScriptedGui('gui_show_intimate_relations').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "Show portrait status For Player?"
+	definition = "ShowPortraitStatus"
+	replace_with = "GetScriptedGui('gui_portrait_status_icons_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "Show military strength For Player?"
+	definition = "ShowMilitaryStrength"
+	replace_with = "GetScriptedGui('gui_military_strength_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "Show military progress bar For Player?"
+	definition = "ShowMilitaryProgressBar"
+	replace_with = "GetScriptedGui('gui_military_strength_progress_bar_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+
+
+macro = {
+	description = "Show legitimacy For Player?"
+	definition = "ShowLegitimacy"
+	replace_with = "GetScriptedGui('gui_legitimacy_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+
+macro = {
+	description = "Show dread For Player?"
+	definition = "ShowDread"
+	replace_with = "GetScriptedGui('gui_show_dread_icon_on_portraits_for_player').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "Show dread For Player?"
+	definition = "ShowDreadForLiege"
+	replace_with = "GetScriptedGui('gui_show_dread_icon_for_liege_or_host').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+
+
+macro = {
+	description = "Show known languages For Player?"
+	definition = "ShowKnownLanguages"
+	replace_with = "GetScriptedGui('gui_show_known_languages').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "Show exact age For Player?"
+	definition = "ShowExactAge"
+	replace_with = "GetScriptedGui('gui_show_exact_age').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "Show exact age For Player?"
+	definition = "ShowApproxAge"
+	replace_with = "GetScriptedGui('gui_show_approx_age').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+
+macro = {
+	description = "Show health For Player?"
+	definition = "ShowHealth"
+	replace_with = "GetScriptedGui('gui_show_health').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+
+macro = {
+	description = "Show government efficiency For Player?"
+	definition = "ShowGovernmentEfficency"
+	replace_with = "GetScriptedGui('gui_show_efficiency').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "Show faith & culture For Player?"
+	definition = "ShowFaithCulture"
+	replace_with = "GetScriptedGui('gui_faith_and_culture_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "Show modifiers For Player?"
+	definition = "ShowModifiers"
+	replace_with = "GetScriptedGui('gui_show_modifiers').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+
+macro = {
+	description = "Show house For Player?"
+	definition = "ShowHouse"
+	replace_with = "GetScriptedGui('gui_house_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+
+macro = {
+	description = "Show domain For Player?"
+	definition = "ShowDomain"
+	replace_with = "GetScriptedGui('gui_show_domain').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+
+macro = {
+	description = "Show titles & claims For Player?"
+	definition = "ShowTitlesClaims"
+	replace_with = "GetScriptedGui('gui_show_titles_and_claims').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "Show diplomacy items For Player?"
+	definition = "ShowDiplomacy"
+	replace_with = "GetScriptedGui('gui_show_diplomacy_items').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "personality known For Player?"
+	definition = "PersonalityKnown"
+	replace_with = "GetScriptedGui('gui_personality_is_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "basic personality known For Player?"
+	definition = "PersonalityBasic"
+	replace_with = "GetScriptedGui('gui_basic_personality_is_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "first impression known For Player?"
+	definition = "PersonalityImpression"
+	replace_with = "GetScriptedGui('gui_first_impression_is_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "is this character male and sexuality known by player?"
+	definition = "ShowSexualityMale"
+	replace_with = "GetScriptedGui('gui_sexuality_for_males').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "is this character female and sexuality known by player?"
+	definition = "ShowSexualityFemale"
+	replace_with = "GetScriptedGui('gui_sexuality_for_females').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+
+macro = {
+	description = "is this character's holding stat known by player?"
+	definition = "ShowHoldingStats"
+	replace_with = "GetScriptedGui('gui_county_or_holding_stats_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "is this character's prowess known by player?"
+	definition = "ShowProwess"
+	replace_with = "GetScriptedGui('gui_prowess_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "can sort known character list?"
+	definition = "AllowSortKnownChar"
+	replace_with = "GetScriptedGui('gui_allow_sort_known_char_list').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).End )"
+}
+
+macro = {
+	description = "show opinion breakdown?"
+	definition = "ShowOpinionBreakdown"
+	replace_with = "GetScriptedGui('gui_opinion_breakdown_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+
+macro = {
+	description = "show gold level to player?"
+	definition = "ShowGoldRough"
+	replace_with = "GetScriptedGui('gui_wealth_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "show gold amount to player?"
+	definition = "ShowGoldExact"
+	replace_with = "GetScriptedGui('gui_wealth_shown').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "show influence to player?"
+	definition = "ShowInfluence"
+	replace_with = "GetScriptedGui('gui_influence_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "show prestige to player?"
+	definition = "ShowPrestige"
+	replace_with = "GetScriptedGui('gui_prestige_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "show piety to player?"
+	definition = "ShowPiety"
+	replace_with = "GetScriptedGui('gui_piety_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
 }

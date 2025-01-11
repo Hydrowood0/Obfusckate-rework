@@ -1,9 +1,8 @@
-﻿
-##DREAD LOGIC IN PORTRAITS - Little icon in portraits 
+﻿##DREAD LOGIC IN PORTRAITS - Little icon in portraits 
 gui_show_dread_icon_on_portraits_for_player = {
-saved_scopes = {
-character
-}
+	saved_scopes = {
+		character
+	}
 	is_valid = {
 	root = {is_incapable = no
 		age >= 6}
@@ -50,56 +49,60 @@ character
 #Will only be shown after spying or for characters with not very high boldness
 
 gui_show_dread_icon_for_liege_or_host = {
-saved_scopes = {
-character
-}
+	saved_scopes = {
+		character
+	}
 	is_valid = {
-	exists = scope:character
-	exists = scope:character.liege 
-	root = {is_incapable = no
-		age >= 6
-		probably_unintelligent_trigger = no}
-	scope:character = { ### Filter adult, capable not bold characters
-					exists = liege
-					ai_boldness <= 75
-					is_alive = yes
-					age >= 6
-					is_incapable = no
-					NOT = {is_vassal_of = root}
+		exists = scope:character
+		root = {
+			is_incapable = no
+			age >= 6
+			probably_unintelligent_trigger = no
+		}
+		scope:character ?= { ### Filter adult, capable not bold characters
+			is_independent_ruler = no
+			ai_boldness <= 75
+			is_alive = yes
+			age >= 6
+			is_incapable = no
+			NOT = {is_vassal_of = root}
+		}
+		OR = {
+			scope:character = {
+				obf_is_fellow_vassal_or_liege_councillor = yes
+				ai_boldness < 50
+			}
+			scope:character = {
+				OR = {	
+					has_character_flag = had_high_level_report
+					has_character_flag = has_been_spied
+					AND = {   #### coward flagged	
+						obf_has_high_level_knowledge_flags = yes
+						ai_boldness < 25
 					}
-	OR = {
-		scope:character = { #
-		obf_is_fellow_vassal_or_liege_councillor = yes
-				ai_boldness < 50}
-	
-	scope:character = {
-	OR = {	
-			has_character_flag = had_high_level_report
-			has_character_flag = has_been_spied
-			
-			AND = {   #### coward flagged	
-			obf_has_high_level_knowledge_flags = yes
-			ai_boldness < 25}
-			
-			AND = {
-			ai_boldness < 0
-			OR = {has_character_flag = emissary_sent
-			has_character_flag = partially_spied_2}
-			OR = {
-				AND = {exists = scope:character.liege
-					has_dread_level_towards = {
-					target = scope:character.liege
-					level = 2	
-								}}
-				ai_rationality <= -50 
-				ai_boldness <= -40	
+					AND = {
+						ai_boldness < 0
+						OR = {
+							has_character_flag = emissary_sent
+							has_character_flag = partially_spied_2
+						}
+						OR = {
+							AND = {
+								exists = scope:character.liege
+								has_dread_level_towards = {
+									target = scope:character.liege
+									level = 2	
+								}
 							}
+							ai_rationality <= -50 
+							ai_boldness <= -40	
 						}
 					}
 				}
 			}
 		}
 	}
+}
 	
 #Show opinion about Liege
 
@@ -1900,390 +1903,130 @@ player
 #Skills are known
 
 gui_skills_are_known = {
-saved_scopes = {
-character
-}
+	saved_scopes = {
+		character
+	}
 	is_valid = {
-	exists = scope:character
-	NOT = {scope:character = root}
-	
-	scope:character = {
-	OR = {
-	obf_is_fellow_vassal_or_liege_councillor = yes
-	obf_has_high_level_knowledge_flags = yes
-	
-					}
-				}
-			}
-		}
+		gui_skills_are_known = yes
+	}
+}
 
 gui_skills_are_roughly_known = {
-saved_scopes = {
-character
-}
+	saved_scopes = {
+		character
+	}
 	is_valid = {
-	root = {is_incapable = no	
-			age >= 6}
-	exists = scope:character
-	NOT = {scope:character = root}
-	scope:character = {
-	age >= 6
-	NOR = {
-	AND ={ root.age >= 12
-	revelation_score >= 30
-	age >= 12
-	obf_is_fellow_vassal_or_liege_councillor = yes}
-	AND ={ root.age >= 12
-	age >= 12
-	obf_has_close_or_intimate_relation = yes}
-	AND = {root.age >= 12
-	age >= 12
-	has_character_flag = had_high_level_report}
-	AND = {root.age >= 12
-	revelation_score >= 30
-	age >= 12
-	obf_has_high_level_knowledge_flags = yes}}
-	
-	
-	OR = { 
-			prestige_level >= 4
-			highest_held_title_tier >= tier_empire
-		AND = { in_diplomatic_range = root
-			OR = {prestige_level >= 3
-			highest_held_title_tier >= tier_kingdom}}
-			has_character_flag = has_been_spied
-	has_character_flag = had_medium_level_report
-	has_character_flag = partially_spied_2
-	obf_has_near_intimate_or_close_relation = yes
-	AND = { OR = {root.age >= 12
-				revelation_score < 30}
-	obf_is_fellow_vassal_or_liege_councillor = yes}
-	AND = {OR = {root.age >= 12
-				revelation_score < 30}
-	obf_has_high_level_knowledge_flags = yes}
-	AND = {root.age < 12
-	has_character_flag = had_high_level_report}
-	AND = {root.age < 12
-	obf_has_close_or_intimate_relation = yes}
-	
-					}
-				}
-			}
-		}
+		gui_skills_are_roughly_known = yes
+	}
+}
 	
 gui_skills_are_not_known = {
-saved_scopes = {
-character
-}
+	saved_scopes = {
+		character
+	}
 	is_valid = {
-	exists = scope:character
-	NOT = {scope:character = root}
-	OR = { root = {is_incapable = yes}
-			root.age < 6
-	scope:character = {
-	OR = {age < 6
-	NOR = {
-	obf_is_fellow_vassal_or_liege_councillor = yes
-	prestige_level >= 4
-			highest_held_title_tier >= tier_empire
-		AND = { in_diplomatic_range = root
-			OR = {prestige_level >= 3
-			highest_held_title_tier >= tier_kingdom}}
-			has_character_flag = has_been_spied
-			has_character_flag = had_high_level_report
-	has_character_flag = had_medium_level_report
-	has_character_flag = partially_spied_2
-	obf_has_high_level_knowledge_flags = yes
-	obf_has_close_or_intimate_relation = yes
-	obf_has_near_intimate_or_close_relation = yes}
-						}
-					}
-				}
-			}
-		}
-
-
+		gui_skills_are_not_known = yes
+	}
+}
 
 gui_any_skill_for_humble = {
-saved_scopes = {
-character
-}
+	saved_scopes = {
+		character
+	}
 	is_valid = {
-	root = {is_incapable = no	
-			age >= 12}
-	exists = scope:character
-	NOT = {scope:character = root}
-	
-	scope:character = {
-	age >= 12
-	revelation_score >= 30
-	has_character_flag = humble_character
-				}
-			}
-		}
+		gui_any_skill_for_humble = yes
+	}
+}
 	
 gui_skills_diplo_for_known = {
-saved_scopes = {
-character
-}
+	saved_scopes = {
+		character
+	}
 	is_valid = {
-	root = {is_incapable = no	
-			age >= 12}
-	exists = scope:character
-	NOT = {scope:character = root}
-	scope:character = {
-	NOR = {
-	has_character_flag = humble_character
-	has_character_flag = illusory_diplomat
-	}}
-	
-	scope:character = {
-	age >= 12
-	OR = {
-	has_character_flag = had_high_level_report
-	obf_has_close_or_intimate_relation = yes
-	AND = {revelation_score >= 30
-	OR = {
-	obf_is_fellow_vassal_or_liege_councillor = yes
-	has_character_flag = illusory_administrator
-	has_character_flag = illusory_intriguer
-	has_character_flag = illusory_scholar
-	has_character_flag = illusory_warrior
-	has_character_flag = partially_spied_3}}
-
-	
-					}
-				}
-			}
-		}
+		gui_skills_diplo_for_known = yes
+	}
+}
 
 gui_skills_diplo_for_illusory = {
-saved_scopes = {
-character
-}
+	saved_scopes = {
+		character
+	}
 	is_valid = {
-	root = {is_incapable = no	
-			age >= 12}
-	exists = scope:character
-	NOT = {scope:character = root}
-	
-	scope:character = {
-	age >= 12
-	revelation_score >= 30
-	has_character_flag = illusory_diplomat
-				}
-			}
-		}
+		gui_skills_diplo_for_illusory = yes
+	}
+}
 
 gui_skills_martial_for_known = {
-saved_scopes = {
-character
-}
+	saved_scopes = {
+		character
+	}
 	is_valid = {
-	root = {is_incapable = no	
-			age >= 12}
-	exists = scope:character
-	NOT = {scope:character = root}
-	scope:character = {
-	NOR = {
-	has_character_flag = humble_character
-	has_character_flag = illusory_warrior
-	}}
-
-	scope:character = {
-	age >= 12
-	OR = {
-	has_character_flag = had_high_level_report
-	obf_has_close_or_intimate_relation = yes
-	AND = {revelation_score >= 30
-	OR = {
-	obf_is_fellow_vassal_or_liege_councillor = yes
-	has_character_flag = illusory_administrator
-	has_character_flag = illusory_intriguer
-	has_character_flag = illusory_scholar
-	has_character_flag = illusory_warrior
-	has_character_flag = partially_spied_3}}
-	
-					}
-				}
-			}
-		}
+		gui_skills_martial_for_known = yes
+	}
+}
 
 gui_skills_martial_for_illusory = {
-saved_scopes = {
-character
-}
+	saved_scopes = {
+		character
+	}
 	is_valid = {
-	root = {is_incapable = no	
-			age >= 12}
-	exists = scope:character
-	NOT = {scope:character = root}
-	
-	scope:character = {
-	age >= 12
-	revelation_score >= 30
-	has_character_flag = illusory_warrior
-				}
-			}
-		}
+		gui_skills_martial_for_illusory = yes
+	}
+}
 
 gui_skills_steward_for_known = {
-saved_scopes = {
-character
-}
+	saved_scopes = {
+		character
+	}
 	is_valid = {
-	root = {is_incapable = no	
-			age >= 12}
-	exists = scope:character
-	NOT = {scope:character = root}
-	scope:character = {
-	NOR = {
-	has_character_flag = humble_character
-	has_character_flag = illusory_administrator
-	}}
-
-	scope:character = {
-	age >= 12
-	OR = {
-	has_character_flag = had_high_level_report
-	obf_has_close_or_intimate_relation = yes
-	AND = {revelation_score >= 30
-	OR = {
-	obf_is_fellow_vassal_or_liege_councillor = yes
-	has_character_flag = illusory_administrator
-	has_character_flag = illusory_intriguer
-	has_character_flag = illusory_scholar
-	has_character_flag = illusory_warrior
-	has_character_flag = partially_spied_3}}
-	
-					}
-				}
-			}
-		}
+		gui_skills_steward_for_known = yes
+	}
+}
 
 gui_skills_steward_for_illusory = {
-saved_scopes = {
-character
-}
+	saved_scopes = {
+		character
+	}
 	is_valid = {
-	root = {is_incapable = no	
-			age >= 12}
-	exists = scope:character
-	NOT = {scope:character = root}
-	
-	scope:character = {
-	age >= 12
-	revelation_score >= 30
-	has_character_flag = illusory_administrator
-				}
-			}
-		}
-		
-		
+		gui_skills_steward_for_illusory = yes
+	}
+}
+
 gui_skills_intrigue_for_known = {
-saved_scopes = {
-character
-}
+	saved_scopes = {
+		character
+	}
 	is_valid = {
-	root = {is_incapable = no	
-			age >= 12}
-	exists = scope:character
-	NOT = {scope:character = root}
-	scope:character = {
-	NOR = {
-	has_character_flag = humble_character
-	has_character_flag = illusory_intriguer
-	}}
-	
-	scope:character = {
-	age >= 12
-	OR = {
-	has_character_flag = had_high_level_report
-	obf_has_close_or_intimate_relation = yes
-	AND = {revelation_score >= 30
-	OR = {
-	obf_is_fellow_vassal_or_liege_councillor = yes
-	has_character_flag = illusory_administrator
-	has_character_flag = illusory_intriguer
-	has_character_flag = illusory_scholar
-	has_character_flag = illusory_warrior
-	has_character_flag = partially_spied_3}}
-	
-					}
-				}
-			}
-		}
+		gui_skills_intrigue_for_known = yes
+	}
+}
 
 gui_skills_intrigue_for_illusory = {
-saved_scopes = {
-character
-}
+	saved_scopes = {
+		character
+	}
 	is_valid = {
-	root = {is_incapable = no	
-			age >= 12}
-	exists = scope:character
-	NOT = {scope:character = root}
-	
-	scope:character = {
-	age >= 12
-	revelation_score >= 30
-	has_character_flag = illusory_intriguer
-				}
-			}
-		}
+		gui_skills_intrigue_for_illusory = yes
+	}
+}
 
 gui_skills_learning_for_known = {
-saved_scopes = {
-character
-}
+	saved_scopes = {
+		character
+	}
 	is_valid = {
-	root = {is_incapable = no	
-			age >= 12}
-	exists = scope:character
-	NOT = {scope:character = root}
-	scope:character = {
-	NOR = {
-	has_character_flag = humble_character
-	has_character_flag = illusory_scholar
-	}}
-	
-	scope:character = {
-	age >= 12
-	OR = {
-	has_character_flag = had_high_level_report
-	obf_has_close_or_intimate_relation = yes
-AND = {revelation_score >= 30
-	OR = {
-	obf_is_fellow_vassal_or_liege_councillor = yes
-	has_character_flag = illusory_administrator
-	has_character_flag = illusory_intriguer
-	has_character_flag = illusory_scholar
-	has_character_flag = illusory_warrior
-	has_character_flag = partially_spied_3}}
-
-	
-					}
-				}
-			}
-		}
+		gui_skills_learning_for_known = yes
+	}
+}
 
 gui_skills_learning_for_illusory = {
-saved_scopes = {
-character
-}
+	saved_scopes = {
+		character
+	}
 	is_valid = {
-	root = {is_incapable = no	
-			age >= 12}
-	exists = scope:character
-	NOT = {scope:character = root}
-	
-	scope:character = {
-	age >= 12
-	revelation_score >= 30
-	has_character_flag = illusory_scholar
-				}
-			}
-		}
+		gui_skills_learning_for_illusory = yes
+	}
+}
 
 ####PORTRAITS SCRIPTED GUI'
 

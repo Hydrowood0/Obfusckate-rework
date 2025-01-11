@@ -813,9 +813,9 @@ window = {
 								}
 								### DYNASTY TREE ###
 								button_standard_clean = {
-								#changed by obfusCKate: Start
-								visible = "[Or(ObjectsEqual( DynastyHouse.GetHeadOfHouse, GetPlayer.GetHouse.GetHeadOfHouse ),GreaterThanOrEqualTo_int32(DynastyHouse.GetDynasty.GetPrestigeLevel, '(int32)3'))]"
-								#changed by obfusCKate: End
+									#changed by obfusCKate: Start
+									visible = "[Or(ObjectsEqual( DynastyHouse.GetHeadOfHouse, GetPlayer.GetHouse.GetHeadOfHouse ),GreaterThanOrEqualTo_int32(DynastyHouse.GetDynasty.GetPrestigeLevel, '(int32)3'))]"
+									#changed by obfusCKate: End
 									tooltip = "DYNASTY_VIEW_TT_DYNASTY_TREE"
 									onclick = "[OpenGameViewData( 'dynasty_tree_view', DynastyHouse.GetHeadOfHouseOrLastHistoricHead.GetID )]"
 									size = { 60 110 }
@@ -1672,9 +1672,9 @@ window = {
 													default_format = "#weak"
 												}
 												text_single = {
-												#changed by ObfusCKate: Start
-												visible = no
-												#changed by ObfusCKate: Start
+													#changed by ObfusCKate: Start
+													visible = no
+													#changed by ObfusCKate: Start
 													text = "HOUSE_LIST_HEAD_MAX_MILITARY_STRENGTH"
 													tooltip = "HOUSE_LIST_MILITARY_STRENGTH_TT"
 													align = right

@@ -277,7 +277,6 @@ types Outliner {
 									texture = "gfx/interface/icons/character_status/icon_health.dds"
 								}
 								
-
 								text_single = {
 									layoutpolicy_horizontal = expanding
 									autoresize = no
@@ -469,7 +468,6 @@ types Outliner {
 					using = tooltip_ws
 
 					vbox = {
-						  
 						layoutpolicy_horizontal = expanding
 						margin_bottom = 7
 
