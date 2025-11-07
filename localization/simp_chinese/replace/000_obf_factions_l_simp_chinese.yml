@@ -1,0 +1,13 @@
+﻿l_simp_chinese:
+ msg_faction_against_liege_or_me_created:2 "不忠的风声"
+ msg_faction_against_liege_or_me_created_desc:1 "叛乱与密谋的流言在领地内流传。尽管我们尚不清楚事情的始末，但不满可能已经在缓慢滋生。"
+ msg_county_faction_against_liege_or_me_created_desc:2 "乡村之中的不满声浪正在提高。农民们窃窃私语，税官们神经绷紧，叛乱的种子可能很快发芽，需要对此做好准备。"
+ msg_faction_against_me_disbanded:1 "风声渐息"
+ msg_faction_against_me_disbanded_desc:2 "空气变得沉寂，反对的声音也消停了一段时间。无论什么曾经在领地内震荡，至少目前来看，它已经停止了躁动。"
+ OBF_FACTION_MEMBERS: "成员获悉"
+ faction_confirmed:2 "有派系存在"
+ obf_faction_event.1000.t: "不忠的风声"
+ obf_faction_event.1000.desc: "流言得到了确认！我的领土内确实存在一个派系，有组织的谋求挑战我的统治。"
+ obf_faction_event.1000.desc_faction_leader: "现在可以确认，[faction_leader.GetShortUIName]正领导一个针对我的[faction.GetName]。"
+ obf_faction_event.1000.a: "背叛之人必须付出代价。"
+ obf_faction_event.1000.a.effect: "打开派系界面"

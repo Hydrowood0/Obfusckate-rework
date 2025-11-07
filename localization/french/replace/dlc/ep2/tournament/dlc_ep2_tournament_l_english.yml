@@ -1,0 +1,7 @@
+﻿l_english:
+
+ ##### Changed #####
+ character_contest_type_aptitude_wit:1 "#T $character_contest_type_aptitude_start$ $tournament_contest_type_wit$ [contest_aptitude|E]"
+ character_contest_type_aptitude_horse:1 "#T $character_contest_type_aptitude_start$ $tournament_contest_type_horse$ [contest_aptitude|E]"
+ character_contest_type_aptitude_archery:1 "#T $character_contest_type_aptitude_start$ $tournament_contest_type_archery$ [contest_aptitude|E]"
+ character_contest_type_aptitude_foot:1 "#T $character_contest_type_aptitude_start$ $tournament_contest_type_foot$ [contest_aptitude|E]"

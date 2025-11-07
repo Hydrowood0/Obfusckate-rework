@@ -1,4 +1,4 @@
-version="1.162"
+version="1.180"
 tags={
 	"Fixes"
 	"Gameplay"
@@ -6,5 +6,5 @@ tags={
 	"Character Interactions"
 }
 name="obfusCKate(rework & RUI:Character Compatibled)"
-supported_version="1.16.2.3"
+supported_version="1.18.*"
 remote_file_id="3508469370"
