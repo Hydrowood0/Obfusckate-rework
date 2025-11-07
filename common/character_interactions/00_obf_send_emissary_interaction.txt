@@ -814,11 +814,20 @@
 	}
 	scope:actor = {
 		if = {
-			limit = {OR = {scope:recipient = {is_vassal_or_below_of = scope:actor}
-							scope:recipient = {OR = {has_character_flag = good_outcome_emissary
-											has_character_flag = bad_outcome_emissary}}}}
-			trigger_event = send_emissary_event.1001
+			limit = {
+				OR = {
+					scope:recipient = {is_vassal_or_below_of = scope:actor}
+					scope:recipient = {is_tributary_of_suzerain_or_above = scope:actor} #added by ljl
+					scope:recipient = {
+						OR = {
+								has_character_flag = good_outcome_emissary
+								has_character_flag = bad_outcome_emissary
+						}
+					}
+				}
 			}
+			trigger_event = send_emissary_event.1001
+		}
 		else = {
 				send_interface_toast = {
 				title = send_emissary_interaction.accept.actor.tt

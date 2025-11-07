@@ -131,12 +131,45 @@ gui_any_skill_for_humble = {
 gui_skills_diplo_for_known = {
     root = { obf_can_have_enough_info = yes }
     scope:character = {
+        # 加了下面这个or之后熟悉的人不显示ljl
+        # OR = {
+        #     this ?= scope:laamp_first_recruit
+        #     this ?= scope:laamp_second_recruit
+        #     this ?= scope:laamp_third_recruit
+        #     this ?= scope:laamp_generic_jane
+        #     this ?= scope:laamp_spouse_material
+        #     this ?= scope:laamp_hooded_figure         
+        # }
         NOR = {
             has_character_flag = humble_character
             has_character_flag = illusory_diplomat
         }
         age >= 12
         OR = {
+            AND = {
+                exists = scope:laamp_first_recruit
+                this ?= scope:laamp_first_recruit
+            }
+            AND = {
+                exists = scope:laamp_second_recruit
+                this ?= scope:laamp_second_recruit
+            }
+            AND = {
+                exists = scope:laamp_third_recruit
+                this ?= scope:laamp_third_recruit
+            }
+            AND = {
+                exists = scope:laamp_generic_jane
+                this ?= scope:laamp_generic_jane 
+            }
+            AND = {
+                exists = scope:laamp_spouse_material
+                this ?= scope:laamp_spouse_material 
+            }
+            AND = {
+                exists = scope:laamp_hooded_figure
+                this ?= scope:laamp_hooded_figure 
+            }         
             has_character_flag = had_high_level_report
             obf_has_close_or_intimate_relation = yes
             AND = {
@@ -166,12 +199,44 @@ gui_skills_diplo_for_illusory = {
 gui_skills_martial_for_known = {
     root = { obf_can_have_enough_info = yes }
     scope:character = {
+        # OR = {
+        #     this ?= scope:laamp_first_recruit
+        #     this ?= scope:laamp_second_recruit
+        #     this ?= scope:laamp_third_recruit
+        #     this ?= scope:laamp_generic_jane
+        #     this ?= scope:laamp_spouse_material
+        #     this ?= scope:laamp_hooded_figure         
+        # }
         NOR = {
             has_character_flag = humble_character
             has_character_flag = illusory_warrior
         }
         age >= 12
         OR = {
+            AND = {
+                exists = scope:laamp_first_recruit
+                this ?= scope:laamp_first_recruit
+            }
+            AND = {
+                exists = scope:laamp_second_recruit
+                this ?= scope:laamp_second_recruit
+            }
+            AND = {
+                exists = scope:laamp_third_recruit
+                this ?= scope:laamp_third_recruit
+            }
+            AND = {
+                exists = scope:laamp_generic_jane
+                this ?= scope:laamp_generic_jane 
+            }
+            AND = {
+                exists = scope:laamp_spouse_material
+                this ?= scope:laamp_spouse_material 
+            }
+            AND = {
+                exists = scope:laamp_hooded_figure
+                this ?= scope:laamp_hooded_figure 
+            }  
             has_character_flag = had_high_level_report
             obf_has_close_or_intimate_relation = yes
             AND = {
@@ -201,12 +266,44 @@ gui_skills_martial_for_illusory = {
 gui_skills_steward_for_known = {
     root = { obf_can_have_enough_info = yes }
     scope:character ?= {
+        # OR = {
+        #     this ?= scope:laamp_first_recruit
+        #     this ?= scope:laamp_second_recruit
+        #     this ?= scope:laamp_third_recruit
+        #     this ?= scope:laamp_generic_jane
+        #     this ?= scope:laamp_spouse_material
+        #     this ?= scope:laamp_hooded_figure         
+        # }
         NOR = {
             has_character_flag = humble_character
             has_character_flag = illusory_administrator
         }
         age >= 12
         OR = {
+            AND = {
+                exists = scope:laamp_first_recruit
+                this ?= scope:laamp_first_recruit
+            }
+            AND = {
+                exists = scope:laamp_second_recruit
+                this ?= scope:laamp_second_recruit
+            }
+            AND = {
+                exists = scope:laamp_third_recruit
+                this ?= scope:laamp_third_recruit
+            }
+            AND = {
+                exists = scope:laamp_generic_jane
+                this ?= scope:laamp_generic_jane 
+            }
+            AND = {
+                exists = scope:laamp_spouse_material
+                this ?= scope:laamp_spouse_material 
+            }
+            AND = {
+                exists = scope:laamp_hooded_figure
+                this ?= scope:laamp_hooded_figure 
+            }  
             has_character_flag = had_high_level_report
             obf_has_close_or_intimate_relation = yes
             AND = {
@@ -236,12 +333,44 @@ gui_skills_steward_for_illusory = {
 gui_skills_intrigue_for_known = {
     root = { obf_can_have_enough_info = yes }
     scope:character = {
+        # OR = {
+        #     this ?= scope:laamp_first_recruit
+        #     this ?= scope:laamp_second_recruit
+        #     this ?= scope:laamp_third_recruit
+        #     this ?= scope:laamp_generic_jane
+        #     this ?= scope:laamp_spouse_material
+        #     this ?= scope:laamp_hooded_figure         
+        # }
         NOR = {
             has_character_flag = humble_character
             has_character_flag = illusory_intriguer
         }
         age >= 12
         OR = {
+            AND = {
+                exists = scope:laamp_first_recruit
+                this ?= scope:laamp_first_recruit
+            }
+            AND = {
+                exists = scope:laamp_second_recruit
+                this ?= scope:laamp_second_recruit
+            }
+            AND = {
+                exists = scope:laamp_third_recruit
+                this ?= scope:laamp_third_recruit
+            }
+            AND = {
+                exists = scope:laamp_generic_jane
+                this ?= scope:laamp_generic_jane 
+            }
+            AND = {
+                exists = scope:laamp_spouse_material
+                this ?= scope:laamp_spouse_material 
+            }
+            AND = {
+                exists = scope:laamp_hooded_figure
+                this ?= scope:laamp_hooded_figure 
+            }  
             has_character_flag = had_high_level_report
             obf_has_close_or_intimate_relation = yes
             AND = {
@@ -271,12 +400,44 @@ gui_skills_intrigue_for_illusory = {
 gui_skills_learning_for_known = {
     root = { obf_can_have_enough_info = yes }
     scope:character = {
+        # OR = {
+        #     this ?= scope:laamp_first_recruit
+        #     this ?= scope:laamp_second_recruit
+        #     this ?= scope:laamp_third_recruit
+        #     this ?= scope:laamp_generic_jane
+        #     this ?= scope:laamp_spouse_material
+        #     this ?= scope:laamp_hooded_figure         
+        # }
         NOR = {
             has_character_flag = humble_character
             has_character_flag = illusory_scholar
         }
         age >= 12
         OR = {
+            AND = {
+                exists = scope:laamp_first_recruit
+                this ?= scope:laamp_first_recruit
+            }
+            AND = {
+                exists = scope:laamp_second_recruit
+                this ?= scope:laamp_second_recruit
+            }
+            AND = {
+                exists = scope:laamp_third_recruit
+                this ?= scope:laamp_third_recruit
+            }
+            AND = {
+                exists = scope:laamp_generic_jane
+                this ?= scope:laamp_generic_jane 
+            }
+            AND = {
+                exists = scope:laamp_spouse_material
+                this ?= scope:laamp_spouse_material 
+            }
+            AND = {
+                exists = scope:laamp_hooded_figure
+                this ?= scope:laamp_hooded_figure 
+            } 
             has_character_flag = had_high_level_report
             obf_has_close_or_intimate_relation = yes
             AND = {

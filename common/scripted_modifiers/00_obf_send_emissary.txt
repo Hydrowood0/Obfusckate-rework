@@ -507,7 +507,10 @@ send_emissary_modifier = {
 			desc = SEND_EMISSARY_YOUR_VASSAL
 			scope:actor = {is_landless_adventurer = no}
 			scope:recipient = {
-				is_vassal_or_below_of = scope:actor
+				OR={
+					is_vassal_or_below_of = scope:actor
+					is_tributary_of_suzerain_or_above = scope:actor # added by ljl
+				}
 			}
 		}
 		modifier = { # your liege
@@ -649,6 +652,7 @@ send_emissary_modifier = {
 			trigger = {
 				scope:recipient = {
 					is_allied_to = scope:actor
+					### confederation = { any_confederation_member = { this = scope:actor } }# added by ljl
 				}
 			}
 			add = 20
@@ -693,6 +697,7 @@ send_emissary_modifier = {
 		desc = SEND_EMISSARY_FRIENDLY_STANCE
 			scope:recipient = {
 			NOT = { is_allied_to = scope:actor }
+			NOT = { ### confederation ?= { any_confederation_member = { this ?= scope:actor } }}# added by ljl
 			NOT = { scope:recipient.court_owner.top_liege = scope:actor.top_liege }
 			ai_diplomacy_stance = {
 				target = scope:actor

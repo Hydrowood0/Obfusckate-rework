@@ -854,6 +854,7 @@ activity_feast = {
 					}
 					OR = {
 						is_vassal_of = scope:host
+						is_tributary_of_suzerain_or_above = scope:host ##addd by ljl
 						target_is_vassal_or_below = scope:host
 						has_relation_friend = scope:host
 						has_relation_lover = scope:host

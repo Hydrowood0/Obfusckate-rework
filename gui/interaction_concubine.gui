@@ -187,6 +187,7 @@ window = {
 			vbox_character_list = {
 				datacontext = "[MatchmakerInteractionWindow.GetCharacterList]"
 				#changed by obfusCKate: code deleted for fertility_filter
+				# datacontext = "[CharacterSelectionList.GetFilterWithDefault('fertility_filter', '(int32)1')]"
 				layoutpolicy_vertical = expanding
 				layoutpolicy_horizontal = expanding
 
@@ -214,6 +215,58 @@ window = {
 
 						widget_character_list_item = {
 							layoutpolicy_horizontal = expanding
+						}
+					}
+				}
+
+				blockoverride "age_health_container_ljl"{
+					hbox = {
+						block "list_layout" {
+							minimumsize = { 62 0 }
+							expand = {}
+						}
+
+						margin_right = 5
+						spacing = 2
+
+						block "character_age"
+						{
+							#Changed by obfusCKate; Start
+							text_single = {
+								visible = "[Or(And(Character.IsDeadAndValid,Character.HasRelationTo(GetPlayer)),ShowExactAge)]"
+								text = "[Character.GetAge]"
+								align = nobaseline
+							}
+							text_single = {
+								visible = "[Or(And(Character.IsDeadAndValid,Not(Character.HasRelationTo(GetPlayer))),Not(ShowExactAge))]"
+								raw_text = "CHARACTER_AGE_ACQUAINTANCE"
+								align = nobaseline
+							}
+							#Changed by obfusCKate; End
+						}
+
+						icon = {
+							##########changed by obfusCKate: Start
+							## visible = "[Not(Character.IsDeadAndValid)]"
+							visible = "[ShowHealth]"
+							#########changed by obfusCKate: End
+							size = { 23 23 }
+							framesize = { 60 60 }
+							frame = "[Character.GetHealthIconFrame]"
+							texture = "gfx/interface/icons/character_status/icon_health.dds"
+							tooltip = "[Character.GetHealthInfo]"
+						}
+
+						block "is_dead"
+						{
+							icon = {
+								name = "is_dead"
+								visible = "[Character.IsDeadAndValid]"
+								size = { 23 23 }
+
+								texture = "[Character.GetDeathReasonIcon]"
+								tooltip = "CHARACTER_DEAD_TOOLTIP"
+							}
 						}
 					}
 				}

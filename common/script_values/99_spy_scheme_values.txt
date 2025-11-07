@@ -411,18 +411,49 @@ spy_network_value = {
 	max = 2
 }
 
+# spy_network_value_on_start = {
+# value = 0
+# add = age
+# subtract = 16
+# multiply = 4
+# multiply = spy_network_value
+# if = {
+# 	limit = {short_term_gold <= 300}
+# 	multiply = 0.5
+# }
+# min = 8
+# max = 100
+# }
+
 spy_network_value_on_start = {
-value = 0
-add = age
-subtract = 16
-multiply = 4
-multiply = spy_network_value
-if = {
-	limit = {short_term_gold <= 300}
-	multiply = 0.5
-}
-min = 8
-max = 100
+    value = 0
+    add = age
+    subtract = 16
+    multiply = 4
+    multiply = spy_network_value
+    
+    # ================== 修改后的代码块 开始 ==================
+    if = {
+        limit = {
+            OR = {
+                # 条件一：如果是天朝制，则检查 treasury
+                AND = {
+                    has_government_flag = government_is_celestial
+                    treasury <= 300
+                }
+                # 条件二：如果不是天朝制，则检查 short_term_gold
+                AND = {
+                    NOT = { has_government_flag = government_is_celestial }
+                    short_term_gold <= 300
+                }
+            }
+        }
+        multiply = 0.5
+    }
+    # ================== 修改后的代码块 结束 ==================
+    
+    min = 8
+    max = 100
 }
 
 spy_network_when_spymaster_leaves = {

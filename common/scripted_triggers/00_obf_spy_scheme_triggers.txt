@@ -336,6 +336,7 @@ OR = {
 			ai_rationality >= medium_positive_ai_value}
 		OR = {
 		is_vassal_of = scope:target_character
+		is_tributary_of = scope:target_character #added by ljl
 		is_consort_of = scope:target_character
 		is_heir_of = scope:target_character
 		is_close_family_of = scope:target_character

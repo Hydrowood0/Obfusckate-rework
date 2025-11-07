@@ -106,7 +106,10 @@ seduce_interaction = {
 							has_focus = intrigue_temptation_focus
 							OR = {
 								scope:recipient = {
-									is_vassal_of = scope:actor
+									OR={
+										is_vassal_of = scope:actor
+										is_tributary_of = scope:actor ##added by ljl
+									}
 								}
 								AND = {
 									exists = liege
@@ -716,7 +719,10 @@ court_interaction = {
 							has_focus = intrigue_temptation_focus
 							OR = {
 								scope:recipient = {
-									is_vassal_of = scope:actor
+									OR={
+										is_vassal_of = scope:actor
+										is_tributary_of = scope:actor ##added by ljl
+									}
 								}
 								AND = {
 									exists = liege

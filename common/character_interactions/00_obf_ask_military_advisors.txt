@@ -26,6 +26,7 @@ ask_advisors_opinion_interaction = {
 			is_playable_character = yes
 			NOT = {has_character_flag = requested_military_info}
 			NOT = {is_vassal_or_below_of = scope:actor}
+			NOT = {is_tributary_of_suzerain_or_above = scope:actor} ##added by ljl
 			NOT = {has_character_flag = has_been_spied}
 
 			}

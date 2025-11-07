@@ -1,3 +1,5 @@
+###Bro used Knight Manager file and patched in Obfusckate
+
 ######################################################
 ################# KNIGHTS VIEW ###################
 ######################################################
@@ -5,10 +7,10 @@
 window = {
 	datacontext = "[KnightsView.GetMilitaryView]"
 	name = "knight_view"
-	size = { 540 865 }
+	size = { 540 100% }
 	parentanchor = top|right
-	position = { -626 170 }
-	movable = no
+	position = { -626 0 }
+	movable = yes
 	layer = middle
 
 	using = Window_Background_Subwindow
@@ -17,7 +19,7 @@ window = {
 		name = _show
 		using = Animation_FadeIn_Quick
 
-		position = { -626 170 }
+		position = { -626 0 }
 	}
 
 	state = {
@@ -45,7 +47,7 @@ window = {
 				onclick = "[KnightsView.Close]"
 			}
 		}
-
+		
 		# ACCOLADES ----------------------------------------------------------------------------
 		vbox = {
 
@@ -63,7 +65,7 @@ window = {
 				name = "accolades_limit"
 				text = "ACCOLADES_LIMIT"
 				default_format = "#low"
-
+				
 				tooltip = "[Character.GetNumAccoladeSlotsBreakdown]"
 			}
 
@@ -294,6 +296,8 @@ window = {
 				onclick = "[OpenGameViewData( 'decision_detail', Decision.Self )]"
 				margin_top = 30
 			}
+		
+			using = kmc_knight_manager_widget
 
 			spacer = {
 				size = { 0 4 }
@@ -322,7 +326,7 @@ window = {
 						item = {
 							widget = {
 								layoutpolicy_horizontal = expanding
-								size = { 500 130 }
+									size = { 500 130 }
 
 								using = Background_Guest
 
@@ -409,10 +413,15 @@ window = {
 													layoutpolicy_vertical = expanding
 													margin = { 10 0 }
 
+													### ##Obfusckate begin
+													####visible = "[GetScriptedGui('gui_prowess_known').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+													### ##Obfusckate end
+
 													text_label_center  = {
 														#changed by obfusCKate: start
 														using = obf_knight_prowess
 														# text = "[prowess_i][Character.GetSkill( 'prowess' )]"
+														### text = "PROWESS_VALUES_KNIGHTS"
 														#changed by obfusCKate: End
 														using = Font_Size_Big
 														default_format = "#high"
@@ -463,6 +472,16 @@ window = {
 													tooltip = "[SelectLocalization( Character.IsAcclaimedKnight, 'CANNOT_FORBID_ACCLAIMED_KNIGHT', 'KNIGHTS_VIEW_TITLE_FORBID_TT' )]"
 													using = tooltip_se
 												}
+												####if = {
+													####limit = {
+														# is_triggered_true并不存在！！！ 假设 Mod 提供了一个名为 km_is_loaded 的触发器,
+														####is_triggered_true = km_is_loaded
+														# 注意：上面的触发器名字是我编的，你需要去 Knight Manager Mod 的文件里查找它实际使用的触发器名或变量名。
+													####}
+													# 如果条件满足，则应用这个 using 模板
+													####using = kmc_knight_manager_button
+												###}
+												using = kmc_knight_manager_button
 
 												expand = {}
 											}
@@ -501,7 +520,7 @@ window = {
 				}
 			}
 		}
-
+		
 		# INACTIVE ACCOLADES -----------------------------------------------------------------------------------------------
 
 		vbox = {

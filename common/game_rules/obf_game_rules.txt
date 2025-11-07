@@ -17,6 +17,25 @@
 	}
 }
 
+Show_age = {
+	
+	categories = {
+		obfusCKate
+	}
+	
+	default = Show_age_disabled
+
+	Show_age_enabled = {
+		flag = Show_age_enabled
+		flag = GG_can_change_rule
+	}
+	
+	Show_age_disabled = {
+		flag = Show_age_disabled
+		flag = GG_can_change_rule
+	}
+}
+
 Show_portraits = {
 	
 	categories = {
@@ -32,6 +51,44 @@ Show_portraits = {
 	
 	Show_portraits_disabled = {
 		flag = Show_portraits_disabled
+		flag = GG_can_change_rule
+	}
+}
+
+Show_influence = {
+	
+	categories = {
+		obfusCKate
+	}
+	
+	default = Show_influence_disabled
+
+	Show_influence_enabled = {
+		flag = Show_influence_enabled
+		flag = GG_can_change_rule
+	}
+	
+	Show_influence_disabled = {
+		flag = Show_influence_disabled
+		flag = GG_can_change_rule
+	}
+}
+
+Show_herd = {
+	
+	categories = {
+		obfusCKate
+	}
+	
+	default = Show_herd_disabled
+
+	Show_herd_enabled = {
+		flag = Show_herd_enabled
+		flag = GG_can_change_rule
+	}
+	
+	Show_herd_disabled = {
+		flag = Show_herd_disabled
 		flag = GG_can_change_rule
 	}
 }
