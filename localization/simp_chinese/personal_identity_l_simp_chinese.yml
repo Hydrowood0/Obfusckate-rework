@@ -1,0 +1,13 @@
+﻿l_simp_chinese:
+ personal_identity_discovery_decision:0 "探索自我"
+ personal_identity_discovery_decision_desc:0 "在身份的织锦中，你站在个人启示的边缘，准备解开欲望和倾向的丝线。自我发现的道路在召唤，邀请你拥抱自己的真实本质，并就你情感的本质做出决定性的选择。"
+ personal_identity_discovery_decision_tooltip: "拥抱深层探索的时刻，反思内心深处的感受，摸索自我认知的道路，做出无比坚定的选择。这个选择将塑造你对情感和欲望的理解。"
+ personal_identity_discovery_decision_selection_tooltip: "拥抱深层探索的时刻，反思内心深处的感受，摸索自我认知的道路，做出无比坚定的选择。这个选择将塑造你对情感和欲望的理解。\n\n#E 此决议允许你修改自己的性取向。你可以通过游戏规则禁用此功能。#!"
+ personal_identity_discovery_decision_confirm: "发现真我"
+ set_sexuality.0001.t:0 "拥抱深层探索"
+ set_sexuality.0001.desc:0 "你找到一个独属于自己的宁静时刻，开始反省内心，多层次的建立自我画像。诸多念头划过脑海，你的性向一直伴随着你，这是一块自我拼图，而你还未完全理解它。\n\n在这个内省的时刻，你思考着吸引力的本质、内心欲望的复杂性，以及你的性取向如何影响你与周围世界。了解自己的偏好不仅是一段个人旅程，更是拥抱完整自我的重要部分。"
+ set_sexuality.0001.a:0 "你意识到你是无性恋。"
+ set_sexuality.0001.b:0 "你意识到你是双性恋。"
+ set_sexuality.0001.c:0 "你意识到你是同性恋。"
+ set_sexuality.0001.d:0 "你意识到你是异性恋。"
+ set_sexuality.0001.e:0 "满足于自己，你的内心才能安宁。"

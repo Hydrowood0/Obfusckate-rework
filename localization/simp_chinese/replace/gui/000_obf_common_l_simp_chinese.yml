@@ -1,0 +1,4 @@
+﻿l_simp_chinese:
+ WINDOW_ARMY_CHECK_CHARACTER: "查看角色窗口"
+ WINDOW_ARMY_CHECK_FOR_INFORMATION: "打开盟友的角色窗口，获得更多#E 信息#!……#BER 如果有更多信息的话。#!"
+ COA_REALM_TOOLTIP_CHARACTER:4 "#T [CHARACTER.GetPrimaryTitle.GetNameWithUnderlyingNoTooltip|U]#!\n[CHARACTER.GetGovernment.GetName][CHARACTER.GetPrimaryTitle.GetRankConcept]－[rank|E][realm|E]\n[ruler|E]：[CHARACTER.GetUIName|U]\n领地规模：[CHARACTER.RealmSize|V][counties|E]\n\n#S 继承#!\n继承法：$SUCCESSION_FORM_NAME$\n\n[line_of_succession|E]：\n[CHARACTER.GetPrimaryTitle.GetLineOfSuccessionDesc]"
