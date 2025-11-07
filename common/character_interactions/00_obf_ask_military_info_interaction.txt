@@ -13,7 +13,13 @@ request_military_information_interaction = {
 	is_shown = {
 		NOR = {
 			scope:recipient = scope:actor
-			scope:recipient = {	is_vassal_or_below_of = scope:actor }
+			scope:recipient = {	
+				OR={
+					is_vassal_or_below_of = scope:actor
+					is_tributary_of_suzerain_or_above = scope:actor
+					### confederation = { any_confederation_member = { this ?= root } }
+				}
+			}
 		}
 		
 		scope:actor = {
@@ -127,7 +133,12 @@ request_military_information_interaction = {
 		
 		modifier = {
 			add = 1000
-			scope:recipient = {	is_vassal_or_below_of = scope:actor }
+			scope:recipient = {	
+				OR={
+					is_vassal_or_below_of = scope:actor
+					is_tributary_of_suzerain_or_above = scope:actor
+				}
+			}
 		desc = YOU_ARE_THE_LIEGE			
 		}
 		
@@ -191,6 +202,16 @@ request_military_information_interaction = {
 			scope:recipient = {	
 			is_allied_to = scope:actor }
 			desc = AI_YOUR_ALLY
+		}
+
+		# Modifier for confederates # added by ljl
+		modifier = {
+			add = 100
+			scope:recipient = {	
+			### confederation = { any_confederation_member = { this ?=  scope:actor } }
+			# obf_is_in_same_confederation_as_root = yes  #added by ljl,need test
+			desc = AI_YOUR_Confederate
+			}
 		}
 		
 		modifier = {

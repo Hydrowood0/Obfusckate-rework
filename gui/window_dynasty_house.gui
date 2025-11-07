@@ -117,7 +117,8 @@ window = {
 								text = "HOUSE_VIEW_NAME_WITH_HOUSE"
 								max_width = 320
 								autoresize = yes
-								fontsize_min = 14
+									fontsize_min = 12 
+	#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
 								align = left
 								using = Font_Type_Flavor
 								using = Font_Size_Big
@@ -1625,7 +1626,8 @@ window = {
 													text = "[DynastyHouse.GetBaseNameNoTooltip]"
 													default_format = "#high"
 													align = nobaseline
-													fontsize_min = 14
+														fontsize_min = 12 
+	#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
 													autoresize = no
 													using = Font_Size_Medium
 												}
@@ -1650,7 +1652,8 @@ window = {
 												layoutpolicy_horizontal = expanding
 												text = HOUSE_LIST_HEAD
 												max_width = 365
-												fontsize_min = 14
+													fontsize_min = 12 
+	#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
 												align = nobaseline
 											}
 

@@ -17,7 +17,7 @@ report_arrived_faction:"A courier has arrived with the report you requested on [
 death_of_recipient:"Report on [recipient.GetShortUIName] canceled"
 report_arrived_with_death: "The report you requested on [recipient.GetShortUINameNoTooltip] can not be completed because [recipient.GetShortUINameNoTooltip] is dead. Some unspent gold has been refunded"
 your_spymaster_is_finding_secrets:"Your Spymaster is or was recently finding secrets in this court thus, reports are inherent to this task. Wait a few days"
-wait_for_courier_to_arrive: "You are waiting for a report you previously requested about this court and its members. 
+wait_for_courier_to_arrive: "You are waiting for a report you previously requested about this court and its members. "
 you_do_not_have_gold_for_report:"You do not have the minimum required gold to request a report"
 has_secluded_himself: "[recipient.GetShortUIName] has secluded [recipient.GetHerHim]self which makes it almost impossible to prepare a report"
 you_would_not_gain_any_new_insights:"Such report would not present you with any significant new insights about [recipient.GetShortUIName]"
@@ -103,6 +103,7 @@ ask_advisors_opinion_dismiss: "Dismiss Advice"
 
 
 AI_YOUR_ALLY:0 "[recipient.GetSheHe|U] is your Ally: $VALUE|=+0$"
+AI_YOUR_Confederate:0 "[recipient.GetSheHe|U] is in your Confederate: $VALUE|=+0$"
 obf_interaction.0001.opening:0 "[recipient.Custom2('AppropriateGreetingPositive', actor)]"
 obf_interaction.0001.desc:0 "Our relationship compels me to trust you with the information you asked for.\n\nI currently have available [recipient.GetMilitaryStrengthText|0] men"
 obf_interaction.0001.desc_raised:".\nIf needed, I have the means to raise my army up to to [recipient.GetMaxMilitaryStrengthWithoutHires|0] men."

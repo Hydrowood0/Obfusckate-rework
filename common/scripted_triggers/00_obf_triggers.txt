@@ -1,4 +1,13 @@
-﻿#Sway_triggers
+﻿# 脚本化触发器：character_has_any_memory
+# 功能：当作用域内的角色拥有至少一个记忆时，返回 true。
+character_has_any_memory = { ##added by ljl
+    any_memory = {
+        limit = { always = yes }
+    }
+}
+
+
+#Sway_triggers
 
 sway_target_of_interest_trigger = {
 	NOT = { this = $CHARACTER$ }
@@ -8,6 +17,7 @@ sway_target_of_interest_trigger = {
 		has_relation_to = $CHARACTER$
 		# We are their liege
 		is_vassal_or_below_of = $CHARACTER$
+		is_tributary_of_suzerain_or_above = $CHARACTER$ ## added by ljl
 		dynasty = $CHARACTER$.dynasty
 		#House Head
 		trigger_if = {
@@ -30,6 +40,7 @@ sway_target_of_interest_trigger = {
 				exists = $CHARACTER$.liege
 			}
 			OR = {is_vassal_or_below_of = $CHARACTER$.liege
+				is_tributary_of_suzerain_or_above = $CHARACTER$.suzerain ## added by ljl
 				is_heir_of = $CHARACTER$.liege
 				is_consort_of = $CHARACTER$.liege
 				is_child_of = $CHARACTER$.liege
@@ -40,6 +51,7 @@ sway_target_of_interest_trigger = {
 				exists = $CHARACTER$.top_liege
 			}
 			OR = {is_vassal_or_below_of = $CHARACTER$.top_liege
+				is_tributary_of_suzerain_or_above = $CHARACTER$.top_suzerain ## added by ljl
 				is_heir_of = $CHARACTER$.top_liege
 				is_consort_of = $CHARACTER$.top_liege
 				is_councillor_of = $CHARACTER$.top_liege}	
@@ -62,8 +74,11 @@ sway_target_of_interest_trigger = {
 			is_a_faction_leader = yes}
 			OR = {is_liege_or_above_of = $CHARACTER$
 			is_vassal_or_below_of = $CHARACTER$
+			is_tributary_of_suzerain_or_above = $CHARACTER$## added by ljl
 			character_is_realm_neighbor = $CHARACTER$.liege
-			is_vassal_or_below_of = $CHARACTER$.liege}
+			is_vassal_or_below_of = $CHARACTER$.liege
+			is_tributary_of_suzerain_or_above = $CHARACTER$.suzerain ## added by ljl
+			}
 		}
 		
 		#Any count or higher
@@ -97,10 +112,12 @@ sway_target_of_interest_trigger = {
 		}
 		
 		has_strong_claim_on = $CHARACTER$.primary_title
-		any_claim = {holder = $CHARACTER$}
+		any_claim = {holder = $CHARACTER$} ## not hidden by ljl
 		any_claim = {exists = holder holder = { this = $CHARACTER$}}
 		any_claim = {exists = holder holder = {is_vassal_or_below_of = $CHARACTER$}}
+		any_claim = {exists = holder holder = {is_tributary_of_suzerain_or_above = $CHARACTER$}} ## added by ljl
 		any_claim = {exists = holder holder = {is_liege_or_above_of = $CHARACTER$}}
+		any_claim = {exists = holder holder = {exists = $CHARACTER$.suzerain this = $CHARACTER$.suzerain} }## added by ljl
 		AND = {
 				$CHARACTER$ = {highest_held_title_tier >= tier_kingdom}
 			OR = {
@@ -139,7 +156,9 @@ can_be_target_of_befriend_trigger = {
 target_at_distance_trigger = {
 		OR = {
 			is_vassal_of = scope:target
+			is_tributary_of = scope:target ## added by ljl
 			scope:target = {is_vassal_of = scope:owner}
+			scope:target = {is_tributary_of = scope:owner} ## added by ljl
 			is_at_same_location = scope:target
 			scope:target.location = { squared_distance = { target = scope:owner.capital_county value < 70000}}
 			target_knows_about_owner_trigger = yes
@@ -791,6 +810,8 @@ does_not_like_character_trigger = {
 #is_contact_of = root
 #is_vassal_of = root
 #is_vassal_or_below_of = root
+# is_tributary_of = root
+# is_tributary_of_suzerain_or_above	= root
 #obf_is_fellow_vassal_or_liege_councillor = yes
 #obf_works_in_same_court	= yes
 #obf_is_ally_or_neighbor = yes
@@ -914,26 +935,29 @@ obf_has_rival_or_negative_relation = no
 
 ####Fellow vassals 
 obf_is_fellow_vassal_or_liege_councillor = {
-exists = liege
-exists = root.liege
-liege = root.liege
-NOT = {liege = root}
-		OR = {is_councillor_of = liege
-				is_ruler = yes}
+	And{ ### And added by ljl 
+		exists = liege
+		exists = root.liege
+		liege = root.liege
+		NOT = {liege = root}
+				OR = {is_councillor_of = liege
+						is_ruler = yes}
+	}
 }
 
 ##WORKS ON SAME COURT 
 obf_works_in_same_court = {
-exists = root.liege
-root = {OR = {
-		is_knight = yes
-		is_councillor = yes}}
-OR = {	
-		is_knight_of = root.liege
-        is_courtier_of = root.liege
-        is_pool_guest_of = root.liege
-    }
-
+	And{ ### And added by ljl 
+		exists = root.liege
+		root = {OR = {
+			is_knight = yes
+			is_councillor = yes}}
+		OR = {	
+			is_knight_of = root.liege
+			is_courtier_of = root.liege
+			is_pool_guest_of = root.liege
+		}
+	}
 }
 
 # Scripted trigger for extended family members # Directly from code is_extended_family_of 
@@ -944,6 +968,19 @@ obf_has_vassal_or_liege_relation = {
         is_vassal_of = root
 		AND = {exists = root.liege
 		this = root.liege}
+		is_contact_of = root
+        #is_liege_or_above_of = root
+        #is_vassal_or_below_of = root
+        #is_primary_heir_of = root
+        #is_heir_of = root
+    }
+}
+
+obf_has_tributary_or_suzerain_relation = { #added by ljl
+    OR = {
+        is_tributary_of = root
+		AND = {exists = root.suzerain
+		this = root.suzerain}
 		is_contact_of = root
         #is_liege_or_above_of = root
         #is_vassal_or_below_of = root
@@ -993,6 +1030,21 @@ obf_is_ally_or_neighbor = {
 		}
     }
 }
+
+# obf_is_in_same_confederation_as_root = { ## added by ljl
+#     # 尝试将当前角色(this)的作用域切换到其所在的邦联。
+#     # 如果当前角色不在邦联中，这个代码块将不会被执行，触发器直接返回 false。
+#     ### confederation = {
+#         # 代码执行到这里时，上下文（this）已经变成了当前角色所在的“邦联对象”。
+        
+#         # 现在，我们在这个邦联中查找是否存在一个成员（any_confederation_member），
+#         # 这个成员（member's this）正好等于 root（玩家）。
+#         # 如果找到，说明玩家和原角色在同一个邦联中，此条件为真。
+#         any_confederation_member = {
+#             this = root
+#         }
+#     }
+# }
 
 
 # Scripted trigger for ward and guardian relationships

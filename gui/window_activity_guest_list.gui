@@ -463,7 +463,8 @@ types GuestListWindow
 						text = "[Character.GetUINameNoTooltip]"
 						using = Font_Size_Medium
 						autoresize = no
-						fontsize_min = 13
+						fontsize_min = 12
+						#13  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
 						align = nobaseline
 						max_width = 370
 					}

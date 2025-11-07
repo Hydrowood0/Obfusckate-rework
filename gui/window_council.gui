@@ -30,7 +30,9 @@ window = {
 
 	margin_widget = {
 		size = { 100% 100% }
-		margin = { 0 26 }
+		## margin = { 0 26 }
+		margin_top = 30
+		margin_bottom = 25
 		margin_right = 13
 
 		widget = {
@@ -44,7 +46,7 @@ window = {
 
 					blockoverride "header_text"
 					{
-						text = "COUNCILWINDOW_TITLE"
+						text = "COUNCIL_WINDOW_TITLE"
 					}
 
 					blockoverride "button_close"
@@ -53,45 +55,94 @@ window = {
 					}
 				}
 
+				# two tabs hbox: your council and liege council
 				hbox = {
 					layoutpolicy_horizontal = expanding
+					visible = "[And( Not( GetPlayer.IsIndependentRuler ), Not( CouncilWindow.CanShowTopLiegeTab ) )]"
 
 					button_tab = {
 						layoutpolicy_horizontal = expanding
-						text = "COUNCIL_WINDOW_PLAYER_COUNCIL"
-
 						down = "[And( CouncilWindow.IsPlayerCouncilShown, Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
 						onclick = "[CouncilWindow.SetPlayerCouncil]"
 						onclick = "[GetVariableSystem.Clear( 'diarchy_tab' )]"
 
-						# onclick = "[PdxGuiTriggerAllAnimations('council_refresh')]"
-
-						# state = {
-						# 	name = _mouse_click
-						# 	delay = 0.2
-						# 	on_finish = "[CouncilWindow.SetPlayerCouncil]"
-						# }
+						text_single = {
+							minimumsize = { 281 38 }
+							margin = { 15 0 }
+						text = "COUNCIL_WINDOW_PLAYER_COUNCIL"
+							resizeparent = yes
+							align = center|nobaseline
+							default_format = "#low"
+						}
 					}
 
 					button_tab = {
-						visible = "[Not(GetPlayer.IsIndependentRuler)]"
-
+						layoutpolicy_horizontal = expanding
 						down = "[And( CouncilWindow.IsLiegeCouncilShown, Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
 						onclick = "[CouncilWindow.SetLiegeCouncil]"
 						onclick = "[GetVariableSystem.Clear( 'diarchy_tab' )]"
 
-						# onclick = "[PdxGuiTriggerAllAnimations('council_refresh')]"
-
-						# state = {
-						# 	name = _mouse_click
-						# 	delay = 0.2
-						# 	on_finish = "[CouncilWindow.SetLiegeCouncil]"
-						# }
-
 						text_single = {
-							minimumsize = { 277 38 }
+							minimumsize = { 281 38 }
 							margin = { 15 0 }
 							text = "COUNCIL_WINDOW_LIEGE_COUNCIL"
+							resizeparent = yes
+							align = center|nobaseline
+							default_format = "#low"
+						}
+					}
+				}
+
+				# three tabs hbox: your council, liege's and top liege's
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					visible = "[CouncilWindow.CanShowTopLiegeTab]"
+
+					button_tab = {
+						layoutpolicy_horizontal = preferred
+						down = "[And( CouncilWindow.IsPlayerCouncilShown, Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
+						onclick = "[CouncilWindow.SetPlayerCouncil]"
+						onclick = "[GetVariableSystem.Clear( 'diarchy_tab' )]"
+
+						text_single = {
+							layoutpolicy_horizontal = expanding
+							min_height = 38
+							margin = { 15 0 }
+							text = "COUNCIL_WINDOW_PLAYER_COUNCIL"
+							resizeparent = yes
+							align = center|nobaseline
+							default_format = "#low"
+						}
+					}
+
+					button_tab = {
+						layoutpolicy_horizontal = expanding
+						down = "[And( CouncilWindow.IsLiegeCouncilShown, Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
+						onclick = "[CouncilWindow.SetLiegeCouncil]"
+						onclick = "[GetVariableSystem.Clear( 'diarchy_tab' )]"
+
+						text_single = {
+							layoutpolicy_horizontal = expanding
+							min_height = 38
+							margin = { 15 0 }
+							text = "COUNCIL_WINDOW_LIEGE_COUNCIL"
+							parentanchor = center
+							align = center|nobaseline
+							default_format = "#low"
+						}
+					}
+
+					button_tab = {
+						layoutpolicy_horizontal = preferred
+						down = "[And( CouncilWindow.IsTopLiegeCouncilShown, Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
+						onclick = "[CouncilWindow.SetTopLiegeCouncil]"
+						onclick = "[GetVariableSystem.Clear( 'diarchy_tab' )]"
+
+						text_single = {
+							layoutpolicy_horizontal = expanding
+							min_height = 38
+							margin = { 15 0 }
+							text = "COUNCIL_WINDOW_TOP_LIEGE_COUNCIL"
 							resizeparent = yes
 							align = center|nobaseline
 							default_format = "#low"
@@ -110,22 +161,20 @@ window = {
 						using = Animation_Tab_Switch
 					}
 
-
 					vbox_council_layout = {
 						name = "council_refresh"
-						visible = "[And( CouncilWindow.IsLiegeCouncilShown, Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
+						visible = "[And( Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown ), Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
 
 						using = Animation_Tab_Switch
+						# background = {
+						# 	using = Background_Frame
+						# 	margin = { -5 2 }
+						# 	using = Color_Grey
 
-						background = {
-							using = Background_Frame
-							margin = { -5 2 }
-							using = Color_Grey
-
-							spriteType = Corneredtiled
-							spriteborder = { 7 7 }
-							alpha = 0.7
-						}
+						# 	spriteType = Corneredtiled
+						# 	spriteborder = { 7 7 }
+						# 	alpha = 0.7
+						# }
 					}
 				}
 			}
@@ -317,7 +366,8 @@ types CouncilWindow
 		}
 
 		vbox = {
-			visible = "[And( CouncilTaskType.IsValueTask, Not( ActiveCouncilTask.IsFrozen ) )]"
+			visible = "[And(And( CouncilTaskType.IsValueTask, Not( ActiveCouncilTask.IsFrozen ) ), Not(GuiCouncilPosition.ArePotentialTasksVisible))]"
+			##saltfish visible = "[And( CouncilTaskType.IsValueTask, Not( ActiveCouncilTask.IsFrozen ) )]"
 			layoutpolicy_horizontal = expanding
 			margin = { 5 3 }
 
@@ -361,18 +411,32 @@ types CouncilWindow
 
 	type widget_councillor_item = widget {
 		size = { 260 250 }
+		
+		state = {
+			name = _mouse_hierarchy_enter
+			on_start = "[PdxGuiWidget.FindChild('character_skills').TriggerAnimation('mouse_enter_panel')]"
+		}
+
+		state = {
+			name = _mouse_hierarchy_leave
+			on_start = "[PdxGuiWidget.FindChild('character_skills').TriggerAnimation('mouse_leave_panel')]"
+		}
 
 		### Required Datacontexts
 		# A council position type
 		# The councillor
 		# The active council task
 		widget = {
+			### block "visible"
+			###{
 			visible = "[Not(GuiCouncilPosition.ArePotentialTasksVisible)]"
+			### }
 			size = { 100% 100% }
 
 			state = {
 				name = _show
-				using = Animation_FadeIn_Quick
+				using = Animation_FadeIn_Standard
+				## using = Animation_FadeIn_Quick
 			}
 
 			state = {
@@ -385,7 +449,8 @@ types CouncilWindow
 				datacontext = "[ActiveCouncilTask.GetCouncillor]"
 				visible = "[Character.IsValid]"
 				parentanchor = bottom
-				position = { 0 4 }
+				position = { 15 4 }
+				## position = { 0 4 }
 
 				blockoverride "portrait_button_no_character_text"
 				{
@@ -407,7 +472,7 @@ types CouncilWindow
 
 					blockoverride "portrait_button_no_character_text"
 					{
-						text = "PORTRAIT_NO_COUNCILLOR"
+						text = "[SelectLocalization(IsNomad( GetPlayer ) , 'PORTRAIT_NO_KURULTAI', 'PORTRAIT_NO_COUNCILLOR' )]"
 					}
 
 					blockoverride "portrait_button_template_onclick"
@@ -442,7 +507,7 @@ types CouncilWindow
 
 				portrait_council = {
 					name = "councillor_portrait_blank_liege"
-					visible = "[And( Not(Character.IsValid), CouncilWindow.IsLiegeCouncilShown )]"
+					visible = "[And( Not(Character.IsValid), Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown ) )]"
 					parentanchor = center
 
 					text_label_center = {
@@ -461,7 +526,6 @@ types CouncilWindow
 		}
 
 		vbox = {
-
 			hbox = {
 				layoutpolicy_horizontal = expanding
 				margin = { 0 5 }
@@ -473,7 +537,8 @@ types CouncilWindow
 
 				background = {
 					visible = "[ObjectsEqual( Character.Self, GetPlayer )]"
-					texture = "gfx/interface/component_masks/patterns/mask_pattern_02.dds"
+					texture = "gfx/interface/skinned/mask_pattern.dds"
+					texture_density = 3
 					spriteType = Corneredtiled
 					alpha = 0.4
 
@@ -517,7 +582,7 @@ types CouncilWindow
 				}
 
 				spacer = {
-					visible = "[CouncilWindow.IsLiegeCouncilShown]"
+					visible = "[Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown )]"
 					size = { 5 5 }
 				}
 
@@ -565,23 +630,26 @@ types CouncilWindow
 						text = "[ActiveCouncilTask.GetPositionName|E]"
 						tooltip = "[ActiveCouncilTask.GetPositionTooltip]"
 						autoresize = no
-						fontsize_min = 13
+							fontsize_min = 12 
+	#13  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
 					}
 
 					text_single = {
 						layoutpolicy_horizontal = expanding
-						text = "[Character.GetShortUINameNoTooltip]"
+						text = "[Character.GetShortUINameNoTooltip|U]"
 						default_format = "#high"
 						align = nobaseline
 						autoresize = no
-						fontsize_min = 13
+							fontsize_min = 12 
+	#13  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
 					}
 				}
 
 				#changed by obfusCKate: Start
 				skill_icon_label = {
 					datacontext = "[GuiCouncilPosition.GetMainSkillItem]"
-					visible = "[AllowSortKnownChar]"
+					#### visible = "[AllowSortKnownChar]" ## changed by ljl
+					visible = "[ActiveCouncilTask.HasMainSkill]"
 
 					blockoverride "icon_size"
 					{
@@ -591,16 +659,20 @@ types CouncilWindow
 					blockoverride "font_size" {
 						using = Font_Size_Medium
 						visible = "[And( ActiveCouncilTask.HasMainSkill, ActiveCouncilTask.HasCouncillor )]"
-						min_width = 60
+						min_width = 13
 					}
 
 					blockoverride "tooltip"
 					{
 						tooltip_visible = "[And( ActiveCouncilTask.HasMainSkill, ActiveCouncilTask.HasCouncillor )]"
-						#changed by obfusCKate: Start
+						# tooltip = "[SkillItem.GetSkillBreakdownTooltip]"
+						#changed by obfusCKate: Start 
+						### need ljl change!!!!!!!!! 
 						tooltip = "SKILL_ITEM_TOOLTIP_COUNCIL"
 						#changed by obfusCKate: End
 					}
+
+					
 					blockoverride "value" {
 						hbox = {
 							layoutpolicy_horizontal = expanding
@@ -609,6 +681,7 @@ types CouncilWindow
 							text_multi = {
 								margin_left = -4
 								margin_right = -5
+							    min_width = 13 ###
 								max_width = 180
 								text = "COUNCIL_EFFICIENCY"
 
@@ -617,68 +690,285 @@ types CouncilWindow
 						}
 					}
 				}
-			}
+			##}
 			#changed by obfusCKate: End
+
+				### Character Skills need changed
+				widget = {
+					size = { 42 46 }
+					allow_outside = yes
+
+					block "skill_visible" {
+						visible = "[And(Character.IsValid, Not(ActiveCouncilTask.HasMainSkill))]"
+					}
+
+					widget = {
+						name = "character_skills"
+						allow_outside = yes
+						size = { 100% 100% }
+						position = { 56 0 }
+						alpha = 0
+
+						state = {
+							name = "mouse_enter_panel"
+							position = { 0 0 }
+							alpha = 1
+							using = Animation_Curve_Default
+							duration = 0.05
+						}
+
+						state = {
+							name = "mouse_leave_panel"
+							position = { 56 0 }
+							alpha = 0
+							using = Animation_Curve_Default
+							duration = 0.05
+						}
+
+						vbox = {
+							parentanchor = right|top
+							layoutpolicy_vertical = expanding
+							margin = { 8 4 }
+							max_width = 48
+							spacing = 2
+
+							background = {
+								using = Background_Area_Light
+								using = Mask_Rough_Edges
+							}
+							# vbox = {
+							# 		##########changed by obfusCKate: Start
+							# 		using = obf_skill_tooltip
+							# 		#tooltip = "SKILL_ITEM_TOOLTIP"
+							# 		##########changed by obfusCKate: End
+							# 		using = tooltip_ne
+							# 		spacing = -3
+
+							# 		icon = {
+							# 			name = "skill_icon"
+							# 			size = { 32 32 }
+							# 			framesize = { 60 60 }
+							# 			frame = "[SkillItem.GetFrame]"
+							# 			texture = "gfx/interface/icons/icon_skills.dds"
+							# 		}
+
+							# 		text_single = {
+							# 			name = "skill_value"
+							# 			##########changed by obfusCKate: Start
+							# 			using = obf_skill_text
+							# 			#text = "[SkillItem.GetValue]"
+							# 			##########changed by obfusCKate: End
+							# 			default_format = "#high"
+							# 			align = nobaseline
+
+							# 			background = {
+							# 				name = "skill_icon_bg"
+							# 				texture = "gfx/interface/window_character/character_view_skills_bg.dds"
+							# 				frame = "[SkillItem.GetFrame]"
+							# 				framesize = { 70 26 }
+							# 				margin = { 10 0 }
+							# 			}
+							# 		}
+							# 	}
+								### need changed
+							hbox = {
+								spacing = 4
+
+								background = {
+									texture = "gfx/interface/window_character/character_view_skills_bg.dds"
+									frame = 1
+									framesize = { 70 26 }
+									margin = { 10 0 }
+								}
+								icon = {
+									texture = "gfx/interface/icons/icon_skills.dds"
+									size = { 24 24 }
+									framesize = { 60 60 }
+									frame = 1
+								}
+								text_single = {
+									#text = "[Character.GetSkill('diplomacy')]"
+									#text = "[AddLocalizationIf(EqualTo_int32(SkillItem.GetFrame,'(int32)1'), Character.Custom2('diplomacy_skill_value_text_reverse', GetPlayer))]"
+									#text = "[AddLocalizationIf(Character.Custom2('diplomacy_skill_value_text_reverse', GetPlayer))]"
+									using = RUI_Ch_OBFS_template_15
+									#text = "[Character.Custom2('diplomacy_skill_value_text_reverse', GetPlayer)]"
+									align = nobaseline
+								}
+							}
+
+							hbox = {
+								spacing = 4
+
+								background = {
+									texture = "gfx/interface/window_character/character_view_skills_bg.dds"
+									frame = 2
+									framesize = { 70 26 }
+									margin = { 10 0 }
+								}
+
+								icon = {
+									texture = "gfx/interface/icons/icon_skills.dds"
+									size = { 24 24 }
+									framesize = { 60 60 }
+									frame = 2
+								}
+
+								text_single = {
+									#text = "[Character.GetSkill('martial')]"
+									using = RUI_Ch_OBFS_template_16
+									#text = "[Character.Custom2('martial_skill_value_text_reverse', GetPlayer)]"
+									align = nobaseline
+								}
+							}
+
+							hbox = {
+								spacing = 4
+
+								background = {
+									texture = "gfx/interface/window_character/character_view_skills_bg.dds"
+									frame = 3
+									framesize = { 70 26 }
+									margin = { 10 0 }
+								}
+
+								icon = {
+									texture = "gfx/interface/icons/icon_skills.dds"
+									size = { 24 24 }
+									framesize = { 60 60 }
+									frame = 3
+								}
+
+								text_single = {
+									#text = "[Character.GetSkill('stewardship')]"
+									using = RUI_Ch_OBFS_template_17
+									#text = "[Character.Custom2('stewardship_skill_value_text_reverse', GetPlayer)]"
+									align = nobaseline
+								}
+							}
+
+							hbox = {
+								spacing = 4
+
+								background = {
+									texture = "gfx/interface/window_character/character_view_skills_bg.dds"
+									frame = 4
+									framesize = { 70 26 }
+									margin = { 10 0 }
+								}
+
+								icon = {
+									texture = "gfx/interface/icons/icon_skills.dds"
+									size = { 24 24 }
+									framesize = { 60 60 }
+									frame = 4
+								}
+								text_single = {
+									#text = "[Character.GetSkill('intrigue')]"
+									using = RUI_Ch_OBFS_template_18
+									#text = "[Character.Custom2('intrigue_skill_value_text_reverse', GetPlayer)]"
+									align = nobaseline
+								}
+							}
+
+							hbox = {
+								spacing = 4
+
+								background = {
+									texture = "gfx/interface/window_character/character_view_skills_bg.dds"
+									frame = 5
+									framesize = { 70 26 }
+									margin = { 10 0 }
+								}
+
+								icon = {
+									texture = "gfx/interface/icons/icon_skills.dds"
+									size = { 24 24 }
+									framesize = { 60 60 }
+									frame = 5
+								}
+								text_single = {
+									# text = "[Character.GetSkill('learning')]"
+									using = RUI_Ch_OBFS_template_19
+									#text = "[Character.Custom2('learning_skill_value_text_reverse', GetPlayer)]"
+									align = nobaseline
+								}
+							}
+						}
+					}
+				}
+			}
 
 			widget = {
 				visible = "[GuiCouncilPosition.ArePotentialTasksVisible]"
-				layoutpolicy_horizontal = expanding
-				layoutpolicy_vertical = expanding
+				
+				block "expanded_potential_tasks" ####
+				{
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
 
-				state = {
-					name = _show
-					using = Animation_FadeIn_Quick
-				}
+					state = {
+						name = _show
+						using = Animation_FadeIn_Quick
+					}
 
-				flowcontainer = {
-					name = "council_position_tasks"
-					datamodel = "[GuiCouncilPosition.GetPotentialCouncilTasks]"
-					parentanchor = bottom|hcenter
-					margin_bottom = 10
-					direction = vertical
-					spacing = 3
-					alwaystransparent = no
+					flowcontainer = {
+						name = "council_position_tasks"
+						datamodel = "[GuiCouncilPosition.GetPotentialCouncilTasks]"
+						parentanchor = bottom|hcenter
+						margin_bottom = 10
+						direction = vertical
+						spacing = 3
+						alwaystransparent = no
 
-					item = {
-						button_standard = {
-							name = "potential_task"
-							datacontext = "[GuiPotentialCouncilTask.GetCouncilTaskType]"
-							datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
-							visible = "[GuiPotentialCouncilTask.IsVisible]"
-							size = { 220 25 }
+						item = {
+							button_standard = {
+								name = "potential_task"
+								datacontext = "[GuiPotentialCouncilTask.GetCouncilTaskType]"
+								datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+								visible = "[GuiPotentialCouncilTask.IsVisible]"
+								size = { 220 25 }
 
-							enabled = "[GuiPotentialCouncilTask.CanSelect]"
-							onclick = "[GuiPotentialCouncilTask.SelectTaskType]"
+								enabled = "[GuiPotentialCouncilTask.CanSelect]"
+								onclick = "[GuiPotentialCouncilTask.SelectTaskType]"
 
-							tooltip = "[CouncilTaskType.GetEffectDesc( ActiveCouncilTask.GetScopes )]"
+								tooltip = "[CouncilTaskType.GetEffectDesc( ActiveCouncilTask.GetScopes )]"
 
-							text_single = {
-								parentanchor = left|vcenter
-								position = { 10 0 }
-								text = "[CouncilTaskType.GetName]"
-								align = nobaseline
-								default_format = "#clickable"
-							}
+								text_single = {
+									parentanchor = left|vcenter
+									position = { 10 0 }
+									text = "[CouncilTaskType.GetName]"
+									align = nobaseline
+									default_format = "#clickable"
+								}
 
-							container = {
-								visible = "[CouncilTaskType.HasMainSkill]"
-								parentanchor = right|vcenter
+								container = {
+									visible = "[CouncilTaskType.HasMainSkill]"
+									parentanchor = right|vcenter
+										# margin_left = 10##
+										# margin_right = 15##
+										# spacing = 25##
 
+									skill_icon_label_vertical = {
+										datacontext = "[GuiCouncilPosition.GetSkillItemForTask(CouncilTaskType.Self)]"
 
-								skill_icon_label_vertical = {
-									datacontext = "[GuiCouncilPosition.GetSkillItemForTask(CouncilTaskType.Self)]"
+										blockoverride "font_size" {
+											min_width = 13
+										}
 
-									blockoverride "font_size" {
-										min_width = 13
-									}
+										blockoverride "value"
+										{
+											text = "[GuiCouncilPosition.GetSkillModifierForTask(CouncilTaskType.Self)|+=]"
+										}
 
-									blockoverride "value"
-									{
-										text = "[GuiCouncilPosition.GetSkillModifierForTask(CouncilTaskType.Self)|+=]"
-									}
-
-									blockoverride "tooltip"
-									{
+										blockoverride "tooltip"
+										{
+												# changed by obfusCKate: Start
+												# tooltip_visible = "[And( ActiveCouncilTask.HasMainSkill, ActiveCouncilTask.HasCouncillor )]"
+												# tooltip = "[SkillItem.GetSkillBreakdownTooltip]"
+												
+												#### tooltip = "SKILL_ITEM_TOOLTIP_COUNCIL" 
+												#changed by obfusCKate: End
+										}
 									}
 								}
 							}
@@ -697,21 +987,60 @@ types CouncilWindow
 					using = Animation_FadeIn_Quick
 				}
 
-				text_multi = {
-					margin_left = 10
-					margin_bottom = 10
-					margin_right = 5
-					autoresize = yes
-					max_width = 180
-					visible = "[Character.IsLocalPlayer]"
-					align = bottom|left
-					parentanchor = bottom|left
-					text = "ON_COUNCIL_EFFECTS"
-					background = {
-						using = Background_Area_Dark
+				button_round = {
+					visible = "[And( And( Character.GetLiege.GetGovernment.HasGovernmentFlag( 'government_is_celestial' ), GreaterThanOrEqualTo_int32( Character.GetLiege.GetPrimaryTitle.GetTierFrame, '(int32)7' ) ), Not(Character.IsPlayer) )]"
+					parentanchor = top|right
+					position = { -5 0 }
+
+					onclick = "[ToggleFilteredCharacterInteractionMenu(Character.Self, 'celestial_ministry')]"
+
+					tooltip = "CELESTIAL_MINISTRY_INTERACTIONS_BUTTON_TOOLTIP"
+					tooltip_visible = "[Not(IsInteractionMenuOpenForCharacterWithFilter(Character.Self, 'celestial_ministry'))]"
+
+					button_icon = {
+						alwaystransparent = yes
+						parentanchor = center
+						size = { 30 30 }
+						texture = "gfx/interface/icons/flat_icons/character_interactions.dds"
 					}
-					fontsize = 14
+
+					text_single = {
+						parentanchor = bottom|hcenter
+						position = { 0 3 }
+						text = "[GetNumberOfValidInteractionsWithFilter(Character.Self, 'celestial_ministry')]"
+						default_format = "#glow_color:{0.1,0.1,0.1,1.0}"
+
+						background = {
+							margin = { 5 0 }
+							margin_top = -5
+							using = Background_Area_Dark
+						}
+					}
 				}
+
+				icon = {
+					size = { 40 40 }
+					parentanchor = top|right
+					position = { -4 8 }
+					texture = "gfx/interface/icons/modifiers/council_positive.dds"
+					tooltip = "ON_COUNCIL_EFFECTS"
+					visible = "[Character.IsLocalPlayer]"
+				}
+				# text_multi = { ###
+				# 	margin_left = 10
+				# 	margin_bottom = 10
+				# 	margin_right = 5
+				# 	autoresize = yes
+				# 	max_width = 180
+				# 	visible = "[Character.IsLocalPlayer]"
+				# 	align = bottom|left
+				# 	parentanchor = bottom|left
+				# 	text = "ON_COUNCIL_EFFECTS"
+				# 	background = {
+				# 		using = Background_Area_Dark
+				# 	}
+				# 	fontsize = 14
+				# }
 
 				#Changed by obfusCKate: Start
 				obf_portrait_opinion_to_liege = {
@@ -724,7 +1053,7 @@ types CouncilWindow
 					visible = "[And(Not(ObfLoaded), And(Character.IsValid, Not(Character.IsLocalPlayer) ) )]"
 					#Changed by ObfusCKate: End
 					parentanchor = bottom|hcenter
-					position = { 0 -2 }
+					position = { 0 -4 }
 
 					blockoverride "opinion_text"
 					{
@@ -759,55 +1088,60 @@ types CouncilWindow
 
 				flowcontainer = {
 					parentanchor = bottom|right
+					position = { -5 -10 } ## v1.18 added
 					ignoreinvisible = yes
-					margin_bottom = 3
+
+					portrait_status_icons = {
+						parentanchor = bottom
+
+						background = {
+							using = Background_Area_Dark
+							margin = { 2 4 }
+						}
+					}
+
+					flowcontainer = {
+						direction = vertical
+						ignoreinvisible = yes
 
 					icon = {
 						name = "church_approval_icon"
 						visible = "[Character.IsTheocraticLesseeOf( GetPlayer )]"
+						size = { 50 50 }
 
 						texture = "gfx/interface/icons/icon_bishop_approval.dds"
 						framesize = { 120 120 }
-						size = { 50 50 }
 						frame = "[Select_int32( And( Character.TheocraticLesseeHasApprovalStatus, Character.TheocraticLesseeApprovesOfLiege ), '(int32)1', '(int32)2' )]"
+
 						tooltip = "[Character.GetTheocraticLesseeApprovalTooltip]"
 					}
 
-					flowcontainer = {
-						parentanchor = bottom
-						margin_bottom = 4
+						widget = {
+							size = { 52 87 }
 
-						portrait_status_icons = {
-							background = {
-								using = Background_Area_Dark
-								margin = { 1 2 }
+							coa_realm_small_crown = {
+								name = "councillor_realm"
+								visible = "[Character.HasLandedTitles]"
+								position = { 0 9 }
 							}
 						}
-					}
-
-					coa_realm_small_crown = {
-						visible = "[Character.HasLandedTitles]"
-						parentanchor = bottom
-						name = "councillor_realm"
 					}
 				}
 
 				block "regular_task"
 				{
-					fixedgridbox = {
+					dynamicgridbox = {
 						name = "council_position_tasks"
-						visible = "[Not(CouncilWindow.IsLiegeCouncilShown)]"
+						visible = "[Not(Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown ))]"
 						datamodel = "[GuiCouncilPosition.GetPotentialCouncilTasks]"
 
-						addcolumn = 45
-						addrow = 45
 						datamodel_wrap = 4
 						maxhorizontalslots = 2
 						maxverticalslots = 4
 						layoutanchor = bottomleft
 
 						parentanchor = bottom|left
-						position = { 10 0 }
+						position = { 5 -3 }
 
 						background = {
 							texture = "gfx/interface/hud/tab_bg.dds"
@@ -815,33 +1149,40 @@ types CouncilWindow
 							margin_top = 15
 							margin_bottom = 12
 							margin_right = 15
-							margin_left = 10
+							margin_left = 5
+
 							using = Color_Black
+							using = Mask_Rough_Edges
 						}
 
 						item = {
 							container = {
 								visible = "[GuiPotentialCouncilTask.IsVisible]"
+								spacer = {
+									size = { 45 45 }
+								}
+
 								widget = {
 									size = { 42 42 }
 
 									icon = {
 										visible = "[GuiPotentialCouncilTask.IsActive]"
-										texture = "gfx/particles/halo.dds"
+										### texture = "gfx/particles/halo.dds"
+										texture = "[GuiPotentialCouncilTask.GetTaskAsset.GetTaskGlow]"
 										parentanchor = center
 										size = { 58 58 }
 										color = { 1 0.85 0.6 1 }
 									}
 
-									button_round = {
-										visible = "[Or(And(GuiPotentialCouncilTask.CanSelect, Not(CouncilWindow.IsLiegeCouncilShown)), GuiPotentialCouncilTask.IsActive)]"
+									button_council_task = {
+										visible = "[Or(And(GuiPotentialCouncilTask.CanSelect, Not(Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown ))), GuiPotentialCouncilTask.IsActive)]"
 										parentanchor = center
 										size = { 46 46 }
 										gfxtype = togglepushbuttongfx
 										effectname = "NoHighlight"
 
 										onclick = "[GuiPotentialCouncilTask.SelectTaskType]"
-										enabled = "[Not(CouncilWindow.IsLiegeCouncilShown)]"
+										enabled = "[Not(Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown ))]"
 										down = "[GuiPotentialCouncilTask.IsActive]"
 
 										using = tooltip_ws
@@ -863,35 +1204,43 @@ types CouncilWindow
 											name = "potential_task"
 											parentanchor = center
 											widgetanchor = center
-											datacontext = "[GuiPotentialCouncilTask.GetCouncilTaskType]"
+											## datacontext = "[GuiPotentialCouncilTask.GetCouncilTaskType]"
 											effectname = "NoHighlight"
 											gfxtype = togglepushbuttongfx
 											shaderfile = "gfx/FX/pdxgui_pushbutton.shader"
-											texture = "[CouncilTaskType.GetIcon]"
+											texture = "[GuiPotentialCouncilTask.GetTaskAsset.GetTaskIcon]"
 											alwaystransparent = yes
 											size = { 38 38 }
+
+
+											widget = {
+												name = "fabricate_claim_tutorial_highlight"
+												size = { 100% 100% }
+												visible = "[ObjectsEqual( GetCouncilTaskType('task_fabricate_claim'),  GuiPotentialCouncilTask.GetCouncilTaskType.Self)]"
+											}
+
 										}
 									}
-								}
 
-								widget = {
-									size = { 40 40 }
-									visible = "[And(Not(GuiPotentialCouncilTask.CanSelect), Not(CouncilWindow.IsLiegeCouncilShown))]"
+									widget = {
+										size = { 40 40 }
+											visible = "[And(Not(GuiPotentialCouncilTask.CanSelect), Not(Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown )))]"
 
-									icon = {
-										datacontext = "[GuiPotentialCouncilTask.GetCouncilTaskType]"
-										parentanchor = center
-										size = { 35 35 }
-										alwaystransparent = yes
+										icon = {
+											parentanchor = center
+											size = { 38 38 }
+											alwaystransparent = yes
 
-										texture = "[CouncilTaskType.GetIcon]"
-										alpha = 0.4
+											## texture = "[CouncilTaskType.GetIcon]"
+											texture = "[GuiPotentialCouncilTask.GetTaskAsset.GetTaskIcon]"
+											alpha = 0.4
 
-										tooltipwidget = {
-											invalid_potential_council_task_icon_tooltip_widget = {
-												using = DefaultTooltipBackground
-												using = GeneralTooltipSetup
-												alwaystransparent = no
+											tooltipwidget = {
+												invalid_potential_council_task_icon_tooltip_widget = {
+													using = DefaultTooltipBackground
+													using = GeneralTooltipSetup
+													alwaystransparent = no
+												}
 											}
 										}
 									}
@@ -899,112 +1248,11 @@ types CouncilWindow
 							}
 						}
 					}
-
-					# flowcontainer = {
-					# 	name = "council_position_tasks"
-					# 	visible = "[Not(CouncilWindow.IsLiegeCouncilShown)]"
-					# 	datamodel = "[GuiCouncilPosition.GetPotentialCouncilTasks]"
-					# 	parentanchor = bottom|left
-					# 	position = { 0  }
-					# 	margin = { 10 5 }
-					# 	spacing = 4
-					# 	direction = vertical
-					# 	alwaystransparent = no
-					# 	ignoreinvisible = yes
-
-					# 	background = {
-					# 		texture = "gfx/interface/hud/tab_bg.dds"
-					# 		mirror = horizontal
-					# 		margin = { 0 10 }
-					# 		margin_right = 15
-					# 		using = Color_Black
-					# 	}
-
-					# 	item = {
-					# 		container = {
-					# 			visible = "[GuiPotentialCouncilTask.IsVisible]"
-					# 			widget = {
-					# 				size = { 42 42 }
-
-					# 				icon = {
-					# 					visible = "[GuiPotentialCouncilTask.IsActive]"
-					# 					texture = "gfx/particles/halo.dds"
-					# 					parentanchor = center
-					# 					size = { 58 58 }
-					# 					color = { 1 0.85 0.6 1 }
-					# 				}
-
-					# 				button_round = {
-					# 					visible = "[Or(And(GuiPotentialCouncilTask.CanSelect, Not(CouncilWindow.IsLiegeCouncilShown)), GuiPotentialCouncilTask.IsActive)]"
-					# 					parentanchor = center
-					# 					size = { 46 46 }
-					# 					gfxtype = togglepushbuttongfx
-					# 					effectname = "NoHighlight"
-
-					# 					onclick = "[GuiPotentialCouncilTask.SelectTaskType]"
-					# 					enabled = "[Not(CouncilWindow.IsLiegeCouncilShown)]"
-					# 					down = "[GuiPotentialCouncilTask.IsActive]"
-
-					# 					using = tooltip_ws
-
-					# 					tooltipwidget = {
-					# 						council_task_icon_tooltip_widget = {
-					# 							using = DefaultTooltipBackground
-					# 							using = GeneralTooltipSetup
-					# 							alwaystransparent = no
-					# 						}
-					# 					}
-
-					# 					upframe = 1
-					# 					downframe = 1
-					# 					uphoverframe = 2
-					# 					disableframe = 6
-
-					# 					button_normal = {
-					# 						name = "potential_task"
-					# 						parentanchor = center
-					# 						widgetanchor = center
-					# 						datacontext = "[GuiPotentialCouncilTask.GetCouncilTaskType]"
-					# 						effectname = "NoHighlight"
-					# 						gfxtype = togglepushbuttongfx
-					# 						shaderfile = "gfx/FX/pdxgui_pushbutton.shader"
-					# 						texture = "[CouncilTaskType.GetIcon]"
-					# 						alwaystransparent = yes
-					# 						size = { 38 38 }
-					# 					}
-					# 				}
-					# 			}
-
-					# 			widget = {
-					# 				size = { 40 40 }
-					# 				visible = "[And(Not(GuiPotentialCouncilTask.CanSelect), Not(CouncilWindow.IsLiegeCouncilShown))]"
-
-					# 				icon = {
-					# 					datacontext = "[GuiPotentialCouncilTask.GetCouncilTaskType]"
-					# 					parentanchor = center
-					# 					size = { 35 35 }
-					# 					alwaystransparent = yes
-
-					# 					texture = "[CouncilTaskType.GetIcon]"
-					# 					alpha = 0.4
-
-					# 					tooltipwidget = {
-					# 						invalid_potential_council_task_icon_tooltip_widget = {
-					# 							using = DefaultTooltipBackground
-					# 							using = GeneralTooltipSetup
-					# 							alwaystransparent = no
-					# 						}
-					# 					}
-					# 				}
-					# 			}
-					# 		}
-					# 	}
-					# }
 				}
 			}
 
 			vbox = {
-				visible = "[Not(CouncilWindow.IsLiegeCouncilShown)]"
+				visible = "[Not(Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown ))]"
 				layoutpolicy_horizontal = expanding
 				margin = { 7 0 }
 
@@ -1098,12 +1346,13 @@ types CouncilTaskTypes
 						visible = "[Not(ObfLoaded)]"
 					}
 				}
-				####Changed_by_obfusCKate:Start
+				####Changed_by_obfusCKate:End
 			}
 
 			text_multi = {
 				name = "effects"
-				text = COUNCIL_TASK_EFFECTS
+				## need ljl changed? show exact value in nomad
+				text = COUNCIL_TASK_EFFECTS  
 				layoutpolicy_horizontal = expanding
 				autoresize = yes
 				max_width = 380
@@ -1135,19 +1384,22 @@ types CouncilTaskTypes
 	}
 
 	type vbox_council_layout = vbox {
+		### COUNCIL
 		vbox = {
+			visible = "[Not( And( CouncilWindow.GetCharacter.GetGovernment.HasGovernmentFlag( 'government_is_celestial' ), GreaterThanOrEqualTo_int32( CouncilWindow.GetCharacter.GetPrimaryTitle.GetTierFrame, '(int32)7' ) ) )]"
 			layoutpolicy_horizontal = expanding
 			layoutpolicy_vertical = expanding
+			datacontext = "[CouncilWindow]"
 			maximumsize = { -1 932 }
 			spacing = 5
 
-			hbox = {
+			hbox = { # Vizier/Spouse + Spymaster/Court Chaplain
 				layoutpolicy_horizontal = expanding
 				layoutpolicy_vertical = expanding
 				margin = { 10 0 }
 				spacing = 5
 
-				widget_councillor_item = {
+				widget_councillor_item = { # Vizier
 					layoutpolicy_horizontal = expanding
 					layoutpolicy_vertical = expanding
 					datacontext = "[CouncilWindow.GetCouncillor('councillor_vizier')]"
@@ -1155,6 +1407,10 @@ types CouncilTaskTypes
 					datacontext = "[ActiveCouncilTask.GetPositionType]"
 					datacontext = "[ActiveCouncilTask.GetCouncillor]"
 					visible = "[CouncilOwnerHasVizier]"
+
+					#####blockoverride "skill_visible" {
+						#######visible = no
+					#####}
 
 					background =  {
 						texture = "gfx/interface/skinned/illustrations/council/bg_council_spouse.dds"
@@ -1228,12 +1484,13 @@ types CouncilTaskTypes
 							text = "COUNCILLOR_LIEGE_MISSING_VIZIER"
 							default_format = "#low;italic"
 							max_width = 250
-							fontsize_min = 14
+								fontsize_min = 12 
+	          			#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
 						}
 					}
 				}
 
-				widget_councillor_item = {
+				widget_councillor_item = { # Spouse (If you do not have a vizier)
 					layoutpolicy_horizontal = expanding
 					layoutpolicy_vertical = expanding
 					datacontext = "[CouncilWindow.GetCouncillor('councillor_spouse')]"
@@ -1242,8 +1499,21 @@ types CouncilTaskTypes
 					datacontext = "[ActiveCouncilTask.GetCouncillor]"
 					visible = "[Not( CouncilOwnerHasVizier )]"
 
+					###blockoverride "skill_visible" {
+						#####visible = no
+					######}
+
 					background =  {
+						visible = "[Not( CouncilOwnerNomadic )]"
 						texture = "gfx/interface/skinned/illustrations/council/bg_council_spouse.dds"
+						fittype = centercrop
+						using = Mask_Rough_Edges
+						alpha = 0.8
+					}
+
+					background =  {
+						visible = "[CouncilOwnerNomadic]"
+						texture = "gfx/interface/illustrations/event_scenes/mpo_tent_interior_mongol.dds"
 						fittype = centercrop
 						using = Mask_Rough_Edges
 						alpha = 0.8
@@ -1265,7 +1535,7 @@ types CouncilTaskTypes
 					blockoverride "replace_councillor"
 					{
 						spacer = {
-							visible = "[Not(CouncilWindow.IsLiegeCouncilShown)]"
+							visible = "[Not(Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown ))]"
 							size = { 5 5 }
 						}
 					}
@@ -1324,28 +1594,63 @@ types CouncilTaskTypes
 						}
 
 						text_label_center = {
-							visible = "[And( And( Not( CouncilOwnerCanUseVizier ), CouncilWindow.IsLiegeCouncilShown ), Not( Character.IsValid ) )]"
+							visible = "[And( And( Not( CouncilOwnerCanUseVizier ), Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown ) ), Not( Character.IsValid ) )]"
 							parentanchor = bottom|hcenter
 							position = { 0 -10 }
 							text = "COUNCILLOR_LIEGE_MISSING_SPOUSE"
 							default_format = "#low;italic"
 							max_width = 250
-							fontsize_min = 14
+								fontsize_min = 12 
+	                #14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
 						}
 
 						text_label_center = {
-							visible = "[And( And( CouncilOwnerCanUseVizier, CouncilWindow.IsLiegeCouncilShown ), Not( Character.IsValid ) )]"
+							visible = "[And( And( CouncilOwnerCanUseVizier, Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown ) ), Not( Character.IsValid ) )]"
 							parentanchor = bottom|hcenter
 							position = { 0 -10 }
 							text = "COUNCILLOR_LIEGE_MISSING_VIZIER"
 							default_format = "#low;italic"
 							max_width = 250
-							fontsize_min = 14
+								fontsize_min = 12 
+					#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
 						}
 					}
 				}
 
-				widget_councillor_item = {
+			block "widget_councillor_item_Spymaster"
+			{
+				widget_councillor_item = { # Spymaster (If Nomadic it's moved up here)
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+					datacontext = "[CouncilWindow.GetCouncillor('councillor_spymaster')]"
+					datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+					datacontext = "[ActiveCouncilTask.GetPositionType]"
+					datacontext = "[ActiveCouncilTask.GetCouncillor]"
+
+					visible = "[CouncilOwnerNomadic]"
+
+					background =  {
+						texture = "gfx/interface/illustrations/event_scenes/mpo_campfire_steppe.dds"
+						fittype = centercrop
+						using = Mask_Rough_Edges
+						alpha = 0.7
+					}
+
+					background = {
+						texture = "gfx/interface/component_masks/mask_vignette.dds"
+						color = { 0.15 0.15 0.15 1 }
+						alpha = 0.3
+					}
+
+					#changed by obfusCKate: Start ### Spy network 
+					obf_hbox_spy_network_manage = {}
+
+					#changed by obfusCKate: End
+					
+				}
+			}
+
+				widget_councillor_item = { # Court Chaplain
 					layoutpolicy_horizontal = expanding
 					layoutpolicy_vertical = expanding
 					datacontext = "[CouncilWindow.GetCouncillor('councillor_court_chaplain')]"
@@ -1353,6 +1658,8 @@ types CouncilTaskTypes
 					datacontext = "[ActiveCouncilTask.GetPositionType]"
 					datacontext = "[ActiveCouncilTask.GetCouncillor]"
 					name = "tutorial_court_chaplain"
+
+					visible = "[Not( CouncilOwnerNomadic )]"
 
 					datacontext = "[GetIllustration( 'character_religion_interior' )]"
 
@@ -1371,19 +1678,23 @@ types CouncilTaskTypes
 				}
 			}
 
-			hbox = {
+			hbox = { # Chancellor + Steward
 				layoutpolicy_horizontal = expanding
 				layoutpolicy_vertical = expanding
 				margin = { 10 0 }
 				spacing = 5
 
-				widget_councillor_item = {
+				visible = "[Not( CouncilOwnerNomadic )]"
+
+				widget_councillor_item = { # Chancellor
 					layoutpolicy_horizontal = expanding
 					layoutpolicy_vertical = expanding
 					datacontext = "[CouncilWindow.GetCouncillor('councillor_chancellor')]"
 					datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
 					datacontext = "[ActiveCouncilTask.GetPositionType]"
 					datacontext = "[ActiveCouncilTask.GetCouncillor]"
+
+					visible = "[Not( CouncilOwnerNomadic )]"
 
 					background =  {
 						texture = "gfx/interface/skinned/illustrations/council/bg_council_chancellor.dds"
@@ -1399,7 +1710,7 @@ types CouncilTaskTypes
 					}
 				}
 
-				widget_councillor_item = {
+				widget_councillor_item = { # Steward
 					layoutpolicy_horizontal = expanding
 					layoutpolicy_vertical = expanding
 					datacontext = "[CouncilWindow.GetCouncillor('councillor_steward')]"
@@ -1422,14 +1733,16 @@ types CouncilTaskTypes
 				}
 			}
 
-			hbox = {
+			hbox = { # Marshal + Spymaster
 				layoutpolicy_horizontal = expanding
 				layoutpolicy_vertical = expanding
 				margin = { 10 0 }
 				margin_bottom = 5
 				spacing = 5
 
-				widget_councillor_item = {
+				visible = "[Not( CouncilOwnerNomadic )]"
+
+				widget_councillor_item = { # Marshal
 					layoutpolicy_horizontal = expanding
 					layoutpolicy_vertical = expanding
 					datacontext = "[CouncilWindow.GetCouncillor('councillor_marshal')]"
@@ -1451,7 +1764,7 @@ types CouncilTaskTypes
 					}
 				}
 
-				widget_councillor_item = {
+					widget_councillor_item = { # Spymaster
 					layoutpolicy_horizontal = expanding
 					layoutpolicy_vertical = expanding
 					datacontext = "[CouncilWindow.GetCouncillor('councillor_spymaster')]"
@@ -1476,10 +1789,688 @@ types CouncilTaskTypes
 					#changed by obfusCKate: End
 				}
 			}
+
+			vbox = { 
+				name = "kurultai_council_first"
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+
+				# Kurultai positions 1 & 2
+				kurultai_hbox = {
+
+					visible = "[CouncilOwnerNomadic]"
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+
+
+					margin = { 10 0 }
+					margin_bottom = 5
+					spacing = 5
+				}
+
+				# Kurultai positions 3 & 4
+				kurultai_hbox = {
+					visible = "[CouncilOwnerNomadic]"
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+
+					margin = { 10 0 }
+					margin_bottom = 5
+					spacing = 5
+
+					blockoverride "kurultai_datamodel_first"
+					{
+						datacontext = "[CouncilWindow.GetCouncillor('councillor_kurultai_3')]"
+					}
+					blockoverride "kurultai_datamodel_second"
+					{
+						datacontext = "[CouncilWindow.GetCouncillor('councillor_kurultai_4')]"
+					}
+				}
+			} 
+		}
+
+		### MINISTRY
+		vbox = {
+			visible = "[And( CouncilWindow.GetCharacter.GetGovernment.HasGovernmentFlag( 'government_is_celestial' ), GreaterThanOrEqualTo_int32( CouncilWindow.GetCharacter.GetPrimaryTitle.GetTierFrame, '(int32)7' ) )]"
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+			datacontext = "[CouncilWindow]"
+
+			scrollbox = {
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+
+				blockoverride "scrollbox_margins"
+				{
+					margin = { 5 10 }
+					margin_bottom = 5
+				}
+
+				blockoverride "scrollbox_content"
+				{
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+
+					# Top Header
+					hbox = {
+						layoutpolicy_horizontal = expanding
+						margin_top = 1
+						margin_bottom = 8
+
+						background = {
+							name = "ministry_top_header"
+							texture = "gfx/interface/icons/banners/banner_red_background_tgp.dds"
+							alpha = 0.95
+						}
+
+						header_text = {
+							blockoverride "header_text"
+							{
+								text = "CELESTIAL_MINISTRY_HEADER_DEP"
+							}
+						}
+					}
+
+					vbox = { # Prime Minister + Imperial Censor + Grand Marshal - These are shown at the top
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+						margin = { 10 0 }
+						spacing = 5
+
+						widget_councillor_item = { # Prime Minister (chancellor)
+							layoutpolicy_horizontal = expanding
+							layoutpolicy_vertical = expanding
+							datacontext = "[CouncilWindow.GetCouncillor('councillor_chancellor')]"
+							datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+							datacontext = "[ActiveCouncilTask.GetPositionType]"
+							datacontext = "[ActiveCouncilTask.GetCouncillor]"
+							size = { -1 290 }
+
+							background =  {
+								texture = "gfx/interface/illustrations/event_scenes/tgp_garden_asia.dds"
+								fittype = centercrop
+								alpha = 0.7
+								using = Mask_Rough_Edges
+							}
+
+							background = {
+								texture = "gfx/interface/component_masks/mask_vignette.dds"
+								color = { 0.15 0.15 0.15 1 }
+								alpha = 0.3
+							}
+						}
+
+						widget_councillor_item = { # Imperial Censor (spymaster)
+							layoutpolicy_horizontal = expanding
+							layoutpolicy_vertical = expanding
+							datacontext = "[CouncilWindow.GetCouncillor('councillor_spymaster')]"
+							datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+							datacontext = "[ActiveCouncilTask.GetPositionType]"
+							datacontext = "[ActiveCouncilTask.GetCouncillor]"
+							size = { -1 290 }
+
+							background =  {
+								texture = "gfx/interface/illustrations/event_scenes/tgp_chinese_corridor_day.dds"
+								fittype = centercrop
+								using = Mask_Rough_Edges
+								alpha = 0.7
+							}
+
+							background = {
+								texture = "gfx/interface/component_masks/mask_vignette.dds"
+								color = { 0.15 0.15 0.15 1 }
+								alpha = 0.3
+							}
+							#changed by obfusCKate: Start ### Spy network 
+							obf_hbox_spy_network_manage = {}
+							#changed by obfusCKate: End
+						}
+
+						widget_councillor_item = { # Grand Marshal
+							layoutpolicy_horizontal = expanding
+							layoutpolicy_vertical = expanding
+							datacontext = "[CouncilWindow.GetCouncillor('minister_grand_marshal')]"
+							datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+							datacontext = "[ActiveCouncilTask.GetPositionType]"
+							datacontext = "[ActiveCouncilTask.GetCouncillor]"
+							size = { -1 290 }
+
+							background =  {
+								texture = "gfx/interface/illustrations/event_scenes/tgp_courtyard_asia.dds"
+								fittype = centercrop
+								using = Mask_Rough_Edges
+								alpha = 0.7
+							}
+
+							background = {
+								texture = "gfx/interface/component_masks/mask_vignette.dds"
+								color = { 0.15 0.15 0.15 1 }
+								alpha = 0.3
+							}
+						}
+					}
+
+					widget = {
+						size = { 0 15 }
+					}
+
+					# Ministry Header
+					hbox = {
+						layoutpolicy_horizontal = expanding
+						margin_top = 1
+						margin_bottom = 8
+
+						background = {
+							name = "ministry_header"
+							texture = "gfx/interface/icons/banners/banner_red_background_tgp.dds"
+							alpha = 0.95
+						}
+
+						header_text = {
+							blockoverride "header_text"
+							{
+								text = "CELESTIAL_MINISTRY_HEADER_MIN"
+							}
+						}
+					}
+
+					hbox = { # Minister of Personnel + War
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+						margin = { 10 0 }
+						margin_bottom = 5
+						spacing = 5
+
+						widget_councillor_item = { # Minister of Personnel
+							layoutpolicy_horizontal = expanding
+							layoutpolicy_vertical = expanding
+							datacontext = "[CouncilWindow.GetCouncillor('minister_personnel')]"
+							datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+							datacontext = "[ActiveCouncilTask.GetPositionType]"
+							datacontext = "[ActiveCouncilTask.GetCouncillor]"
+							size = { -1 290 }
+
+							background =  {
+								texture = "gfx/interface/illustrations/event_scenes/tgp_examination_room.dds"
+								fittype = centercrop
+								using = Mask_Rough_Edges
+								alpha = 0.7
+							}
+
+							background = {
+								texture = "gfx/interface/component_masks/mask_vignette.dds"
+								color = { 0.15 0.15 0.15 1 }
+								alpha = 0.3
+							}
+						}
+
+						widget_councillor_item = { # Minister of War (marshal)
+							layoutpolicy_horizontal = expanding
+							layoutpolicy_vertical = expanding
+							datacontext = "[CouncilWindow.GetCouncillor('councillor_marshal')]"
+							datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+							datacontext = "[ActiveCouncilTask.GetPositionType]"
+							datacontext = "[ActiveCouncilTask.GetCouncillor]"
+							size = { -1 290 }
+
+							background =  {
+								texture = "gfx/interface/illustrations/event_scenes/tgp_crossroad_inn_asia.dds"
+								fittype = centercrop
+								using = Mask_Rough_Edges
+								alpha = 0.7
+							}
+
+							background = {
+								texture = "gfx/interface/component_masks/mask_vignette.dds"
+								color = { 0.15 0.15 0.15 1 }
+								alpha = 0.3
+							}
+						}
+					}
+
+					hbox = { # Minister of Revenue + Justice
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+						margin = { 10 0 }
+						margin_bottom = 5
+						spacing = 5
+
+						widget_councillor_item = { # Minister of Revenue (steward)
+							layoutpolicy_horizontal = expanding
+							layoutpolicy_vertical = expanding
+							datacontext = "[CouncilWindow.GetCouncillor('councillor_steward')]"
+							datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+							datacontext = "[ActiveCouncilTask.GetPositionType]"
+							datacontext = "[ActiveCouncilTask.GetCouncillor]"
+							size = { -1 290 }
+
+							background =  {
+								texture = "gfx/interface/illustrations/event_scenes/tgp_market_asia.dds"
+								fittype = centercrop
+								using = Mask_Rough_Edges
+								alpha = 0.7
+							}
+
+							background = {
+								texture = "gfx/interface/component_masks/mask_vignette.dds"
+								color = { 0.15 0.15 0.15 1 }
+								alpha = 0.3
+							}
+						}
+
+						widget_councillor_item = { # Minister of Justice
+							layoutpolicy_horizontal = expanding
+							layoutpolicy_vertical = expanding
+							datacontext = "[CouncilWindow.GetCouncillor('minister_justice')]"
+							datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+							datacontext = "[ActiveCouncilTask.GetPositionType]"
+							datacontext = "[ActiveCouncilTask.GetCouncillor]"
+							size = { -1 290 }
+
+							background =  {
+								texture = "gfx/interface/illustrations/event_scenes/tgp_physician_asia.dds"
+								fittype = centercrop
+								using = Mask_Rough_Edges
+								alpha = 0.7
+							}
+
+							background = {
+								texture = "gfx/interface/component_masks/mask_vignette.dds"
+								color = { 0.15 0.15 0.15 1 }
+								alpha = 0.3
+							}
+						}
+					}
+
+					hbox = { # Minister of Rites + Works
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+						margin = { 10 0 }
+						margin_bottom = 5
+						spacing = 5
+						
+						widget_councillor_item = { # Minister of Rites (court chaplain)
+							layoutpolicy_horizontal = expanding
+							layoutpolicy_vertical = expanding
+							datacontext = "[CouncilWindow.GetCouncillor('councillor_court_chaplain')]"
+							datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+							datacontext = "[ActiveCouncilTask.GetPositionType]"
+							datacontext = "[ActiveCouncilTask.GetCouncillor]"
+							name = "tutorial_court_chaplain"
+							size = { -1 290 }
+
+							datacontext = "[GetIllustration( 'character_religion_interior' )]"
+
+							background =  {
+								texture = "gfx/interface/illustrations/event_scenes/tgp_holysite_asia.dds"
+								fittype = centercrop
+								alpha = 0.7
+								using = Mask_Rough_Edges
+							}
+
+							background = {
+								texture = "gfx/interface/component_masks/mask_vignette.dds"
+								color = { 0.15 0.15 0.15 1 }
+								alpha = 0.3
+							}
+						}
+
+						widget_councillor_item = { # Minister of Works
+							layoutpolicy_horizontal = expanding
+							layoutpolicy_vertical = expanding
+							datacontext = "[CouncilWindow.GetCouncillor('minister_works')]"
+							datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+							datacontext = "[ActiveCouncilTask.GetPositionType]"
+							datacontext = "[ActiveCouncilTask.GetCouncillor]"
+							size = { -1 290 }
+
+							background =  {
+								texture = "gfx/interface/illustrations/event_scenes/tgp_chinese_city.dds"
+								fittype = centercrop
+								using = Mask_Rough_Edges
+								alpha = 0.7
+							}
+
+							background = {
+								texture = "gfx/interface/component_masks/mask_vignette.dds"
+								color = { 0.15 0.15 0.15 1 }
+								alpha = 0.3
+							}
+						}
+					}
+
+					blockoverride "scrollbox_expand" {
+						expand = {}
+					}
+				}
+			}
 		}
 
 		expand = {
 			layoutpolicy_vertical = growing
+		}
+	}
+
+
+	type kurultai_hbox = hbox 
+	{
+		widget_councillor_item = { # Kurultai
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+
+			blockoverride "visible" {}
+
+			block "kurultai_datamodel_first"
+			{
+				datacontext = "[CouncilWindow.GetCouncillor('councillor_kurultai_1')]"
+			}
+
+			datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+			datacontext = "[ActiveCouncilTask.GetPositionType]"
+			datacontext = "[ActiveCouncilTask.GetCouncillor]"
+
+			background = {
+				texture = "gfx/interface/illustrations/event_scenes/mpo_camp_steppe.dds"
+				fittype = centercrop
+				using = Mask_Rough_Edges
+				alpha = 0.7
+			}
+
+			background = {
+				texture = "gfx/interface/component_masks/mask_vignette.dds"
+				color = { 0.15 0.15 0.15 1 }
+				alpha = 0.3
+			}
+		}
+
+		widget_councillor_item = { # Kurultai
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+
+			blockoverride "visible" {}
+
+			block "kurultai_datamodel_second"
+			{
+				datacontext = "[CouncilWindow.GetCouncillor('councillor_kurultai_2')]"
+			}
+
+			datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+			datacontext = "[ActiveCouncilTask.GetPositionType]"
+			datacontext = "[ActiveCouncilTask.GetCouncillor]"
+
+			background = {
+				texture = "gfx/interface/illustrations/event_scenes/mpo_camp_steppe.dds"
+				fittype = centercrop
+				using = Mask_Rough_Edges
+				alpha = 0.7
+			}
+
+			background = {
+				texture = "gfx/interface/component_masks/mask_vignette.dds"
+				color = { 0.15 0.15 0.15 1 }
+				alpha = 0.3
+			}
+		}
+
+		blockoverride "regular_task" {
+			flowcontainer = {
+				name = "council_position_tasks"
+				visible = "[Not(Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown ))]"
+				datamodel = "[GuiCouncilPosition.GetPotentialCouncilTasks]"
+				parentanchor = bottom|left
+				position = { 2 -3 }
+				ignoreinvisible = yes
+
+				background = {
+					texture = "gfx/interface/hud/tab_bg.dds"
+					mirror = horizontal
+					margin_top = 15
+					margin_bottom = 8
+					margin_right = 10
+					margin_left = 3
+
+					using = Color_Black
+					using = Mask_Rough_Edges
+				}
+
+				item = {
+					container = {
+						ignoreinvisible = yes
+						visible = "[GuiPotentialCouncilTask.IsActive]"
+
+						widget = {
+							size = { 50 50 }
+
+							icon = {
+								visible = "[GuiPotentialCouncilTask.IsActive]"
+								texture = "[GuiPotentialCouncilTask.GetTaskAsset.GetTaskGlow]"
+								parentanchor = center
+								size = { 62 62 }
+								color = { 1 0.85 0.6 1 }
+							}
+
+							button = {
+								size = { 50 50 }
+								parentanchor = center
+
+								button_council_task = {
+									visible = "[Or(And(GuiPotentialCouncilTask.CanSelect, Not(Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown ))), 	GuiPotentialCouncilTask.IsActive)]"
+									parentanchor = center
+									size = { 50 50 }
+									gfxtype = togglepushbuttongfx
+									effectname = "NoHighlight"
+									onclick = "[GuiCouncilPosition.ShowHideTasks]"
+									tooltip = "[GuiCouncilPosition.GetShowHideTooltip]"
+									down = "[GuiCouncilPosition.ArePotentialTasksVisible]"
+
+									using = tooltip_ws
+
+									tooltipwidget = {
+										council_task_icon_tooltip_widget = {
+											using = DefaultTooltipBackground
+											using = GeneralTooltipSetup
+											alwaystransparent = no
+										}
+									}
+
+									button_normal = {
+										name = "potential_task"
+										parentanchor = center
+										widgetanchor = center
+										effectname = "NoHighlight"
+										gfxtype = togglepushbuttongfx
+										shaderfile = "gfx/FX/pdxgui_pushbutton.shader"
+										texture = "[GuiPotentialCouncilTask.GetTaskAsset.GetTaskIcon]"
+										alwaystransparent = yes
+										size = { 42 42 }
+									}
+								}
+
+								widget = {
+									size = { 40 40 }
+									visible = "[And(Not(GuiPotentialCouncilTask.CanSelect), Not(Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown )))]"
+
+									icon = {
+										parentanchor = center
+										size = { 42 42 }
+										alwaystransparent = yes
+										texture = "[GuiPotentialCouncilTask.GetTaskAsset.GetTaskIcon]"
+										alpha = 0.4
+
+										tooltipwidget = {
+											invalid_potential_council_task_icon_tooltip_widget = {
+												using = DefaultTooltipBackground
+												using = GeneralTooltipSetup
+												alwaystransparent = no
+											}
+										}
+									}
+								}
+
+								button_round = {
+									name = "show_tasks"
+									parentanchor = bottom|right
+									size = { 25 25 }
+									position = { 5 0 }
+									alwaystransparent = yes
+
+									button_change = {
+										size = { 19 19 }
+										alwaystransparent = yes
+										parentanchor = center
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		blockoverride "assist_task" {}
+
+		blockoverride "expanded_potential_tasks" {
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+
+			flowcontainer = {
+				name = "potential_council_position_tasks"
+				parentanchor = bottom|left
+				position = { 2 -3 }
+				direction = vertical
+
+				background = {
+					mirror = horizontal
+					margin_top = -10
+					margin_bottom = 4
+					margin_right = 5
+					margin_left = 4
+
+					using = Background_Area_Dark
+					using = Mask_Rough_Edges
+				}
+
+				widget = {
+					size = { 100 35 }
+
+					icon = {
+						texture = "gfx/interface/skins/nomad/component_decoration/decoration_frame_top.dds"
+						spriteType = Corneredtiled
+						spriteborder = { 100 0 }
+						texture_density = 2
+						size = { 150 22 }
+						parentanchor = top|hcenter
+						position = { 1 7 }
+					}
+
+					icon = {
+						size = { 32 32 }
+						texture = "gfx/interface/component_masks/mask_circle.dds"
+						parentanchor = center
+					}
+
+					button_round = {
+						parentanchor = center
+						size = { 30 30 }
+
+						onclick = "[GuiCouncilPosition.ShowHideTasks]"
+
+						tooltip = "CLOSE_TOOLTIP"
+
+						button_icon = {
+							parentanchor = center
+							alwaystransparent = yes
+							texture = "gfx/interface/icons/flat_icons/arrow_vertical.dds"
+							size = { 30 30 }
+							position = { 0 7 }
+							mirror = vertical
+						}
+					}
+				}
+
+				fixedgridbox = {
+					name = "council_position_tasks"
+					datamodel = "[GuiCouncilPosition.GetPotentialCouncilTasks]"
+					addcolumn = 50
+					addrow = 50
+					datamodel_wrap = 4
+					maxhorizontalslots = 2
+					maxverticalslots = 4
+
+					alwaystransparent = no
+
+					item = {
+						widget = {
+							size = { 50 50 }
+
+							icon = {
+								visible = "[GuiPotentialCouncilTask.IsActive]"
+								texture = "[GuiPotentialCouncilTask.GetTaskAsset.GetTaskGlow]"
+								parentanchor = center
+								size = { 62 62 }
+								color = { 1 0.85 0.6 1 }
+							}
+
+							button_council_task = {
+								name = "potential_task"
+								datacontext = "[GuiPotentialCouncilTask.GetCouncilTaskType]"
+								datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+								visible = "[Or(And(GuiPotentialCouncilTask.CanSelect, Not(Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown ))), 	GuiPotentialCouncilTask.IsActive)]"
+								size = { 50 50 }
+
+								enabled = "[GuiPotentialCouncilTask.CanSelect]"
+								onclick = "[GuiPotentialCouncilTask.SelectTaskType]"
+
+								button_normal = {
+									name = "potential_task"
+									parentanchor = center
+									widgetanchor = center
+									effectname = "NoHighlight"
+									gfxtype = togglepushbuttongfx
+									shaderfile = "gfx/FX/pdxgui_pushbutton.shader"
+									texture = "[GuiPotentialCouncilTask.GetTaskAsset.GetTaskIcon]"
+									alwaystransparent = yes
+									size = { 42 42 }
+								}
+
+								using = tooltip_ws
+
+								tooltipwidget = {
+									council_task_icon_tooltip_widget = {
+										using = DefaultTooltipBackground
+										using = GeneralTooltipSetup
+										alwaystransparent = no
+									}
+								}
+							}
+
+							widget = {
+								size = { 50 50 }
+								visible = "[And(Not(GuiPotentialCouncilTask.CanSelect), Not(Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown )))]"
+
+								icon = {
+									parentanchor = center
+									size = { 42 42 }
+									alwaystransparent = yes
+									texture = "[GuiPotentialCouncilTask.GetTaskAsset.GetTaskIcon]"
+									alpha = 0.4
+
+									using = tooltip_ws
+
+									tooltipwidget = {
+										invalid_potential_council_task_icon_tooltip_widget = {
+											using = DefaultTooltipBackground
+											using = GeneralTooltipSetup
+											alwaystransparent = no
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }

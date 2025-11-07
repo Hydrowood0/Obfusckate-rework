@@ -127,13 +127,16 @@ flag_characters_on_game_start = {
 		every_councillor = {
 				limit = {NOR = {is_close_or_extended_family_of = scope:player_character
 							is_consort_of = scope:player_character
-							is_vassal_of = scope:player_character}}
+							is_vassal_of = scope:player_character #added by ljl
+							is_tributary_of = scope:player_character
+							}}
 				add_to_temporary_list = natural_acquaintances
 		}
 		####knights
 		every_knight = {
 				limit = {NOR = {is_close_or_extended_family_of = scope:player_character
 							is_vassal_of = scope:player_character
+							is_tributary_of = scope:player_character #added by ljl
 							is_councillor_of = scope:player_character}}
 				add_to_temporary_list = natural_acquaintances
 		}
@@ -1567,13 +1570,15 @@ make_acquaintances_from_knowledge = {#TESTED AN WORKING
 		every_councillor = {
 				limit = {NOR = {is_close_or_extended_family_of = scope:player_character
 							is_consort_of = scope:player_character
-							is_vassal_of = scope:player_character}}
+							is_vassal_of = scope:player_character #added by ljl
+							is_tributary_of = scope:player_character}}
 				add_to_temporary_list = natural_acquaintances
 		}
 		####knights
 		every_knight = {
 				limit = {NOR = {is_close_or_extended_family_of = scope:player_character
 							is_vassal_of = scope:player_character
+							is_tributary_of = scope:player_character #added by ljl
 							is_councillor_of = scope:player_character}}
 				add_to_temporary_list = natural_acquaintances
 		}

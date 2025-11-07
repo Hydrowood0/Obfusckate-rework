@@ -41,7 +41,8 @@ template RUI_Ch_OBFS_template_09 {
 		default_format = "#low"
         tooltip = "[AddLocalizationIf(Not(ObfIsLocalPlayer), 'COURTIERS_COUNT_TT_OB')]"
         raw_text = "  [ShowStringWithParentheses(SelectLocalization(ObfIsLocalPlayer,'CHARACTER_WINDOW_COURT_TAB_COUNT', SelectLocalization(ShowEstimateTabCount, SelectLocalization( LessThanOrEqualTo_int32( CharacterWindow.GetTabItemsCount('court'), '(int32)5' ), 'FEW_COURTIERS_OB',SelectLocalization(LessThanOrEqualTo_int32( CharacterWindow.GetTabItemsCount('court'), '(int32)15' ),'SOME_COURTIERS_OB', 'MANY_COURTIERS_OB')),'')))]"
-        fontsize_min = 14
+        	fontsize_min = 12 
+	#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
     }
 }
 
@@ -50,7 +51,8 @@ template RUI_Ch_OBFS_template_10 {
 		default_format = "#low"
         tooltip = "[AddLocalizationIf(Not(ObfIsLocalPlayer), 'VASSALS_COUNT_TT_OB')]"
         raw_text = "  #low [ShowStringWithParentheses(SelectLocalization(ShowTabCount,'CHARACTER_WINDOW_VASSAL_TAB_COUNT', SelectLocalization(ShowEstimateTabCount, SelectLocalization( LessThanOrEqualTo_int32( CharacterWindow.GetTabItemsCount('vassal'), '(int32)10' ), 'FEW_VASSALS_OB',SelectLocalization(LessThanOrEqualTo_int32( CharacterWindow.GetTabItemsCount('vassal'), '(int32)20' ),'SOME_VASSALS_OB', 'MANY_VASSALS_OB')),'')))]#!"
-        fontsize_min = 14
+        	fontsize_min = 12 
+	#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
     }
 }
 
@@ -98,6 +100,24 @@ template RUI_Ch_OBFS_template_21 {
 	using = obf_portrait_character_view_main_template
 }
 
+template RUI_Ch_OBFS_template_22 {
+	text = "[Character.GetInfluence|0]" 
+    using = obf_influence_template 
+}
+template RUI_Ch_OBFS_template_23 {
+	 using = obf_influence_text_template 
+}
+
+template RUI_Ch_OBFS_template_24 { ## 已经在saltfish的改版obfus绕过并实现了
+	## tooltip = "[Domicile.GetHerdBreakdown]"
+    using = obf_herd_template 
+}
+
+template RUI_Ch_OBFS_template_25 { ## 已经在saltfish的改版obfus绕过并实现了
+	## text = "[Domicile.GetHerd|0]"
+    using = obf_herd_text_template 
+}
+
 types CharacterWindow
 {
 	type RUI_Ch_OBFS_type_01 = obf_button_ask_military_advice {
@@ -118,7 +138,8 @@ types CharacterWindow
         using = obf_personality_template
         using = tooltip_se
 
-        fontsize_min = 13
+        	fontsize_min = 12 
+	#13  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
         align = nobaseline
     }
     type RUI_Ch_OBFS_type_05 = obf_button_open_known_character_list {

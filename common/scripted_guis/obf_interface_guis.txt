@@ -4,11 +4,14 @@ gui_show_dread_icon_on_portraits_for_player = {
 		character
 	}
 	is_valid = {
-	root = {is_incapable = no
-		age >= 6}
 	exists = scope:character
-	NOT = {scope:character = root}
-	scope:character = {
+	exists = root
+	root ?= {is_incapable = no
+		age >= 6}
+	
+
+	NOT = {scope:character ?= root}
+	scope:character ?= {
 		ai_boldness <= 75
 			is_alive = yes
 			age >= 6
@@ -53,8 +56,10 @@ gui_show_dread_icon_for_liege_or_host = {
 		character
 	}
 	is_valid = {
-		exists = scope:character
-		root = {
+		
+	# exists = scope:character
+	exists = root
+		root ?= {
 			is_incapable = no
 			age >= 6
 			probably_unintelligent_trigger = no
@@ -65,14 +70,19 @@ gui_show_dread_icon_for_liege_or_host = {
 			is_alive = yes
 			age >= 6
 			is_incapable = no
-			NOT = {is_vassal_of = root}
+			NOT = {
+				OR = {
+					is_vassal_of = root
+					is_tributary_of = root ## added by ljl
+				}
+			}
 		}
 		OR = {
-			scope:character = {
+			scope:character ?= {
 				obf_is_fellow_vassal_or_liege_councillor = yes
 				ai_boldness < 50
 			}
-			scope:character = {
+			scope:character ?= {
 				OR = {	
 					has_character_flag = had_high_level_report
 					has_character_flag = has_been_spied
@@ -89,6 +99,7 @@ gui_show_dread_icon_for_liege_or_host = {
 						OR = {
 							AND = {
 								exists = scope:character.liege
+								exists = root.liege
 								has_dread_level_towards = {
 									target = scope:character.liege
 									level = 2	
@@ -111,21 +122,23 @@ saved_scopes = {
 character
 }
 	is_valid = {
+	
 	exists = scope:character
-	root = {is_incapable = no
+	exists = root
+	root ?= {is_incapable = no
 		age >= 12
 		probably_unintelligent_trigger = no}
 	NOR = {
 	has_game_rule = opinions_disabled
-	root = scope:character.liege
-	scope:character = root}
-	scope:character = { ### filter not talkative chars
+	root ?= scope:character.liege
+	scope:character ?= root}
+	scope:character ?= { ### filter not talkative chars
 				obf_will_hardly_talk_char_info_trigger = no
 					is_alive = yes
 					age >= 6
 					is_incapable = no}
-	OR = { scope:character = {has_character_flag = had_high_level_report}				
-	scope:character = {
+	OR = { scope:character ?= {has_character_flag = had_high_level_report}				
+	scope:character ?= {
 	obf_has_rival_or_negative_relation = no
 	OR = {	has_character_flag = has_been_spied
 			obf_is_fellow_vassal_or_liege_councillor = yes
@@ -135,7 +148,48 @@ character
 			
 			AND = {
 			OR = {obf_will_openly_talk_char_info_trigger = yes
-			root = {probably_intelligent_trigger = yes}}
+			root ?= {probably_intelligent_trigger = yes}}
+			OR = {has_character_flag = emissary_sent    
+			has_character_flag = partially_spied_2 }
+						}
+					}
+				}
+		}
+	}
+}
+
+gui_show_opinion_about_suzerain = {
+saved_scopes = {
+character
+}
+	is_valid = {
+	
+	exists = scope:character
+	exists = root
+	root ?= {is_incapable = no
+		age >= 12
+		probably_unintelligent_trigger = no}
+	NOR = {
+	has_game_rule = opinions_disabled
+	root ?= scope:character.suzerain
+	scope:character ?= root}
+	scope:character ?= { ### filter not talkative chars
+				obf_will_hardly_talk_char_info_trigger = no
+					is_alive = yes
+					age >= 6
+					is_incapable = no}
+	OR = { scope:character ?= {has_character_flag = had_high_level_report}				
+	scope:character ?= {
+	obf_has_rival_or_negative_relation = no
+	OR = {	has_character_flag = has_been_spied
+			## obf_is_fellow_vassal_or_suzerain_councillor = yes ## need changed
+			obf_works_in_same_court = yes
+			obf_has_high_level_knowledge_flags = yes
+			obf_has_near_intimate_or_close_relation = yes
+			
+			AND = {
+			OR = {obf_will_openly_talk_char_info_trigger = yes
+			root ?= {probably_intelligent_trigger = yes}}
 			OR = {has_character_flag = emissary_sent    
 			has_character_flag = partially_spied_2 }
 						}
@@ -152,8 +206,10 @@ saved_scopes = {
 character
 }
 	is_valid = {
+	
 	exists = scope:character
-	scope:character = {
+	exists = root
+	scope:character ?= {
 			OR = {
 			is_consort_of = root
 			is_close_family_of = root
@@ -174,14 +230,17 @@ saved_scopes = {
 character
 }
 	is_valid = {
-	root = {is_incapable = no
-		age >= 12}
 	exists = scope:character
-	scope:character = {
+	exists = root	
+	root ?= {is_incapable = no
+		age >= 12}
+	
+
+	scope:character ?= {
 			is_alive = yes
 			is_incapable = no}
 	
-	scope:character = {
+	scope:character ?= {
 	OR = {
 			has_character_flag = has_been_spied
 			has_character_flag = had_high_level_report
@@ -211,10 +270,12 @@ saved_scopes = {
 character
 }
 	is_valid = {
+	
 	exists = scope:character
-	root = {is_incapable = no
+	exists = root
+	root ?= {is_incapable = no
 		age >= 12}
-	scope:character = {
+	scope:character ?= {
 	OR = {	
 			prestige_level >= 4
 			highest_held_title_tier >= tier_empire
@@ -233,6 +294,8 @@ character
 						
 						}
 			is_allied_to = root
+			### confederation ?= { any_confederation_member = { this ?= root } } # added by ljl
+		    ## obf_is_in_same_confederation_as_root = yes ## added by ljl
 			}
 			
 				}
@@ -242,71 +305,85 @@ character
 #Show exact Age
 
 gui_show_exact_age = {
-saved_scopes = {
-character
-}
+	saved_scopes = {
+		character
+	}
 	is_valid = {
-	exists = scope:character
-	root.age >= 6
-	scope:character = {
-	OR = {
-		this = root
-		has_character_flag = has_been_spied
-		obf_has_close_or_intimate_relation = yes
-		obf_has_near_intimate_or_close_relation = yes
-		obf_has_relation_that_would_talk_about_him = yes
-		has_character_flag = had_high_level_report
-		has_character_flag = had_medium_level_report
-		AND = {
-			OR = {obf_is_fellow_vassal_or_liege_councillor = yes
-					obf_has_vassal_or_liege_relation = yes
-					obf_has_important_court_position = yes
-					obf_has_high_level_knowledge_flags = yes}
-				revelation_score >= 10}
-	AND = {
-	OR = {has_character_flag = emissary_sent				
-	obf_works_in_same_court = yes}
-	revelation_score >= 15}
-			
-		
-	
+		OR = {
+			has_game_rule = Show_age_enabled
+			AND = {
+				exists = scope:character
+				exists = root
+				root.age >= 6
+				scope:character ?= {
+					OR = {
+						this ?= root
+						has_character_flag = has_been_spied
+						obf_has_close_or_intimate_relation = yes
+						obf_has_near_intimate_or_close_relation = yes
+						obf_has_relation_that_would_talk_about_him = yes
+						has_character_flag = had_high_level_report
+						has_character_flag = had_medium_level_report
+						AND = {
+							OR = {
+								obf_is_fellow_vassal_or_liege_councillor = yes
+								obf_has_vassal_or_liege_relation = yes
+								obf_has_tributary_or_suzerain_relation = yes # added by ljl
+								obf_has_important_court_position = yes
+								obf_has_high_level_knowledge_flags = yes
+							}
+							revelation_score >= 10
+						}
+						AND = {
+							OR = {
+								has_character_flag = emissary_sent				
+								obf_works_in_same_court = yes
+							}
+							revelation_score >= 15
+						}
 					}
 				}
 			}
 		}
+	}
+}
 
 #Show approx Age
 
 gui_show_approx_age = {
-saved_scopes = {
-character
-}
+	saved_scopes = {
+		character
+	}
 	is_valid = {
-	exists = scope:character
-	scope:character = {
-	OR = {
-		prestige_level >= 4
-			highest_held_title_tier >= tier_empire
-		AND = { in_diplomatic_range = root
-			OR = {prestige_level >= 3
-			highest_held_title_tier >= tier_kingdom}}
-			has_character_flag = emissary_sent	
-			obf_is_fellow_vassal_or_liege_councillor = yes
+	
+		exists = scope:character
+		exists = root
+		scope:character ?= {
+			OR = {
+				prestige_level >= 4
+				highest_held_title_tier >= tier_empire
+				AND = { 
+					in_diplomatic_range = root
+					OR = {
+						prestige_level >= 3
+						highest_held_title_tier >= tier_kingdom
+					}
+				}
+					has_character_flag = emissary_sent	
+					obf_is_fellow_vassal_or_liege_councillor = yes
 					obf_has_vassal_or_liege_relation = yes
 					obf_has_important_court_position = yes
 					obf_has_high_level_knowledge_flags = yes
-			is_close_or_extended_family_of = root
-			obf_works_in_same_court = yes
-		has_character_flag = partially_spied_2
-		has_character_flag = partially_spied
-		has_character_flag = had_high_level_report
-		has_character_flag = had_medium_level_report
-		has_character_flag = had_low_level_report
-		obf_can_be_hired_as_mercenary = yes
-		
-	
-					}
-				}
+					is_close_or_extended_family_of = root
+					obf_works_in_same_court = yes
+					has_character_flag = partially_spied_2
+					has_character_flag = partially_spied
+					has_character_flag = had_high_level_report
+					has_character_flag = had_medium_level_report
+					has_character_flag = had_low_level_report
+					obf_can_be_hired_as_mercenary = yes
+			}
+		}
 	}
 }
 
@@ -317,15 +394,17 @@ saved_scopes = {
 character
 }
 	is_valid = {
-	root = {is_incapable = no}
+	root ?= {is_incapable = no}
+	
 	exists = scope:character
-	scope:character = {
+	exists = root
+	scope:character ?= {
 	OR = {
-		this = root
+		this ?= root
 		AND = {is_adult = no
 			OR = {
 			obf_has_high_level_knowledge_flags = yes
-			scope:character.house = root.house
+			scope:character.house ?= root.house
 					}		
 				}
 			}
@@ -340,13 +419,15 @@ saved_scopes = {
 character
 } 
 	is_valid = {
-	root = {is_incapable = no
+	root ?= {is_incapable = no
 			age >=6}
+	
 	exists = scope:character
-	scope:character = {
+	exists = root
+	scope:character ?= {
 	is_alive = yes
 	OR = {
-		this = root
+		this ?= root
 		has_character_flag = has_been_spied
 		obf_has_high_level_knowledge_flags = yes
 		obf_has_relation_that_would_talk_about_him = yes
@@ -377,15 +458,17 @@ saved_scopes = {
 character
 }
 	is_valid = {
-	root = {is_incapable = no
+	root ?= {is_incapable = no
 		age >= 12}
+	
 	exists = scope:character
-	NOT = {scope:character = root}
-	scope:character = {
+	exists = root
+	NOT = {scope:character ?= root}
+	scope:character ?= {
 					age >= 12
 					is_incapable = no}
 	
-	scope:character = {
+	scope:character ?= {
 	OR = {
 	AND = {
 	 OR = {is_courtier_of = root
@@ -404,7 +487,7 @@ character
 			
 			
 			AND = {revelation_score >= 30
-				root = {probably_unintelligent_trigger = no}
+				root ?= {probably_unintelligent_trigger = no}
 			OR = {has_character_flag = emissary_sent
 			has_character_flag = had_medium_level_report
 				has_character_flag = partially_spied_2}}
@@ -427,17 +510,25 @@ saved_scopes = {
 character
 }
 	is_valid = {
-	root = {is_incapable = no
+	root ?= {is_incapable = no
 		age >= 6}
-	exists = scope:character
-	scope:character = {is_alive = yes}
-	OR = {
-		AND = {root.top_liege = scope:character.top_liege
-					is_vassal_or_below_of = root.top_liege}
 	
-	scope:character = {
+	exists = scope:character
+	exists = root
+	scope:character ?= {is_alive = yes}
 	OR = {
-		this = root
+		AND = {
+			root.top_liege ?= scope:character.top_liege
+			root.top_suzerain ?= scope:character.top_suzerain
+			OR = {
+				is_vassal_or_below_of = root.top_liege
+				is_tributary_of_suzerain_or_above = root.top_suzerain
+			} ## added by ljl
+		}
+	
+	scope:character ?= {
+	OR = {
+		this ?= root
 			prestige_level >= 4
 			highest_held_title_tier >= tier_empire
 		AND = { in_diplomatic_range = root
@@ -464,15 +555,17 @@ saved_scopes = {
 character
 }
 	is_valid = {
-	root = {is_incapable = no
+	root ?= {is_incapable = no
 		age >= 12}
+	
 	exists = scope:character
-	NOT = {scope:character = root}
-	scope:character = {
+	exists = root
+	NOT = {scope:character ?= root}
+	scope:character ?= {
 					age >= 12
 					is_incapable = no}
 	
-	scope:character = {
+	scope:character ?= {
 	OR = {
 	is_spouse_of_even_if_dead = root
 		obf_has_close_or_intimate_relation = yes
@@ -489,7 +582,7 @@ character
 	
 	AND = {OR = {has_character_flag = emissary_sent
 				has_character_flag = partially_spied_2}
-				root = {probably_unintelligent_trigger = no}
+				root ?= {probably_unintelligent_trigger = no}
 					revelation_score > 60}
 				
 	AND = {
@@ -510,15 +603,17 @@ saved_scopes = {
 character
 }
 	is_valid = {
-	root = {is_incapable = no
+	root ?= {is_incapable = no
 		age >= 6}
+	
 	exists = scope:character
-	NOT = {scope:character = root}
-	scope:character = {
+	exists = root
+	NOT = {scope:character ?= root}
+	scope:character ?= {
 					age >= 6
 					is_incapable = no}
 	
-	scope:character = {
+	scope:character ?= {
 	OR = {
 		obf_has_close_or_intimate_relation = yes
 		obf_has_near_intimate_or_close_relation	= yes
@@ -530,6 +625,7 @@ character
 		obf_is_fellow_vassal_or_liege_councillor = yes
 		obf_has_relation_that_would_talk_about_him = yes
 		obf_has_vassal_or_liege_relation = yes
+		obf_has_tributary_or_suzerain_relation = yes # added by ljl
 		obf_has_rival_or_negative_relation = yes
 		obf_has_high_level_knowledge_flags = yes
 	
@@ -556,15 +652,20 @@ saved_scopes = {
 character
 }
 	is_valid = {
+	
 	exists = scope:character
-	NOT = {scope:character = root}
-		scope:character = {
+	exists = root
+	NOT = {scope:character ?= root}
+		scope:character ?= {
 		OR = {
 
 		prestige_level >= 4
 		AND = { in_diplomatic_range = root
 			prestige_level >= 3}
 		obf_is_ally_or_neighbor = yes
+
+		### confederation ?= { any_confederation_member = { this ?= root } }
+		## obf_is_in_same_confederation_as_root = yes ## added by ljl
 		has_character_flag = emissary_sent
 		obf_has_high_level_knowledge_flags = yes
 		obf_works_in_same_court = yes
@@ -585,19 +686,23 @@ saved_scopes = {
 character
 }
 	is_valid = {
-	root = {is_incapable = no
+	root ?= {is_incapable = no
 			is_adult = yes}
+	
 	exists = scope:character
-	scope:character = {
+	exists = root
+	scope:character ?= {
 	is_adult = yes
 	is_female = no
 	is_alive = yes
 		OR = {
-	this = root
+	this ?= root
 	has_relation_best_friend = root
+	has_relation_friend = root ##added by ljl
 	has_character_flag = has_been_spied
 	has_character_flag = had_high_level_report
 	has_relation_lover = root
+	has_secret_relation_lover = root ##added by ljl
 	any_secret = {
 		secret_type = secret_homosexual
 		is_known_by = root
@@ -622,19 +727,23 @@ saved_scopes = {
 character
 }
 	is_valid = {
-	root = {is_incapable = no
+	root ?= {is_incapable = no
 		is_adult = yes}
+	
 	exists = scope:character
-	scope:character = {
+	exists = root
+	scope:character ?= {
 	is_adult = yes
 	is_female = yes
 	is_alive = yes
 		OR = {
-	this = root
+	this ?= root
 	has_relation_best_friend = root
+	has_relation_friend = root ##added by ljl
 	has_character_flag = has_been_spied
 	has_character_flag = had_high_level_report
 	has_relation_lover = root
+	has_secret_relation_lover = root ##added by ljl
 	any_secret = {
 		secret_type = secret_homosexual
 		is_known_by = root
@@ -660,10 +769,12 @@ saved_scopes = {
 character
 }
 	is_valid = {
-	root = {is_incapable = no
+	root ?= {is_incapable = no
 		age >= 6}
+	
 	exists = scope:character
-	root = {is_character_interaction_shown = {
+	exists = root
+	root ?= {is_character_interaction_shown = {
 				recipient = scope:character
 				interaction = has_heard_rumours_interaction
 			}
@@ -678,14 +789,16 @@ character
 }
 
 	is_shown = {
-	root = {is_incapable = no
+	root ?= {is_incapable = no
 		age >= 12
 		NOT = {has_trait = dull}}
+	
 	exists = scope:character
-	scope:character = {
+	exists = root
+	scope:character ?= {
 	is_alive = yes
 	OR = {
-		this = root
+		this ?= root
 		has_character_flag = has_been_spied
 		obf_has_close_or_intimate_relation = yes
 		obf_has_guardian_or_ward_relation = yes
@@ -694,14 +807,16 @@ character
 	}
 
 	is_valid = {
-	root = {is_incapable = no
+	root ?= {is_incapable = no
 		age >= 6}
+	
 	exists = scope:character
-	NOT = {scope:character = root}
-	scope:character = {
+	exists = root
+	NOT = {scope:character ?= root}
+	scope:character ?= {
 	is_alive = yes}
 	OR = {
-	root = {
+	root ?= {
 	OR = {is_diarch_of_target = scope:character
 	AND = {exists = scope:character.liege
 	is_diarch_of_target = scope:character.liege}}}
@@ -709,10 +824,10 @@ character
 		AND = {		exists = scope:character.liege
 					exists = root.liege
 					exists = scope:character.liege.cp:councillor_steward		
-					root.liege = scope:character.liege
+					root.liege ?= scope:character.liege
 					scope:character.liege.cp:councillor_steward = root}
 	
-	scope:character = {
+	scope:character ?= {
 	OR = {
 	has_character_flag = emissary_sent
 	obf_has_high_level_knowledge_flags = yes
@@ -725,6 +840,7 @@ character
 	obf_has_guardian_or_ward_relation = yes
 	obf_has_near_intimate_or_close_relation = yes
 	is_vassal_of = root
+	is_tributary_of = root ## added by ljl
 	has_character_flag = had_high_level_report
 	has_character_flag = had_medium_level_report
 		AND = {
@@ -747,13 +863,14 @@ saved_scopes = {
 character
 }
 	is_valid = {
-	root = {is_incapable = no
-		age >= 6}
 	exists = scope:character
-	scope:character = {
+	exists = root
+	root ?= {is_incapable = no
+		age >= 6}
+	scope:character ?= {
 	is_alive = yes
 	OR = {
-	this = root
+	this ?= root
 	obf_is_fellow_vassal_or_liege_councillor = yes
 	AND = {top_liege = root.top_liege
 			prestige_level >= 2}
@@ -774,12 +891,128 @@ character
 	has_character_flag = had_medium_level_report
 	has_character_flag = partially_spied_2
 	obf_is_ally_or_neighbor = yes
+
+	### confederation ?= { any_confederation_member = { this ?= root } }
+	## obf_is_in_same_confederation_as_root = yes ## added by ljl
 	obf_can_be_hired_as_mercenary = yes
 	
 					}
 				}
 		}
 	}
+#herd
+gui_herd_shown = {
+    saved_scopes = {
+        character
+    }
+    is_valid = {
+        # --- 前置条件：玩家和目标角色必须是有效的 ---
+        exists = scope:character
+	    exists = root
+
+        root ?= {
+            is_incapable = no
+            age >= 6
+        }
+
+        scope:character ?= {
+            is_alive = yes
+        }
+        # -----------------------------------------
+
+        # --- 核心逻辑开始 ---
+        OR = {
+            ### 逻辑一：查看自己时，无视任何规则，永远为真
+            scope:character ?= root
+
+            ### 逻辑二：当“显示所有”规则开启时，无视其他条件，永远为真
+			has_game_rule = Show_herd_enabled
+            # AND = { has_game_rule = Show_herd_enabled NOT = { has_game_rule = Show_herd_disabled } }
+
+            ### 逻辑三：当规则未开启时，进行特殊条件判断
+            OR = {   ##AND = 
+                # # 确认“显示所有”规则是关闭的
+                # NOT = { has_game_rule = Show_herd_disabled }
+				# ## has_game_rule = Show_herd_disabled
+                
+                # 然后检查所有特殊的“知情”理由
+                scope:character ?= {
+                    OR = {
+                        # 注意：这里不再需要 this ?= root，因为它已经被逻辑一提走了
+						is_vassal_of = root
+						is_tributary_of = root
+						## is_tributary_of_suzerain_or_above = $CHARACTER$  ##
+						## is_tributary_of_suzerain_or_above = root
+                        obf_is_fellow_vassal_or_liege_councillor = yes
+                        
+                        # highest_held_title_tier >= tier_empire
+                        # AND = {
+                        #     in_diplomatic_range = root
+                        #     OR = {
+                        #         prestige_level >= 3
+                        #         highest_held_title_tier >= tier_kingdom
+                        #     }
+                        # }
+						# prestige_level >= 4
+                        # piety_level >= 4
+                        has_character_flag = has_been_spied
+                        has_character_flag = emissary_sent
+                        obf_has_high_level_knowledge_flags = yes
+                        obf_has_close_or_intimate_relation = yes
+                        obf_has_near_intimate_or_close_relation = yes
+                        obf_has_relation_that_would_talk_about_him = yes
+                        has_character_flag = had_high_level_report
+                        has_character_flag = had_medium_level_report
+                        has_character_flag = partially_spied_2
+						obf_is_ally_or_neighbor = yes
+						### confederation ?= { any_confederation_member = { this ?= root } }
+                      	## obf_is_in_same_confederation_as_root = yes ## added by ljl
+                        obf_can_be_hired_as_mercenary = yes
+                    }
+                }
+				## NOT = { has_game_rule = Show_herd_disabled }
+            }
+        }
+    }
+}
+
+# gui_herd_shown = {
+# saved_scopes = {
+# character
+# }
+# 	is_valid = {
+# 	root ?= {is_incapable = no
+# 		age >= 6}
+	# exists = scope:character
+	# exists = root
+# 	scope:character ?= {
+# 	is_alive = yes
+# 	OR = {
+# 	this ?= root
+# 	obf_is_fellow_vassal_or_liege_councillor = yes
+# 	prestige_level >= 4
+# 			highest_held_title_tier >= tier_empire
+# 		AND = { in_diplomatic_range = root
+# 			OR = {prestige_level >= 3
+# 			highest_held_title_tier >= tier_kingdom}}
+# 	piety_level >= 4 ##need changed 
+# 	And = {NOT = { has_game_rule = Show_herd_disabled } has_game_rule = Show_gerd_enabled }
+# 	has_character_flag = has_been_spied ## added by ljl
+# 	has_character_flag = emissary_sent
+# 	obf_has_high_level_knowledge_flags = yes
+# 	obf_has_close_or_intimate_relation = yes
+# 	obf_has_near_intimate_or_close_relation = yes
+# 	obf_has_relation_that_would_talk_about_him = yes
+# 	has_character_flag = had_high_level_report
+# 	has_character_flag = had_medium_level_report
+# 	has_character_flag = partially_spied_2
+# 	obf_can_be_hired_as_mercenary = yes
+	
+# 					}
+# 				}
+# 		}
+# }
+
 
 #piety
 
@@ -788,13 +1021,15 @@ saved_scopes = {
 character
 }
 	is_valid = {
-	root = {is_incapable = no
+	root ?= {is_incapable = no
 		age >= 6}
+	
 	exists = scope:character
-	scope:character = {
+	exists = root
+	scope:character ?= {
 	is_alive = yes
 	OR = {
-	this = root
+	this ?= root
 	obf_is_fellow_vassal_or_liege_councillor = yes
 	prestige_level >= 4
 			highest_held_title_tier >= tier_empire
@@ -819,43 +1054,107 @@ character
 	}
 
 #influence
-
 gui_influence_shown = {
-saved_scopes = {
-character
+    saved_scopes = {
+        character
+    }
+    is_valid = {
+        # --- 前置条件：玩家和目标角色必须是有效的 ---
+        exists = scope:character
+	    exists = root
+        root ?= {
+            is_incapable = no
+            age >= 6
+        }
+        scope:character ?= {
+            is_alive = yes
+        }
+        # -----------------------------------------
+
+        # --- 核心逻辑开始 ---
+        OR = {
+            ### 逻辑一：查看自己时，无视任何规则，永远为真
+            scope:character ?= root
+
+            ### 逻辑二：当“显示所有”规则开启时，无视其他条件，永远为真
+            has_game_rule = Show_influence_enabled
+
+            ### 逻辑三：当规则未开启时，进行特殊条件判断
+                
+                # 然后检查所有特殊的“知情”理由
+                scope:character ?= {
+                    OR = {
+                        # 注意：这里不再需要 this ?= root，因为它已经被逻辑一提走了
+                        obf_is_fellow_vassal_or_liege_councillor = yes
+						is_vassal_of = root
+						# is_vassal_or_below_of = root
+                        
+						AND = {top_liege = root.top_liege
+								prestige_level >= 2}
+						AND = {top_liege = root.top_liege
+								influence_level >= 2}
+						prestige_level >= 4
+						highest_held_title_tier >= tier_empire
+						AND = { in_diplomatic_range = root
+							OR = {prestige_level >= 3
+							highest_held_title_tier >= tier_kingdom}}
+                        #### piety_level >= 4
+                        has_character_flag = has_been_spied
+                        has_character_flag = emissary_sent
+                        obf_has_high_level_knowledge_flags = yes
+                        obf_has_close_or_intimate_relation = yes
+                        obf_has_near_intimate_or_close_relation = yes
+                        obf_has_relation_that_would_talk_about_him = yes
+                        has_character_flag = had_high_level_report
+                        has_character_flag = had_medium_level_report
+                        has_character_flag = partially_spied_2
+						obf_is_ally_or_neighbor = yes
+						### confederation ?= { any_confederation_member = { this ?= root } }
+                      	## obf_is_in_same_confederation_as_root = yes ## added by ljl
+                        obf_can_be_hired_as_mercenary = yes
+                    }
+                }
+        }
+    }
 }
-	is_valid = {
-	root = {is_incapable = no
-		age >= 6}
-	exists = scope:character
-	scope:character = {
-	is_alive = yes
-	OR = {
-	this = root
-	obf_is_fellow_vassal_or_liege_councillor = yes
-	AND = {top_liege = root.top_liege
-			prestige_level >= 2}
-	AND = {top_liege = root.top_liege
-			influence_level >= 1}
-	prestige_level >= 4
-			highest_held_title_tier >= tier_empire
-		AND = { in_diplomatic_range = root
-			OR = {prestige_level >= 3
-			highest_held_title_tier >= tier_kingdom}}
-	has_character_flag = has_been_spied
-	has_character_flag = emissary_sent
-	obf_has_high_level_knowledge_flags = yes
-	obf_has_close_or_intimate_relation = yes
-	obf_has_near_intimate_or_close_relation = yes
-	has_character_flag = had_high_level_report
-	has_character_flag = had_medium_level_report
-	has_character_flag = partially_spied_2
-	obf_is_ally_or_neighbor = yes
+# gui_influence_shown = {
+# saved_scopes = {
+# character
+# }
+# 	is_valid = {
+# 	root ?= {is_incapable = no
+# 		age >= 6}
+	# exists = scope:character
+	# exists = root
+# 	scope:character ?= {
+# 	is_alive = yes
+# 	OR = {
+# 	this ?= root 
+# 	obf_is_fellow_vassal_or_liege_councillor = yes
+# 	AND = {top_liege = root.top_liege
+# 			prestige_level >= 2}
+# 	AND = {top_liege = root.top_liege
+# 			influence_level >= 1}
+# 	prestige_level >= 4
+# 			highest_held_title_tier >= tier_empire
+# 		AND = { in_diplomatic_range = root
+# 			OR = {prestige_level >= 3
+# 			highest_held_title_tier >= tier_kingdom}}
+# 	And = {NOT = { has_game_rule = Show_influence_disabled } has_game_rule = Show_influence_enabled }
+# 	has_character_flag = has_been_spied
+# 	has_character_flag = emissary_sent
+# 	obf_has_high_level_knowledge_flags = yes
+# 	obf_has_close_or_intimate_relation = yes
+# 	obf_has_near_intimate_or_close_relation = yes
+# 	has_character_flag = had_high_level_report
+# 	has_character_flag = had_medium_level_report
+# 	has_character_flag = partially_spied_2
+# 	obf_is_ally_or_neighbor = yes
 	
-					}
-				}
-			}
-		}
+# 					}
+# 				}
+# 			}
+# 		}
 #Legitimiacy 
 
 gui_legitimacy_shown = {
@@ -863,13 +1162,15 @@ saved_scopes = {
 character
 }
 	is_valid = {
-	root = {is_incapable = no
+	root ?= {is_incapable = no
 		age >= 6}
+	
 	exists = scope:character
-	scope:character = {
+	exists = root
+	scope:character ?= {
 	is_alive = yes
 	OR = {
-	this = root
+	this ?= root
 	obf_is_fellow_vassal_or_liege_councillor = yes
 	prestige_level >= 4
 			highest_held_title_tier >= tier_empire
@@ -887,7 +1188,12 @@ character
 			top_liege = root.top_liege
 			is_vassal_of = root
 			is_liege_or_above_of = root
+			is_tributary_of = root ## added by ljl
+			scope:character.suzerain= root
+			suzerain = root ## added by ljl
+
 	obf_is_ally_or_neighbor = yes
+	### confederation ?= { any_confederation_member = { this ?= root } }
 	
 					}
 				}
@@ -901,40 +1207,49 @@ saved_scopes = {
 character
 }
 	is_valid = {
-	root = {is_incapable = no
-		age >= 6}
-	exists = scope:character
-	NOT = {scope:character = root}
-	scope:character = {
-	is_alive = yes
-	OR = {
-	obf_is_fellow_vassal_or_liege_councillor = yes
-	prestige_level >= 4
-			highest_held_title_tier >= tier_empire
-		AND = { in_diplomatic_range = root
-			OR = {prestige_level >= 3
-			highest_held_title_tier >= tier_kingdom}}	
-	has_character_flag = has_been_spied
-	has_character_flag = had_high_level_report
-	obf_has_high_level_knowledge_flags = yes
-	obf_has_close_or_intimate_relation = yes
-	obf_has_relation_that_would_talk_about_him = yes
+		root ?= {is_incapable = no
+			age >= 6}
+		
+		exists = scope:character
+		exists = root
+		NOT = {scope:character ?= root}
+		scope:character ?= {
+			is_alive = yes
+			OR = {
+				obf_is_fellow_vassal_or_liege_councillor = yes
+				prestige_level >= 4
+				highest_held_title_tier >= tier_empire
+				AND = { 
+					in_diplomatic_range = root
+					OR = {prestige_level >= 3
+					highest_held_title_tier >= tier_kingdom}
+				}	
+				has_character_flag = has_been_spied
+				has_character_flag = had_high_level_report
+				obf_has_high_level_knowledge_flags = yes
+				obf_has_close_or_intimate_relation = yes
+				obf_has_relation_that_would_talk_about_him = yes
 
-			is_vassal_of = root
-			is_liege_or_above_of = root
-	AND = {
-	has_character_flag = had_medium_level_report
-	has_character_flag = partially_spied_2
-	has_character_flag = emissary_sent
-	OR = {	dread >= medium_dread
-			ai_compassion < -50
-			ai_honor < -75		
-			ai_rationality < -20}
-						}
+				is_vassal_of = root
+				is_liege_or_above_of = root
+				is_tributary_of = root ## added by ljl
+				scope:character.suzerain= root
+				#  suzerain = root ## added by ljl scope:character.suzerain= this
+				AND = {
+					has_character_flag = had_medium_level_report
+					has_character_flag = partially_spied_2
+					has_character_flag = emissary_sent
+					OR = {	
+						dread >= medium_dread
+						ai_compassion < -50
+						ai_honor < -75		
+						ai_rationality < -20
 					}
 				}
 			}
 		}
+	}
+}
 	
 #army
 gui_military_strength_shown = {
@@ -942,11 +1257,13 @@ saved_scopes = {
 character
 }
 	is_valid = {
-	root = {is_incapable = no
+	root ?= {is_incapable = no
 		age >= 6}
+	
 	exists = scope:character
+	exists = root
 	OR = {
-	root = {
+	root ?= {
 	OR = {is_diarch_of_target = scope:character
 	AND = {exists = scope:character.liege
 	is_diarch_of_target = scope:character.liege}}}
@@ -957,31 +1274,39 @@ character
 		AND = {exists = scope:character.liege
 					exists = root.liege
 					exists = root.liege.cp:councillor_marshal
-					scope:character.liege = {is_vassal_or_below_of = root.liege}
+					scope:character.liege ?= {is_vassal_or_below_of = root.liege}
 					root.liege.cp:councillor_marshal = root}
+		AND = {exists = scope:character.suzerain
+			exists = root.suzerain
+			exists = root.suzerain.cp:councillor_marshal
+			scope:character.suzerain ?= {is_tributary_of_suzerain_or_above = root.suzerain} #added by ljl? What is CP
+			root.suzerain.cp:councillor_marshal = root}
 					
 		AND = {		exists = scope:character.liege
 					exists = root.liege
 					exists = scope:character.liege.cp:councillor_marshal
-					root.liege = scope:character.liege
+					root.liege ?= scope:character.liege
 					scope:character.liege.cp:councillor_marshal = root}		
 					
 		AND = {
 				exists = scope:character.top_liege
 				exists = scope:character.top_liege.cp:councillor_marshal
 				exists = root.top_liege
-				root.top_liege = scope:character.top_liege
+				root.top_liege ?= scope:character.top_liege
 					scope:character.top_liege.cp:councillor_marshal = root}
 	
-	scope:character = {
+	scope:character ?= {
 	OR = {
-	this = root
+	this ?= root
 	obf_can_be_hired_as_mercenary = yes
 	has_government = landless_adventurer_government
 	has_character_flag = requested_military_info
 	has_character_flag = has_been_spied
 	is_vassal_or_below_of = root
+	## is_tributary_of_suzerain_or_above = root ## added by ljl
 	is_allied_to = root
+	### confederation ?= { any_confederation_member = { this ?= root } } # added by ljl
+	## obf_is_in_same_confederation_as_root = yes ## added by ljl
 	
 					}
 				}
@@ -994,43 +1319,53 @@ saved_scopes = {
 character
 }
 	is_valid = {
-	root = {is_incapable = no
+	root ?= {is_incapable = no
 		age >= 6}
+	
 	exists = scope:character
+	exists = root
 	OR = {
-	root = {
+	root ?= {
 	OR = {is_diarch_of_target = scope:character
 	AND = {exists = scope:character.liege
 	is_diarch_of_target = scope:character.liege}}}
 	
 		AND = {exists = scope:character.cp:councillor_marshal
 		scope:character.cp:councillor_marshal = root}
+
+		# AND = {exists = scope:character.suzerain
+		# 	exists = root.suzerain
+		# 	exists = root.suzerain.cp:councillor_marshal
+		# 	scope:character.suzerain ?= {is_tributary_of_suzerain_or_above = root.suzerain} #added by ljl? What is CP
+		# 	root.suzerain.cp:councillor_marshal = root}
 		
 		AND = {exists = scope:character.liege
 					exists = root.liege
 					exists = root.liege.cp:councillor_marshal
-					scope:character.liege = {is_vassal_or_below_of = root.liege}
+					scope:character.liege ?= {is_vassal_or_below_of = root.liege}
 					root.liege.cp:councillor_marshal = root}
 					
 		AND = {		exists = scope:character.liege
 					exists = root.liege
 					exists = scope:character.liege.cp:councillor_marshal
-					root.liege = scope:character.liege
+					root.liege ?= scope:character.liege
 					scope:character.liege.cp:councillor_marshal = root}		
 					
 		AND = {
 				exists = scope:character.top_liege
 				exists = scope:character.top_liege.cp:councillor_marshal
 				exists = root.top_liege
-				root.top_liege = scope:character.top_liege
+				root.top_liege ?= scope:character.top_liege
 					scope:character.top_liege.cp:councillor_marshal = root}
 	
-	scope:character = {
+	scope:character ?= {
 	OR = {
-	this = root
+	this ?= root
 	is_vassal_or_below_of = root
+	is_tributary_of_suzerain_or_above = root ## added by ljl
 	obf_is_ally_or_neighbor = yes
-	
+	### confederation ?= { any_confederation_member = { this ?= root } }
+	## obf_is_in_same_confederation_as_root = yes ## added by ljl
 	
 					}
 				}
@@ -1046,12 +1381,14 @@ saved_scopes = {
 character
 }
 	is_valid = {
-	root = {is_incapable = no
+	root ?= {is_incapable = no
 		age >= 6}
+	
 	exists = scope:character
-	scope:character = {
+	exists = root
+	scope:character ?= {
 	OR = {
-	this = root
+	this ?= root
 	prestige_level >= 4
 	piety_level >= 4
 			highest_held_title_tier >= tier_empire
@@ -1065,12 +1402,18 @@ character
 	obf_has_high_level_knowledge_flags = yes
 	
 	is_imprisoned_by = root
-	this = root.liege
+	AND = {
+    exists = root.liege
+    this ?= root.liege
+	}
 	is_contact_of = root
 	is_vassal_of = root
+	is_tributary_of = root ## added by ljl
 	obf_is_fellow_vassal_or_liege_councillor = yes
 	obf_works_in_same_court	= yes
 	obf_is_ally_or_neighbor = yes
+	### confederation ?= { any_confederation_member = { this ?= root } }
+	## obf_is_in_same_confederation_as_root = yes ## added by ljl
 	obf_has_relation_that_would_talk_about_him = yes 
 	has_character_flag = had_high_level_report
 	has_character_flag = had_medium_level_report
@@ -1098,15 +1441,17 @@ saved_scopes = {
 character
 }
 	is_valid = {
-	root = {is_incapable = no
+	root ?= {is_incapable = no
 		age >= 6}
+	
 	exists = scope:character
-	scope:character = {is_alive = yes}
+	exists = root
+	scope:character ?= {is_alive = yes}
 
 	
-	scope:character = {
+	scope:character ?= {
 	OR = {
-		this = root
+		this ?= root
 			has_character_flag = emissary_sent
 			has_character_flag = has_been_spied
 			has_character_flag = had_high_level_report
@@ -1124,13 +1469,13 @@ gui_house_known = {
 		character
 	}
 	is_valid = {
-		root = {
+		root ?= {
 			is_incapable = no
 			age >= 6
 		}
 		scope:character ?= {
 			OR = {
-				this = root
+				this ?= root
 				matchmaker.highest_held_title_tier >= tier_kingdom 
 				highest_held_title_tier >= tier_empire
 				prestige_level >= 4
@@ -1149,13 +1494,15 @@ gui_house_known = {
 				}
 				has_character_flag = has_been_spied
 				has_character_flag = emissary_sent
-				scope:character.house = root.house
+				scope:character.house ?= root.house
 				obf_is_fellow_vassal_or_liege_councillor = yes
 				obf_has_high_level_knowledge_flags = yes
 				obf_has_relation_that_would_talk_about_him = yes
 				obf_has_close_or_intimate_relation = yes
 				obf_has_near_intimate_or_close_relation = yes
 				obf_is_ally_or_neighbor = yes 
+				### confederation ?= { any_confederation_member = { this ?= root } }
+				## obf_is_in_same_confederation_as_root = yes ## added by ljl
 				has_character_flag = partially_spied_2
 				has_character_flag = had_high_level_report
 				has_character_flag = had_medium_level_report
@@ -1180,16 +1527,26 @@ saved_scopes = {
 character
 }
 	is_valid = {
-	root = {is_incapable = no}
-	exists = scope:character
-	scope:character = {is_alive = yes}
-	OR = {
-		AND = {root.top_liege = scope:character.top_liege
-					is_vassal_or_below_of = root.top_liege}
+	root ?= {is_incapable = no}
 	
-	scope:character = {
+	exists = scope:character
+	exists = root
+	scope:character ?= {is_alive = yes}
 	OR = {
-		this = root
+		
+	AND = {
+		root.top_liege ?= scope:character.top_liege
+		is_vassal_or_below_of = root.top_liege
+	}
+
+	AND = {
+		root.top_suzerain ?= scope:character.top_suzerain
+		is_tributary_of_suzerain_or_above = root.top_suzerain
+	}
+	
+	scope:character ?= {
+	OR = {
+		this ?= root
 			
 			highest_held_title_tier >= tier_empire
 		prestige_level >= 4
@@ -1204,6 +1561,8 @@ character
 			has_character_flag = had_high_level_report
 	obf_has_high_level_knowledge_flags = yes
 	obf_is_ally_or_neighbor = yes 
+	### confederation ?= { any_confederation_member = { this ?= root } }
+	## obf_is_in_same_confederation_as_root = yes ## added by ljl
 	has_character_flag = had_medium_level_report
 
 		AND = {has_character_flag = partially_spied_2
@@ -1224,12 +1583,14 @@ saved_scopes = {
 character
 }
 	is_valid = {
-	root = {is_incapable = no
+	root ?= {is_incapable = no
 		age >= 6}
+	
 	exists = scope:character
-	scope:character = {
+	exists = root
+	scope:character ?= {
 	OR = {
-	this = root
+	this ?= root
 		
 			prestige_level >= 4
 			highest_held_title_tier >= tier_empire
@@ -1242,13 +1603,19 @@ character
 			has_character_flag = emissary_sent
 		obf_has_high_level_knowledge_flags = yes
 	is_imprisoned_by = root
-	this = root.liege
+	AND = {
+    exists = root.liege
+	this ?= root.liege
+	}
 	is_contact_of = root
-	is_vassal_of = root
+	## is_vassal_of = root
 	is_vassal_or_below_of = root
+	is_tributary_of_suzerain_or_above = root ## added by ljl
 	obf_is_fellow_vassal_or_liege_councillor = yes
 	obf_works_in_same_court	= yes
 	obf_is_ally_or_neighbor = yes
+	### confederation ?= { any_confederation_member = { this ?= root } }
+	## obf_is_in_same_confederation_as_root = yes ## added by ljl
 	obf_has_relation_that_would_talk_about_him = yes  
 	obf_has_close_or_intimate_relation = yes
 	obf_has_near_intimate_or_close_relation = yes
@@ -1274,13 +1641,15 @@ saved_scopes = {
 character
 }
 	is_valid = {
-	root = {is_incapable = no
+	root ?= {is_incapable = no
 		age >= 6}
+	
 	exists = scope:character
-	scope:character = {
+	exists = root
+	scope:character ?= {
 	is_alive = yes
 	OR = {
-	this = root
+	this ?= root
 			prestige_level >= 4
 			highest_held_title_tier >= tier_empire
 		AND = { in_diplomatic_range = root
@@ -1291,13 +1660,19 @@ character
 			has_character_flag = had_high_level_report
 	obf_has_high_level_knowledge_flags = yes
 	is_imprisoned_by = root
-	this = root.liege
+	AND = {
+    exists = root.liege
+	this ?= root.liege
+	}
 	is_contact_of = root
-	is_vassal_of = root
+	## is_vassal_of = root
 	is_vassal_or_below_of = root
+	is_tributary_of_suzerain_or_above = root ## added by ljl
 	obf_is_fellow_vassal_or_liege_councillor = yes
 	obf_works_in_same_court	= yes
 	obf_is_ally_or_neighbor = yes
+	### confederation ?= { any_confederation_member = { this ?= root } }
+	## obf_is_in_same_confederation_as_root = yes ## added by ljl
 	obf_has_relation_that_would_talk_about_him = yes  
 	obf_has_close_or_intimate_relation = yes
 	obf_can_be_hired_as_mercenary = yes
@@ -1323,12 +1698,14 @@ saved_scopes = {
 character
 }
 	is_valid = {
-	root = {is_incapable = no
+	root ?= {is_incapable = no
 		age >= 6}
+	
 	exists = scope:character
-	scope:character = {
+	exists = root
+	scope:character ?= {
 	OR = {
-	this = root
+	this ?= root
 	has_character_flag = has_been_spied
 	has_character_flag = had_high_level_report
 	obf_has_high_level_knowledge_flags = yes
@@ -1347,11 +1724,13 @@ saved_scopes = {
 character
 }
 	is_valid = {
-	root = {is_incapable = no
+	root ?= {is_incapable = no
 		age >= 6}
+	
 	exists = scope:character
-	NOT = {scope:character = root} 
-	scope:character = {
+	exists = root
+	NOT = {scope:character ?= root} 
+	scope:character ?= {
 	OR = {
 			prestige_level >= 4
 			highest_held_title_tier >= tier_empire
@@ -1376,10 +1755,12 @@ saved_scopes = {
 character
 }
 	is_valid = {
+	
 	exists = scope:character
-	scope:character = {
+	exists = root
+	scope:character ?= {
 	OR = { 
-	this = root
+	this ?= root
 	prestige_level >= 4
 			highest_held_title_tier >= tier_empire
 		AND = { in_diplomatic_range = root
@@ -1393,6 +1774,9 @@ character
 	obf_is_fellow_vassal_or_liege_councillor = yes
 	obf_works_in_same_court	= yes
 	obf_is_ally_or_neighbor = yes
+	### confederation ?= { any_confederation_member = { this ?= root } }
+	## obf_is_in_same_confederation_as_root = yes ## added by ljl
+
 	is_close_or_extended_family_of = root
 	obf_has_relation_that_would_talk_about_him = yes
 	has_character_flag = had_high_level_report
@@ -1418,10 +1802,12 @@ saved_scopes = {
 character
 }
 	is_valid = {
+	
 	exists = scope:character
-	scope:character = {
+	exists = root
+	scope:character ?= {
 	OR = {
-	this = root
+	this ?= root
 	prestige_level >= 4
 			highest_held_title_tier >= tier_empire
 		AND = { in_diplomatic_range = root
@@ -1488,10 +1874,12 @@ character
 }
 	is_valid = {
 	root.age >= 6
+	
 	exists = scope:character
-	scope:character = {
+	exists = root
+	scope:character ?= {
 	OR = {
-	this = root
+	this ?= root
 	prestige_level >= 4
 			highest_held_title_tier >= tier_empire
 		AND = { in_diplomatic_range = root
@@ -1509,7 +1897,7 @@ character
 	
 	AND = {has_character_flag = partially_spied_2
 			revelation_score > 70
-			root = {NOT = {has_trait = dull}}}
+			root ?= {NOT = {has_trait = dull}}}
 		any_relation = {
 		type = lover
 		NOT = {has_secret_relation_lover = scope:character}
@@ -1535,10 +1923,12 @@ saved_scopes = {
 character
 }
 	is_valid = {
+	
 	exists = scope:character
-	scope:character = {
+	exists = root
+	scope:character ?= {
 	OR = {
-	this = root
+	this ?= root
 	prestige_level >= 4
 			highest_held_title_tier >= tier_empire
 		AND = { in_diplomatic_range = root
@@ -1576,10 +1966,12 @@ saved_scopes = {
 character
 }
 	is_valid = {
+	
 	exists = scope:character
-	scope:character = {
+	exists = root
+	scope:character ?= {
 	OR = {
-	this = root
+	this ?= root
 	prestige_level >= 4
 			highest_held_title_tier >= tier_empire
 		AND = { in_diplomatic_range = root
@@ -1622,14 +2014,15 @@ gui_show_chars_in_list = { ###### ROOT IS CHARACTER IN LIST - PLAYER IS PLAYER
 		OR = {
 			scope:player ?= ROOT
 			AND = {
-				root.liege = scope:player.liege
+			    # exists = root.liege
+				root.liege ?= scope:player.liege
 				OR = {
 					is_councillor_of = scope:player.liege
 					is_ruler = yes
 				}
 			}
 			AND = {
-				scope:player = {
+				scope:player ?= {
 					is_independent_ruler = no
 					OR = {
 						is_knight = yes
@@ -1642,7 +2035,7 @@ gui_show_chars_in_list = { ###### ROOT IS CHARACTER IN LIST - PLAYER IS PLAYER
 					is_pool_guest_of = scope:player.liege
 				}
 			}
-			this = scope:player.liege
+			this ?= scope:player.liege
 			is_at_same_location = scope:player
 			prestige_level >= 4
 			AND = {
@@ -1670,10 +2063,13 @@ player
 	
 	is_valid = {
 	OR = {
-		AND = {root.liege = scope:player.liege
+		AND = {
+			exists = scope:player.liege
+			exists = root.liege
+			root.liege ?= scope:player.liege
 				OR = {is_councillor_of = scope:player.liege
 					is_ruler = yes}}
-	this = scope:player
+	this ?= scope:player
 		influence_level >= 3
 			prestige_level >= 4
 			highest_held_title_tier >= tier_empire
@@ -1684,11 +2080,14 @@ player
 			has_character_flag = has_been_spied
 			has_character_flag = had_high_level_report
 	obf_has_high_level_knowledge_flags = yes
-	this = scope:player.liege
+	this ?= scope:player.liege
 	is_contact_of = scope:player.liege
-	is_vassal_of = scope:player.liege
+	## is_vassal_of = scope:player.liege
 	is_vassal_or_below_of = scope:player.liege
+	is_tributary_of_suzerain_or_above = root ## added by ljl
 	is_allied_to = scope:player
+	### confederation ?= { any_confederation_member = { this ?= scope:player } } # added by ljl
+	## obf_is_in_same_confederation_as_root = yes ## added by ljl ##ROOT IS CHARACTER IN LIST - PLAYER IS PLAYER
 	obf_can_be_hired_as_mercenary = yes
         any_county = {
 		holder = root
@@ -1794,7 +2193,7 @@ player
 			AND = {liege = scope:player.liege
 				OR = {is_councillor_of = scope:player.liege
 					is_ruler = yes}}
-	this = scope:player
+	this ?= scope:player
 	influence_level >= 3
 			prestige_level >= 4
 			highest_held_title_tier >= tier_empire
@@ -1805,11 +2204,14 @@ player
 			has_character_flag = has_been_spied
 			has_character_flag = had_high_level_report
 	obf_has_high_level_knowledge_flags = yes
-	this = scope:player.liege
+	this ?= scope:player.liege
 	is_contact_of = scope:player.liege
 	is_vassal_of = scope:player.liege
 	is_vassal_or_below_of = scope:player.liege
+	is_tributary_of_suzerain_or_above = root ## added by ljl
 	is_allied_to = scope:player
+	### confederation ?= { any_confederation_member = { this ?= scope:player } } # added by ljl
+	## obf_is_in_same_confederation_as_root = yes ## added by ljl ##ROOT IS CHARACTER IN LIST - PLAYER IS PLAYER
          any_county = {
 		holder = root
 			is_neighbor_to_realm = scope:player
@@ -1942,7 +2344,7 @@ gui_skills_are_not_known = {
 		character
 	}
 	is_valid = {
-		gui_skills_are_not_known = yes
+	gui_skills_are_not_known = yes
 	}
 }
 
@@ -2052,46 +2454,48 @@ saved_scopes = {
 character
 }
 	is_valid = {
+	
 	exists = scope:character
+	exists = root
 		OR = {
 		any_consort = {
-		this = scope:character
+		this ?= scope:character
 		even_if_dead = yes
 		}
 		any_child = {
-		this = scope:character
+		this ?= scope:character
 		even_if_dead = yes
 		}
 		any_parent = {
-		this = scope:character
+		this ?= scope:character
 		even_if_dead = yes
 		}
 		any_sibling = {
-		this = scope:character
+		this ?= scope:character
 		even_if_dead = yes
 		}
 		any_relation = {
 		type = friend
-		this = scope:character
+		this ?= scope:character
 		even_if_dead = yes
 		}
 		any_relation = {
 		type = lover
-		this = scope:character
+		this ?= scope:character
 		even_if_dead = yes
 		}
 		any_relation = {
 		type = rival
-		this = scope:character
+		this ?= scope:character
 		even_if_dead = yes
 		}
 		any_relation = {
 		type = grudge
-		this = scope:character
+		this ?= scope:character
 		even_if_dead = yes
 		}
-		AND = {scope:character = {is_pool_character = yes}
-				root = {OR = {is_travelling = yes
+		AND = {scope:character ?= {is_pool_character = yes}
+				root ?= {OR = {is_travelling = yes
 				has_character_flag = searching_for_physician
 				has_variable = ep3_laamp_decision_1000_is_visiting}}}
 		any_scheme = {
@@ -2101,9 +2505,9 @@ character
 						scheme_type = convert_to_witchcraft}
 						scheme_target_character = scope:character
 					}	
-	scope:character = {
+	scope:character ?= {
 	OR = {
-	this = root
+	this ?= root
 	any_scheme = {
 			OR = {		scheme_type = seduce
 						scheme_type = courting
@@ -2123,9 +2527,13 @@ character
 	is_courtier_of = root
 	obf_has_guardian_or_ward_relation = yes
 	is_imprisoned_by = root
-	this = root.liege
+	AND = {
+    exists = root.liege
+    this ?= root.liege
+	}
 	is_contact_of = root
 	is_vassal_of = root
+	is_tributary_of = root ## added by ljl
 	obf_is_fellow_vassal_or_liege_councillor = yes
 	obf_works_in_same_court	= yes
 	obf_has_rival_or_negative_relation = yes
@@ -2144,50 +2552,55 @@ saved_scopes = {
 character
 }
 	is_valid = {
+	
 	exists = scope:character
+	exists = root
 	NOR = {
 	any_consort = {
-		this = scope:character
+		this ?= scope:character
 		even_if_dead = yes
 		}
 		any_child = {
-		this = scope:character
+		this ?= scope:character
 		even_if_dead = yes
 		}
 		any_parent = {
-		this = scope:character
+		this ?= scope:character
 		even_if_dead = yes
 		}
 		any_sibling = {
-		this = scope:character
+		this ?= scope:character
 		even_if_dead = yes
 		}
 		any_relation = {
 		type = friend
-		this = scope:character
+		this ?= scope:character
 		even_if_dead = yes
 		}
 		any_relation = {
 		type = lover
-		this = scope:character
+		this ?= scope:character
 		even_if_dead = yes
 		}
 		any_relation = {
 		type = rival
-		this = scope:character
+		this ?= scope:character
 		even_if_dead = yes
 		}
 		any_relation = {
 		type = grudge
-		this = scope:character
+		this ?= scope:character
 		even_if_dead = yes
 		}
-		AND = {root.liege = scope:character.liege
+		AND = {
+			exists = scope:character.liege
+			exists = root.liege
+			root.liege ?= scope:character.liege
 				OR = {is_councillor_of = root.liege
-					scope:character = {is_ruler = yes}}}
-	scope:character = {
+					scope:character ?= {is_ruler = yes}}}
+	scope:character ?= {
 	OR = {
-	this = root
+	this ?= root
 	is_at_same_location = root
 	has_character_flag = has_been_spied
 	has_character_flag = emissary_sent
@@ -2208,19 +2621,24 @@ saved_scopes = {
 character
 }
 	is_valid = {
+	
 	exists = scope:character
+	exists = root
 	NOT = {has_game_rule = opinions_disabled}
-	NOT = {scope:character = root}	
-	scope:character = {
+	NOT = {scope:character ?= root}	
+	scope:character ?= {
 			is_alive = yes
 			age >= 6
 			is_incapable = no
 	OR = {
 	obf_is_fellow_vassal_or_liege_councillor = yes
 	AND = {
-	OR = {has_character_flag = had_high_level_report
-	has_character_flag = has_been_spied}
-	is_vassal_or_below_of = root}
+		OR = {
+			has_character_flag = had_high_level_report
+			has_character_flag = has_been_spied}
+			is_vassal_or_below_of = root
+			is_tributary_of = root ## added by ljl
+		}
 	obf_has_high_level_knowledge_flags = yes
 	obf_has_close_or_intimate_relation = yes
 	obf_has_near_intimate_or_close_relation = yes
@@ -2240,8 +2658,10 @@ saved_scopes = {
 character
 }
 	is_valid = {
+	
 	exists = scope:character
-	scope:character = {
+	exists = root
+	scope:character ?= {
 	is_alive = yes
 	OR = {
 	is_at_same_location = root
@@ -2281,9 +2701,11 @@ saved_scopes = {
 character
 }
 	is_valid = {
+	
 	exists = scope:character
+	exists = root
 	OR = {
-	root = {
+	root ?= {
 	OR = {is_diarch_of_target = scope:character
 	AND = {exists = scope:character.liege
 	is_diarch_of_target = scope:character.liege}}}
@@ -2295,20 +2717,20 @@ character
 		AND = {exists = scope:character.liege
 					exists = root.liege
 					exists = root.liege.cp:councillor_marshal
-					scope:character.liege = {is_vassal_or_below_of = root.liege}
+					scope:character.liege ?= {is_vassal_or_below_of = root.liege}
 					root.liege.cp:councillor_marshal = root}
 					
 		AND = {		exists = scope:character.liege
 					exists = root.liege
 					exists = scope:character.liege.cp:councillor_marshal
-					root.liege = scope:character.liege
+					root.liege ?= scope:character.liege
 					scope:character.liege.cp:councillor_marshal = root}		
 					
 		AND = {
 				exists = scope:character.top_liege
 				exists = scope:character.top_liege.cp:councillor_marshal
 				exists = root.top_liege
-				root.top_liege = scope:character.top_liege
+				root.top_liege ?= scope:character.top_liege
 					scope:character.top_liege.cp:councillor_marshal = root}
 		
 		AND = {exists = scope:character.cp:councillor_steward
@@ -2317,20 +2739,20 @@ character
 		AND = {exists = scope:character.liege
 					exists = root.liege
 					exists = root.liege.cp:councillor_steward 
-					scope:character.liege = {is_vassal_or_below_of = root.liege}
+					scope:character.liege ?= {is_vassal_or_below_of = root.liege}
 					root.liege.cp:councillor_steward = root}
 					
 		AND = {		exists = scope:character.liege
 					exists = root.liege
 					exists = scope:character.liege.cp:councillor_steward
-					root.liege = scope:character.liege
+					root.liege ?= scope:character.liege
 					scope:character.liege.cp:councillor_steward = root}		
 					
 		AND = {
 				exists = scope:character.top_liege
 				exists = scope:character.top_liege.cp:councillor_steward
 				exists = root.top_liege
-				root.top_liege = scope:character.top_liege
+				root.top_liege ?= scope:character.top_liege
 					scope:character.top_liege.cp:councillor_steward = root}	
 		AND = {is_landless_adventurer = yes
 				is_target_in_variable_list = {
@@ -2338,15 +2760,17 @@ character
 					target = scope:character.location
 				}}
 	
-	scope:character = {
+	scope:character ?= {
 	OR = {
-	this = root
+	this ?= root
 	has_character_flag = requested_military_info
 	has_character_flag = has_been_spied
 	has_character_flag = had_high_level_report
 	is_vassal_or_below_of = root
+	is_tributary_of_suzerain_or_above = root ## added by ljl
 	is_allied_to = root
-	
+	### confederation ?= { any_confederation_member = { this ?= root } } # added by ljl
+    ## obf_is_in_same_confederation_as_root = yes 	#added by ljl
 					}
 				}
 			}
@@ -2358,16 +2782,18 @@ saved_scopes = {
 character
 }
 	is_valid = {
-	root = {is_incapable = no	
+	root ?= {is_incapable = no	
 			age >= 12}
-	exists = scope:character
-	NOT = {has_game_rule = opinion_breakdown_disabled}
-	NOT = {scope:character = root}
-	scope:character = {is_alive = yes}
-	scope:character = {age >= 6}
-	scope:character = {is_incapable = no}
 	
-	scope:character = {
+	exists = scope:character
+	exists = root
+	NOT = {has_game_rule = opinion_breakdown_disabled}
+	NOT = {scope:character ?= root}
+	scope:character ?= {is_alive = yes}
+	scope:character ?= {age >= 6}
+	scope:character ?= {is_incapable = no}
+	
+	scope:character ?= {
 	OR = {
 	AND = {revelation_score >= 10
 	OR = {
@@ -2378,7 +2804,9 @@ character
 	OR = {has_character_flag = had_high_level_report
 	has_character_flag = has_been_spied}
 	revelation_score >= 25
-	is_vassal_or_below_of = root}
+	is_vassal_or_below_of = root
+	is_tributary_of_suzerain_or_above = root ## added by ljl
+	}
 	
 	
 					}
@@ -2393,10 +2821,12 @@ saved_scopes = {
 character
 }
 	is_valid = {
+	
 	exists = scope:character
-	NOT = {scope:character = root}
+	exists = root
+	NOT = {scope:character ?= root}
 	NOT = {has_game_rule = hide_traits}
-	scope:character = {
+	scope:character ?= {
 	OR = {
 	is_spouse_of_even_if_dead = root
 
@@ -2425,12 +2855,15 @@ saved_scopes = {
 character
 }
 	is_valid = {
-	root = {is_incapable = no	
+		exists = scope:character
+	exists = root
+	root ?= {is_incapable = no	
 			age >= 6}
-	exists = scope:character
-	NOT = {scope:character = root}
+	
+
+	NOT = {scope:character ?= root}
 	NOT = {has_game_rule = hide_traits}
-	scope:character = {
+	scope:character ?= {
 	OR = {
 	is_spouse_of_even_if_dead = root
 	obf_has_close_or_intimate_relation = yes
@@ -2460,12 +2893,13 @@ saved_scopes = {
 character
 }
 	is_valid = {
-	root = {is_incapable = no	
-			age >= 6}
 	exists = scope:character
-	NOT = {scope:character = root}
+	exists = root
+	root ?= {is_incapable = no	
+			age >= 6}
+	NOT = {scope:character ?= root}
 	NOT = {has_game_rule = hide_traits}
-	scope:character = {
+	scope:character ?= {
 	OR = {
 	AND = {
 	 OR = {is_courtier_of = root
@@ -2498,15 +2932,16 @@ saved_scopes = {
 character
 }
 	is_valid = {
-	root = {is_incapable = no	
-			age >= 6}
 	exists = scope:character
-	NOT = {scope:character = root}
-	scope:character = {
+	exists = root
+	root ?= {is_incapable = no	
+			age >= 6}
+	NOT = {scope:character ?= root}
+	scope:character ?= {
 	OR = {
 	is_spouse_of_even_if_dead = root
-	AND = {scope:character = {is_pool_character = yes}
-				root = {has_character_flag = searching_for_physician}}
+	AND = {scope:character ?= {is_pool_character = yes}
+				root ?= {has_character_flag = searching_for_physician}}
 			prestige_level >= 4
 			highest_held_title_tier >= tier_empire
 		AND = { in_diplomatic_range = root
@@ -2536,12 +2971,14 @@ character
 }
 	is_valid = {
 	NOT = {has_trait = blind}
+	
 	exists = scope:character
-	NOT = {scope:character = root}
-	scope:character = {
+	exists = root
+	NOT = {scope:character ?= root}
+	scope:character ?= {
 	OR = {
 	AND = {is_pool_character = yes
-				root = {is_travelling = yes}}
+				root ?= {is_travelling = yes}}
 	is_spouse_of_even_if_dead = root
 			prestige_level >= 4
 			highest_held_title_tier >= tier_empire
@@ -2619,7 +3056,7 @@ player
 gui_allow_sort_known_char_list = {
 
 	is_valid = {
-	root = {is_incapable = no	
+	root ?= {is_incapable = no	
 			age >= 6}
 	}
 }
@@ -2651,8 +3088,8 @@ player
 						has_variable = faction_discovered
 						faction_can_press_demands = yes
 						faction_is_at_war = yes
-						any_faction_member = {this = scope:player}
-						faction_target = {NOT = {this = scope:player}}
+						any_faction_member = {this ?= scope:player}
+						faction_target = {NOT = {this ?= scope:player}}
 						AND = {faction_is_type = independence_faction
 						faction_discontent >= 90}
 						AND = {faction_is_type = nation_fracturing_faction
@@ -2719,7 +3156,7 @@ player
 }
 	is_valid = {
 						exists = yes
-						faction_target = {this = scope:player}
+						faction_target = {this ?= scope:player}
 	}
 }
 
@@ -2782,8 +3219,10 @@ character
 }
 
 	is_valid = {
-				exists = scope:character
-				scope:character = {
+				
+	exists = scope:character
+	exists = root
+				scope:character ?= {
 				NAND = {
 				exists = joined_faction
 						joined_faction = {

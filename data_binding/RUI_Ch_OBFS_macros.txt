@@ -17,6 +17,11 @@ macro = {
 }
 
 macro = {
+	description = "Show Herd to Player?"
+	definition = "RUI_Ch_OBFS_macro_03_01"
+	replace_with = "ShowHerd"
+}
+macro = {
 	description = "Show influence to Player?"
 	definition = "RUI_Ch_OBFS_macro_04"
 	replace_with = "ShowInfluence"

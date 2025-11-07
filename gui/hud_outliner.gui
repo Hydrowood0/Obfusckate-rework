@@ -1,10 +1,11 @@
-widget = {
+window = { # from widget
 	name = "outliner_window"
 	parentanchor = top|right
 	position = { -35 50 }
 	alwaystransparent = no
 	filter_mouse = all
 	layer = windows_layer
+	movable = yes # added
 
 	state = {
 		name = _show
@@ -52,7 +53,7 @@ widget = {
 
 		background = {
 			name = "paper_texture_shadow"
-			texture = "gfx/interface/window_event/tile_letter_shadow.dds"
+			texture = "gfx/interface/skinned/window_letter/tile_letter_shadow.dds"
 			spriteType = Corneredtiled
 			spriteborder = { 200 200 }
 			margin = { -15 0 }
@@ -61,7 +62,7 @@ widget = {
 
 		background = {
 			name = "paper_texture_flat"
-			texture = "gfx/interface/window_event/tile_letter_flat.dds"
+			texture = "gfx/interface/skinned/window_letter/tile_letter_flat.dds"
 			spriteType = Corneredtiled
 			spriteborder = { 200 200 }
 			alpha = 0.9
@@ -96,16 +97,82 @@ widget = {
 					spacing = 2
 
 					outliner_pinned_characters_header = {}
-					outliner_pinned_characters_info = {}
+#					outliner_pinned_characters_info = {}
+
+					### Extended Outliner Begin
+
+					outliner_pinned_characters_info = {
+						blockoverride "pinned_characters_visible" {
+							visible = "[And(Outliner.IsCategoryShown('pinned_character'),Not(GetVariableSystem.Exists('extended_outliner_simple')))]"
+						}
+						blockoverride "pinned_characters_size" {
+							size = { 0 46 }
+						}
+					}
+					outliner_pinned_characters_info = {
+						blockoverride "pinned_characters_visible" {
+							visible = "[And(Outliner.IsCategoryShown('pinned_character'),GetVariableSystem.Exists('extended_outliner_simple'))]"
+						}
+						blockoverride "pinned_characters_size" {
+							size = { 0 23 }
+						}
+						blockoverride "pinned_characters_extra_info" {}
+					}
+
+					### Extended Outliner End
 
 					outliner_players_header = {}
 					outliner_players_info = {}
 
 					outliner_units_header = {}
-					outliner_units_info = {}
+#					outliner_units_info = {}
+
+					### Extended Outliner Begin
+
+					outliner_units_info = {
+#						blockoverride "units_visible" {
+#							visible = "[And(And(Outliner.IsCategoryShown('unit'), GetPlayer.IsValid),Not(GetVariableSystem.Exists('extended_outliner_simple')))]"
+#						}
+						blockoverride "units_size" {
+							size = { 0 46 }
+						}
+					}
+#					outliner_units_info = {
+#						blockoverride "units_visible" {
+#							visible = "[And(And(Outliner.IsCategoryShown('unit'), GetPlayer.IsValid),GetVariableSystem.Exists('extended_outliner_simple'))]"
+#						}
+#						blockoverride "units_size" {
+#							size = { 0 23 }
+#						}
+#						blockoverride "units_extra_info" {}
+#					}
+
+					### Extended Outliner End
 
 					outliner_holdings_header = {}
-					outliner_holdings_info = {}
+#					outliner_holdings_info = {}
+
+					### Extended Outliner Begin
+
+					outliner_holdings_info = {
+#						blockoverride "holdings_visible" {
+#							visible = "[And(Outliner.IsCategoryShown('holding'),Not(GetVariableSystem.Exists('extended_outliner_simple')))]"
+#						}
+						blockoverride "holdings_size" {
+							size = { 0 46 }
+						}
+					}
+#					outliner_holdings_info = {
+#						blockoverride "holdings_visible" {
+#							visible = "[And(Outliner.IsCategoryShown('holding'),GetVariableSystem.Exists('extended_outliner_simple'))]"
+#						}
+#						blockoverride "holdings_size" {
+#							size = { 0 23 }
+#						}
+#						blockoverride "holdings_extra_info" {}
+#					}
+
+					### Extended Outliner End
 
 					outliner_domicile_header = {}
 					outliner_domicile_info = {}
@@ -124,7 +191,7 @@ types Outliner {
 		block "oh_button" {}
 
 		hbox = {
-			margin = { 15 0 }
+			margin = { 5 0 } # { 15 0 }
 			spacing = 5
 
 			using = tooltip_ws
@@ -173,6 +240,8 @@ types Outliner {
 		{
 			onclick = "[Outliner.ToggleCategory('pinned_character')]"
 			tooltip = "[SelectLocalization( Outliner.IsCategoryShown('pinned_character'), 'OUTLINER_COLLAPSE', 'OUTLINER_EXPAND' )]"
+			onrightclick = "[GetVariableSystem.Toggle('extended_outliner_simple')]" # added
+			button_ignore = none # added
 		}
 
 		blockoverride "oh_toggle_frame"
@@ -198,11 +267,15 @@ types Outliner {
 
 	type outliner_pinned_characters_info = vbox {
 		name = "pinned_characters"
-		visible = "[Outliner.IsCategoryShown('pinned_character')]"
+
+		block "pinned_characters_visible" { # added
+			visible = "[Outliner.IsCategoryShown('pinned_character')]"
+		} # added
+
 		datamodel = "[Outliner.GetPinnedCharacters]"
 		layoutpolicy_horizontal = expanding
-		margin = { 5 5 }
-		margin_bottom = 4
+#		margin = { 5 5 }
+#		margin_bottom = 4
 
 		hbox = {
 			layoutpolicy_horizontal = expanding
@@ -232,7 +305,11 @@ types Outliner {
 
 				button_list = {
 					name = "character_button"
-					size = { 0 54 }
+
+					block "pinned_characters_size" { # added
+						size = { 0 54 }
+					} # added
+
 					layoutpolicy_horizontal = expanding
 
 					onclick = "[DefaultOnCharacterClick(Character.GetID)]"
@@ -240,145 +317,358 @@ types Outliner {
 					onrightclick = "[DefaultOnCharacterRightClick(Character.GetID)]"
 					button_ignore = none
 
-					state = {
-						name = _mouse_hierarchy_enter
-						on_start = "[PdxGuiWidget.FindChild('button_unpin').TriggerAnimation('button_unpin_show')]"
-					}
-
-					state = {
-						name = _mouse_hierarchy_leave
-						on_start = "[PdxGuiWidget.FindChild('button_unpin').TriggerAnimation('button_unpin_hide')]"
-					}
+#					state = {
+#						name = _mouse_hierarchy_enter
+#						on_start = "[PdxGuiWidget.FindChild('button_unpin').TriggerAnimation('button_unpin_show')]"
+#					}
+#
+#					state = {
+#						name = _mouse_hierarchy_leave
+#						on_start = "[PdxGuiWidget.FindChild('button_unpin').TriggerAnimation('button_unpin_hide')]"
+#					}
 
 					hbox = {
-						margin = { 10 2 }
+#						margin = { 10 2 }
+
+						### Extended Outliner Begin
+
+						widget = {
+							size = { 40 28 }
+							min_width = 40
+
+							coa_title_tiny = {
+								visible = "[Character.HasLandedTitles]"
+								datacontext = "[Character.GetPrimaryTitle]"
+								parentanchor = center
+								using = tooltip_ws
+							}
+						}
+
+						### Extended Outliner End
 
 						vbox = {
 							layoutpolicy_horizontal = expanding
 
 							hbox = {
 								layoutpolicy_horizontal = expanding
-								spacing = 5
+#								spacing = 5
 
-								icon = {
-									visible = "[Character.IsDeadAndValid]"
-									size = { 20 20 }
-									texture = "[Character.GetDeathReasonIcon]"
-									tooltip = "CHARACTER_DEAD_TOOLTIP"
+								### Extended Outliner Begin
+
+								background = {
+									using = Background_Area_Dark
 								}
-								#Changed by obfusCKate: Start
-								icon = {
-									visible = no
-									size = { 23 23 }
-									framesize = { 60 60 }
-									frame = "[Character.GetHealthIconFrame]"
-									tooltip = "[Character.GetHealthInfo]"
-									using = tooltip_ws
-									texture = "gfx/interface/icons/character_status/icon_health.dds"
-								}
-								
-								text_single = {
+
+								hbox = {
 									layoutpolicy_horizontal = expanding
-									autoresize = no
-									text = "[Character.GetShortUINameNotMeNoTooltip]"
-									align = nobaseline
-									default_format = "#high"
-								}
-								
-								#Changed by obfusCKate: End
+									margin = { 5 0 }
 
-								expand = {}
-
-								icon = {
-									###changed by obfusCKate: Start
-									visible = no
-									###changed by obfusCKate: end
-									size = { 20 20 }
-
-									texture = "gfx/interface/icons/portraits/faction_member_small.dds"
-								}
-
-								icon = {
-									visible = "[And(Character.IsMyPowerfulVassal, Not(Character.IsInFactionTargetingPlayer))]"
-									size = { 20 20 }
-
-									texture = "gfx/interface/icons/portraits/powerful_vassal_small.dds"
-									framesize = { 28 28 }
-									frame = "[Character.GetPowerfulVassalFrame]"
+									# text_single = {
+									# 	visible = "[ShowExactAge]" ## changed by ljl
+									# 	max_width = 170
+									# 	layoutpolicy_horizontal = expanding
+									# 	autoresize = no
+									# 	## raw_text = "[Character.GetShortUINameNotMeNoTooltip]#medium , [Character.GetAge]#!"
+									# 	text = "OUTLINER_PINNED_CHARACTER"
+									# 	align = nobaseline
+									# 	default_format = "#high"
+									# 	fontsize_min = 12 
+									# 	#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12 # Added
+									# }
 									
-									tooltip = "[Character.GetPowerfulVassalTooltip]"
-									
+									hbox = { ## changed by ljl
+										# visible = "[And(Or(PlayerKnowCharacterPortrait,ShowApproxAge),Not(ShowExactAge))]" 
+
+										max_width = 170
+										# layoutpolicy_horizontal = expanding
+										autoresize = no
+										align = nobaseline
+										default_format = "#high"
+										fontsize_min = 12 
+
+										spacing = 0 
+										text_single = {
+											raw_text = "[Character.GetShortUINameNotMeNoTooltip],  "
+										}
+
+										text_single = {
+											visible = "[ShowExactAge]" 
+											raw_text = "[Character.GetAge]"
+											tooltip = "[Character.GetDeathOrBirthDateInfo]"
+										}	
+										text_single = {
+											visible = "[And(Or(PlayerKnowCharacterPortrait,ShowApproxAge),Not(ShowExactAge))]" 
+											text = "CHARACTER_AGE_ACQUAINTANCE"
+											tooltip = "BIRTHDAY_ACQUAINTANCE"
+										}		
+										
+									}	
+
+									expand = {}
+
+									hbox = {
+										min_width = 20
+
+										icon = {
+											visible = "[Character.IsDeadAndValid]"
+											size = { 20 20 }
+											texture = "[Character.GetDeathReasonIcon]"
+											tooltip = "CHARACTER_DEAD_TOOLTIP"
+										}
+
+										icon = {
+
+											###Obfusckate begin
+											visible = no
+											###Obfusckate end
+
+											size = { 20 20 }
+											framesize = { 60 60 }
+											frame = "[Character.GetHealthIconFrame]"
+											tooltip = "[Character.GetHealthInfo]"
+											using = tooltip_ws
+											texture = "gfx/interface/icons/character_status/icon_health.dds"
+										}
+
+										expand = {}
+									}
+
+									hbox = {
+										min_width = 30
+
+										text_single = {
+											text = "[Character.GetOpinionOf( GetPlayer )|=]"
+											fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
+											default_format = "#medium;glow_color:{0.1,0.1,0.1,1}"
+											align = top|right
+											size = { 30 20 }
+											autoresize = no
+											
+											###Obfusckate begin
+											visible = no
+											###Obfusckate end
+
+											tooltipwidget = character_opinion_tooltip
+											using = tooltip_ws
+										}
+
+										expand = {}
+									}
+
+									expand = {}
+
+									button_pin = {
+										size = { 20 20 }
+										onclick = "[Character.ToggleCharacterPinned]"
+										tooltip = "PIN_TT"
+									}
 								}
+
+								### Extended Outliner End
+
+#								icon = {
+#									visible = "[Character.IsDeadAndValid]"
+#									size = { 20 20 }
+#									texture = "[Character.GetDeathReasonIcon]"
+#									tooltip = "CHARACTER_DEAD_TOOLTIP"
+#								}
+#
+#								icon = {
+#									visible = "[Not(Character.IsDeadAndValid)]"
+#									size = { 23 23 }
+#									framesize = { 60 60 }
+#									frame = "[Character.GetHealthIconFrame]"
+#									tooltip = "[Character.GetHealthInfo]"
+#									using = tooltip_ws
+#									texture = "gfx/interface/icons/character_status/icon_health.dds"
+#								}
+#
+#								text_single = {
+#									layoutpolicy_horizontal = expanding
+#									autoresize = no
+#									text = "OUTLINER_PINNED_CHARACTER"
+#									align = nobaseline
+#									default_format = "#high"
+#								}
+#
+#								expand = {}
+#
+#								icon = {
+#									visible = "[Character.IsInFactionTargetingPlayer]"
+#									size = { 20 20 }
+#
+#									texture = "gfx/interface/icons/portraits/faction_member_small.dds"
+#								}
+#
+#								icon = {
+#									visible = "[And(Character.IsMyPowerfulVassal, Not(Character.IsInFactionTargetingPlayer))]"
+#									size = { 20 20 }
+#
+#									texture = "gfx/interface/icons/portraits/powerful_vassal_small.dds"
+#									framesize = { 28 28 }
+#									frame = "[Character.GetPowerfulVassalFrame]"
+#									
+#									tooltip = "[Character.GetPowerfulVassalTooltip]"
+#									
+#								}
 							}
 
 							hbox = {
 								layoutpolicy_horizontal = expanding
-								spacing = 5
-								margin_left = 3
+#								spacing = 5
+#								margin_left = 3
+								margin = { 5 0 } # added
 
-								text_single = {
-									text = "[Character.GetOpinionOf( GetPlayer )|=]"
-									fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
-									default_format = "#medium;glow_color:{0.1,0.1,0.1,1}"
-									align = nobaseline
-									#changed by obfusCKate: Start
-									visible = no
-									#changed by obfusCKate: End
-									
-									tooltipwidget = character_opinion_tooltip
-									using = tooltip_ws
+								### Extended Outliner Begin
 
-									background = {
-										name = "portrait_opinion_bg"
-										texture = "gfx/interface/component_tiles/solid_black_label.dds"
-										spritetype = Corneredtiled
-										spriteborder = { 20 20 }
-										margin = { 5 1 }
-										texture_density = 2
+								block "pinned_characters_extra_info" {
+
+									text_multi = {
+										visible = "[And(Not(Character.IsLocalPlayer),Not(StringIsEmpty(Character.GetRelationToStringExtended(GetPlayer))))]"
+										maximumsize = { 160 30 }
+										layoutpolicy_horizontal = expanding
+										text = "[Character.GetRelationToStringExtended(GetPlayer)]"
+										tooltip = "[Character.GetRelationToStringExtended(GetPlayer)]"
+										using = tooltip_ws
+										autoresize = yes
+										align = nobaseline
+										default_format = "#medium"
+											fontsize_min = 12 
+	#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
+										alwaystransparent = yes
+									}
+
+									text_single = {
+										visible = "[And(Not(Character.IsLocalPlayer),And(StringIsEmpty(Character.GetRelationToStringExtended(GetPlayer)),Character.HasLandedTitles))]"
+										max_width = 160
+										layoutpolicy_horizontal = expanding
+										autoresize = no
+										text = "[Character.GetPrimaryTitle.GetNameNoTierNoTooltip]"
+										align = nobaseline
+										default_format = "#medium"
+											fontsize_min = 12 
+	#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
+									}
+
+									text_single = {
+										visible = "[And(Not(Character.IsLocalPlayer),And(StringIsEmpty(Character.GetRelationToStringExtended(GetPlayer)),Not(Character.HasLandedTitles)))]"
+										max_width = 160
+										layoutpolicy_horizontal = expanding
+										text = "CV_NO_RELATIONS"
+										align = nobaseline
+										default_format = "#medium"
+											fontsize_min = 12 
+	#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
+									}
+
+									text_single = {
+										visible = "[Character.IsLocalPlayer]"
+										max_width = 160
+										layoutpolicy_horizontal = expanding
+										autoresize = no
+										text = "CHARACTER_NAME_ME_CAPITALIZED"
+										align = nobaseline
+										default_format = "#medium"
+											fontsize_min = 12 
+	#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
+									}
+
+									hbox = {
+										min_width = 40
+
+										text_single = {
+
+											###Obfusckate begin
+											visible = no
+											###Obfusckate end
+											
+											size = { 40 20 }
+											layoutpolicy_horizontal = fixed
+											autoresize = no
+											align = top|right
+											text = "[Character.GetMilitaryStrengthText]"
+											tooltip = "SORT_MILITARY_STRENGTH"
+											default_format = "#high"
+										}
+									}
+
+									hbox = {
+										min_width = 20
+
+										icon = {
+											visible = "[Character.PlayerHasHooksOrHookableSecrets]"
+											size = { 20 20 }
+											framesize = { 40 40 }
+											texture = "gfx/interface/icons/portraits/hook_secret.dds"
+											frame = "[Character.GetHookOrHookableSecretsFrame]"
+											tooltip = "[Character.HookTooltip]"
+										}
 									}
 								}
 
-								text_single = {
-									layoutpolicy_horizontal = expanding
-									text = "[Character.GetRelationToString( GetPlayer )]"
-									tooltip = "EXTENDED_RELATIONS_TOOLTIP"
-									autoresize = no
-									align = nobaseline
-								}
+								### Extended Outliner End
+
+#								text_single = {
+#									text = "[Character.GetOpinionOf( GetPlayer )|=]"
+#									fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
+#									default_format = "#medium;glow_color:{0.1,0.1,0.1,1}"
+#									align = nobaseline
+#									visible = "[Character.IsAlive]"
+#									
+#									tooltipwidget = character_opinion_tooltip
+#									using = tooltip_ws
+#
+#									background = {
+#										name = "portrait_opinion_bg"
+#										texture = "gfx/interface/component_tiles/solid_black_label.dds"
+#										spritetype = Corneredtiled
+#										spriteborder = { 20 20 }
+#										margin = { 5 1 }
+#										texture_density = 2
+#									}
+#								}
+#
+#								text_single = {
+#									layoutpolicy_horizontal = expanding
+#									text = "[Character.GetRelationToString( GetPlayer )]"
+#									tooltip = "EXTENDED_RELATIONS_TOOLTIP"
+#									autoresize = no
+#									align = nobaseline
+#								}
 							}
 						}
 
 
-						button_round = {
-							name = "button_unpin"
-							size = { 30 30 }
-							onclick = "[Character.ToggleCharacterPinned]"
-							tooltip = "PIN_TT"
-							inherit_visual_state = no
-
-							alpha = 0.6
-
-							state = {
-								name = _mouse_enter
-								alpha = 1
-								duration = 0.1
-								using = Animation_Curve_Default
-							}
-
-							state = {
-								name = _mouse_leave
-								alpha = 0.6
-								duration = 0.2
-								using = Animation_Curve_Default
-							}
-
-							button_unpin = {
-								parentanchor = center
-								size = { 20 20 }
-								alwaystransparent = yes
-								inherit_visual_state = no
-							}
-						}
+#						button_round = {
+#							name = "button_unpin"
+#							size = { 30 30 }
+#							onclick = "[Character.ToggleCharacterPinned]"
+#							tooltip = "PIN_TT"
+#							inherit_visual_state = no
+#
+#							alpha = 0.6
+#
+#							state = {
+#								name = _mouse_enter
+#								alpha = 1
+#								duration = 0.1
+#								using = Animation_Curve_Default
+#							}
+#
+#							state = {
+#								name = _mouse_leave
+#								alpha = 0.6
+#								duration = 0.2
+#								using = Animation_Curve_Default
+#							}
+#
+#							button_unpin = {
+#								parentanchor = center
+#								size = { 20 20 }
+#								alwaystransparent = yes
+#								inherit_visual_state = no
+#							}
+#						}
 					}
 				}
 			}
@@ -427,8 +717,8 @@ types Outliner {
 		datamodel = "[Outliner.GetPlayers]"
 		visible = "[And( Outliner.IsCategoryShown('players'), GameHasMultiplePlayers )]"
 		layoutpolicy_horizontal = expanding
-		margin = { 8 5 }
-		margin_bottom = 10
+#		margin = { 8 5 }
+#		margin_bottom = 10
 		spacing = 5
 
 		item = {
@@ -451,7 +741,7 @@ types Outliner {
 					coa_realm_tiny = {
 						visible = "[Character.HasLandedTitles]"
 					}
-					
+
 					widget = {
 						size = { 34 41 }
 						visible = "[Not( Character.HasLandedTitles )]"
@@ -514,6 +804,8 @@ types Outliner {
 			tooltip = "[SelectLocalization( Outliner.IsCategoryShown('unit'), 'OUTLINER_COLLAPSE', 'OUTLINER_EXPAND' )]"
 			oversound = "event:/SFX/UI/Generic/sfx_ui_generic_icon_pointer_over"
 			clicksound = "event:/SFX/UI/Generic/sfx_ui_generic_icon_select"
+			onrightclick = "[GetVariableSystem.Toggle('extended_outliner_simple')]" # added
+			button_ignore = none # added
 		}
 
 		blockoverride "oh_toggle_frame"
@@ -539,10 +831,18 @@ types Outliner {
 	type outliner_units_info = vbox {
 		name = "units"
 		datamodel = "[Outliner.GetUnitItems]"
-		visible = "[And(Outliner.IsCategoryShown('unit'), GetPlayer.IsValid)]"
+
+		### Extended Outliner Begin
+
+		block "units_visible" {
+			visible = "[And(Outliner.IsCategoryShown('unit'), GetPlayer.IsValid)]"
+		}
+
+		### Extended Outliner End
+
 		layoutpolicy_horizontal = expanding
-		margin = { 4 4 }
-		margin_bottom = 4
+#		margin = { 4 4 }
+#		margin_bottom = 4
 
 		hbox = {
 			name = "no_units_label"
@@ -569,7 +869,14 @@ types Outliner {
 				name = "unit_item"
 				datacontext = "[UnitItem.GetArmy]"
 				layoutpolicy_horizontal = expanding
-				size = { 0 70 }
+
+				### Extended Outliner Begin
+
+				block "units_size" {
+					size = { 0 70 }
+				}
+
+				### Extended Outliner End
 
 				onclick = "[UnitItem.SelectAndPanUnit]"
 				onrightclick = "[UnitItem.PanToUnit]"
@@ -580,66 +887,271 @@ types Outliner {
 					using = Background_Area
 				}
 
+				### Extended Outliner Begin
+
+				margin_widget = {
+					size = { 99% 100% }
+					margin = { 0 4 }
+					margin_left = 40
+					position = { 2 4 }
+
+					progressbar_standard_transparent = {
+						size = { 100% 100% }
+						visible = "[Army.IsSieging]"
+						value = "[IntToFloat(GetProgressBarValueMax(Army.GetLocation.GetSiege.GetProgress,'(float)100'))]"
+						alpha = 0.8
+					}
+				}
+
+				### Extended Outliner End
+
 				hbox = {
 
 					layoutpolicy_horizontal = expanding
-					margin = { 10 0 }
+#					margin = { 10 0 }
 
-					icon = {
-						texture = "[Army.GetArmyStatusOutlinerIcon]"
-						size = { 50 50 }
+#					icon = {
+#						texture = "[Army.GetArmyStatusOutlinerIcon]"
+#						size = { 50 50 }
+#
+#						tooltip = "[Army.GetArmyStatusTooltip]"
+#						using = tooltip_ws
+#					}
 
-						tooltip = "[Army.GetArmyStatusTooltip]"
-						using = tooltip_ws
+					### Extended Outliner Begin
+
+					hbox = {
+						min_width = 40
+
+						button = {
+							visible = "[And(Not(Army.IsMoving), Not(Or(Army.IsSieging, Army.GetLocation.HasActiveRaid)))]"
+							size = { 36 36 }
+							texture = "[Army.GetArmyStatusOutlinerIcon]"
+							onclick = "[UnitItem.PanToUnit]"
+							tooltipwidget = {
+								using = unit_icon_item_tooltip
+								using = tooltip_ws
+							}
+						}
+
+						button = {
+							visible = "[And(Army.IsMoving, Not(Or(Army.IsSieging, Army.GetLocation.HasActiveRaid)))]"
+							size = { 36 36 }
+							texture = "[Army.GetArmyStatusOutlinerIcon]"
+							onclick = "[UnitItem.SelectAndPanUnit]"
+							tooltip = "[Army.GetMovementInfoForTooltip]"
+							using = tooltip_ws
+						}
+
+						button = {
+							visible = "[Army.IsSieging]"
+							size = { 36 36 }
+							texture = "[Army.GetArmyStatusOutlinerIcon]"
+							onclick = "[DefaultOnSiegeClick(Army.GetLocation.GetSiege.GetID)]"
+							tooltip = "[Army.GetLocation.GetSiege.GetSiegeDescription]"
+							using = tooltip_ws
+						}
+
+						button = {
+							visible = "[Army.GetLocation.HasActiveRaid]"
+							size = { 36 36 }
+							texture = "[Army.GetArmyStatusOutlinerIcon]"
+							onclick = "[DefaultOnRaidClick(Army.GetLocation.GetRaid.Self)]"
+							tooltip = "MAP_RAID_TOOLTIP"
+							using = tooltip_ws
+						}
 					}
+
+					### Extended Outliner End
 
 					
 					vbox = {
 						name = "army_info"
 						layoutpolicy_horizontal = expanding
-						margin = { 6 4 }
-						spacing = 0 				
+#						margin = { 6 4 }
+#						spacing = 0 				
 
 						hbox = {
 							name = "unit_item_1st_line"
 							layoutpolicy_horizontal = expanding
+							margin = { 5 0 } # Added
 
 							
-							text_single = {
-								layoutpolicy_horizontal = expanding
-								autoresize = no
-								text = "[Army.GetNameNoTooltip]"
-								default_format = "#medium"
-								#align = nobaseline
-							}
+#							text_single = {
+#								layoutpolicy_horizontal = expanding
+#								autoresize = no
+#								text = "[Army.GetNameNoTooltip]"
+#								default_format = "#medium"
+#								#align = nobaseline
+#							}
 							
+							### Extended Outliner Begin
+
+							background = {
+								using = Background_Area_Dark
+							}
+
+							hbox = {
+								layoutpolicy_horizontal = expanding
+
+								text_single = {
+									layoutpolicy_horizontal = expanding
+									autoresize = no
+									text = "[Army.GetNameNoTooltip]"
+									default_format = "#high"
+									align = nobaseline
+										fontsize_min = 12 
+	#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
+								}
+							}
+
+							hbox = {
+								min_width = 20
+
+								button = {
+									visible = "[And(Army.GetCommander.IsValid,Not(UnitItem.IsRulerCommander))]"
+									size = { 20 20 }
+									texture = "gfx/interface/icons/icon_commander.dds"
+									onclick = "[DefaultOnCharacterClick(Army.GetCommander.GetID)]"
+								}
+
+								button = {
+									visible = "[And(Army.GetCommander.IsValid,UnitItem.IsRulerCommander)]"
+									size = { 20 20 }
+									texture = "gfx/interface/icons/commander_is_leader.dds"
+									onclick = "[DefaultOnCharacterClick(Army.GetCommander.GetID)]"
+								}
+							}
+
+							### Extended Outliner End
 						}
 										
 						hbox = {
 							name = "unit_item_2nd_line"
 							layoutpolicy_horizontal = expanding
 							
-							margin_left = -14
-							soldiers_and_quality_small = {
-								datacontext = "[Army.GetComposition]"								
+#							margin_left = -14
+#							soldiers_and_quality_small = {
+#								datacontext = "[Army.GetComposition]"								
+#							}
+#
+#							expand = {}
+#
+#							# Attrition
+#							icon = {
+#								visible = "[Army.IsArmySufferingFromAttrition]"
+#								texture = "gfx/interface/icons/map_icons/attrition_icon.dds"
+#								size = { 24 24 }
+#								
+#							}
+#							
+#
+#							spacer = { size = { 4 } }
+#						
+#							
+#
+#							container_supply_icon = {}
+
+							### Extended Outliner Begin
+
+							block "units_extra_info" {
+								hbox = {
+									layoutpolicy_horizontal = expanding
+									margin = { 5 0 }
+
+									text_single = {
+										layoutpolicy_horizontal = expanding
+										max_width = 110
+										autoresize = no
+										text = "[UnitItem.GetStatusDescription]"
+										default_format = "#medium"
+										align = nobaseline
+											fontsize_min = 12 
+	#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
+									}
+
+									hbox = {
+										min_width = 30
+
+										widget = {
+											name = "supplies"
+											visible = "[UnitItem.ShowSupplyIcon]"
+											size = { 20 20 }
+
+											icon = {
+												name = "bg"
+												size = { 20 20 }
+												texture = "gfx/interface/icons/icon_bg_small.dds"
+											}
+
+											icon = {
+												name = "supply_icon"
+												framesize = { 30 30 }
+												size = { 20 20 }
+												frame = "[UnitItem.GetSupplyStateFrame]"
+												texture = "gfx/interface/icons/icon_supplies_small.dds"
+											}
+
+											icon = {
+												name = "supply_trend_icon"
+												visible = "[UnitItem.ShowSupplyTrend]"
+												position = { 10 6 }
+												size = { 20 20 }
+												texture = "gfx/interface/icons/symbols/icon_supplies_trend.dds"
+											}
+										}
+									}
+
+									hbox = {
+										min_width = 20
+
+										icon = {
+											visible = "[Army.IsArmySufferingFromAttrition]"
+											size = { 20 20 }
+											texture = "gfx/interface/icons/map_icons/attrition_icon.dds"
+										}
+										#POW
+										icon = {
+											visible = "[GreaterThan_int32(GetDataModelSize(Army.GetCommander.MakeScope.Var('commander_story').GetList('PoW')),'(int32)0')]"
+											name = "paper_texture_overlay"
+											texture = "gfx/punishment.dds"
+											size = { 25 25 }
+										# position = { -50 40 }
+										tooltipwidget = { PoW_in_unit_tooltip = {} }
+										using = tooltip_ws
+										}
+										#/POW
+									
+									}
+
+									hbox = {
+										min_width = 80
+
+										icon = {
+											size = { 20 20 }
+											texture = "gfx/interface/icons/icon_soldier.dds"
+										}
+
+										text_single = {
+											align = top|right
+											size = { 40 20 }
+											layoutpolicy_horizontal = fixed
+											autoresize = no
+											text = "[Army.GetSoldierCountString]"
+											default_format = "#high"
+										}
+
+										icon = {
+											size = { 20 20 }
+											texture = "gfx/interface/icons/army_quality_icon.dds"
+											framesize = { 32 32 }
+											frame = "[UnitItem.GetQualityLevel]"
+										}
+									}
+								}
 							}
 
-							expand = {}
-
-							# Attrition
-							icon = {
-								visible = "[Army.IsArmySufferingFromAttrition]"
-								texture = "gfx/interface/icons/map_icons/attrition_icon.dds"
-								size = { 24 24 }
-								
-							}
-							
-
-							spacer = { size = { 4 } }
-						
-							
-
-							container_supply_icon = {}
+							### Extended Outliner End
 						}
 
 						using = tooltip_ws
@@ -703,6 +1215,8 @@ types Outliner {
 
 			onclick = "[Outliner.ToggleCategory('holding')]"
 			tooltip = "[SelectLocalization( Outliner.IsCategoryShown('holding'), 'OUTLINER_COLLAPSE', 'OUTLINER_EXPAND' )]"
+			onrightclick = "[GetVariableSystem.Toggle('extended_outliner_simple')]" # added
+			button_ignore = none # added
 		}
 
 		blockoverride "oh_name"
@@ -724,10 +1238,18 @@ types Outliner {
 	type outliner_holdings_info = vbox {
 		name = "holdings"
 		datamodel = "[Outliner.GetHoldingItems]"
-		visible = "[Outliner.IsCategoryShown('holding')]"
+
+		### Extended Outliner Begin
+
+		block "holdings_visible" {
+			visible = "[Outliner.IsCategoryShown('holding')]"
+		}
+
+		### Extended Outliner End
+
 		layoutpolicy_horizontal = expanding
-		margin = { 8 5 }
-		margin_bottom = 4
+#		margin = { 8 5 }
+#		margin_bottom = 4
 
 		item = {
 			button_list = {
@@ -735,7 +1257,14 @@ types Outliner {
 				datacontext = "[OutlinerHoldingItem.GetTitle]"
 				datacontext = "[OutlinerHoldingItem.GetTitle.GetProvince.GetHolding]"
 				layoutpolicy_horizontal = expanding
-				size = { 0 34 }
+
+				### Extended Outliner Begin
+
+				block "holdings_size" {
+					size = { 0 34 }
+				}
+
+				### Extended Outliner End
 
 				onclick = "[OutlinerHoldingItem.OnClick]"
 				down = "[Or(Holding.IsHoldingOrNonCapitalHoldingHovered, Holding.IsSelected)]"
@@ -743,10 +1272,19 @@ types Outliner {
 				using = tooltip_ws
 				using = Holding_Mouse_Entry
 
+				### Extended Outliner Begin
+
+				background = {
+					using = Background_Area
+				}
+
+				### Extended Outliner End
+
 				margin_widget = {
-					size = { 100% 100% }
-					margin = { 0 2 }
+					size = { 99% 100% } # { 100% 100% }
+					margin = { 0 6 } # { 0 2 }
 					margin_left = 40
+					position = { 2 4 } # { 0 4 }
 
 					progressbar_standard_transparent = {
 						name = "progress_bar"
@@ -760,6 +1298,7 @@ types Outliner {
 				hbox = {
 					widget = {
 						size = { 40 28 }
+						min_width = 40 # Added
 
 						coa_title_tiny = {
 							name = "claim"
@@ -769,52 +1308,144 @@ types Outliner {
 						}
 					}
 
-					hbox = {
-						margin = { 5 0 }
+					### Extended Outliner Begin
+
+					vbox = {
 						layoutpolicy_horizontal = expanding
 
-						hbox = {
+					### Extended Outliner End
 
-							text_single = {
-								max_width = 80
-								name = "holding_name"
+						hbox = {
+							margin = { 5 0 }
+							layoutpolicy_horizontal = expanding
+
+							### Extended Outliner Begin
+
+							background = {
+								using = Background_Area_Dark
+							}
+
+							### Extended Outliner End
+
+							hbox = {
+								text_single = {
+									max_width = 80
+									name = "holding_name"
+									layoutpolicy_horizontal = expanding
+									text = "[Holding.GetProvince.GetNameNoTooltip]"
+									default_format = "#high"
+									align = nobaseline
+										fontsize_min = 12 
+	#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12 # Added
+								}
+							}
+
+							expand = {}
+
+							hbox = {
+								visible = "[Holding.IsConstructionInProgress]"
+								text_single = {
+									max_width = 120
+									name = "construction_name"
+									text = "[Holding.GetConstructionBuilding.GetNameNoTooltip]"
+									align = right|nobaseline
+									default_format = "#medium" # "#high"
+										fontsize_min = 12 
+	#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12 # Added
+								}
+							}
+						}
+
+						### Extended Outliner Begin
+
+						block "holdings_extra_info" {
+							hbox = {
+								margin = { 5 0 }
 								layoutpolicy_horizontal = expanding
-								text = "[Holding.GetProvince.GetNameNoTooltip]"
-								default_format = "#high"
-								align = nobaseline
+
+								hbox = {
+									min_width = 20
+
+									icon = {
+										datacontext = "[Holding.GetProvince.GetMaaOriginHere]"
+										visible = "[Regiment.IsValid]"
+										texture = "[Regiment.GetMAAType.GetIcon]"
+										size = { 20 20 }
+									}
+								}
+
+								spacer = { size = { 5 } }
+
+								hbox = {
+									min_width = 20
+
+									icon = {
+										visible = "[Holding.IsLowControl]"
+										size = { 20 20 }
+										texture = "gfx/interface/icons/map_icons/county_low_control.dds"
+									}
+								}
+
+								spacer = { size = { 5 } }
+
+								hbox = {
+									min_width = 70
+
+									icon = {
+										size = { 20 20 }
+										texture = "gfx/interface/icons/icon_gold.dds"
+									}
+
+									text_single = {
+										text = "[Holding.GetIncome|2]"
+										min_width = 50
+										align = right|nobaseline
+										default_format = "#high"
+									}
+								}
+
+								spacer = { size = { 5 } }
+
+								hbox = {
+									min_width = 55
+
+									icon = {
+										size = { 20 20 }
+										texture = "gfx/interface/icons/icon_soldier.dds"
+									}
+
+									text_single = {
+										text = "[Holding.GetMaxLevySize|0]"
+										min_width = 35
+										align = right|nobaseline
+										default_format = "#high"
+									}
+								}
+
+								spacer = { size = { 20 } }
 							}
 						}
 
-						expand = {}
+						### Extended Outliner End
 
-						hbox = {
-							visible = "[Holding.IsConstructionInProgress]"
-							text_single = {
-								max_width = 120
-								name = "construction_name"
-								text = "[Holding.GetConstructionBuilding.GetNameNoTooltip]"
-								align = right|nobaseline
-								default_format = "#high"
-							}
-						}
-
-						hbox = {
-							visible = "[Not(Holding.IsConstructionInProgress)]"
-
-							text_single = {
-								text = "HOLDING_TAX_VALUE"
-								min_width = 70
-								align = left|nobaseline
-								default_format = "#high"
-							}
-
-							text_single = {
-								text = "HOLDING_LEVY_SIZE"
-								min_width = 60
-								align = left|nobaseline
-								default_format = "#high"
-							}
-						}
+#							hbox = {
+#								visible = "[Not(Holding.IsConstructionInProgress)]"
+#
+#								text_single = {
+#									text = "HOLDING_TAX_VALUE"
+#									min_width = 70
+#									align = left|nobaseline
+#									default_format = "#high"
+#								}
+#
+#								text_single = {
+#									text = "HOLDING_LEVY_SIZE"
+#									min_width = 60
+#									align = left|nobaseline
+#									default_format = "#high"
+#								}
+#							}
+#						}
 					}
 				}
 			}
@@ -864,7 +1495,7 @@ types Outliner {
 		layoutpolicy_horizontal = expanding
 		
 		background = {
-			visible = "[And( GetPlayer.IsValid, GetPlayer.GetDomicile.IsValid )]"												
+			visible = "[And( GetPlayer.IsValid, GetPlayer.GetDomicile.IsValid )]"
 			fittype = centercrop
 			alpha = 0.5
 			texture = "[Domicile.GetType.GetIllustration]"
@@ -878,7 +1509,7 @@ types Outliner {
 		button_standard_clean = {
 			layoutpolicy_horizontal = expanding
 			size = { 0 155 }
-			visible = "[And( GetPlayer.IsValid, GetPlayer.GetDomicile.IsValid )]"															
+			visible = "[And( GetPlayer.IsValid, GetPlayer.GetDomicile.IsValid )]"
 			
 			tooltip = "[Domicile.GetMapPinTooltip( GetPlayer.Self )]"
 

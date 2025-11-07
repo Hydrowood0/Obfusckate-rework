@@ -257,6 +257,12 @@ macro = {
 }
 
 macro = {
+	description = "Show Opinion about Suzerain For Player?"
+	definition = "ShowOpinionAboutSuzerain"
+	replace_with = "GetScriptedGui('gui_show_opinion_about_suzerain').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End )"
+}
+
+macro = {
 	description = "Selection Opinion Text"
 	definition = "OpinionText(TargetCharacter)"
 	replace_with = "SelectLocalization(GreaterThanOrEqualTo_int32(Character.GetOpinionOf( TargetCharacter ), '(int32)86'),'cooltip_opinion_excellent',SelectLocalization(GreaterThanOrEqualTo_int32(Character.GetOpinionOf( TargetCharacter ), '(int32)60'),'cooltip_opinion_very_good',SelectLocalization(GreaterThanOrEqualTo_int32(Character.GetOpinionOf( TargetCharacter ), '(int32)30'),'cooltip_opinion_good',SelectLocalization(GreaterThanOrEqualTo_int32(Character.GetOpinionOf( TargetCharacter ), '(int32)10'),'cooltip_opinion_decent',SelectLocalization(GreaterThanOrEqualTo_int32(Character.GetOpinionOf( TargetCharacter ), '(int32)-9'),'cooltip_opinion_neutral',SelectLocalization(GreaterThanOrEqualTo_int32(Character.GetOpinionOf( TargetCharacter ), '(int32)-29'),'cooltip_opinion_poor',SelectLocalization(GreaterThanOrEqualTo_int32(Character.GetOpinionOf( TargetCharacter ), '(int32)-59'),'cooltip_opinion_awful',SelectLocalization(GreaterThanOrEqualTo_int32(Character.GetOpinionOf( TargetCharacter ), '(int32)-85'), 'cooltip_opinion_terrible', 'cooltip_opinion_abysmal'))))))))"
@@ -457,6 +463,11 @@ macro = {
 	description = "show gold amount to player?"
 	definition = "ShowGoldExact"
 	replace_with = "GetScriptedGui('gui_wealth_shown').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
+}
+macro = {
+	description = "show Herd to player?"
+	definition = "ShowHerd"
+	replace_with = "GetScriptedGui('gui_herd_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
 }
 macro = {
 	description = "show influence to player?"

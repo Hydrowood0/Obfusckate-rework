@@ -844,7 +844,8 @@ types DiarchyWindowTypes {
 						layoutpolicy_horizontal = expanding
 
 						text = "[Character.GetUINameNoTooltip]"
-						fontsize_min = 14
+							fontsize_min = 12 
+	#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
 						margin_right = 10
 						max_width = 310
 						autoresize = no

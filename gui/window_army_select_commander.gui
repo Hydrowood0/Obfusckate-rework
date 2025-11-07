@@ -195,7 +195,8 @@ types army_select_commander
 				text = "[Character.GetUINameNoTooltip]"
 
 				using = Font_Size_Medium
-				fontsize_min = 14
+				fontsize_min = 12
+				#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
 				max_width = 400
 			}
 			expand = {}
@@ -209,7 +210,8 @@ types army_select_commander
 				text = "[Character.GetRelationToString( GetPlayer )]"
 				tooltip = "EXTENDED_RELATIONS_TOOLTIP"
 				default_format = "#low"
-				fontsize_min = 14
+				fontsize_min = 12
+				#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
 			}
 
 			expand = {}
@@ -317,7 +319,8 @@ types army_select_commander
 				# 	name = "knight_in_an_army"
 				# 	visible = "[Not( Character.IsKnightInSpecificArmy( Army.Self ) )]"
 				# 	text = "KNIGHT_IN_ARMY_TOOLTIP"
-				# 	fontsize_min = 14
+				# 		fontsize_min = 12 
+	#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
 				# 	max_width = 200
 				# }
 			}

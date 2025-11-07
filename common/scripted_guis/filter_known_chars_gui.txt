@@ -37,7 +37,8 @@
 			#is_imprisoned_by = root
 			#this = root.liege
 			#is_contact_of = root
-			#is_vassal_of = root
+			#is_vassal_of = root ##added by ljl
+			#is_tributary_of = root
 			#obf_is_fellow_vassal_or_liege_councillor = yes
 			#obf_works_in_same_court = yes
 			#is_allied_to = root 
@@ -467,6 +468,7 @@ obf_player_knows_the_character = {
 		AND = {
 			OR = {obf_is_fellow_vassal_or_liege_councillor = yes
 					obf_has_vassal_or_liege_relation = yes
+					obf_has_tributary_or_suzerain_relation = yes # added by ljl
 					obf_has_important_court_position = yes
 					obf_has_high_level_knowledge_flags = yes}
 				revelation_score >= 10}
@@ -499,6 +501,7 @@ obf_player_knows_the_character = {
 		AND = {
 			OR = {obf_is_fellow_vassal_or_liege_councillor = yes
 					obf_has_vassal_or_liege_relation = yes
+					obf_has_tributary_or_suzerain_relation = yes # added by ljl
 					obf_has_important_court_position = yes
 					obf_has_high_level_knowledge_flags = yes}
 				ai_sociability >= 25}

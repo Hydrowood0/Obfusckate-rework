@@ -109,7 +109,12 @@ character_known_effect = {
 					}
 				}
 				else_if = {
-				limit = {is_vassal_of = scope:player_character} ### vassal
+				limit = {
+					OR = {
+						is_vassal_of = scope:player_character
+						is_tributary_of = scope:player_character #added by ljl
+					} ### vassal or tributary
+				} ### vassal
 				change_variable = {
 						name = years_known
 						add = 1
@@ -198,7 +203,12 @@ character_barely_known_effect = {
 					}
 				}
 				else_if = {
-				limit = {is_vassal_of = scope:player_character} ### vassal
+				limit = {
+					OR = {
+						is_vassal_of = scope:player_character
+						is_tributary_of = scope:player_character #added by ljl
+					} ### vassal or tributary
+				}
 				change_variable = {
 						name = years_known
 						add = 0.25
