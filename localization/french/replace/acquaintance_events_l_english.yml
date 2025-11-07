@@ -1,0 +1,43 @@
+﻿l_english:
+#added by obfusCKate: Start
+acquaintance.1001.t: "A New Acquaintance: [target.GetShortUIName]"
+acquaintance.1001.desc: "Through your frantic exchange of correspondence with [target.GetShortUIName] in your attempts to sway [target.GetHerHim], you have gotten to know [target.GetHerHim] better."
+acquaintance.1001.a: "Humm...[target.GetSheHe] seems a [ROOT.Char.Custom2('RelationDescriptor', SCOPE.sC('target'))] [target.GetWomanMan]"
+
+acquaintance.1100.t: "A New Acquaintance: [guest.GetShortUIName]"
+acquaintance.1100.desc: "A New Acquaintance."
+acquaintance.1101.t: "New Acquaintances"
+acquaintance.1101.desc: "New Acquaintances"
+acquaintance.1102.t: "New Acquaintances"
+acquaintance.1102.desc: "New Acquaintances"
+
+acquaintance.1103.t: "A New Acquaintance: [guest.GetShortUIName]"
+acquaintance.1103.desc: "You had a friendly and pleasant conversation with [guest.GetShortUIName] in which you discussed mutual interests and became to know each other a little more."
+acquaintance.1103.a: "You become more acquainted with [guest.GetShortUIName]."
+
+acquaintance.8001.t:1 "Interest?"
+acquaintance.8001.desc:0 "There can no longer be any doubt. [owner.GetTitledFirstName] is interested in me...\n\n"
+acquaintance.8001.desc_positive:0 "I cannot say the thought has never crossed my mind"
+acquaintance.8001.desc_neutral:0 "I do hold [owner.GetHerHim] in high regard..."
+acquaintance.8001.desc_negative:0 "Is there no end to the depravity of [owner.GetTitledFirstName]?"
+acquaintance.8001.a:0 "Stop this madness! I am not interested in you!"
+acquaintance.8001.c:0 "The world will know of your perversions!"
+acquaintance.8001.b:0 "Well, what is life without some indulgences?"
+acquaintance.8001.b.tt:0 "I will not discourage [owner.GetFirstNameNoTooltip] from [owner.GetHerHis] pursuit"
+acquaintance.8002.t:0 "The Sting of Rejection"
+acquaintance.8002.desc:0 "I've been trying to make [target.GetShortUIName] notice my interest in [target.GetHerHim], hoping to smooth the way towards my future advances. Today, when I was going to try and meet [target.GetHerHim], [target.GetSheHe] confronted me.\n\n"This has gone too far! I am not attracted to you, for [ROOT.Char.GetFaith.HighGodNamePossessive] sake!"\n\n[target.GetFirstName] [target.Custom('quirk_neg_present')] as [target.GetSheHe] makes [target.GetHerHis] disdain for my romantic advances clear."
+acquaintance.8002.a:0 "I was sure we had something special!"
+
+acquaintance.8003.t:0 "Rejected and Exposed"
+acquaintance.8003.desc:0 "I've been trying to make [target.GetShortUIName] notice my interest in [target.GetHerHim], hoping to smooth the way towards my future advances. Today, when I was going to try and meet [target.GetHerHim], [target.GetSheHe] confronted me.\n\n"You disgust me! I am not attracted to you and the mere thought of it is repulsive, for [ROOT.Char.GetFaith.HighGodNamePossessive] sake! I will bring this to light, trust my word!"\n\n[target.GetFirstName] [target.Custom('quirk_neg_present')] as [target.GetSheHe] makes [target.GetHerHis] disdain for my romantic advances clear."
+acquaintance.8003.a:0 "Please, don't do this to me!"
+acquaintance.8005.t:0 "The Sting of Rejection"
+acquaintance.8005.desc:0 ""Please, stop this nonsense, [target.Custom2('RelationToMe', SCOPE.sC('owner') )]. The mere thought of it makes me sick"\n\n[target.GetFirstName] [target.Custom('quirk_neg_present')] as [target.GetSheHe] makes [target.GetHerHis] disdain for my romantic advances clear."
+acquaintance.8005.a:0 "I was sure we had something special!"
+acquaintance.8008.t:0 "Spurned Love"
+acquaintance.8008.desc:0 "Today I received a letter from [target.GetShortUIName]\n\n"I'm not entirely sure of your intentions but if you are driven by some kind of romantic motivation, I beg you that you stop this foolish endeavor at once!"\n\nI think [target.GetHerHis] disdain for my romantic advances is clear enough."
+acquaintance.8008.a:0 "When a door closes, a window opens."
+
+#added by obfusCKate: end
+
+ 

@@ -1,0 +1,64 @@
+﻿l_english:
+#added by obfusCKate: Start
+SKILL_EXCELLENT:0 "Is considered #difficulty_easy Excellent#! in this field\n#weak ( between 25 and 40) #!"
+SKILL_EXPERT:0 "Is an #flatulence @duchy_icon!Expert#! in this field\n#weak ( between 41 and 64) #!"
+SKILL_GENIUS:0 "Is a #clickable @empire_icon!Renowned Genius#! in this field\n#weak ( 65 or above) #!"
+#added by obfusCKate: End
+
+#changed by obfusCKate: start
+BASE_COLON:0 " "
+SKILL_AND_LEVEL_VALUE:0 "$LEVEL$"
+SKILL_TERRIBLE:0 "Is seen as #N Terrible#! in this field\n#weak (4 or below) #!"
+SKILL_INCOMPETENT:0 "Is seen as #N Incompetent#! in this field\n#weak ( between 5 and 8) #!"
+SKILL_COMPETENT:0 "Is seen as #high Competent#! in this field\n#weak ( between 9 and 16) #!"
+SKILL_GOOD:0 "Is considered #P Good#! in this field\n#weak ( between 17 and 24) #!"
+
+BASE_AI_WILLINGNESS:0 "Base Willingness [SelectLocalization(GreaterThanOrEqualTo_int32('(int32)$VALUE|q$' , '(int32)1'),'positive_modifier','negative_modifier')]"
+BASE_AI_RELUCTANCE:0 "Base Reluctance [SelectLocalization(GreaterThanOrEqualTo_int32('(int32)$VALUE|q$' , '(int32)1'),'positive_modifier','negative_modifier')]"
+
+AI_VALUE_MODIFIER_COMPOUND:0 "Personality [SelectLocalization(GreaterThanOrEqualTo_int32( '(int32)$VALUE|q$' , '(int32)1' ),'positive_modifier','negative_modifier')]"
+OPINION_MTTH:1 "[CHARACTER.GetShortUINamePossessive] Opinion of [TARGET_CHARACTER.GetShortUIName]"
+ ## SPY/INTEL NETWORK
+COUNTY_INTEL_LEVEL:"#E Intel Level:#! [SelectLocalization(Not(Or(Province.GetHolding.GetHolder.IsPlayerInteractionShown('low_spy_network_coverage_interaction'),Or(Province.GetHolding.GetHolder.IsPlayerInteractionShown('medium_spy_network_coverage_interaction'),Province.GetHolding.GetHolder.IsPlayerInteractionShown('high_spy_network_coverage_interaction')))),'COUNTY_NO_INTEL','')] [SelectLocalization(Province.GetHolding.GetHolder.IsPlayerInteractionShown('low_spy_network_coverage_interaction'),'COUNTY_LOW_INTEL','')][SelectLocalization(Province.GetHolding.GetHolder.IsPlayerInteractionShown('medium_spy_network_coverage_interaction'),'COUNTY_MEDIUM_INTEL','')][SelectLocalization(Province.GetHolding.GetHolder.IsPlayerInteractionShown('high_spy_network_coverage_interaction'),'COUNTY_HIGH_INTEL','')]"
+COUNTY_INTEL_LEVEL_TT:"#T #E Current Level of intel coverage:#!#! [SelectLocalization(Not(Or(Province.GetHolding.GetHolder.IsPlayerInteractionShown('low_spy_network_coverage_interaction'),Or(Province.GetHolding.GetHolder.IsPlayerInteractionShown('medium_spy_network_coverage_interaction'),Province.GetHolding.GetHolder.IsPlayerInteractionShown('high_spy_network_coverage_interaction')))),'COUNTY_NO_INTEL','')][SelectLocalization(Province.GetHolding.GetHolder.IsPlayerInteractionShown('low_spy_network_coverage_interaction'),'COUNTY_LOW_INTEL_TT','')][SelectLocalization(Province.GetHolding.GetHolder.IsPlayerInteractionShown('medium_spy_network_coverage_interaction'),'COUNTY_MEDIUM_INTEL_TT','')][SelectLocalization(Province.GetHolding.GetHolder.IsPlayerInteractionShown('high_spy_network_coverage_interaction'),'COUNTY_HIGH_INTEL_TT','')]\n\nThis is the level of your information (intel) network coverage on this holding.\n\n#P #I If you are the liege, the liege's marshal or steward, you will naturally have access to the county and holding stats #!#!"
+
+COUNTY_LOW_INTEL:0 "@army_quality_icon_1!" 
+ COUNTY_MEDIUM_INTEL:0 "@army_quality_icon_2!" 
+ COUNTY_HIGH_INTEL:0 "@army_quality_icon_4!" 
+ COUNTY_LOW_INTEL_TT:0 "#N Low#! @army_quality_icon_1!" 
+ COUNTY_MEDIUM_INTEL_TT:0 "#high Medium#! @army_quality_icon_2!" 
+ COUNTY_HIGH_INTEL_TT:0 "#P High#! @army_quality_icon_4!" 
+ COUNTY_NO_INTEL: "#N No intel#! @warning_icon!" 
+ INCREASE_SURVEILLANCE_OF_CHARACTER_TT: "#I Begin Monitoring#! [Character.GetShortUINameNoTooltip]"
+
+NO_BUDGET_TT:"#E #BOL Allocate Budget: #!#! #N No Budget #!\n\nSuspend funding entirely reducing maintenance to zero. [intel_network|E] will be dismantled progressively. "
+LOW_BUDGET_TT:"#E #BOL Allocate Budget: #!#! #high Minimum #!\n @gold_icon!#N [SelectLocalization(GreaterThanOrEqualTo_int32(GetPlayer.GetPrimaryTitle.GetTierFrame, '(int32)5'),'14','')][SelectLocalization(EqualTo_int32(GetPlayer.GetPrimaryTitle.GetTierFrame, '(int32)4'),'7','')][SelectLocalization(EqualTo_int32(GetPlayer.GetPrimaryTitle.GetTierFrame, '(int32)3'),'3.5','')]#!/month\n#N (+25%)#! #E for #N Incompetent#! or lower stewardship#!\n#P (up to -40%)#! #E for #P Good#! or higher stewardship#!\n\nReduce spending to minimum costs. Network coverage will be minimal\n\n#E Network development will not progress beyond this maintenance costs#!"
+MEDIUM_BUDGET_TT:"#E #BOL Allocate Budget: #!#! #high Medium #!\n @gold_icon!#N [SelectLocalization(GreaterThanOrEqualTo_int32(GetPlayer.GetPrimaryTitle.GetTierFrame, '(int32)5'),'28','')][SelectLocalization(EqualTo_int32(GetPlayer.GetPrimaryTitle.GetTierFrame, '(int32)4'),'14','')][SelectLocalization(EqualTo_int32(GetPlayer.GetPrimaryTitle.GetTierFrame, '(int32)3'),'7','')]#!/month\n#N (+25%)#! #E for #N Incompetent#! or lower stewardship#!\n#P (up to -40%)#! #E for #P Good#! or higher stewardship#!\n\nNetwork will grow but never reach maximum potential\n\n#E Network development will not progress beyond this maintenance costs#!"
+MAX_BUDGET_TT:"#E #BOL Allocate Budget: #!#! #P Maximum #!\n @gold_icon!#N [SelectLocalization(GreaterThanOrEqualTo_int32(GetPlayer.GetPrimaryTitle.GetTierFrame, '(int32)5'),'40','')][SelectLocalization(EqualTo_int32(GetPlayer.GetPrimaryTitle.GetTierFrame, '(int32)4'),'20','')][SelectLocalization(EqualTo_int32(GetPlayer.GetPrimaryTitle.GetTierFrame, '(int32)3'),'10','')]#!/month\n#N (+25%)#! #E for #N Incompetent#! or lower stewardship#!\n#P (up to -40%)#! #E for #P Good#! or higher stewardship#!\n\nAllocate maximum resources for superior coverage. Network will reach it's maximum potential.\n\n#E This is the maximum possible [intel_network|E] development#!"
+NO_BUDGET:"None"
+LOW_BUDGET:"Min"
+MEDIUM_BUDGET:"Med"
+MAX_BUDGET:"Max"
+PAUSE_NETWORK_GROWTH_TT:"#E #BOL NETWORK STATUS: #!#! [SelectLocalization( GetScriptedGui('start_spy_network').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).End ), 'NO_DEVELOPMENT_TT', 'NO_DEVELOPMENT_POSSIBLE_TT' )]"
+PROMOTE_NETWORK_GROWTH_TT:"#E #BOL NETWORK STATUS: #!#! [SelectLocalization( GetScriptedGui('stop_spy_network').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).End ), 'DEVELOPMENT_INCREASING_TT', 'DEVELOPMENT_DECREASING_TT' )]" 
+NETWORK_COVERAGE_TT:"#E #BOL Base Network Development:  [Multiply_CFixedPoint( GetPlayer.MakeScope.Var('spy_network').GetValue, '(CFixedPoint)0.5' )|=+0%/] #!#!\n\nThis is the base network development in relation to it's full potential #high (100%)#!.\nNetwork expansion controls its #E reach#! and #E level of coverage#!, although both of these are also affected by other factors and may vary depending on circunstances like wars, your rank or being in or outside the Realm. Rank (an consequently coverage) is also reflected on the maximum budget you can allocate since mantaining a bigger network is logically more expensive"
+NO_DEVELOPMENT_TT:"#Y #BOL HALTED #!#!\n\nClick to #P #I Activate#!#! network growth.\nInstruct your Spymaster to actively arrange new contacts to expand your [intel_network|E] over time\n\n#E This will increase #BOL maintenance expenditure#! according to your defined budget as the network grows.#!"
+NO_DEVELOPMENT_POSSIBLE_TT:"[SelectLocalization( LessThanOrEqualTo_CFixedPoint( GetPlayer.MakeScope.Var('spy_network').GetValue, GetPlayer.MakeScope.Var('spy_network_budget').GetValue ), 'DEVELOPMENT_NOT_POSSIBLE_OPTION_TT', 'REDUCING_OPTION_TT' )] \n\nNetwork is either #N reducing#! or #N no development is expected#!. This happens either because it #Y has reached the allocated budget#!, because your allocated budget #N does not meet maintenance demands#! or your #N Spymaster is not competent#! to effectively build and help mantain the network.\n\n#E The [intel_network|E] will be progressively reduced untill it meets the allocated budget (in which cause it will be halted) or until it's dismantled#!"
+DEVELOPMENT_INCREASING_TT:"#P #BOL ACTIVE DEVELOPMENT#!#!\n\nClick to #I #Y Pause#!#! network development.\nInstruct your Spymaster to halt efforts in establishing new contacts for your [intel_network|E]. Existing connections will remain functional but no further expansion will occur. Maintenance cost will remain at current level.\n\n#E Useful if you wish to control #BOL maintenance expenses#! or stabilize your current operations.#!"
+DEVELOPMENT_DECREASING_TT:"#Y #BOL BEING REDUCED#!#!\n\nAt the moment, given your budget allocation or your spymaster inhability, the [intel_network|E] is being reduced progressively.This will stabilize when the network development matches your allocated budget.\n\n#E If you wish #BOL to mantain the current network development level#!, select a higher budget and then pause the development at the current level.#!"
+REDUCING_OPTION_TT:"#N #BOL REDUCING #!#!"
+DEVELOPMENT_NOT_POSSIBLE_OPTION_TT:"#N #BOL NO DEVELOPMENT EXPECTED #!#!
+
+### MOD FEATURES BUTTON
+MOD_FEATURES_TOOLTIP: "#T #E #clickable obfusCKate#! Mod Overview and Features#!#!\n$mod_features_desc$\n\n$mod_features_disable$"
+mod_features_desc:"Although you don't need it, since this mod is seamlessly integrated in the game, if you wish you can #P click here#! to have a better understanding of the features and mechanics of the mod"
+mod_features_disable: "#E This button will disappear automatically after 1 game year but you can also disable it by clicking the @cross_icon! below it or in the game rules #!"
+MOD_FEATURES_DISABLE_TOOLTIP: "#I #X Disable this button permanently#!#!"
+
+
+
+ 
+
+
+ #changed by obfusCKate: End
+

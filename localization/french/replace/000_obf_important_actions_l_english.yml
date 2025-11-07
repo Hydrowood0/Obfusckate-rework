@@ -1,0 +1,35 @@
+﻿l_english:
+ 
+ action_has_any_display_cb_on_label:2 "@war_icon! You can declare War on [recipient.GetPrimaryTitle.Custom('GetTierIcon')][recipient.GetUINameNoTooltip]"
+ action_has_any_display_cb_on_combined_label:1 "[recipient.GetPrimaryTitle.Custom('GetTierIcon')] [recipient.GetUINameNoTooltip]"
+ action_has_any_display_cb_on_click:0 "#I Click to view [casus_bellis|E]#!"
+ action_has_any_display_cb_on_combined_unimportant:2 "@warning_icon! #X All have stronger a [army|E] than you#!"
+ action_has_any_display_cb_on_unimportant:2 "@warning_icon! #X [recipient.GetSheHe|U] has a stronger [army|E] than you#!"
+ action_has_any_display_cb_on_HELP:0 "\n\n#help If your military and [allies|E] are stronger than your enemy, War can be very beneficial. You can take [titles|E], expand your [realm|E], and earn [prestige_experience|E].\n\nHowever, Wars are costly, especially if you have to admit [defeat|E]. Ambitious neighbors may take advantage of your weakened Realm.#!"
+ military_strength_green_current_situation:0 "#P @soldier_icon![second.GetMilitaryStrengthText]#!"
+ military_strength_red_current_situation:0 "#color_light_red @soldier_icon![second.GetMilitaryStrengthText]#!"
+ military_strength_gray_current_situation:0 "#low @soldier_icon![second.GetMilitaryStrengthText]#!"
+ action_can_propose_alliance_to_family_member_label:1 "@alliance_icon! You can Negotiate an Alliance with your [actor.Custom2('RelationToMe', recipient)] [recipient.GetPrimaryTitle.Custom('GetTierIcon')][recipient.GetShortUINameNoTooltip], #low  [actor.Custom2('GetInOrOutsideRealm', recipient)]"
+ action_can_propose_alliance_to_family_member_combined_label:1 "Your [actor.Custom2('RelationToMe', recipient)] [recipient.GetPrimaryTitle.Custom('GetTierIcon')][recipient.GetUINameNoTooltip], [actor.Custom2('GetInOrOutsideRealm', recipient)]"
+ 
+ action_can_potentially_propose_alliance_to_family_member_label:0 "@alliance_icon! You can Potentially Negotiate an Alliance with your [actor.Custom2('RelationToMe', recipient)] [recipient.GetPrimaryTitle.Custom('GetTierIcon')][recipient.GetShortUINameNoTooltip], [actor.Custom2('GetInOrOutsideRealm', recipient)]"
+ 
+  action_can_call_ally_desc:3 "You can call your [ally|E] [recipient.GetUIName] to your [wars|E].\n\n[recipient.GetSheHe|U] has [soldiers|E] that could help in your [wars|E].$CALL_TO_WAR_HELP$"
+
+ action_can_call_ally_label:3 "@alliance_icon! You can call on your Ally [recipient.GetPrimaryTitle.Custom('GetTierIcon')][recipient.GetUINameNoTooltip]"
+  action_can_call_ally_combined_label:1 "[recipient.GetPrimaryTitle.Custom('GetTierIcon')] [recipient.GetUINameNoTooltip]"
+
+ action_can_call_house_member_desc:3 "You can call your [house|E] member [recipient.GetUIName] to your [wars|E].\n\n[recipient.GetSheHe|U] has [soldiers|E] that could help in your [wars|E].$CALL_TO_WAR_HELP$"
+ 
+  action_can_call_house_member_label:3 "@alliance_icon! You can call your House member [recipient.GetPrimaryTitle.Custom('GetTierIcon')][recipient.GetUINameNoTooltip]"
+  
+   action_can_call_house_member_combined_label:1 "[recipient.GetPrimaryTitle.Custom('GetTierIcon')] [recipient.GetUINameNoTooltip]"
+   
+   action_can_call_dynasty_member_desc:3 "You can call your [dynasty|E] member [recipient.GetUIName] to your [wars|E].\n\n[recipient.GetSheHe|U] has [soldiers|E] that could help in your [wars|E].$CALL_TO_WAR_HELP$"
+   
+    action_can_call_dynasty_member_label:3 "@dynasty_icon! You can call your Dynasty member [recipient.GetPrimaryTitle.Custom('GetTierIcon')][recipient.GetUINameNoTooltip]"
+ action_can_call_dynasty_member_combined_label:1 "[recipient.GetPrimaryTitle.Custom('GetTierIcon')] [recipient.GetUINameNoTooltip]"
+ action_powerful_vassal_not_on_council_label:4 "@powerful_vassal_icon! Your Powerful Vassal, [recipient.GetPrimaryTitle.Custom('GetTierIcon')][recipient.GetUINameNoTooltip], expects a Council Position"
+ action_powerful_vassal_not_on_council_combined_label:2 "[recipient.GetPrimaryTitle.Custom('GetTierIcon')] [recipient.GetUINameNoTooltip]"
+  action_not_endorsed_by_realm_priest_label:3 "@bishop_icon! Not endorsed by your [GetPlayer.GetCouncillorPosition( 'councillor_court_chaplain' ).GetPositionName ]"
+ action_not_endorsed_by_realm_priest_desc:4 "Your [recipient.GetCouncilTitle], [recipient.GetUIName], does not endorse you. [recipient.GetSheHe|U] currently has negative [opinion|E] of you.\n\n#help You should ensure that [recipient.GetSheHe] has a #P positive#! [opinion|E] of you, otherwise [recipient.GetSheHe] will not provide you with any [levies|E] or [taxes|E]! The best way of remedying this is by using the [GetScheme('sway').GetTypeName] [scheme|E].\n\nIf [recipient.GetHerHis] Opinion of you is below #Y Neutral#!, [recipient.GetSheHe] might start interfering in your affairs.#!"
