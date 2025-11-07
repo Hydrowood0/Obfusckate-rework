@@ -33,12 +33,20 @@
 		name = "ask_military_advice"
 		visible = "[And(Character.HasLandedTitles,And(AskAdvisorsInteractionValid,Not(ShowMilitaryStrength)))]"		
 		size = { 100 35 }
+		### changed by ljl
+		## size = { -1 -1 }###
+		## layoutpolicy_horizontal = expanding ##
+		## layoutpolicy_vertical = expanding ##
+		## expand = {} ##
 		datacontext = "[Character]"
-		onclick = "[CharacterWindow.GetCharacter.OpenPlayerInteraction('ask_advisors_opinion_interaction')]"
+		#onclick = "[CharacterWindow.GetCharacter.OpenPlayerInteraction('ask_advisors_opinion_interaction')]"
+		onclick = "[Character.OpenPlayerInteraction('ask_advisors_opinion_interaction')]"
+		tooltip = "ASK_MILITARY_ADVICE_OB_TT"
 		text_single = {
+			#onclick = "[CharacterWindow.GetCharacter.OpenPlayerInteraction('ask_advisors_opinion_interaction')]" # 没用
 			parentanchor = center
 			text = "MILITARY_STRENGHT_OB"
-			tooltip = "ASK_MILITARY_ADVICE_OB_TT"
+			#tooltip = "ASK_MILITARY_ADVICE_OB_TT"
 		}
 		using = tooltip_sw
 	}
@@ -678,21 +686,50 @@ template obf_gold_text_template {
 	text = "[SelectLocalization(ShowGoldExact,'CHARACTER_GOLD', SelectLocalization(ShowGoldRough,'OBF_GOLD_CHARACTER', ''))]"
 }
 
-template obf_prestige_template {
+template obf_piety_template {
 	visible = "[GetScriptedGui('gui_piety_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
 	tooltip = "OBF_PIETY_LEVEL_TOOLTIP"
 }
-template obf_prestige_text_template {
+template obf_piety_text_template {
 	text = "OBF_PIETY_LEVEL_CHARACTER"
 }
 
-template obf_piety_template {
+template obf_prestige_template {
 	visible = "[GetScriptedGui('gui_prestige_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
 	tooltip = "OBF_PRESTIGE_LEVEL_TOOLTIP"
 }
-template obf_piety_text_template {
+template obf_prestige_text_template {
 	text = "OBF_PRESTIGE_LEVEL_CHARACTER"
 }
+
+template obf_influence_template {
+	### visible = "[GetScriptedGui('gui_influence_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+	## tooltip = "OBF_INFLUENCE_LEVEL_TOOLTIP"
+	tooltip = "[SelectLocalization(ShowInfluence,Character.GetInfluenceTooltipWithBalance, 'game_concept_influence_level_desc')]"
+	## tooltip = "[SelectLocalization(ShowInfluence,Character.GetInfluenceTooltipWithBalance, 'OBF_INFLUENCE_LEVEL_TOOLTIP')]"
+}
+template obf_influence_text_template {
+	## text = "OBF_INFLUENCE_LEVEL_CHARACTER"
+	layoutpolicy_horizontal = growing
+	text = "[SelectLocalization(ShowInfluence, 'CharacterInfluence', 'OBF_INFLUENCE_LEVEL_CHARACTER')]"
+}
+
+template obf_herd_template { ##used in RUI_Ch_character_profile_sub_view.gui -> 00_RUI_Ch_OBFS_obfusCKate.gui not(RUI_Ch_OBFS_obfusCKate.gui)
+	datacontext = "[Character.GetDomicile]"
+	# visible = "[GetScriptedGui('gui_herd_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )]"
+	## visible = "[And(ShowHerd, IsNomad( Character ) )]"
+	visible = "[IsNomad( Character )]"
+	#tooltip = "[SelectLocalization(ObfIsLocalPlayer, Character.GetDomicile.GetHerdBreakdown, 'OBF_HERD_TOOLTIP')]"
+	#tooltip = "[SelectLocalization(GetScriptedGui('gui_herd_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End), Character.GetDomicile.GetHerdBreakdown, 'OBF_HERD_TOOLTIP')]"
+	tooltip = "[SelectLocalization(ShowHerd, Character.GetDomicile.GetHerdBreakdown, 'OBF_HERD_TOOLTIP')]"
+}
+template obf_herd_text_template {
+	#text = "[SelectLocalization(ObfIsLocalPlayer, 'CharacterHerd', 'OBF_HERD_CHARACTER')]"
+	# text = "[SelectLocalization(GetScriptedGui('gui_herd_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ), 'CharacterHerd', 'OBF_HERD_CHARACTER')]"
+	layoutpolicy_horizontal = growing
+	text = "[SelectLocalization(ShowHerd, 'CharacterHerd', 'OBF_HERD_CHARACTER')]"
+}
+
 
 template obf_dread_template {
 	tooltip = "[SelectLocalization(ObfIsLocalPlayer, Character.GetDreadBreakdown, 'OBF_DREAD_TOOLTIP')]"
@@ -773,14 +810,16 @@ template obf_court_tab_count {
 	visible = "[Or(ShowEstimateTabCount, ObfIsLocalPlayer)]"
 	tooltip = "[AddLocalizationIf(Not(ObfIsLocalPlayer), 'COURTIERS_COUNT_TT_OB')]"
 	text = "[SelectLocalization(ObfIsLocalPlayer,'CHARACTER_WINDOW_COURT_TAB_COUNT', SelectLocalization(ShowEstimateTabCount, SelectLocalization( LessThanOrEqualTo_int32( CharacterWindow.GetTabItemsCount('court'), '(int32)5' ), 'FEW_COURTIERS_OB',SelectLocalization(LessThanOrEqualTo_int32( CharacterWindow.GetTabItemsCount('court'), '(int32)15' ),'SOME_COURTIERS_OB', 'MANY_COURTIERS_OB')),''))]"
-	fontsize_min = 14
+	fontsize_min = 12 
+	#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
 }
 
 template obf_vassal_tab_count {
 	visible = "[Or(ShowEstimateTabCount, ShowTabCount)]"
 	tooltip = "[AddLocalizationIf(Not(ShowTabCount), 'VASSALS_COUNT_TT_OB')]"
-	text = "[SelectLocalization(ShowTabCount,'CHARACTER_WINDOW_VASSAL_TAB_COUNT', SelectLocalization(ShowEstimateTabCount, SelectLocalization( LessThanOrEqualTo_int32( CharacterWindow.GetTabItemsCount('vassal'), '(int32)10' ), 'FEW_VASSALS_OB',SelectLocalization(LessThanOrEqualTo_int32( CharacterWindow.GetTabItemsCount('vassal'), '(int32)20' ),'SOME_VASSALS_OB', 'MANY_VASSALS_OB')),''))]"
-	fontsize_min = 14
+	text = "[SelectLocalization(ShowTabCount,'CHARACTER_WINDOW_VASSAL_TAB_COUNT', SelectLocalization(ShowEstimateTabCount, SelectLocalization( LessThanOrEqualTo_int32( CharacterWindow.GetTabItemsCount('subjects'), '(int32)10' ), 'FEW_VASSALS_OB',SelectLocalization(LessThanOrEqualTo_int32( CharacterWindow.GetTabItemsCount('subjects'), '(int32)20' ),'SOME_VASSALS_OB', 'MANY_VASSALS_OB')),''))]"
+	fontsize_min = 12 
+	#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
 }
 
 template obf_personality_template {

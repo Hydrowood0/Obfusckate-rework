@@ -59,7 +59,10 @@
 						value <= 50
 					}
 					AND = {
-						is_vassal_of = scope:owner
+						OR = {
+							is_vassal_of = scope:owner
+							is_tributary_of = scope:owner ##added by ljl
+						}
 						is_a_faction_member = yes
 					}
 				}

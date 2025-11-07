@@ -34,7 +34,10 @@ send_emissary_event.1001 = {
 					triggered_desc = {
 						trigger = {
 							scope:recipient = {
-							is_vassal_or_below_of = root
+							OR = {
+								is_vassal_or_below_of = root
+								is_tributary_of_suzerain_or_above = root #added by ljl
+							}
 							NOR = {has_character_flag = good_outcome_emissary
 									has_character_flag = bad_outcome_emissary}}
 							}
@@ -43,7 +46,10 @@ send_emissary_event.1001 = {
 					triggered_desc = {
 						trigger = {
 							scope:recipient = {
-							is_vassal_or_below_of = root
+							OR = {
+								is_vassal_or_below_of = root
+								is_tributary_of_suzerain_or_above = root #added by ljl
+							}
 							has_character_flag = good_outcome_emissary}
 							}
 						desc = send_emissary_event.1001.desc_councillor_vassal_good
@@ -51,7 +57,10 @@ send_emissary_event.1001 = {
 					triggered_desc = {
 						trigger = {
 							scope:recipient = {
-							is_vassal_or_below_of = root
+							OR = {
+								is_vassal_or_below_of = root
+								is_tributary_of_suzerain_or_above = root #added by ljl
+							}
 							has_character_flag = bad_outcome_emissary}
 							}
 						desc = send_emissary_event.1001.desc_councillor_vassal_bad

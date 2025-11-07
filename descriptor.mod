@@ -1,9 +1,10 @@
-version="18.3"
+version="1.162"
 tags={
+	"Fixes"
 	"Gameplay"
-	"Character Interactions"
 	"Schemes"
+	"Character Interactions"
 }
-name="obfusCKate - Hidden Information"
-supported_version="1.14.2.2"
-remote_file_id="2874007571"
+name="obfusCKate(rework & RUI:Character Compatibled)"
+supported_version="1.16.2.3"
+remote_file_id="3508469370"
