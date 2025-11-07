@@ -559,8 +559,22 @@
         datacontext = "[GetPlayer]"
         widgetanchor = center
 
+        # Default Toast Animations
+        state = {
+            name = _show
+            using = Animation_FadeIn_Standard
+            bezier = { 0.7 0 0.7 1 }
+        }
+
+        state = {
+            name = _hide
+            using = Animation_FadeOut_Standard
+            size = { 1 200}
+            bezier = { 0.7 0 0.7 1 }
+        }
+        
         notifications_toasts_default = {
-            position = "[Select_CVector2f( IsGameViewOpen('activity_locale'), '(CVector2f)-650,195', '(CVector2f)0,185' )]"
+            position = "[Select_CVector2f( IsGameViewOpen('activity_locale'), '(CVector2f)-600,195', '(CVector2f)0,150' )]"
             datacontext = "[ToastMessageHandler.GetMessage]"
             visible = "[Not( PlayerMessageItem.GetType.HasFlags )]"
         }
@@ -623,6 +637,8 @@
         vbox = {
             layoutpolicy_vertical = expanding
 			allow_outside = yes
+            set_parent_size_to_minimum = yes
+            minimumsize = { 600 0 }
 
             hbox = {
                 layoutpolicy_horizontal = expanding
@@ -754,7 +770,7 @@
                                 using = Font_Size_Big
 
                                 default_format = "#high"
-                                using = Text_Light_Background_Overrides
+                                # using = Text_Light_Background_Overrides
 
                                 background = {
                                     using = Toast_Header
@@ -867,7 +883,7 @@
                 }
             }
 
-            expand = {}
+            #expand = {}
         }
 
         flowcontainer = {
@@ -1565,28 +1581,38 @@
                 position_y = 40
             }
 
-            background = {
-                name = "paper_texture_shadow"
-                texture = "gfx/interface/window_event/tile_letter_shadow.dds"
-                spriteType = Corneredtiled
-                spriteborder = { 200 200 }
-            }
+            ## obfusCKate - key
+
+            using = Background_Letter_No_Frame
 
             background = {
-                name = "paper_texture_flat"
-                texture = "gfx/interface/window_event/tile_letter_flat.dds"
-                spriteType = Corneredtiled
-                spriteborder = { 200 200 }
-                alpha = 0.9
-                color = { 0.51 0.53 0.58 1 }
-
-                modify_texture = {
-                    name = "paper_texture_overlay"
-                    texture = "gfx/interface/window_event/overlay_letter_texture.dds"
-                    spriteType = Corneredstretched
-                    blend_mode = overlay
-                }
+                using = Background_Area_Dark
+                alpha = 0.75
+                margin = { 1 1 }
             }
+            #background = {
+                #name = "paper_texture_shadow"
+                #texture = "gfx/interface/window_event/tile_letter_shadow.dds"
+                #spriteType = Corneredtiled
+                #spriteborder = { 200 200 }
+            #}
+
+            #background = {
+                #name = "paper_texture_flat"
+                #texture = "gfx/interface/window_event/tile_letter_flat.dds"
+                #spriteType = Corneredtiled
+                #spriteborder = { 200 200 }
+                #alpha = 0.9
+                #color = { 0.51 0.53 0.58 1 }
+
+                #modify_texture = {
+                    #name = "paper_texture_overlay"
+                    #texture = "gfx/interface/window_event/overlay_letter_texture.dds"
+                    #spriteType = Corneredstretched
+                    #blend_mode = overlay
+                #}
+            #}
+            ## obfusCKate - key
 
             #### DECOR
             widget = {
@@ -1600,7 +1626,7 @@
                     alpha = 0.6
 
                     background = {
-                        texture = "gfx/interface/window_event/letter_event_pattern_big.dds"
+                        texture = "gfx/interface/skinned/window_letter/letter_event_pattern_big.dds"
                         tintcolor = { 0.75 0.9 0.9 1 }
 
                         modify_texture = {
@@ -1620,7 +1646,7 @@
                     alpha = 0.6
 
                     background = {
-                        texture = "gfx/interface/window_event/letter_event_pattern_big.dds"
+                        texture = "gfx/interface/skinned/window_letter/letter_event_pattern_big.dds"
                         mirror = horizontal
                         tintcolor = { 0.75 0.9 0.9 1 }
 
@@ -1665,6 +1691,7 @@
                 name = "action_items_container"
                 set_parent_size_to_minimum = yes
                 minimumsize = { 384 50 }
+                margin_right = 2
                 margin_top = 14
                 spacing = 15
                 ignoreinvisible = yes
@@ -1950,7 +1977,8 @@
 										using = Font_Size_Medium
 										align = nobaseline
 										max_width = 355
-										fontsize_min = 14
+											fontsize_min = 12 
+	#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
 									}
 
 									expand = {}
@@ -2152,6 +2180,7 @@
                                             portrait_head_small = { 
                                                 name = "portrait_left"
                                                 datacontext = "[PlayerMessageItem.GetLeftCharacter]"
+                                                #visible = "[Character.IsValid]"
                                                 visible = "[And(Character.IsValid,GetScriptedGui('gui_show_factions_members_interface_message').IsValid( GuiScope.SetRoot(GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]" 
                                             }
 

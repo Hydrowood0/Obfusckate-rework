@@ -18,7 +18,10 @@ interrogate_prisoner_interaction = {
 		
 		scope:recipient = {
 			has_variable = obf_is_a_faction_member
-			is_vassal_or_below_of = scope:actor 
+			OR = {
+				is_vassal_or_below_of = scope:actor 
+				is_tributary_of_suzerain_or_above = scope:actor ##added by ljl
+			}
 			is_imprisoned_by = scope:actor
 			NAND = {	has_opinion_modifier = {
 							modifier = tortured_me

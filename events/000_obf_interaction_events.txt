@@ -218,7 +218,14 @@ obf_interaction.0005 = {
 	option = {
 		name = obf_interaction.0005.a
 		if = {
-			limit = {scope:recipient = {NOT = {is_vassal_or_below_of = scope:actor}}}
+			limit = {
+				scope:recipient = {
+				NOR = {
+				is_vassal_or_below_of = scope:actor
+				is_tributary_of_suzerain_or = scope:actor #added by ljl
+				}
+			}	
+			}
 		scope:recipient = {
 			add_character_flag = {
 				flag = requested_military_info
@@ -229,7 +236,14 @@ obf_interaction.0005 = {
 		custom_tooltip = {
 		text = "obf_interaction.0005.a.vassal"
 		if = {
-			limit = {scope:recipient = {is_vassal_or_below_of = scope:actor}}
+			limit = {
+				scope:recipient = {
+					OR = {
+						is_vassal_or_below_of = scope:actor
+						is_tributary_of_suzerain_or_above = scope:actor #added by ljl
+					}
+				}
+			}
 		scope:actor = {
 		every_targeting_faction = {
 					limit = {exists = yes

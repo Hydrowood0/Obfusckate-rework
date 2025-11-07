@@ -1,4 +1,40 @@
-﻿diplomacy_skill_value_text_reverse = {
+﻿# 定义一个名为 get_char_influence_level_name 的自定义描述
+get_char_influence_level_name = {
+    # 'this' 上下文将是我们要检查的角色
+
+    # text 块会从上到下检查 trigger，返回第一个满足条件的 text
+    text = {
+        trigger = { influence_level = 5 }
+        # 返回游戏原版的本地化键
+        localization_key = "influence_level_5" 
+    }
+    text = {
+        trigger = { influence_level = 4 }
+        localization_key = "influence_level_4"
+    }
+    text = {
+        trigger = { influence_level = 3 }
+        localization_key = "influence_level_3" 
+    }
+    text = {
+        trigger = { influence_level = 2 }
+        localization_key = "influence_level_2"
+    }
+	text = {
+        trigger = { influence_level = 1 }
+        localization_key = "influence_level_1"
+    }
+	text = {
+        trigger = { influence_level = 0 }
+        localization_key = "influence_level_0"
+    }
+    # 默认/后备选项
+    text = {
+        localization_key = "influence_level_0"
+    }
+}
+
+diplomacy_skill_value_text_reverse = {
 	type = character
 	text = {
 		localization_key = diplomacy_skill_value_text

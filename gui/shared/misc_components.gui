@@ -178,7 +178,9 @@ types Miscelaneous
 							align = nobaseline
 							block "StrengthBalanceTotalStrength"
 							{
-							# code deleted by obfusCKate
+							# code deleted by obfusCKate : start
+							## text = "STRENGTH_COMPARISON_TOTAL_STRENGTH"
+							# code deleted by obfusCKate : end
 							}
 						}
 
@@ -219,7 +221,13 @@ types Miscelaneous
 			}
 		}
 
-		# code deleted by obfusCKate
+		# code deleted by obfusCKate : start
+		# block "StrengthBalanceTooltip"
+		# {
+		# 	tooltip = "[GuiMilitaryStrength.GetRatioDescription]"
+		# }
+		# using = tooltip_se
+		# code deleted by obfusCKate :end
 	}
 	
 	type button_expand_fold_out = button_expand
@@ -280,12 +288,75 @@ types Miscelaneous
 		}
 	}
 
+	type button_expandable_toggle_field_silk_road = button_tertiary {
+		layoutpolicy_horizontal = expanding
+
+		block "onclick"
+		{
+			onclick = "[PdxGuiFoldOut.Toggle]"
+		}
+
+		hbox = {
+			layoutpolicy_horizontal = expanding
+			ignoreinvisible = yes
+
+			margin = { 15 0 }
+			spacing = 5
+
+			button_expand_fold_out = {
+				block "foldout_button" {}
+			}
+
+			vbox = {
+				layoutpolicy_vertical = expanding
+
+				expand = {}
+
+				icon = {
+					texture = "gfx/interface/icons/travel/icon_travel_silk_road_marketplace.dds"
+					size = { 65 65 }
+					scale = 0.9
+				}
+			}
+
+			vbox = {
+				text_single = {
+					layoutpolicy_horizontal = growing
+					text = "[Building.GetName]"
+					align = nobaseline
+					max_width = 180
+				}
+
+				text_single = {
+					layoutpolicy_horizontal = expanding
+					align = nobaseline
+					alwaystransparent = yes
+					max_width = 180
+
+					block "text" {}
+				}
+			}
+
+			expand = {}
+
+			text_single = {
+				layoutpolicy_horizontal = growing
+				datacontext = "[SituationSubRegion.GetCurrentPhase]"
+				text = "CURRENT_PHASE_IN_SUBREGION_HEADER"
+				align = right|nobaseline
+				multiline = yes
+				max_width = 180
+			}
+		}
+	}
+
 	type hbox_tab_buttons = hbox
 	{
+		visible = "[GreaterThan_int32( GetDataModelSize( PdxGuiTabs.GetTabItems ), '(int32)1' )]"
+
 		layoutpolicy_horizontal = expanding
 
 		datamodel = "[PdxGuiTabs.GetTabItems]"
-
 		item = {
 			button_tab = {
 				layoutpolicy_horizontal = expanding
@@ -294,6 +365,7 @@ types Miscelaneous
 				{
 					raw_text = "#D [PdxGuiTabItem.GetKey]#!"
 				}
+
 				block "on_click"
 				{
 				}
@@ -334,6 +406,17 @@ types Miscelaneous
 					soundeffect = "event:/Error/Errorhof"
 				}
 			}
+		}
+
+		icon = {
+			position = { 0 2 }
+			visible = "[GreaterThanOrEqualTo_int32( NumberOrErrors, '(int32)100000' )]"
+			alwaystransparent = yes
+
+			texture = "gfx/interface/_debug/errorhoof_mad.dds"
+			framesize = { 112 112 }
+			size = { 80 80 }
+			frame = "[GetErrorHoofFrame]"
 		}
 
 		flowcontainer = {
@@ -391,68 +474,67 @@ types Miscelaneous
 			}
 		}
 	}
+	# type placeholder_art = debug_square {
+	# 	margin_widget = {
+	# 		size = { 100% 100% }
+	# 		margin = { 4 4 }
 
-	type placeholder_art = debug_square {
-		margin_widget = {
-			size = { 100% 100% }
-			margin = { 4 4 }
+	# 		icon = {
+	# 			size = { 100% 100% }
+	# 			texture = "gfx/interface/_debug/placeholder.dds"
+	# 			spriteType = Corneredtiled
+	# 			color = { 0.7 0.7 0.7 1 }
+	# 		}
+	# 	}
+	# }
 
-			icon = {
-				size = { 100% 100% }
-				texture = "gfx/interface/_debug/placeholder.dds"
-				spriteType = Corneredtiled
-				color = { 0.7 0.7 0.7 1 }
-			}
-		}
-	}
+	# type placeholder_art_button = button_normal {
+	# 	size = { 150 150 }
+	# 	texture = "gfx/interface/_debug/placeholder.dds"
+	# 	spriteType = Corneredtiled
+	# 	color = { 0.7 0.7 0.7 1 }
 
-	type placeholder_art_button = button_normal {
-		size = { 150 150 }
-		texture = "gfx/interface/_debug/placeholder.dds"
-		spriteType = Corneredtiled
-		color = { 0.7 0.7 0.7 1 }
+	# 	margin_widget = {
+	# 		size = { 100% 100% }
+	# 		margin = { 5 5 }
 
-		margin_widget = {
-			size = { 100% 100% }
-			margin = { 5 5 }
+	# 		debug_square = {
+	# 			size = { 100% 100% }
+	# 		}
+	# 	}
+	# }
 
-			debug_square = {
-				size = { 100% 100% }
-			}
-		}
-	}
+	# type debug_square = icon {
+	# 	size = { 150 150 }
+	# 	texture = "gfx/interface/_debug/pink_square_chill.png"
+	# 	spriteType = Corneredtiled
+	# 	spriteborder = { 2 2 }
+	# }
 
-	type debug_square = icon {
-		size = { 150 150 }
-		texture = "gfx/interface/_debug/pink_square_chill.png"
-		spriteType = Corneredtiled
-		spriteborder = { 2 2 }
-	}
+	# type debug_placeholder = icon {
+	# 	size = { 50 50 }
+	# 	texture = "gfx/interface/_debug/placeholder_02.png"
+	# 	spriteType = Corneredstretched
+	# 	spriteborder = { 2 2 }
+	# }
 
-	type debug_placeholder = icon {
-		size = { 50 50 }
-		texture = "gfx/interface/_debug/placeholder_02.png"
-		spriteType = Corneredstretched
-		spriteborder = { 2 2 }
-	}
-
-	type debug_button = button_icon {
-		size = { 150 150 }
-		texture = "gfx/interface/_debug/pink_square_chill.png"
-		spriteType = Corneredtiled
-		spriteborder = { 2 2 }
-	}
+	# type debug_button = button_icon {
+	# 	size = { 150 150 }
+	# 	texture = "gfx/interface/_debug/pink_square_chill.png"
+	# 	spriteType = Corneredtiled
+	# 	spriteborder = { 2 2 }
+	# }
 }
 
-template debug_square
-{
-	background = {
-		texture = "gfx/interface/_debug/pink_square_chill.png"
-		spriteType = Corneredtiled
-		spriteborder = { 1 1 }
-		alpha = 0.5
-	}
-}
+# template debug_square
+# {
+# 	background = {
+# 		texture = "gfx/interface/_debug/pink_square_chill.png"
+# 		spriteType = Corneredtiled
+# 		spriteborder = { 1 1 }
+# 		alpha = 0.5
+# 	}
+# }
 
 template Create_Resetting_Fold_Out
 {
