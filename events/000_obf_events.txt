@@ -5154,16 +5154,20 @@ acquaintance.9002 = {
 			
 		every_patroned_holy_order = {
 			leader = {
-				limit = {NOR = {has_character_flag = partially_spied_2
-							has_character_flag = partially_spied_3}}
-				add_to_temporary_list = basic_acquaintances
+				if = {
+					limit = {NOR = {has_character_flag = partially_spied_2
+								has_character_flag = partially_spied_3}}
+					add_to_temporary_list = basic_acquaintances
+					}
 				}
 			}
 		every_hired_mercenary = {
 				mercenary_company_leader = {
-				limit = {NOR = {has_character_flag = partially_spied_2
-							has_character_flag = partially_spied_3}}
-				add_to_temporary_list = basic_acquaintances
+					if = {
+						limit = {NOR = {has_character_flag = partially_spied_2
+									has_character_flag = partially_spied_3}}
+						add_to_temporary_list = basic_acquaintances
+					}
 				}
 			}
 		every_war_ally = {

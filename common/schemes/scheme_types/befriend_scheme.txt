@@ -288,6 +288,7 @@
 			scope:owner.dynasty = {
 				has_dynasty_perk = kin_legacy_4
 			}
+			exists = scope:target.dynasty
 			scope:target.dynasty = scope:owner.dynasty
 		}
 

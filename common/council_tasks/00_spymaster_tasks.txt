@@ -616,6 +616,8 @@ task_find_secrets = { #FIND SECRETS TASK
 					is_allied_to = scope:target_character
 					has_hook = scope:target_character
 					## confederation = { any_confederation_member = { this = scope:target_character} } ## added by ljl
+					## this.GetConfederation = scope:target_character.GetConfederation ##added by ljl v1.17
+					## [17:18:41][E][jomini_eventtarget.cpp:692]: Error: "Unknown trigger: this.GetConfederation", Failed to find a valid event target link 'GetConfederation' at file: common/council_tasks/00_spymaster_tasks.txt line: 619 (task_find_secrets:valid_target_court)
 					# obf_is_in_same_confederation_as_root = yes ## added by ljl
 				}
 				scope:target_character = {

@@ -417,7 +417,7 @@ types  FactionWindow
 				coa_title_tiny = {
 					position = { 75 5 }
 					datacontext = "[Faction.GetSpecialTitle]"
-					visible = "[And( Faction.GetShowSpecialTitle, Faction.HasSpecialTitle )]"
+					visible = "[And( Faction.ShouldShowSpecialTitle, Faction.HasSpecialTitle )]"
 				}
 
 				text_label_center = {

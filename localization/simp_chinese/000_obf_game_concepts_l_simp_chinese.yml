@@ -4,6 +4,7 @@
  game_concept_over_12_years_old: "#e 青年与成年人#!"
  game_concept_over_12_years_old_desc: "12岁以上角色"
  game_concept_glow_matches_opinion: "#e 与好感度同步变化#!"
+ game_concept_glow_matches_opinion_desc: "小型头像的发光颜色将与该角色对你的好感度相匹配。如果你选择隐藏好感度，这将很有用，但仍然想要了解角色的基本意见……除了奸诈的角色，他们不会透露自己的意见。"
  game_concept_skill_masking: "#e 能力印象#!"
  game_concept_skill_masking_desc: "第一次与其他角色见面时，你对他们能力的评价可能与其真实能力有区别，这种误差会在一段时间后消失。\n这种误差并非随机产生，它受你的性格、教育、能力与对方的举止习惯与能力影响。谋略因素也在这种动态中发挥了作用。\n\n不过，如果你在特定领域接受的教育比对方好，你不会高估其在该领域的能力。你仍可能由于对方的谦逊而低估对方的能力。"
  game_concept_meta_traits: "#e 深层特质#!"

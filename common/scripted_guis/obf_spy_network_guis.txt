@@ -21,7 +21,7 @@ start_spy_network = {
 		limit = {NOT = {has_variable = spy_network}}
 		set_variable = {
 		name = spy_network
-		value = 0
+		value = 1.1 #0 game_start 没有spy_network
 			}
 		}
 	}

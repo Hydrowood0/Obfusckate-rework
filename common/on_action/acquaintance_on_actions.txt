@@ -1318,47 +1318,62 @@ flag_characters_on_game_start = {
 			
 		every_patroned_holy_order = {
 			leader = {
-				limit = {NOR = {has_character_flag = partially_spied_2
+				if = {
+					limit = {NOR = {has_character_flag = partially_spied_2
 							has_character_flag = partially_spied_3}}
+				
 				add_to_temporary_list = basic_acquaintances
+				}
 				}
 			}
 		every_hired_mercenary = {
 				mercenary_company_leader = {
-				limit = {NOR = {has_character_flag = partially_spied_2
-							has_character_flag = partially_spied_3}}
-				add_to_temporary_list = basic_acquaintances
+				if = {
+					limit = {NOR = {has_character_flag = partially_spied_2
+								has_character_flag = partially_spied_3}}
+					add_to_temporary_list = basic_acquaintances
+					}
 				}
 			}
 		every_war_ally = {
+			if = {
 				limit = {NOR = {has_character_flag = partially_spied_2
 							has_character_flag = partially_spied_3}}
 				add_to_temporary_list = basic_acquaintances
 			}
-		
-		every_in_list = {
-			limit = {
-			is_alive = yes
-						NOT = {this = scope:player_character}}
-			list = basic_acquaintances
-			character_met_effect = yes
 			}
+		
+		# every_in_list = {
+		# 	#if = {
+		# 	limit = {
+		# 	is_alive = yes
+		# 				NOT = {this = scope:player_character}}
+		# 	list = basic_acquaintances
+		# 	character_met_effect = yes
+		# 	#}
+		# 	}
 			
 		if = {
 			limit = {OR = {is_councillor = yes
 							is_knight = yes	}}
 		liege = {
 		every_consort = {
+			if = {
 				limit = {NOT = {has_character_flag = partially_spied_3}}
 				add_to_temporary_list = position_acquaintances
 			}
+			}
 		every_courtier = {
+			if = {
 				limit = {NOT = {has_character_flag = partially_spied_3}}
 				add_to_temporary_list = position_acquaintances_low
 			}
+			}
 		every_court_position_holder = {
+			if = {
 				limit = {NOT = {has_character_flag = partially_spied_3}}
 				add_to_temporary_list = position_acquaintances_low
+			}
 			}
 
 		}
@@ -1442,6 +1457,9 @@ flag_characters_on_game_start = {
 ###BIRTHDAY - FLAG CHARACTERS #TESTED AN WORKING
 #On action triggered every birthday on player character to add flags to already related persons so they are not forgotten when divorcing, leaving court and etc
 on_birthday = {
+		trigger = { ##added by ljl
+			is_ai = no
+		}
 		on_actions ={
 				make_acquaintances_from_knowledge
 				make_acquaintances_from_position_knowledge
@@ -2792,31 +2810,39 @@ make_acquaintances_from_knowledge = {#TESTED AN WORKING
 			
 		every_patroned_holy_order = {
 			leader = {
-				limit = {NOR = {has_character_flag = partially_spied_2
+				if = {
+					limit = {NOR = {has_character_flag = partially_spied_2
 							has_character_flag = partially_spied_3}}
 				add_to_temporary_list = basic_acquaintances
+				}
 				}
 			}
 		every_hired_mercenary = {
 				mercenary_company_leader = {
-				limit = {NOR = {has_character_flag = partially_spied_2
-							has_character_flag = partially_spied_3}}
-				add_to_temporary_list = basic_acquaintances
+				if = {
+					limit = {NOR = {has_character_flag = partially_spied_2
+								has_character_flag = partially_spied_3}}
+					add_to_temporary_list = basic_acquaintances
+					}
 				}
 			}
 		every_war_ally = {
+			if = {
 				limit = {NOR = {has_character_flag = partially_spied_2
 							has_character_flag = partially_spied_3}}
 				add_to_temporary_list = basic_acquaintances
 			}
-		
-		every_in_list = {
-			limit = {
-			is_alive = yes
-						NOT = {this = scope:player_character}}
-			list = basic_acquaintances
-			character_met_effect = yes
 			}
+		
+		# every_in_list = {
+		# 	#if = {
+		# 	limit = {
+		# 	is_alive = yes
+		# 				NOT = {this = scope:player_character}}
+		# 	list = basic_acquaintances
+		# 	character_met_effect = yes
+		# 	#}
+		# 	}
 			
 		}
 	}
@@ -2932,6 +2958,9 @@ make_acquaintances_from_regency_knowledge = {#TESTED AN WORKING
 	}
 #trigger flags when becoming regent #TESTED AN WORKING
 on_entered_diarchy = {
+		trigger = { ##added by ljl
+			is_ai = no
+		}		
 		on_actions ={
 				make_acquaintances_from_entering_regency
 		}
@@ -3008,6 +3037,9 @@ make_acquaintances_from_entering_regency = {#TESTED AN WORKING
 ####DEATH - CHARACTER DIES AND MUST RENEW FLAGS#TESTED AN WORKING
 #Character dies so heir only retains basic info about characters the previous heir met
 on_death = {
+		trigger = { ##added by ljl
+			is_ai = no
+		}
 		on_actions ={
 				remove_flags
 				new_flags
@@ -3092,8 +3124,12 @@ remove_flags = { #remove flags from previous ruler relations
 quarterly_playable_pulse = {
 		on_actions ={
 				heard_rumours_on_action
-				delay = {days = 5}
+				delay = {days = 1}
 				check_rebellious_faction #### THIS CHECKS FOR REBELLIOUS FACTIONS
+				spy_network_on_action
+				delay = { months = 1 }
+				spy_network_on_action
+				delay = { months = 1 }
 				spy_network_on_action
 				
 		}
@@ -3141,6 +3177,9 @@ discover_liar = {
 ##NEW RELATIONS - ADD FLAGS
 ### Add Flags when relations are set
 on_set_relation_lover = {
+		trigger = { ##added by ljl
+			is_ai = no
+		}	
 		on_actions ={
 				make_acquaintances_from_relation
 				make_acquaintances_from_relations_of_relation
@@ -3148,6 +3187,9 @@ on_set_relation_lover = {
 }
 
 on_set_relation_grudge = {
+		trigger = { ##added by ljl
+			is_ai = no
+		}
 		on_actions ={
 				make_acquaintances_from_relation
 				make_acquaintances_from_relations_of_relation
@@ -3155,39 +3197,83 @@ on_set_relation_grudge = {
 }
 
 on_set_relation_soulmate = {
+		trigger = { ##added by ljl
+			is_ai = no
+		}
 		on_actions ={
 				make_acquaintances_from_relation
 				make_acquaintances_from_relations_of_relation
 		}
 }
 on_set_relation_friend = {
+		trigger = { ##added by ljl
+			is_ai = no
+		}
 		on_actions ={
 				make_acquaintances_from_relation
 				make_acquaintances_from_relations_of_relation
 		}
 }
 on_set_relation_best_friend = {
+		trigger = { ##added by ljl
+			is_ai = no
+		}
 		on_actions ={
 				make_acquaintances_from_relation
 				make_acquaintances_from_relations_of_relation
 		}
 }
 on_set_relation_rival = {
+		trigger = { ##added by ljl
+			is_ai = no
+		}
 		on_actions ={
 				make_acquaintances_from_relation
 		}
 }
 on_set_relation_nemesis = {
+		trigger = { ##added by ljl
+			is_ai = no
+		}
 		on_actions ={
 				make_acquaintances_from_relation
 		}
 }
+
 on_set_relation_guardian = {
+		trigger = { ##added by ljl
+			is_ai = no
+		}
 		on_actions ={
 				make_acquaintances_from_relation
 				make_acquaintances_for_liege_of_ward
 		}
-}    
+}  
+on_set_relation_blood_brother = {
+		trigger = { ##added by ljl v1.16
+			is_ai = no
+		}
+		on_actions ={
+				make_acquaintances_from_relation
+				make_acquaintances_from_relations_of_relation
+		}
+}  
+on_set_relation_disciple = {
+		trigger = { ##added by ljl v1.18
+			is_ai = no
+		}
+		on_actions ={
+				make_acquaintances_from_relation
+		}
+}  
+on_set_relation_elder = {
+		trigger = { ##added by ljl v1.18
+			is_ai = no
+		}
+		on_actions ={
+				make_acquaintances_from_relation
+		}
+}   
 
 make_acquaintances_from_relation = {
 	trigger = {
@@ -3215,7 +3301,7 @@ make_acquaintances_from_relation = {
 			character_known_effect = yes
 			} 
 		}
-	}
+}
 
 make_acquaintances_from_relations_of_relation = {
 	trigger = {
@@ -3323,7 +3409,7 @@ make_acquaintances_for_liege_of_ward = {
 			character_barely_known_effect = yes
 			} 
 		}
-	}
+}
 	
 ###ADD FLAG TO ALLY	
 on_alliance_added = {
@@ -3996,7 +4082,7 @@ trigger = {
 scope:host = {is_ai = no
 				is_alive = yes
 				is_adult = yes
-				is_landless_adventurer = no
+				is_landless_adventurer = no #commented by ljl 
 				is_incapable = no}
 scope:guest = {exists = var:last_visited_ruler
 			NOT = {var:last_visited_ruler = scope:host}
@@ -4043,7 +4129,7 @@ trigger = {
 scope:new_employer = {is_ai = no
 				is_alive = yes
 				is_adult = yes
-				is_landless_adventurer = no
+				is_landless_adventurer = no #commented by ljl 
 				is_incapable = no}
 root = {exists = scope:old_employer
 			NOT = {scope:old_employer = scope:new_employer}
@@ -4138,28 +4224,31 @@ make_acquaintances_from_landless_joining_war = {
 
 check_rebellious_faction = { ###For rebelllious factions
 	trigger = {
-	is_ai = no
-	is_alive = yes
-	any_targeting_faction = {
-						exists = yes
-						NOT = {faction_is_type = peasant_faction}
-						OR = {faction_can_press_demands = yes
-						AND = {faction_is_type = independence_faction
-						faction_discontent >= 90}
-						AND = {faction_is_type = nation_fracturing_faction
-						faction_discontent >= 85}
-						AND = {faction_is_type = liberty_faction
-						faction_discontent >= 80}
-						AND = {faction_is_type = claimant_faction
-						faction_discontent >= 75}
-						AND = {faction_is_type = populist_faction
-						faction_discontent >= 60}
-						AND = {faction_is_type = peasant_faction
-						faction_discontent >= 50}}}
-					}
+		is_ai = no
+		is_alive = yes
+		any_targeting_faction = {
+			exists = yes
+			NOT = {faction_is_type = peasant_faction}
+			OR = {
+				faction_can_press_demands = yes
+				AND = {faction_is_type = independence_faction
+				faction_discontent >= 90}
+				AND = {faction_is_type = nation_fracturing_faction
+				faction_discontent >= 85}
+				AND = {faction_is_type = liberty_faction
+				faction_discontent >= 80}
+				AND = {faction_is_type = claimant_faction
+				faction_discontent >= 75}
+				AND = {faction_is_type = populist_faction
+				faction_discontent >= 60}
+				AND = {faction_is_type = peasant_faction
+				faction_discontent >= 50}
+			}
+		}
+	}
 	events = {
-	obf_faction_event.1000
-	obf_faction_event.1001
+		obf_faction_event.1000
+		obf_faction_event.1001
 	}
 }
 
@@ -4169,11 +4258,15 @@ spy_network_on_action = { ###Spy network cycle
 	is_alive = yes
 	is_adult = yes
 	is_incapable = no
-	is_landless_adventurer = no
-	OR = {NOT = {exists = cp:councillor_spymaster}
-	NOT = {has_variable = pause_spy_network}
-	var:spy_network > var:spy_network_budget}
-	has_variable = spy_network}
+	is_landless_adventurer = no #commented by ljl 
+	has_variable = spy_network
+		# OR = {
+		# 	NOT = {exists = cp:councillor_spymaster}
+		# 	NOT = {has_variable = pause_spy_network}
+		# 	has_variable = spy_network
+		# 	var:spy_network > var:spy_network_budget
+		# }
+	}
 	
 	effect = {
 			
@@ -4182,6 +4275,7 @@ spy_network_on_action = { ###Spy network cycle
 			change_variable = {
 			name = spy_network
 			add = spy_network_value
+			# add = 1 #debug successful
 					}
 		}
 	if = {
@@ -4207,7 +4301,7 @@ set_up_spy_network_on_start_on_action = { ###Set Network on start
 	if = {
 		limit = {scope:player_character = {
 				is_ai = no
-				is_landless_adventurer = no
+				is_landless_adventurer = no #commented by ljl 
 				is_alive = yes
 				is_adult = yes
 				is_incapable = no}}
@@ -4237,7 +4331,7 @@ set_up_spy_network_on_death_on_action = { ###Set Network on death if heir is adu
 		save_scope_as = player_character
 	if = {
 		limit = {scope:player_character = {
-				is_landless_adventurer = no
+				is_landless_adventurer = no #commented by ljl 
 				is_alive = yes
 				is_adult = yes
 				is_incapable = no}}

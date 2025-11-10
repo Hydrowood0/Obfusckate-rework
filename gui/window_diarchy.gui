@@ -235,7 +235,7 @@ window = {
 										size = { 0 40 }
 										allow_outside = yes
 
-										visible = "[ComplexBarItem.IsVisible]"
+										visible = "[And( ComplexBarItem.IsVisible, GreaterThan_int32( DiarchyWindow.GetLevelForSwing( ComplexBarItem.GetValue ), '(int32)0' ) )]"
 
 										### Current marker glow
 										icon = {
@@ -559,7 +559,7 @@ window = {
 		}
 
 		vbox = {
-			visible = "[Not(DiarchyWindow.IsAvailableDiarchsShown)]"
+			visible = "[Not(DiarchyWindow.IsAvailableDiarchsShown)]" #If there is no active diarchy we display regency succession
 			layoutpolicy_horizontal = expanding
 			layoutpolicy_vertical = expanding
 
@@ -589,11 +589,21 @@ window = {
 				margin = { 8 0 }
 			}
 
+			text_single = {
+				visible = "[And(Not(DiarchyWindow.IsAvailableDiarchsShown),And(Not(DiarchyWindow.HasSuccession),DiarchyWindow.HasActiveScalesOfPower))]"
+				layoutpolicy_horizontal = expanding
+
+				text = "DIARCHY_WINDOW_NO_SUCCESSION"
+				align = nobaseline
+
+				margin = { 8 0 }
+			}
+
 			expand = {}
 
 			fixedgridbox = {
 				name = "regent_succession_tutorial_uses_this"
-				visible = "[Not(DiarchyWindow.IsAvailableDiarchsShown)]"
+				visible = "[And(Not(DiarchyWindow.IsAvailableDiarchsShown),Or(DiarchyWindow.HasSuccession,Not(DiarchyWindow.HasActiveScalesOfPower)))]"
 
 				datamodel = "[DiarchyWindow.GetDiarchySuccession]"
 				addcolumn = 150
@@ -647,7 +657,7 @@ window = {
 								hbox_diarch_succession_score = {
 									blockoverride "succession_score"
 									{
-										text = "[DiarchySuccessor.GetScore]"
+										text = "[DiarchySuccessor.GetScore|V0]"
 									}
 								}
 
@@ -683,7 +693,7 @@ window = {
 						text = DIARCHY_WINDOW_END_DIARCHY
 
 						tooltip = "[Character.GetPlayerInteractionTooltip( DiarchyWindow.GetEndInteractionName )]"
-
+						tooltip_when_disabled = "[Character.GetPlayerInteractionValidBlockers(DiarchyWindow.GetEndInteractionName)]"
 						icon = {
 							position = { 4 4 }
 							size = { 30 30 }
@@ -1092,7 +1102,7 @@ types DiarchyWindowTypes {
 						}
 
 						text_single = {
-							visible = "[InDebugMode]"
+							visible = "[AIWatchWindowsEnabled]"
 							layoutpolicy_horizontal = expanding
 
 							raw_text = "Ai Score: [DiarchyWindow.GetMandateAiScore( Mandate.Self )]"

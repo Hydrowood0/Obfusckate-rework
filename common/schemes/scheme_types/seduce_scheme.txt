@@ -531,10 +531,10 @@
 			add = kin_legacy_4_success_chance
 			desc = KIN_LEGACY_DESC
 			exists = scope:owner.dynasty
-			scope:owner.dynasty = {
+			scope:owner.dynasty ?={
 				has_dynasty_perk = kin_legacy_4
 			}
-			scope:target.dynasty = scope:owner.dynasty
+			scope:target.dynasty ?=scope:owner.dynasty
 		}
 
 		# House Personal Scheme Success Chance on Cultural Parameter
@@ -806,10 +806,12 @@
 				scope:target = {is_attracted_to_gender_of = scope:owner} 
 				OR = {
 					scope:target = {
-						existing_feud_against_target_trigger = { TARGET = scope:owner }
+						# existing_feud_against_target_trigger = { TARGET = scope:owner }
+						valid_for_feud_events_with_target_trigger = { TARGET = scope:owner }
 					}
 					scope:owner = {
-						existing_feud_against_target_trigger = { TARGET = scope:target }
+						# existing_feud_against_target_trigger = { TARGET = scope:target }
+						valid_for_feud_events_with_target_trigger = { TARGET = scope:target }
 					}
 				}
 			}
@@ -1581,7 +1583,7 @@ courting = {
 			add = 40
 			desc = SCHEME_TRAIT_POET
 			scope:owner = {
-				has_trait = poet
+				has_trait = lifestyle_poet
 				culture = {
 					has_cultural_parameter = poet_trait_romance_bonuses
 				}
@@ -1602,10 +1604,10 @@ courting = {
 			add = kin_legacy_4_success_chance
 			desc = KIN_LEGACY_DESC
 			exists = scope:owner.dynasty
-			scope:owner.dynasty = {
+			scope:owner.dynasty ?={
 				has_dynasty_perk = kin_legacy_4  
 			}  
-			scope:target.dynasty = scope:owner.dynasty
+			scope:target.dynasty ?=scope:owner.dynasty
 		}
 
 		# House Personal Scheme Success Chance on Cultural Parameter
@@ -1699,64 +1701,6 @@ courting = {
 		}
 	}
 
-	on_phase_completed = {
-		# Grab our scopes.
-		save_scope_as = scheme
-		scheme_target_character = { save_scope_as = target }
-		scheme_owner = { save_scope_as = owner }
-		scope:scheme = {
-			# Set up a block for the inappropriate cheating error?
-			save_scope_value_as = {
-				name = ignore_cheating_error_check
-				value = yes
-			}
-			# Proceed to rolls.
-			scheme_owner = {
-				#DISCOVERY ROLL
-				save_scope_value_as = {
-					name = discovery_chance
-					value = {
-						value = 100
-						subtract = scope:scheme.scheme_secrecy
-					}
-				}
-				random = {
-					chance = scope:discovery_chance
-					save_scope_value_as = {
-						name = scheme_discovered
-						value = yes
-					}
-				}
-
-				#SUCCESS ROLL
-				random = {
-					chance = scope:scheme.scheme_success_chance
-
-					save_scope_value_as = {
-						name = scheme_successful
-						value = yes
-					}
-				}
-
-				#CONTINUE WITH OUTCOME ON_ACTION FOR AI TARGETS
-				if = {
-					limit = { scope:target = { is_ai = yes } }
-
-					trigger_event = {
-						on_action = court_outcome
-					}
-				}
-				#FOR PLAYER CHARACTER, SEND CHOICE EVENT
-				else = {
-					scope:target = {
-						trigger_event = {
-							id = court_outcome.0003
-						}
-					}
-				}
-			}
-		}
-	}
 
 	on_start = {
 		set_variable = {

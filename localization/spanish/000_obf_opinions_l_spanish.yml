@@ -1,22 +1,22 @@
 ﻿l_spanish:
-#added by obfusCKate: Start
-cooltip_opinion_excellent: "Excellent"
-cooltip_opinion_very_good: "Very Good"
-cooltip_opinion_good: "Good"
-cooltip_opinion_decent: "Decent"
-cooltip_opinion_neutral: "Neutral"
-cooltip_opinion_poor: "Poor"
-cooltip_opinion_awful: "Awful"
-cooltip_opinion_terrible: "Terrible"
-cooltip_opinion_abysmal: "Abysmal"
-cooltip_opinion_short_excellent: "excel"
-cooltip_opinion_short_very_good: "vgood"
-cooltip_opinion_short_good: "good"
-cooltip_opinion_short_decent: "decnt"
-cooltip_opinion_short_neutral: "neutr"
-cooltip_opinion_short_poor: "poor"
-cooltip_opinion_short_awful: "awful"
-cooltip_opinion_short_terrible: "trrbl"
-cooltip_opinion_short_abysmal: "absm"
-  #changed by obfusCKate: End
- 
+ #added by obfusCKate: Start 
+ cooltip_opinion_excellent: "Excellent" #NT!
+ cooltip_opinion_very_good: "Very Good" #NT!
+ cooltip_opinion_good: "Good" #NT!
+ cooltip_opinion_decent: "Decent" #NT!
+ cooltip_opinion_neutral: "Neutral" #NT!
+ cooltip_opinion_poor: "Poor" #NT!
+ cooltip_opinion_awful: "Awful" #NT!
+ cooltip_opinion_terrible: "Terrible" #NT!
+ cooltip_opinion_abysmal: "Abysmal" #NT!
+ cooltip_opinion_short_excellent: "excel" #NT!
+ cooltip_opinion_short_very_good: "vgood" #NT!
+ cooltip_opinion_short_good: "good" #NT!
+ cooltip_opinion_short_decent: "decnt" #NT!
+ cooltip_opinion_short_neutral: "neutr" #NT!
+ cooltip_opinion_short_poor: "poor" #NT!
+ cooltip_opinion_short_awful: "awful" #NT!
+ cooltip_opinion_short_terrible: "trrbl" #NT!
+ cooltip_opinion_short_abysmal: "absm" #NT!
+   #changed by obfusCKate: End 
+  
