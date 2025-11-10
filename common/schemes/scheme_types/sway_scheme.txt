@@ -446,10 +446,11 @@
 			add = kin_legacy_4_success_chance
 			desc = KIN_LEGACY_DESC
 			exists = scope:owner.dynasty
-			scope:owner.dynasty = {
+			scope:owner.dynasty ?= {
 				has_dynasty_perk = kin_legacy_4
 			}
-			scope:target.dynasty = scope:owner.dynasty
+			exists = scope:target.dynasty
+			scope:target.dynasty ?= scope:owner.dynasty
 		}
  
 		# House Personal Scheme Success Chance on Cultural Parameter

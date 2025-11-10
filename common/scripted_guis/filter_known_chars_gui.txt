@@ -20,30 +20,31 @@
 	every_living_character = {
 		limit = {
 			NOT = {this = root}
-			#OR = {
+			OR = {
 			obf_has_high_level_knowledge_flags = yes
-			#has_character_flag = partially_spied_2
-			#has_character_flag = partially_spied
-			#has_character_flag = has_been_spied
-			#has_character_flag = emissary_sent
-			#has_character_flag = partially_spied_2
-			#obf_has_relation_that_would_talk_about_him = yes
-			#obf_has_close_or_intimate_relation = yes
-			#obf_has_near_intimate_or_close_relation = yes
-			#is_close_or_extended_family_of = root
-			#obf_has_important_court_position = yes
-			#obf_is_courtier_or_guest = yes
-			#obf_has_guardian_or_ward_relation = yes
-			#is_imprisoned_by = root
-			#this = root.liege
-			#is_contact_of = root
-			#is_vassal_of = root ##added by ljl
-			#is_tributary_of = root
-			#obf_is_fellow_vassal_or_liege_councillor = yes
-			#obf_works_in_same_court = yes
-			#is_allied_to = root 
-			#obf_has_rival_or_negative_relation = yes
-			#}
+			has_character_flag = partially_spied_2
+			has_character_flag = partially_spied
+			has_character_flag = has_been_spied
+			# # has_character_flag = emissary_sent
+			# # has_character_flag = partially_spied_2
+			# obf_has_relation_that_would_talk_about_him = yes
+			# obf_has_close_or_intimate_relation = yes
+			# obf_has_near_intimate_or_close_relation = yes
+			# is_close_or_extended_family_of = root
+			# obf_has_important_court_position = yes
+			# obf_is_courtier_or_guest = yes
+			# obf_has_guardian_or_ward_relation = yes
+			# is_imprisoned_by = root
+			# this = root.liege
+			# is_contact_of = root
+			# is_vassal_of = root ##added by ljl
+			# has_relation_disciple = root ##added by ljl v1.18
+			# is_tributary_of = root ##added by ljl v1.16
+			# obf_is_fellow_vassal_or_liege_councillor = yes
+			# obf_works_in_same_court = yes
+			# is_allied_to = root 
+			# obf_has_rival_or_negative_relation = yes
+			}
 		}
 
 			add_to_temporary_list = known_people
@@ -95,11 +96,33 @@ obf_player_knows_the_character = {
 	clear_variable_list = people_you_know
 	every_living_character = {
 		limit = {
-			#OR = {
+			OR = {
 			obf_has_high_level_knowledge_flags = yes
-			#has_character_flag = partially_spied_2
-			#has_character_flag = partially_spied
-			#}
+			has_character_flag = partially_spied_2
+			has_character_flag = partially_spied
+			has_character_flag = has_been_spied
+			# has_character_flag = partially_spied_2
+			# has_character_flag = partially_spied
+			# has_character_flag = has_been_spied
+			# has_character_flag = emissary_sent
+			# obf_has_relation_that_would_talk_about_him = yes
+			# obf_has_close_or_intimate_relation = yes
+			# obf_has_near_intimate_or_close_relation = yes
+			# is_close_or_extended_family_of = root
+			# obf_has_important_court_position = yes
+			# obf_is_courtier_or_guest = yes
+			# obf_has_guardian_or_ward_relation = yes
+			# is_imprisoned_by = root
+			# this = root.liege
+			# is_contact_of = root
+			# is_vassal_of = root ##added by ljl v1.16
+			# has_relation_disciple = root ##added by ljl v1.18
+			# is_tributary_of = root ##added by ljl v1.16
+			# obf_is_fellow_vassal_or_liege_councillor = yes
+			# obf_works_in_same_court = yes
+			# is_allied_to = root 
+			# obf_has_rival_or_negative_relation = yes
+			}
 		}
 
 			add_to_temporary_list = known_people

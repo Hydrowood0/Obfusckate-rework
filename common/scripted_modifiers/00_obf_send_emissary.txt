@@ -652,6 +652,7 @@ send_emissary_modifier = {
 			trigger = {
 				scope:recipient = {
 					is_allied_to = scope:actor
+					## this.GetConfederation = scope:actor.GetConfederation ##added by ljl v1.17
 					### confederation = { any_confederation_member = { this = scope:actor } }# added by ljl
 				}
 			}
@@ -697,7 +698,7 @@ send_emissary_modifier = {
 		desc = SEND_EMISSARY_FRIENDLY_STANCE
 			scope:recipient = {
 			NOT = { is_allied_to = scope:actor }
-			NOT = { ### confederation ?= { any_confederation_member = { this ?= scope:actor } }}# added by ljl
+			### NOT = { ### confederation ?= { any_confederation_member = { this ?= scope:actor } }}# added by ljl
 			NOT = { scope:recipient.court_owner.top_liege = scope:actor.top_liege }
 			ai_diplomacy_stance = {
 				target = scope:actor

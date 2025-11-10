@@ -1,7 +1,14 @@
 ﻿### Intel_network
 
 building_intel_network_modifier = {
-	icon = mask_intel
+	#icon = mask_intel
+	icon = "gfx/interface/icons/modifiers/mask_mixed.dds"
+	# icon = {
+	# 	name = "mask_intel"
+	# 	#size = { 20 20 }
+	# 	texture = "gfx/interface/icons/modifiers/mask_mixed.dds"
+	# 	#framesize = { 40 40 }
+	# }
 	monthly_income = -0.1
 	
 	scale = {
@@ -14,12 +21,12 @@ building_intel_network_modifier = {
 		}
 		divide = 2
 		}
-		if = {
-		limit = {
-			highest_held_title_tier <= tier_county
-		}
-		divide = 2
-		}
+		# if = {
+		# limit = {
+		# 	highest_held_title_tier <= tier_county
+		# }
+		# divide = 2
+		# }
 		if = {
 		limit = {
 			stewardship < 9

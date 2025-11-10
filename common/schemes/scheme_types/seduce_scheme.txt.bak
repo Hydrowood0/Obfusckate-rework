@@ -1581,7 +1581,7 @@ courting = {
 			add = 40
 			desc = SCHEME_TRAIT_POET
 			scope:owner = {
-				has_trait = poet
+				has_trait = lifestyle_poet
 				culture = {
 					has_cultural_parameter = poet_trait_romance_bonuses
 				}

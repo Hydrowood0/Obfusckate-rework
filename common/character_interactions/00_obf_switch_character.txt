@@ -2,6 +2,7 @@
 	category = interaction_category_friendly
 	use_diplomatic_range = no
 	ignores_pending_interaction_block = yes
+	auto_accept = yes ##added by ljl
 	common_interaction = yes
 	desc = switch_character_interaction_desc
 	is_highlighted = {
@@ -1370,24 +1371,32 @@
 			
 		every_patroned_holy_order = {
 			leader = {
+				if = {
+					limit = {NOR = {has_character_flag = partially_spied_2
+							has_character_flag = partially_spied_3}}
 				limit = {NOR = {has_character_flag = partially_spied_2
 							has_character_flag = partially_spied_3}}
 				add_to_temporary_list = basic_acquaintances
+				}
 				}
 			}
 		every_hired_mercenary = {
-				mercenary_company_leader = {
-				limit = {NOR = {has_character_flag = partially_spied_2
-							has_character_flag = partially_spied_3}}
-				add_to_temporary_list = basic_acquaintances
+			mercenary_company_leader = {
+				if = {		
+					limit = {NOR = {has_character_flag = partially_spied_2
+								has_character_flag = partially_spied_3}}
+					add_to_temporary_list = basic_acquaintances
+					}
 				}
 			}
 		every_war_ally = {
-				limit = {NOR = {has_character_flag = partially_spied_2
-							has_character_flag = partially_spied_3}}
-				add_to_temporary_list = basic_acquaintances
-			}
-		
+			if = {		
+					limit = {NOR = {has_character_flag = partially_spied_2
+								has_character_flag = partially_spied_3}}
+			}				
+			add_to_temporary_list = basic_acquaintances
+		}
+
 		every_in_list = {
 			limit = {
 			is_alive = yes

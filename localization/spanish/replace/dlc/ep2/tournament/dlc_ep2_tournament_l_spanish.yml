@@ -1,7 +1,7 @@
 ﻿l_spanish:
-
- ##### Changed #####
- character_contest_type_aptitude_wit:1 "#T $character_contest_type_aptitude_start$ $tournament_contest_type_wit$ [contest_aptitude|E]"
- character_contest_type_aptitude_horse:1 "#T $character_contest_type_aptitude_start$ $tournament_contest_type_horse$ [contest_aptitude|E]"
- character_contest_type_aptitude_archery:1 "#T $character_contest_type_aptitude_start$ $tournament_contest_type_archery$ [contest_aptitude|E]"
- character_contest_type_aptitude_foot:1 "#T $character_contest_type_aptitude_start$ $tournament_contest_type_foot$ [contest_aptitude|E]"
+  
+  ##### Changed ##### 
+ character_contest_type_aptitude_wit: "#T [contest_aptitude|E] en $tournament_contest_type_wit$ $character_contest_type_aptitude_start$: [Character.Custom('GetContestTypeWitAptitude')]#![AddTextIf( Not( StringIsEmpty( Character.MakeScope.GetScriptValueDesc('contest_type_aptitude_wit') ) ), Concatenate( '\n', Character.MakeScope.GetScriptValueDesc('contest_type_aptitude_wit') ) )]"
+ character_contest_type_aptitude_horse: "#T [contest_aptitude|E] a $tournament_contest_type_horse$ $character_contest_type_aptitude_start$: [Character.Custom('GetContestTypeHorseAptitude')]#![AddTextIf( Not( StringIsEmpty( Character.MakeScope.GetScriptValueDesc('contest_type_aptitude_horse') ) ), Concatenate( '\n', Character.MakeScope.GetScriptValueDesc('contest_type_aptitude_horse') ) )]"
+ character_contest_type_aptitude_archery: "#T [contest_aptitude|E] en $tournament_contest_type_archery$ $character_contest_type_aptitude_start$: [Character.Custom('GetContestTypeArcheryAptitude')]#![AddTextIf( Not( StringIsEmpty( Character.MakeScope.GetScriptValueDesc('contest_type_aptitude_archery') ) ), Concatenate( '\n', Character.MakeScope.GetScriptValueDesc('contest_type_aptitude_archery') ) )]"
+ character_contest_type_aptitude_foot: "#T [contest_aptitude|E] a $tournament_contest_type_foot$ $character_contest_type_aptitude_start$: [Character.Custom('GetContestTypeFootAptitude')]#![AddTextIf( Not( StringIsEmpty( Character.MakeScope.GetScriptValueDesc('contest_type_aptitude_foot') ) ), Concatenate( '\n', Character.MakeScope.GetScriptValueDesc('contest_type_aptitude_foot') ) )]"

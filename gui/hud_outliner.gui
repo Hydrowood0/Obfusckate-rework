@@ -768,6 +768,8 @@ types Outliner {
 							default_format = "#high"
 							using = Font_Size_Medium
 							align = nobaseline
+							max_width = 220
+							tooltip = "[OutlinerPlayer.GetName]"
 						}
 
 						widget = {
@@ -779,6 +781,7 @@ types Outliner {
 								default_format = "#high"
 								using = Font_Size_Small
 								align = nobaseline
+								max_width = 220
 							}
 						}
 					}
@@ -1114,7 +1117,7 @@ types Outliner {
 										icon = {
 											visible = "[GreaterThan_int32(GetDataModelSize(Army.GetCommander.MakeScope.Var('commander_story').GetList('PoW')),'(int32)0')]"
 											name = "paper_texture_overlay"
-											texture = "gfx/punishment.dds"
+											texture = "gfx/interface/icons/portraits/punishment.dds"
 											size = { 25 25 }
 										# position = { -50 40 }
 										tooltipwidget = { PoW_in_unit_tooltip = {} }
@@ -1328,6 +1331,7 @@ types Outliner {
 							### Extended Outliner End
 
 							hbox = {
+
 								text_single = {
 									max_width = 80
 									name = "holding_name"
@@ -1490,7 +1494,7 @@ types Outliner {
 	type outliner_domicile_info = vbox {
 		name = "domiciles"
 		datacontext = "[GetPlayer.GetDomicile]"
-		visible = "[Outliner.IsCategoryShown('domicile')]"
+		visible = "[And( And( GetPlayer.IsValid, GetPlayer.GetDomicile.IsValid ), Outliner.IsCategoryShown('domicile') )]"
 		
 		layoutpolicy_horizontal = expanding
 		
@@ -1762,6 +1766,7 @@ types Outliner {
 						minimumsize = { 0 10 }
 
 						vbox = {
+							visible = "[Domicile.IsConstructing]"
 							tooltip = "[Domicile.GetBuildingUnderConstruction.GetConstructionTooltip( GetPlayer.Self )]"
 							using = tooltip_ws
 							
@@ -1809,10 +1814,11 @@ types Outliner {
 						}
 
 						text_single = {
-							margin_right = 52
+							## margin_right = 52
 							visible = "[Domicile.CanUpgradeMain]"
 							text = "[Domicile.GetUpgradeMainText]"
 							default_format = "#P"
+							max_width = 255
 						}
 					}
 				}

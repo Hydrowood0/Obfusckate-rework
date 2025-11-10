@@ -838,10 +838,15 @@ template obf_Visible_Spy_High_Holding {
 	visible = "[Or(SpyNetworkHigh,ShowHoldingStats)]"
 }
 template obf_Visible_Spy_High_With_Holding {
-	visible = "[And(Or(SpyNetworkHigh,ShowHoldingStats), HoldingView.HasHolding)]"
+	# visible = "[And(Or(SpyNetworkHigh,ShowHoldingStats), HoldingView.HasHolding)]"
+	# visible = "[And( HoldingView.HasHolding, Not( Holding.GetType.HasParameter( 'no_levies' ) ) )]"
+	visible = "[And(Or(SpyNetworkHigh,ShowHoldingStats), And( HoldingView.HasHolding, Not( Holding.GetType.HasParameter( 'no_levies' ) ) ))]"
+
 }
 template obf_Visible_Spy_Medium_With_Holding {
-	visible = "[And(Or(SpyNetworkMedium,ShowHoldingStats), HoldingView.HasHolding)]"
+	#visible = "[And(Or(SpyNetworkMedium,ShowHoldingStats), HoldingView.HasHolding)]"
+	#visible = "[And( HoldingView.HasHolding, Not( Holding.GetHolder.HasBarterGoods ) )]"
+	visible = "[And(Or(SpyNetworkMedium,ShowHoldingStats), And( HoldingView.HasHolding, Not( Holding.GetHolder.HasBarterGoods ) ))]"
 }
 template obf_Visible_Spy_Low_With_Holding {
 	visible = "[And(Or(SpyNetworkLow,ShowHoldingStats), HoldingView.HasHolding)]"

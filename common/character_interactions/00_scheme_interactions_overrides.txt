@@ -614,7 +614,8 @@ seduce_interaction = {
 					any_owned_story = {
 						story_type = story_cycle_house_feud
 						has_variable = house_feud_house
-						var:house_feud_house = scope:recipient.primary_spouse.house
+						var:house_feud_house ?= scope:recipient.primary_spouse.house
+						#[17:18:56][E][jomini_effect.cpp:1152]: Variable 'house_feud_house' is used but is never set. Setting it in an unused scripted trigger or effect does not count
 					}
 				}
 				has_opinion_modifier = {

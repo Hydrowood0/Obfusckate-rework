@@ -667,7 +667,7 @@ types Lists
 					size = { 30 30 }
 
 					icon = {
-						texture = "gfx/interface/icons/currencies/icon_prestige_01.dds"
+						texture = "gfx/interface/icons/modifiers/icon_prestige_01.dds"
 						size = { 30 30 }
 					}
 

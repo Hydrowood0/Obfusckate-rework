@@ -1,10 +1,10 @@
 ﻿l_spanish:
-#added by obfusCKate: Start
-WINDOW_ARMY_CHECK_CHARACTER:"See Char Window"
-WINDOW_ARMY_CHECK_FOR_INFORMATION:"Check character window for #E information#! on army an allies... ...#BER if you have it.#!"
-#changed by obfusCKate:End
-
-COA_REALM_TOOLTIP_CHARACTER:4 "#T [CHARACTER.GetPrimaryTitle.GetNameWithUnderlyingNoTooltip|U]#!\n[CHARACTER.GetGovernment.GetName] [CHARACTER.GetPrimaryTitle.GetRankConcept]-[rank|E] [realm|E]\n[ruler|E]: [CHARACTER.GetUIName|U]\nRealm Size: [CHARACTER.RealmSize|V] [counties|E]\n\n#S Succession#!\nSuccession Law: $SUCCESSION_FORM_NAME$\n\n[line_of_succession|E]:\n[CHARACTER.GetPrimaryTitle.GetLineOfSuccessionDesc]"
-
- #changed by obfusCKate:end
- 
+ #added by obfusCKate: Start 
+ WINDOW_ARMY_CHECK_CHARACTER: "See Char Window" #NT!
+ WINDOW_ARMY_CHECK_FOR_INFORMATION: "Check character window for #E information#! on army an allies... ...#BER if you have it.#!" #NT!
+ #changed by obfusCKate:End 
+  
+ COA_REALM_TOOLTIP_CHARACTER: "#T [CHARACTER.GetPrimaryTitle.GetNameWithUnderlyingNoTooltip|U]#!\n[Character.Custom('GetRealmOrDomicileTooltip')]\n[holder|E]: [CHARACTER.GetUIName|U]\nFuerza militar: [CHARACTER.GetMilitaryStrengthText|V] [soldiers|lE]\n[SelectLocalization( GreaterThan_int32( CHARACTER.RealmSize, '(int32)0' ), 'COA_REALM_SIZE_TOOLTIP', 'CV_UNLANDED')][SelectLocalization(CHARACTER.HasSuzerain, 'COA_REALM_SUZERAIN_INFO', '')]\n\n#S Sucesión#!\nLey de sucesión: $SUCCESSION_FORM_NAME$\n\n[line_of_succession|E]:\n[CHARACTER.GetPrimaryTitle.GetLineOfSuccessionDesc]"
+  
+  #changed by obfusCKate:end 
+  

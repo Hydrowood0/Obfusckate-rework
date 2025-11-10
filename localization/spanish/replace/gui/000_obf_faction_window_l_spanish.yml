@@ -1,19 +1,19 @@
 ﻿l_spanish:
- #Added by obfusCKate: start
- 
- FACTIONS_WINDOW_DISCONTENT:2 "[discontent|E]: [SelectLocalization(GetScriptedGui('gui_show_faction_discontent_low').IsValid( GuiScope.SetRoot(Faction.MakeScope).End ),'FACTIONS_WINDOW_DISCONTENT_LOW','')] [SelectLocalization(GetScriptedGui('gui_show_faction_discontent_medium').IsValid( GuiScope.SetRoot(Faction.MakeScope).End ),'FACTIONS_WINDOW_DISCONTENT_MEDIUM','')][SelectLocalization(GetScriptedGui('gui_show_faction_discontent_high').IsValid( GuiScope.SetRoot(Faction.MakeScope).End ),'FACTIONS_WINDOW_DISCONTENT_HIGH','')][SelectLocalization(GetScriptedGui('gui_show_faction_discontent_risky').IsValid( GuiScope.SetRoot(Faction.MakeScope).End ),'FACTIONS_WINDOW_DISCONTENT_RISKY','')] "
- 
-FACTIONS_WINDOW_DISCONTENT_RISKY:0 "@warning_icon! #N Risky #!"
-FACTIONS_WINDOW_DISCONTENT_HIGH:0 "#N High#!"
-FACTIONS_WINDOW_DISCONTENT_MEDIUM:0 "#Y Medium#!"
-FACTIONS_WINDOW_DISCONTENT_LOW:0 "#high Low#!"
-
-FACTION_IMMINENT_ULTIMATUM_OB:0 "@warning_icon! An Ultimatum is #N Imminent#! @warning_icon!"
-FACTIONS_WINDOW_POWER:0 "[military_power|E]: [SelectLocalization(GetScriptedGui('gui_show_faction_power_very_low').IsValid( GuiScope.SetRoot(Faction.MakeScope).End ),'FACTIONS_WINDOW_POWER_VERY_LOW','')][SelectLocalization(GetScriptedGui('gui_show_faction_power_low').IsValid( GuiScope.SetRoot(Faction.MakeScope).End ),'FACTIONS_WINDOW_POWER_LOW','')][SelectLocalization(GetScriptedGui('gui_show_faction_power_balanced').IsValid( GuiScope.SetRoot(Faction.MakeScope).End ),'FACTIONS_WINDOW_POWER_BALANCED','')][SelectLocalization(GetScriptedGui('gui_show_faction_power_high').IsValid( GuiScope.SetRoot(Faction.MakeScope).End ),'FACTIONS_WINDOW_POWER_HIGH','')][SelectLocalization(GetScriptedGui('gui_show_faction_power_very_high').IsValid( GuiScope.SetRoot(Faction.MakeScope).End ),'FACTIONS_WINDOW_POWER_VERY_HIGH','')]"
-FACTION_POWER_OB: "[SelectLocalization(GetScriptedGui('gui_show_faction_power_very_low').IsValid( GuiScope.SetRoot(Faction.MakeScope).End ),'FACTIONS_WINDOW_POWER_VERY_LOW','')][SelectLocalization(GetScriptedGui('gui_show_faction_power_low').IsValid( GuiScope.SetRoot(Faction.MakeScope).End ),'FACTIONS_WINDOW_POWER_LOW','')][SelectLocalization(GetScriptedGui('gui_show_faction_power_balanced').IsValid( GuiScope.SetRoot(Faction.MakeScope).End ),'FACTIONS_WINDOW_POWER_BALANCED','')][SelectLocalization(GetScriptedGui('gui_show_faction_power_high').IsValid( GuiScope.SetRoot(Faction.MakeScope).End ),'FACTIONS_WINDOW_POWER_HIGH','')][SelectLocalization(GetScriptedGui('gui_show_faction_power_very_high').IsValid( GuiScope.SetRoot(Faction.MakeScope).End ),'FACTIONS_WINDOW_POWER_VERY_HIGH','')]"
-
-FACTIONS_WINDOW_POWER_VERY_HIGH:0 "#P #BOL Overwhelming #!#!"
-FACTIONS_WINDOW_POWER_HIGH:0 "#P Superior#!"
-FACTIONS_WINDOW_POWER_BALANCED:0 "#high Balanced#!"
-FACTIONS_WINDOW_POWER_LOW:0 "#N Inferior#!"
-FACTIONS_WINDOW_POWER_VERY_LOW:0 "#N Vastly Inferior#!"
+  #Added by obfusCKate: start 
+  
+ FACTIONS_WINDOW_DISCONTENT: "[discontent|E]: [FactionItem.GetDiscontent|%0]"
+  
+ FACTIONS_WINDOW_DISCONTENT_RISKY: "@warning_icon! #N Risky #!" #NT!
+ FACTIONS_WINDOW_DISCONTENT_HIGH: "#N High#!" #NT!
+ FACTIONS_WINDOW_DISCONTENT_MEDIUM: "#Y Medium#!" #NT!
+ FACTIONS_WINDOW_DISCONTENT_LOW: "#high Low#!" #NT!
+  
+ FACTION_IMMINENT_ULTIMATUM_OB: "@warning_icon! An Ultimatum is #N Imminent#! @warning_icon!" #NT!
+ FACTIONS_WINDOW_POWER: "[military_power|E]"
+ FACTION_POWER_OB: "[SelectLocalization(GetScriptedGui('gui_show_faction_power_very_low').IsValid( GuiScope.SetRoot(Faction.MakeScope).End ),'FACTIONS_WINDOW_POWER_VERY_LOW','')][SelectLocalization(GetScriptedGui('gui_show_faction_power_low').IsValid( GuiScope.SetRoot(Faction.MakeScope).End ),'FACTIONS_WINDOW_POWER_LOW','')][SelectLocalization(GetScriptedGui('gui_show_faction_power_balanced').IsValid( GuiScope.SetRoot(Faction.MakeScope).End ),'FACTIONS_WINDOW_POWER_BALANCED','')][SelectLocalization(GetScriptedGui('gui_show_faction_power_high').IsValid( GuiScope.SetRoot(Faction.MakeScope).End ),'FACTIONS_WINDOW_POWER_HIGH','')][SelectLocalization(GetScriptedGui('gui_show_faction_power_very_high').IsValid( GuiScope.SetRoot(Faction.MakeScope).End ),'FACTIONS_WINDOW_POWER_VERY_HIGH','')]" #NT!
+  
+ FACTIONS_WINDOW_POWER_VERY_HIGH: "#P #BOL Overwhelming #!#!" #NT!
+ FACTIONS_WINDOW_POWER_HIGH: "#P Superior#!" #NT!
+ FACTIONS_WINDOW_POWER_BALANCED: "#high Balanced#!" #NT!
+ FACTIONS_WINDOW_POWER_LOW: "#N Inferior#!" #NT!
+ FACTIONS_WINDOW_POWER_VERY_LOW: "#N Vastly Inferior#!" #NT!

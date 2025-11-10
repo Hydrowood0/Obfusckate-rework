@@ -2149,7 +2149,7 @@ romance_traits_and_personality_modifier = {
 				}
 				if = {
 					limit = {
-						scope:owner = { has_trait = poet }
+						scope:owner = { has_trait = lifestyle_poet }
 					}
 					add = 20
 				}
@@ -2323,7 +2323,7 @@ romance_traits_and_personality_modifier = {
 				}
 				if = {
 					limit = {
-						scope:target = { has_trait = poet }
+						scope:target = { has_trait = lifestyle_poet }
 					}
 					add = 20
 				}
@@ -3111,7 +3111,7 @@ romance_traits_and_personality_modifier = {
 		modifier = {
 		desc = OBF_both_poets
 			add = 10
-			scope:owner = { has_trait = poet }
+			scope:owner = { has_trait = lifestyle_poet }
 		}
 		
 		#SEDUCER
