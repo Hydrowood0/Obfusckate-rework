@@ -17,6 +17,14 @@
 		on_start = "[PdxGuiWidget.AccessChild('letter_content').TriggerAnimation('show')]"
 		on_start = "[PdxGuiWidget.AccessChild('letter_edges').TriggerAnimation('show')]"
 
+		# Tabs setup
+		on_start = "[BindTabsContext]"
+		on_start = "[PdxGuiTabs.RemoveTab( 'success' )]"
+		on_start = "[PdxGuiTabs.AddTab( 'success' )]"
+
+		on_start = "[PdxGuiTabs.RemoveTab( 'failure' )]"
+		on_start = "[PdxGuiTabs.AddTabIf( 'failure', TaskContractWindow.GetCurrentTaskContract.HasFailureConditions )]"
+
 		start_sound = {
 			soundeffect = "event:/SFX/Events/Panels/sfx_event_panel_letter"
 		}
@@ -321,7 +329,7 @@
 							}
 
 							text_single = {
-								text = "[SelectLocalization( IsLandlessAdventurer( TaskContract.GetTaker ) , 'TASK_CONTRACT_TIER' , 'GOVERNANCE_ISSUE_TIER')]"
+								text = "[SelectLocalization(IsLandlessAdventurer( TaskContract.GetTaker ) , 'TASK_CONTRACT_TIER' , 'OTHER_TASK_CONTRACT_TIERS' )]"
 								default_format = "#italic"
 								margin_right = 5
 							}
@@ -512,7 +520,9 @@
 								
 								position = { 10 -10 }
 								size = { 180 36 }
-								using = Background_Letter
+
+								using = Background_Letter_No_Frame
+
 								alpha = 0.9
 
 								datacontext = "[TaskContract.GetEmployer]"
@@ -565,7 +575,7 @@
 							visible = "[Not(TaskContract.IsCriminal)]"
 							name = "decal"
 							size = { 262 20 }
-							texture = "gfx/interface/window_legend_chronicle/marginalia_divider.dds"
+							texture = "gfx/interface/skinned/window_letter/marginalia_divider.dds"
 							alpha = 0.5
 							mirror = vertical
 						}
@@ -622,7 +632,7 @@
 							visible = "[Not(TaskContract.IsCriminal)]"
 							name = "decal"
 							size = { 262 20 }
-							texture = "gfx/interface/window_legend_chronicle/marginalia_divider.dds"
+							texture = "gfx/interface/skinned/window_letter/marginalia_divider.dds"
 							alpha = 0.5
 						}
 
@@ -691,16 +701,17 @@
 			
 					}
 				}
-
-				# Tabs setup
-				oncreate = "[BindTabsContext]"
-				oncreate = "[PdxGuiTabs.AddTab( 'success' )]"
-				oncreate = "[PdxGuiTabs.AddTab( 'failure' )]"
+				# # Tabs setup
+				# oncreate = "[BindTabsContext]"
+				# oncreate = "[PdxGuiTabs.AddTab( 'success' )]"
+				# oncreate = "[PdxGuiTabs.AddTab( 'failure' )]"
 
 				### Tabs header
 
 				hbox_tab_buttons = {
 					name = "tab_buttons"
+					
+					visible = "[Not( GetPlayer.GetGovernment.IsType( 'mandala_government' ) )]"
 
 					blockoverride "button_tab"
 					{
@@ -886,7 +897,7 @@
 			visible = "[Or(TaskContract.IsEasy, TaskContract.IsCriminal)]"
 
 			background = {
-				texture = "gfx/interface/window_event/letter_event_edge_top.dds"
+				texture = "gfx/interface/skinned/window_letter/letter_event_edge_top.dds"
 				spriteType = Corneredstretched
 				spriteborder = { 35 5 }
 			}
@@ -901,7 +912,7 @@
 			visible = "[Or(TaskContract.IsEasy, TaskContract.IsCriminal)]"
 
 			background = {
-				texture = "gfx/interface/window_event/letter_event_edge_bottom.dds"
+				texture = "gfx/interface/skinned/window_letter/letter_event_edge_bottom.dds"
 				spriteType = Corneredstretched
 				spriteborder = { 35 5 }
 			}

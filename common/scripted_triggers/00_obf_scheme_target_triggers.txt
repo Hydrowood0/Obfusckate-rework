@@ -66,6 +66,7 @@ agent_willing_to_help_without_spymaster_trigger = {
 				is_at_same_location = scope:owner
 				has_relation_to = scope:owner
 				is_allied_to = scope:owner
+				## this.GetConfederation = scope:owner.GetConfederation ##added by ljl v1.17
 				### confederation = { any_confederation_member = { this = scope:owner } } # added by ljl
 				#obf_is_in_same_confederation_as_root = yes # added by ljl
 				scope:owner = {has_hook = prev}
@@ -307,6 +308,7 @@ target_knows_about_owner_trigger = {
 					scope:owner = {is_tributary_of = scope:target} # added by ljl
 				}
 				scope:owner = {is_allied_to = scope:target}
+				## scope:owner = {this.GetConfederation = scope:target.GetConfederation }##added by ljl v1.17
 				### scope:owner = {### confederation = { any_confederation_member = { this = scope:target } } } # added by ljl
 				scope:owner = {has_hook = scope:target}
 				scope:target = {has_hook = scope:owner}
@@ -319,14 +321,14 @@ target_knows_about_owner_trigger = {
 				scope:target = {exists = court_owner}
 					OR = {
 						scope:target.court_owner = {is_vassal_or_below_of = scope:owner}
-						scope:target.court_owner = {is_tribuary_of_suzerain_or_above = scope:owner} #added by ljl
+						scope:target.court_owner = {is_tributary_of_suzerain_or_above = scope:owner} #added by ljl
 					}
 				}
 				AND = {
 				scope:target = {exists = liege}
 					OR = {
 						scope:target.liege = {is_vassal_or_below_of = scope:owner}
-						scope:target.liege = {is_tribuary_of_suzerain_or_above = scope:owner} #added by ljl
+						scope:target.liege = {is_tributary_of_suzerain_or_above = scope:owner} #added by ljl
 					}
 				}
 				scope:target.dynasty = scope:owner.dynasty
@@ -340,6 +342,7 @@ target_has_heard_or_has_been_introduced_to_owner = {
 					OR = {
 				scope:target = {has_character_flag = emissary_sent}
 				scope:owner = {is_allied_to = scope:target}
+				## scope:owner = {this.GetConfederation = scope:target.GetConfederation }##added by ljl v1.17
 				### scope:owner = {### confederation = { any_confederation_member = { this = scope:target } } } # added by ljl
 				scope:owner = {has_hook = scope:target}
 				scope:target = {
@@ -845,6 +848,7 @@ target_is_independent_neighbor_with_superior_army_trigger = {
 			scope:owner.max_military_strength > 0
 			2 <= {add = scope:target.max_military_strength divide = scope:owner.max_military_strength}
 			scope:owner = {NOT = {is_allied_to = scope:target}}
+			## scope:owner = {NOT = {this.GetConfederation = scope:target.GetConfederation }}##added by ljl v1.17
 			### scope:owner = {NOT = { ### confederation = { any_confederation_member = { this = scope:target } } }  } # added by ljl
 			scope:target = {is_independent_ruler = yes}
 			scope:owner = {is_independent_ruler = yes}
@@ -856,6 +860,7 @@ target_is_independent_neighbor_with_inferior_army_trigger = {
 			scope:target.max_military_strength > 0
 			2 <= {add = scope:owner.max_military_strength divide = scope:target.max_military_strength}
 			scope:owner = {NOT = {is_allied_to = scope:target}}
+			## scope:owner = {NOT = {this.GetConfederation = scope:target.GetConfederation }}##added by ljl v1.17
 			### scope:owner = {NOT = { ### confederation = { any_confederation_member = { this = scope:target } } }  } # added by ljl
 			scope:target = {is_independent_ruler = yes}
 			scope:owner = {is_independent_ruler = yes}
@@ -867,14 +872,14 @@ owner_is_a_faction_member_against_target_trigger = {
 				scope:target = {any_targeting_faction = {any_faction_member = { this = scope:owner }}}
 				OR = {
 					scope:owner = {is_vassal_of = scope:target}
-					scope:owner = {is_tirbutary_of = scope:target}
+					scope:owner = {is_tributary_of = scope:target}
 				}
 		}
 owner_is_a_faction_leader_against_target_trigger = {
 		scope:target = {any_targeting_faction = {faction_leader = scope:owner}}
 				OR = {
 					scope:owner = {is_vassal_of = scope:target}
-					scope:owner = {is_tirbutary_of = scope:target} #added by ljl
+					scope:owner = {is_tributary_of = scope:target} #added by ljl
 				}
 		}		
 		
@@ -882,14 +887,14 @@ target_is_a_faction_member_against_owner_trigger = {
 		scope:owner = {any_targeting_faction = {any_faction_member = {this = scope:target} faction_target = scope:owner}}
 		OR = {
 			scope:target = {is_vassal_of = scope:owner}
-			scope:target = {is_tirbutary_of = scope:owner} #added by ljl
+			scope:target = {is_tributary_of = scope:owner} #added by ljl
 		}
 }
 target_is_a_faction_leader_against_owner_trigger = {
 		scope:owner = {any_targeting_faction = {faction_leader = scope:target}}
 		OR = {
 			scope:target = {is_vassal_of = scope:owner}
-			scope:target = {is_tirbutary_of = scope:owner} #added by ljl
+			scope:target = {is_tributary_of = scope:owner} #added by ljl
 		}
 }
 		
@@ -904,6 +909,7 @@ target_has_hostile_scheme_against_owner_trigger = {
 		
 target_is_ally_not_spouse_trigger = {
 			scope:owner = {is_allied_to = scope:target}
+			## scope:owner = {this.GetConfederation = scope:target.GetConfederation }##added by ljl v1.17
 			### scope:owner = {### confederation = { any_confederation_member = { this = scope:target } } } # added by ljl
 			scope:target = {NOT = {is_consort_of = scope:owner}}
 		}
@@ -1372,7 +1378,7 @@ target_is_ruler_and_hates_peasant_leaders_trigger = {
 owner_is_not_rightful_liege_trigger = { 
 				OR = {
 					scope:target = {is_vassal_of = scope:owner}
-					scope:target = {is_tirbutary_of = scope:owner} # added by ljl
+					scope:target = {is_tributary_of = scope:owner} # added by ljl
 				}
 				scope:target = {is_ruler = yes}
 				NOT = {

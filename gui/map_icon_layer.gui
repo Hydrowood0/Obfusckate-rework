@@ -2862,7 +2862,7 @@ types MapIcons
 
 					spacing = 3
 					#changed_by_obfusCKate: start
-					visible = "[And (ObjectsEqual( Holding.GetHolder.GetLiege, GetPlayer ), Not( Holding.GetType.HasParameter( 'no_levies' ) )]"
+					visible = "[And(ObjectsEqual(Holding.GetHolder.GetLiege,GetPlayer),Not(Holding.GetType.HasParameter('no_levies')))]"
 					#changed_by_obfusCKate: end
 
 					icon = {

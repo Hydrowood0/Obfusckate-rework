@@ -359,8 +359,12 @@ requested_report_death = {
 add_spy_network_modifiers = {
 	
 	if = {
-		limit = {OR = {NOT = {has_variable = spy_network}
-							var:spy_network <= 0}}
+		limit = {
+			OR = {
+				NOT = {has_variable = spy_network}
+				var:spy_network < 0 #<=0
+			}
+		}
 			remove_character_modifier = building_intel_network_modifier
 	}
 	else = {

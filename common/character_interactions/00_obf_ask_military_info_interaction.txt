@@ -17,6 +17,7 @@ request_military_information_interaction = {
 				OR={
 					is_vassal_or_below_of = scope:actor
 					is_tributary_of_suzerain_or_above = scope:actor
+					## this.GetConfederation = scope:actor.GetConfederation ##added by ljl v1.17
 					### confederation = { any_confederation_member = { this ?= root } }
 				}
 			}
@@ -204,15 +205,25 @@ request_military_information_interaction = {
 			desc = AI_YOUR_ALLY
 		}
 
-		# Modifier for confederates # added by ljl
-		modifier = {
-			add = 100
-			scope:recipient = {	
-			### confederation = { any_confederation_member = { this ?=  scope:actor } }
-			# obf_is_in_same_confederation_as_root = yes  #added by ljl,need test
-			desc = AI_YOUR_Confederate
-			}
-		}
+		# # Modifier for confederates # added by ljl
+		# modifier = {
+		# 	add = 100
+		# 	scope:recipient = {	
+		# 	# 1. 确保 recipient（THIS）在一个有效的邦联中
+		# 	this.GetConfederation.IsValid = yes
+			
+		# 	# 2. 确保 actor 也在一个有效的邦联中
+		# 	scope:actor.GetConfederation.IsValid = yes
+			
+		# 	# 3. 比较 recipient 的邦联对象 (THIS.GetConfederation)
+		# 	#    是否与 actor 的邦联对象 (scope:actor.GetConfederation) 完全相同
+		# 	this.GetConfederation = scope:actor.GetConfederation
+
+		# 	### confederation = { any_confederation_member = { this ?=  scope:actor } }
+		# 	# obf_is_in_same_confederation_as_root = yes  #added by ljl,need test
+		# 	desc = AI_YOUR_Confederate
+		# 	}
+		# }
 		
 		modifier = {
 			add = 500

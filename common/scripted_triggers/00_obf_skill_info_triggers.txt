@@ -146,30 +146,12 @@ gui_skills_diplo_for_known = {
         }
         age >= 12
         OR = {
-            AND = {
-                exists = scope:laamp_first_recruit
-                this ?= scope:laamp_first_recruit
-            }
-            AND = {
-                exists = scope:laamp_second_recruit
-                this ?= scope:laamp_second_recruit
-            }
-            AND = {
-                exists = scope:laamp_third_recruit
-                this ?= scope:laamp_third_recruit
-            }
-            AND = {
-                exists = scope:laamp_generic_jane
-                this ?= scope:laamp_generic_jane 
-            }
-            AND = {
-                exists = scope:laamp_spouse_material
-                this ?= scope:laamp_spouse_material 
-            }
-            AND = {
-                exists = scope:laamp_hooded_figure
-                this ?= scope:laamp_hooded_figure 
-            }         
+            AND = {exists = root.var:laamp_first_recruit_var this ?= root.var:laamp_first_recruit_var }
+            AND = {exists = root.var:laamp_second_recruit_var this ?= root.var:laamp_second_recruit_var }
+            AND = {exists = root.var:laamp_third_recruit_var this ?= root.var:laamp_third_recruit_var }
+            AND = {exists = root.var:laamp_generic_jane_var this ?= root.var:laamp_generic_jane_var }
+            AND = {exists = root.var:laamp_spouse_material_var this ?= root.var:laamp_spouse_material_var }
+            AND = {exists = root.var:laamp_hooded_figure_var this ?= root.var:laamp_hooded_figure_var }
             has_character_flag = had_high_level_report
             obf_has_close_or_intimate_relation = yes
             AND = {
@@ -213,30 +195,12 @@ gui_skills_martial_for_known = {
         }
         age >= 12
         OR = {
-            AND = {
-                exists = scope:laamp_first_recruit
-                this ?= scope:laamp_first_recruit
-            }
-            AND = {
-                exists = scope:laamp_second_recruit
-                this ?= scope:laamp_second_recruit
-            }
-            AND = {
-                exists = scope:laamp_third_recruit
-                this ?= scope:laamp_third_recruit
-            }
-            AND = {
-                exists = scope:laamp_generic_jane
-                this ?= scope:laamp_generic_jane 
-            }
-            AND = {
-                exists = scope:laamp_spouse_material
-                this ?= scope:laamp_spouse_material 
-            }
-            AND = {
-                exists = scope:laamp_hooded_figure
-                this ?= scope:laamp_hooded_figure 
-            }  
+            AND = {exists = root.var:laamp_first_recruit_var this ?= root.var:laamp_first_recruit_var }
+            AND = {exists = root.var:laamp_second_recruit_var this ?= root.var:laamp_second_recruit_var }
+            AND = {exists = root.var:laamp_third_recruit_var this ?= root.var:laamp_third_recruit_var }
+            AND = {exists = root.var:laamp_generic_jane_var this ?= root.var:laamp_generic_jane_var }
+            AND = {exists = root.var:laamp_spouse_material_var this ?= root.var:laamp_spouse_material_var }
+            AND = {exists = root.var:laamp_hooded_figure_var this ?= root.var:laamp_hooded_figure_var }
             has_character_flag = had_high_level_report
             obf_has_close_or_intimate_relation = yes
             AND = {
@@ -280,30 +244,12 @@ gui_skills_steward_for_known = {
         }
         age >= 12
         OR = {
-            AND = {
-                exists = scope:laamp_first_recruit
-                this ?= scope:laamp_first_recruit
-            }
-            AND = {
-                exists = scope:laamp_second_recruit
-                this ?= scope:laamp_second_recruit
-            }
-            AND = {
-                exists = scope:laamp_third_recruit
-                this ?= scope:laamp_third_recruit
-            }
-            AND = {
-                exists = scope:laamp_generic_jane
-                this ?= scope:laamp_generic_jane 
-            }
-            AND = {
-                exists = scope:laamp_spouse_material
-                this ?= scope:laamp_spouse_material 
-            }
-            AND = {
-                exists = scope:laamp_hooded_figure
-                this ?= scope:laamp_hooded_figure 
-            }  
+            AND = {exists = root.var:laamp_first_recruit_var this ?= root.var:laamp_first_recruit_var }
+            AND = {exists = root.var:laamp_second_recruit_var this ?= root.var:laamp_second_recruit_var }
+            AND = {exists = root.var:laamp_third_recruit_var this ?= root.var:laamp_third_recruit_var }
+            AND = {exists = root.var:laamp_generic_jane_var this ?= root.var:laamp_generic_jane_var }
+            AND = {exists = root.var:laamp_spouse_material_var this ?= root.var:laamp_spouse_material_var }
+            AND = {exists = root.var:laamp_hooded_figure_var this ?= root.var:laamp_hooded_figure_var }
             has_character_flag = had_high_level_report
             obf_has_close_or_intimate_relation = yes
             AND = {
@@ -347,30 +293,12 @@ gui_skills_intrigue_for_known = {
         }
         age >= 12
         OR = {
-            AND = {
-                exists = scope:laamp_first_recruit
-                this ?= scope:laamp_first_recruit
-            }
-            AND = {
-                exists = scope:laamp_second_recruit
-                this ?= scope:laamp_second_recruit
-            }
-            AND = {
-                exists = scope:laamp_third_recruit
-                this ?= scope:laamp_third_recruit
-            }
-            AND = {
-                exists = scope:laamp_generic_jane
-                this ?= scope:laamp_generic_jane 
-            }
-            AND = {
-                exists = scope:laamp_spouse_material
-                this ?= scope:laamp_spouse_material 
-            }
-            AND = {
-                exists = scope:laamp_hooded_figure
-                this ?= scope:laamp_hooded_figure 
-            }  
+            AND = {exists = root.var:laamp_first_recruit_var this ?= root.var:laamp_first_recruit_var }
+            AND = {exists = root.var:laamp_second_recruit_var this ?= root.var:laamp_second_recruit_var }
+            AND = {exists = root.var:laamp_third_recruit_var this ?= root.var:laamp_third_recruit_var }
+            AND = {exists = root.var:laamp_generic_jane_var this ?= root.var:laamp_generic_jane_var }
+            AND = {exists = root.var:laamp_spouse_material_var this ?= root.var:laamp_spouse_material_var }
+            AND = {exists = root.var:laamp_hooded_figure_var this ?= root.var:laamp_hooded_figure_var }
             has_character_flag = had_high_level_report
             obf_has_close_or_intimate_relation = yes
             AND = {
@@ -414,31 +342,12 @@ gui_skills_learning_for_known = {
         }
         age >= 12
         OR = {
-            AND = {
-                exists = scope:laamp_first_recruit
-                this ?= scope:laamp_first_recruit
-            }
-            AND = {
-                exists = scope:laamp_second_recruit
-                this ?= scope:laamp_second_recruit
-            }
-            AND = {
-                exists = scope:laamp_third_recruit
-                this ?= scope:laamp_third_recruit
-            }
-            AND = {
-                exists = scope:laamp_generic_jane
-                this ?= scope:laamp_generic_jane 
-            }
-            AND = {
-                exists = scope:laamp_spouse_material
-                this ?= scope:laamp_spouse_material 
-            }
-            AND = {
-                exists = scope:laamp_hooded_figure
-                this ?= scope:laamp_hooded_figure 
-            } 
-            has_character_flag = had_high_level_report
+            AND = {exists = root.var:laamp_first_recruit_var this ?= root.var:laamp_first_recruit_var }
+            AND = {exists = root.var:laamp_second_recruit_var this ?= root.var:laamp_second_recruit_var }
+            AND = {exists = root.var:laamp_third_recruit_var this ?= root.var:laamp_third_recruit_var }
+            AND = {exists = root.var:laamp_generic_jane_var this ?= root.var:laamp_generic_jane_var }
+            AND = {exists = root.var:laamp_spouse_material_var this ?= root.var:laamp_spouse_material_var }
+            AND = {exists = root.var:laamp_hooded_figure_var this ?= root.var:laamp_hooded_figure_var }
             obf_has_close_or_intimate_relation = yes
             AND = {
                 revelation_score >= 30

@@ -222,7 +222,7 @@ obf_interaction.0005 = {
 				scope:recipient = {
 				NOR = {
 				is_vassal_or_below_of = scope:actor
-				is_tributary_of_suzerain_or = scope:actor #added by ljl
+				is_tributary_of_suzerain_or_above = scope:actor #added by ljl
 				}
 			}	
 			}
@@ -1085,6 +1085,9 @@ obf_interaction.0011 = { #Y
 
 obf_interaction.0012 = {
 	type = character_event
+	title = obf_interaction.0012.t ##added by ljl
+	desc = obf_interaction.0012.desc ##added by ljl
+	theme = friendly
 	hidden = no 
 	
 immediate = {
@@ -1098,11 +1101,19 @@ immediate = {
 			}
 		}
 	}
+	option = {
+		name = obf_interaction.0012.a
+		scope:actor = {
+		}
+	}
 	
 }
 
 obf_interaction.0013 = {
 	type = character_event
+	title = obf_interaction.0013.t ##added by ljl
+	desc = obf_interaction.0013.desc ##added by ljl
+	theme = friendly
 	hidden = no 
 	
 immediate = {
@@ -1115,6 +1126,11 @@ immediate = {
 			left_icon = scope:visited_ruler
 				custom_tooltip = new_courtier_with_info_arrives
 			}
+		}
+	}
+	option = {
+		name = obf_interaction.0013.a
+		scope:actor = {
 		}
 	}
 	

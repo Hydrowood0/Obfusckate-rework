@@ -263,15 +263,14 @@ window = {
 		# KNIGHTS ----------------------------------------------------------------------------
 
 		vbox = {
+			visible = "[Not(KnightsView.IsShowingInactiveAccolades)]"
 			layoutpolicy_horizontal = expanding
 			layoutpolicy_vertical = expanding
-
-			visible = "[Not(KnightsView.IsShowingInactiveAccolades)]"
-			spacing = 8
+			spacing = 5
 
 			hbox = {
 				layoutpolicy_horizontal = expanding
-				margin = { 8 0 }
+				margin = { 10 5 }
 
 				text_label_center = {
 					name = "knights_cap"

@@ -2,7 +2,8 @@
 # 功能：当作用域内的角色拥有至少一个记忆时，返回 true。
 character_has_any_memory = { ##added by ljl
     any_memory = {
-        limit = { always = yes }
+		always = yes
+        # limit = { always = yes }
     }
 }
 
@@ -891,6 +892,32 @@ OR = {
 				has_relation_friend = root}
 			}
 			any_relation = {
+			type = disciple
+			#NOT = {has_secret_relation_disciple = prev}
+			is_physically_able_ai_adult = yes
+			obf_has_rival_or_negative_relation = no
+			OR = {
+			is_consort_of = root
+			is_child_of = root
+			is_parent_of = root
+			is_sibling_of = root
+			has_relation_lover = root
+			has_relation_friend = root}
+			}
+			any_relation = {
+			type = elder
+			#NOT = {has_secret_relation_elder = prev}
+			is_physically_able_ai_adult = yes
+			obf_has_rival_or_negative_relation = no
+			OR = {
+			is_consort_of = root
+			is_child_of = root
+			is_parent_of = root
+			is_sibling_of = root
+			has_relation_lover = root
+			has_relation_friend = root}
+			}
+			any_relation = {
 			type = rival
 			NOT = {has_secret_relation_rival = prev}
 			is_physically_able_ai_adult = yes
@@ -935,7 +962,7 @@ obf_has_rival_or_negative_relation = no
 
 ####Fellow vassals 
 obf_is_fellow_vassal_or_liege_councillor = {
-	And{ ### And added by ljl 
+	And = { ### And added by ljl 
 		exists = liege
 		exists = root.liege
 		liege = root.liege
@@ -947,7 +974,7 @@ obf_is_fellow_vassal_or_liege_councillor = {
 
 ##WORKS ON SAME COURT 
 obf_works_in_same_court = {
-	And{ ### And added by ljl 
+	And = { ### And added by ljl 
 		exists = root.liege
 		root = {OR = {
 			is_knight = yes

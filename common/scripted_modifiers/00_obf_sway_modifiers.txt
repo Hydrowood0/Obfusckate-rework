@@ -37,28 +37,29 @@ sway_prestige_modifier = {
 		
 		#DYNASTY PRESTIGE DIFFERENCE
 		modifier = {
-				NOT = { scope:owner.dynasty = scope:target.dynasty }
+				NOT = { scope:owner.dynasty ?= scope:target.dynasty }
 			add = {
 				value = 0
 				if = {
 					limit = {
 						scope:owner = { has_dynasty = yes }
-						scope:owner.dynasty = { dynasty_prestige_level = 0 }
-						NOT = {scope:target.dynasty = { dynasty_prestige_level = 0 }}
+						scope:owner.dynasty ?= { dynasty_prestige_level = 0 }
+						scope:target = { has_dynasty = yes }
+						NOT = {scope:target.dynasty ?= { dynasty_prestige_level = 0 }}
 					}
 					add = -10
 				}
 				if = {
 					limit = {
 						scope:owner = { has_dynasty = yes }
-						scope:owner.dynasty = { dynasty_prestige_level > 0 }
+						scope:owner.dynasty ?= { dynasty_prestige_level > 0 }
 					}
 					add = {value = scope:owner.dynasty.dynasty_prestige_level multiply = 5}
 				}
 				if = {
 					limit = {
 						scope:target = { has_dynasty = yes }
-						scope:target.dynasty = { dynasty_prestige_level > 0 }
+						scope:target.dynasty ?= { dynasty_prestige_level > 0 }
 					}
 					add = {value = scope:target.dynasty.dynasty_prestige_level multiply = -5}
 				}
@@ -1445,7 +1446,7 @@ sway_relation_to_target_modifier = {
 		desc = OBF_you_are_bastard
 			add = -10
 			scope:owner = { has_any_negative_bastard_trait_trigger = yes}
-			scope:target.dynasty = scope:owner.dynasty
+			scope:target.dynasty ?= scope:owner.dynasty
 			scope:target = {NOT = {is_parent_of = scope:owner}}
 		}
 		
@@ -1459,7 +1460,7 @@ sway_relation_to_target_modifier = {
 		modifier = {
 			AND = {
 			OR = {
-				scope:target.dynasty = scope:owner.dynasty
+				scope:target.dynasty ?= scope:owner.dynasty
 				scope:target = {is_extended_family_of = scope:owner}
 				scope:target = {is_close_or_extended_family_of = scope:owner}
 				scope:target = {is_close_family_of = scope:owner}
@@ -1474,7 +1475,7 @@ sway_relation_to_target_modifier = {
 				value = 0
 				if = {
 					limit = {
-						scope:target.dynasty = scope:owner.dynasty
+						scope:target.dynasty ?= scope:owner.dynasty
 						scope:owner = { has_trait = kinslayer_1}
 					}
 					add = -50
@@ -1502,7 +1503,7 @@ sway_relation_to_target_modifier = {
 				}
 				if = {
 					limit = {
-					scope:target.dynasty = scope:owner.dynasty
+					scope:target.dynasty ?= scope:owner.dynasty
 					scope:owner = { has_trait = kinslayer_2}
 					}
 					add = -10
@@ -1523,7 +1524,7 @@ sway_relation_to_target_modifier = {
 				}
 				if = {
 					limit = {
-					scope:target.dynasty = scope:owner.dynasty
+					scope:target.dynasty ?= scope:owner.dynasty
 					scope:owner = { has_trait = kinslayer_3}
 					}
 					add = -10
@@ -1707,8 +1708,8 @@ sway_traits_and_personality_modifier = {
 		modifier = {
 		desc = OBF_both_poets
 			add = 5
-			scope:owner = { has_trait = poet }
-			scope:target = { has_trait = poet }
+			scope:owner = { has_trait = lifestyle_poet }
+			scope:target = { has_trait = lifestyle_poet }
 		}
 		
 		#OWNER IS PEASANT LEADER

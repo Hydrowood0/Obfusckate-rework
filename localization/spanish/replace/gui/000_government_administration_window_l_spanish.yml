@@ -1,10 +1,10 @@
-﻿l_spanish: 
-
-#changes 
- ADMIN_GOVERNOR_EFFICIENCY_GOOD: "#P High#!"
- ADMIN_GOVERNOR_EFFICIENCY_AVERAGE: "#aptitude_average Avrg#!"
- ADMIN_GOVERNOR_EFFICIENCY_BAD: "#N Low#!"
-  ADMIN_WINDOW_THEME_GOVERNOR_EFFICIENCY_VALID_TT: "#T [governor_efficiency|e]: $ADMIN_WINDOW_THEME_GOVERNOR_EFFICIENCY_VALUE$#!"
-
-#changes 
- 
+﻿l_spanish:
+  
+ #changes 
+ ADMIN_GOVERNOR_EFFICIENCY_GOOD: "#P [Character.MakeScope().ScriptValue( 'governor_efficiency_presented' )|=0%/]#!"
+ ADMIN_GOVERNOR_EFFICIENCY_AVERAGE: "#aptitude_average [Character.MakeScope().ScriptValue( 'governor_efficiency_presented' )|=0%/]#!"
+ ADMIN_GOVERNOR_EFFICIENCY_BAD: "#N [Character.MakeScope().ScriptValue( 'governor_efficiency_presented' )|=0%/]#!"
+ ADMIN_WINDOW_THEME_GOVERNOR_EFFICIENCY_VALID_TT: "#T [governor_efficiency|E]: $ADMIN_WINDOW_THEME_GOVERNOR_EFFICIENCY_VALUE$#!\n#weak (Mín.: #N -50 %#! - Máx.: #P +50 %#!)#!\n\nBase: #N -100#!\n[Character.MakeScope().GetScriptValueDesc( 'governor_efficiency' )]"
+  
+ #changes 
+  

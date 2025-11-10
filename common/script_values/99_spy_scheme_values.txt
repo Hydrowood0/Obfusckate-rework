@@ -280,137 +280,321 @@ high_network_coverage_value = {
 	max = 600000
 }
 
+# spy_network_value = {
+# 	value = 0
+# 	if = {
+# 		limit = {
+# 		AND = {
+# 		is_alive = yes
+# 					is_adult = yes
+# 					is_incapable = no
+# 		exists = cp:councillor_spymaster
+# 		OR = {NOT = {exists = var:spy_network_budget}
+# 					var:spy_network < var:spy_network_budget}}}
+# 	if = {
+# 		limit = {is_imprisoned = no}
+	
+# 	if = {
+# 			limit = {exists = liege
+# 					this = liege.cp:councillor_spymaster}
+# 			add = 0.25
+# 			}
+# 	if = {
+# 			limit = {has_lifestyle = intrigue_lifestyle}
+# 			add = 0.1
+# 			}
+# 	if = {
+# 			limit = {has_focus = intrigue_skulduggery_focus}
+# 			add = 0.1
+# 			}
+# 	if = {
+# 			limit = {intrigue >= 9}
+# 			add = {
+# 			value = intrigue
+# 			multiply = 0.015
+# 				}
+# 			}
+# 	if = {
+# 		limit = {has_trait = education_intrigue}
+# 		if = {
+# 			limit = {has_trait = education_intrigue_3}
+# 			add = 0.05
+# 			}
+# 		if = {
+# 			limit = {has_trait = education_intrigue_4}
+# 			add = 0.1
+# 			}
+# 		if = {
+# 			limit = {has_trait = education_intrigue_5}
+# 			add = 0.15
+# 			}
+# 		}
+# 		if = {
+# 			limit = {is_healthy = no}
+# 			divide = 2
+# 			}
+# 		if = {
+# 			limit = {is_at_war = yes}
+# 			divide = 2
+# 			}
+# 	}
+# 	if = {
+# 		limit = {cp:councillor_spymaster.intrigue >= 0}
+# 			add = {
+# 			value = cp:councillor_spymaster.ai_sociability
+# 			multiply = 0.005
+# 			min = 0
+# 				}
+# 			add = {
+# 			value = cp:councillor_spymaster.ai_energy
+# 			multiply = 0.005
+# 			min = 0
+# 				}
+# 			add = {
+# 			value = cp:councillor_spymaster.num_of_known_languages
+# 			multiply = 0.20
+# 			subtract = 0.20
+# 			}
+# 			if = {
+# 			limit = {cp:councillor_spymaster.intrigue >= 9}
+# 			add = {
+# 			value = cp:councillor_spymaster.intrigue
+# 			multiply = 0.03
+# 				}
+# 			}
+# 		if = {
+# 			limit = {cp:councillor_spymaster = {has_trait = education_intrigue}}
+
+# 				if = {
+# 				limit = {cp:councillor_spymaster = {has_trait = education_intrigue_2}}
+# 				add = 0.05
+# 				}
+# 				if = {
+# 				limit = {cp:councillor_spymaster = {has_trait = education_intrigue_3}}
+# 				add = 0.1
+# 					}
+# 				if = {
+# 				limit = {cp:councillor_spymaster = {has_trait = education_intrigue_4}}
+# 				add = 0.2
+# 				}
+# 				if = {
+# 				limit = {cp:councillor_spymaster = {has_trait = education_intrigue_5}}
+# 				add = 0.3
+# 				}
+# 			}
+# 		if = {
+# 			limit = {cp:councillor_spymaster = {has_focus = intrigue_skulduggery_focus}}
+# 			add = 0.2
+# 			}
+# 		if = {
+# 			limit = {cp:councillor_spymaster = {has_lifestyle = intrigue_lifestyle}}
+# 			add = 0.2
+# 			}
+# 		if = {
+# 			limit = {cp:councillor_spymaster = {is_healthy = no}}
+# 			divide = 2
+# 			}
+# 		if = {
+# 			limit = {cp:councillor_spymaster = {is_performing_council_task = task_find_secrets}}
+# 			divide = 2
+# 			}
+# 		}
+# 	}
+# 	else_if = {
+# 			limit = {NOT = {exists = cp:councillor_spymaster}}
+# 			subtract = 5
+# 	}
+# 	else = {
+# 		subtract = 1.5
+# 	}	
+# 	min = -5
+# 	max = 2
+# }
 spy_network_value = {
-	value = 0
+	value = 0.01  # 0
+
+	# === 修复 1：玩家个人加成（独立计算） ===
+	# 无论有无间谍总管，玩家自己都应产生点数
+	# 只要玩家存活、成年、有能力、未入狱，并且低于预算
 	if = {
 		limit = {
-		AND = {
-		is_alive = yes
-					is_adult = yes
-					is_incapable = no
-		exists = cp:councillor_spymaster
-		OR = {NOT = {exists = var:spy_network_budget}
-					var:spy_network < var:spy_network_budget}}}
-	if = {
-		limit = {is_imprisoned = no}
-	
-	if = {
-			limit = {exists = liege
-					this = liege.cp:councillor_spymaster}
-			add = 0.25
+			is_alive = yes
+			is_adult = yes
+			is_incapable = no
+			is_imprisoned = no
+			OR = { 
+				NOT = { exists = var:spy_network_budget }
+				var:spy_network < var:spy_network_budget
 			}
-	if = {
-			limit = {has_lifestyle = intrigue_lifestyle}
-			add = 0.1
-			}
-	if = {
-			limit = {has_focus = intrigue_skulduggery_focus}
-			add = 0.1
-			}
-	if = {
-			limit = {intrigue >= 9}
-			add = {
-			value = intrigue
-			multiply = 0.015
+		}
+		
+		# (这是原版中被错误嵌套的“玩家加成”部分)
+		if = {
+				limit = {exists = liege
+								this = liege.cp:councillor_spymaster}
+				add = 0.25
+				}
+		if = {
+				limit = {has_lifestyle = intrigue_lifestyle}
+				add = 0.1
+				}
+		if = {
+				limit = {has_focus = intrigue_skulduggery_focus}
+				add = 0.1
+				}
+		if = {
+				limit = {intrigue >= 9}
+				add = {
+				value = intrigue
+				multiply = 0.015
+					}
+				}
+		if = {
+			limit = {has_trait = education_intrigue}
+			if = {
+				limit = {has_trait = education_intrigue_3}
+				add = 0.05
+				}
+			if = {
+				limit = {has_trait = education_intrigue_4}
+				add = 0.1
+				}
+			if = {
+				limit = {has_trait = education_intrigue_5}
+				add = 0.15
 				}
 			}
-	if = {
-		limit = {has_trait = education_intrigue}
-		if = {
-			limit = {has_trait = education_intrigue_3}
-			add = 0.05
+			if = {
+				limit = {is_healthy = no}
+				divide = 2
+				}
+			if = {
+				limit = {is_at_war = yes}
+				divide = 2
+				}
+	}
+
+	# === 修复 2：间谍总管加成（额外加成） ===
+	# 只有存在间谍总管时，才添加这部分额外奖励
+	if = { 
+		limit = {
+			is_alive = yes
+			is_adult = yes
+			is_incapable = no
+			exists = cp:councillor_spymaster # 必须有间谍总管
+			cp:councillor_spymaster.intrigue >= 0
+			OR = { # 必须低于预算
+				NOT = {exists = var:spy_network_budget}
+				var:spy_network < var:spy_network_budget
 			}
-		if = {
-			limit = {has_trait = education_intrigue_4}
-			add = 0.1
+		}
+		
+		# (这是原版的“间谍总管加成”部分)
+		add = {
+		value = cp:councillor_spymaster.ai_sociability
+		multiply = 0.005
+		min = 0
 			}
+		add = {
+		value = cp:councillor_spymaster.ai_energy
+		multiply = 0.005
+		min = 0
+			}
+		add = {
+		value = cp:councillor_spymaster.num_of_known_languages
+		multiply = 0.20
+		subtract = 0.20
+		}
 		if = {
-			limit = {has_trait = education_intrigue_5}
-			add = 0.15
+		limit = {cp:councillor_spymaster.intrigue >= 9}
+		add = {
+		value = cp:councillor_spymaster.intrigue
+		multiply = 0.03
 			}
 		}
 		if = {
-			limit = {is_healthy = no}
-			divide = 2
-			}
-		if = {
-			limit = {is_at_war = yes}
-			divide = 2
-			}
-	}
-	if = {
-		limit = {cp:councillor_spymaster.intrigue >= 0}
-			add = {
-			value = cp:councillor_spymaster.ai_sociability
-			multiply = 0.005
-			min = 0
-				}
-			add = {
-			value = cp:councillor_spymaster.ai_energy
-			multiply = 0.005
-			min = 0
-				}
-			add = {
-			value = cp:councillor_spymaster.num_of_known_languages
-			multiply = 0.20
-			subtract = 0.20
+			limit = {cp:councillor_spymaster = {has_trait = education_intrigue}}
+			if = {
+			limit = {cp:councillor_spymaster = {has_trait = education_intrigue_2}}
+			add = 0.05
 			}
 			if = {
-			limit = {cp:councillor_spymaster.intrigue >= 9}
-			add = {
-			value = cp:councillor_spymaster.intrigue
-			multiply = 0.03
+			limit = {cp:councillor_spymaster = {has_trait = education_intrigue_3}}
+			add = 0.1
 				}
+			if = {
+			limit = {cp:councillor_spymaster = {has_trait = education_intrigue_4}}
+			add = 0.2
 			}
-		if = {
-			limit = {cp:councillor_spymaster = {has_trait = education_intrigue}}
-
-				if = {
-				limit = {cp:councillor_spymaster = {has_trait = education_intrigue_2}}
-				add = 0.05
-				}
-				if = {
-				limit = {cp:councillor_spymaster = {has_trait = education_intrigue_3}}
-				add = 0.1
-					}
-				if = {
-				limit = {cp:councillor_spymaster = {has_trait = education_intrigue_4}}
-				add = 0.2
-				}
-				if = {
-				limit = {cp:councillor_spymaster = {has_trait = education_intrigue_5}}
-				add = 0.3
-				}
+			if = {
+			limit = {cp:councillor_spymaster = {has_trait = education_intrigue_5}}
+			add = 0.3
 			}
+		}
 		if = {
 			limit = {cp:councillor_spymaster = {has_focus = intrigue_skulduggery_focus}}
 			add = 0.2
-			}
+		}
 		if = {
 			limit = {cp:councillor_spymaster = {has_lifestyle = intrigue_lifestyle}}
 			add = 0.2
-			}
+		}
 		if = {
 			limit = {cp:councillor_spymaster = {is_healthy = no}}
 			divide = 2
-			}
+		}
 		if = {
 			limit = {cp:councillor_spymaster = {is_performing_council_task = task_find_secrets}}
 			divide = 2
-			}
 		}
 	}
-	else_if = {
-			limit = {NOT = {exists = cp:councillor_spymaster}}
-			subtract = 5
-	}
-	else = {
-		subtract = 1.5
-	}	
-	min = -5
-	max = 2
-}
 
+	# === 修复 3：惩罚 ===
+	# 只有当你是“有地统治者”(is_ruler) 但“没有”间谍总管时，才施加惩罚
+	if = {
+		limit = {
+			is_alive = yes
+			is_adult = yes
+			is_incapable = no
+			is_ruler = yes # 关键：你必须是个统治者
+			NOT = { exists = cp:councillor_spymaster } # 却没有任命间谍总管
+		}
+		subtract = 1 #5
+	}
+	
+	# 因入狱或超预算而导致的衰减
+	if = {
+		limit = {
+			is_alive = yes
+			is_adult = yes
+			is_incapable = no
+			is_imprisoned = yes # 在监狱里
+		}
+		subtract = 1.5
+	}
+	if = {
+		limit = {
+			is_alive = yes
+			is_adult = yes
+			is_incapable = no
+			NOT = { # 超过预算
+				OR = {
+					NOT = { exists = var:spy_network_budget }
+					var:spy_network < var:spy_network_budget
+				}
+			}
+			# 并且你不是一个因为没有间谍总管而受到-5惩罚的统治者（避免双重惩罚）
+			NOR = {
+				is_ruler = yes
+				NOT = { exists = cp:councillor_spymaster }
+			}
+		}
+		subtract = 1.5 # 超过预算时，点数衰减
+	}
+	
+	min = -5
+	max = 5 #2
+}
 # spy_network_value_on_start = {
 # value = 0
 # add = age
@@ -426,27 +610,25 @@ spy_network_value = {
 # }
 
 spy_network_value_on_start = {
-    value = 0
+    value = 1 #0
     add = age
     subtract = 16
     multiply = 4
-    multiply = spy_network_value
+    # multiply = spy_network_value #ljl 0?
     
     # ================== 修改后的代码块 开始 ==================
     if = {
         limit = {
-            OR = {
-                # 条件一：如果是天朝制，则检查 treasury
-                AND = {
-                    has_government_flag = government_is_celestial
-                    treasury <= 300
-                }
-                # 条件二：如果不是天朝制，则检查 short_term_gold
-                AND = {
-                    NOT = { has_government_flag = government_is_celestial }
-                    short_term_gold <= 300
-                }
-            }
+			OR = {
+				# 规则一：原版规则，对所有政府都有效
+				short_term_gold >= low_level_report_cost
+
+				# 规则二：为天朝制增加的额外检查
+				AND = {
+					government_has_flag = government_is_celestial
+					treasury >= low_level_report_cost
+				}
+			}
         }
         multiply = 0.5
     }

@@ -37,13 +37,14 @@ befriend_prestige_modifier = {
 		
 		#DYNASTY PRESTIGE DIFFERENCE
 		modifier = {
-				NOT = { scope:owner.dynasty = scope:target.dynasty }
+				NOT = { scope:owner.dynasty ?= scope:target.dynasty }
 			add = {
 				value = 0
 				if = {
 					limit = {
 						scope:owner = { has_dynasty = yes }
 						scope:owner.dynasty = { dynasty_prestige_level = 0 }
+						scope:target= { has_dynasty = yes }
 						NOT = {scope:target.dynasty = { dynasty_prestige_level = 0 }}
 					}
 					add = -10
@@ -1844,7 +1845,7 @@ befriend_traits_and_personality_modifier = {
 				}
 				if = {
 					limit = {
-						scope:owner = { has_trait = poet }
+						scope:owner = { has_trait = lifestyle_poet }
 					}
 					add = 20
 				}
@@ -2256,8 +2257,8 @@ befriend_traits_and_personality_modifier = {
 		modifier = {
 		desc = OBF_both_poets
 			add = 5
-			scope:owner = { has_trait = poet }
-			scope:target = { has_trait = poet }
+			scope:owner = { has_trait = lifestyle_poet }
+			scope:target = { has_trait = lifestyle_poet }
 		}
 
 		#DISEASES

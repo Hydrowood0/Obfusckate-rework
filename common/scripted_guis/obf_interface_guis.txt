@@ -2816,39 +2816,39 @@ character
 
 
 
-gui_show_traits_in_lists = { # CURRENTLY NOT USED
-saved_scopes = {
-character
-}
-	is_valid = {
+# gui_show_traits_in_lists = { # CURRENTLY NOT USED
+# saved_scopes = {
+# character
+# }
+# 	is_valid = {
 	
-	exists = scope:character
-	exists = root
-	NOT = {scope:character ?= root}
-	NOT = {has_game_rule = hide_traits}
-	scope:character ?= {
-	OR = {
-	is_spouse_of_even_if_dead = root
+# 	exists = scope:character
+# 	exists = root
+# 	NOT = {scope:character ?= root}
+# 	NOT = {has_game_rule = hide_traits}
+# 	scope:character ?= {
+# 	OR = {
+# 	is_spouse_of_even_if_dead = root
 
-			obf_is_fellow_vassal_or_liege_councillor = yes
-			obf_has_high_level_knowledge_flags = yes
-			obf_has_close_or_intimate_relation = yes
-			obf_has_near_intimate_or_close_relation = yes
-			obf_has_guardian_or_ward_relation = yes
-			obf_has_important_court_position = yes
-			obf_has_near_intimate_or_close_relation	= yes
-			has_character_flag = has_been_spied
-			has_character_flag = had_high_level_report
+# 			obf_is_fellow_vassal_or_liege_councillor = yes
+# 			obf_has_high_level_knowledge_flags = yes
+# 			obf_has_close_or_intimate_relation = yes
+# 			obf_has_near_intimate_or_close_relation = yes
+# 			obf_has_guardian_or_ward_relation = yes
+# 			obf_has_important_court_position = yes
+# 			obf_has_near_intimate_or_close_relation	= yes
+# 			has_character_flag = has_been_spied
+# 			has_character_flag = had_high_level_report
 	
-	AND = {OR = {has_character_flag = emissary_sent
-	has_character_flag = had_medium_level_report
-				has_character_flag = partially_spied_2}
-			obf_will_openly_talk_char_info_trigger = yes}
+# 	AND = {OR = {has_character_flag = emissary_sent
+# 	has_character_flag = had_medium_level_report
+# 				has_character_flag = partially_spied_2}
+# 			obf_will_openly_talk_char_info_trigger = yes}
 				
-				}
-			}
-	}
-}
+# 				}
+# 			}
+# 	}
+# }
 
 gui_show_personality_traits = {
 saved_scopes = {
@@ -2939,6 +2939,12 @@ character
 	NOT = {scope:character ?= root}
 	scope:character ?= {
 	OR = {
+            AND = {exists = root.var:laamp_first_recruit_var this ?= root.var:laamp_first_recruit_var }
+            AND = {exists = root.var:laamp_second_recruit_var this ?= root.var:laamp_second_recruit_var }
+            AND = {exists = root.var:laamp_third_recruit_var this ?= root.var:laamp_third_recruit_var }
+            AND = {exists = root.var:laamp_generic_jane_var this ?= root.var:laamp_generic_jane_var }
+            AND = {exists = root.var:laamp_spouse_material_var this ?= root.var:laamp_spouse_material_var }
+            AND = {exists = root.var:laamp_hooded_figure_var this ?= root.var:laamp_hooded_figure_var }
 	is_spouse_of_even_if_dead = root
 	AND = {scope:character ?= {is_pool_character = yes}
 				root ?= {has_character_flag = searching_for_physician}}
@@ -2977,6 +2983,12 @@ character
 	NOT = {scope:character ?= root}
 	scope:character ?= {
 	OR = {
+	            this ?= root.var:laamp_first_recruit_var
+                this ?= root.var:laamp_second_recruit_var
+                this ?= root.var:laamp_third_recruit_var
+                this ?= root.var:laamp_generic_jane_var
+                this ?= root.var:laamp_spouse_material_var
+                this ?= root.var:laamp_hooded_figure_var
 	AND = {is_pool_character = yes
 				root ?= {is_travelling = yes}}
 	is_spouse_of_even_if_dead = root
