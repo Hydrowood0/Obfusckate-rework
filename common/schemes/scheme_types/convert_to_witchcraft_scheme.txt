@@ -26,17 +26,6 @@
 		is_witch_trigger = yes
 		is_adult = yes
 		is_imprisoned = no
-		is_in_army = no 
-
-		custom_tooltip = { 
-		text = "at_war_with_target_or_lieges" 
-		is_at_war_with_target_and_its_lieges = no
-		}
-		is_available_for_personal_scheme = yes 
-		trigger_if = {  
-			limit = { is_ai = no }
-		can_be_target_of_befriend_trigger = yes
-		}
 		trigger_if = {
 			limit = {
 				NOT = { government_has_flag = government_is_landless_adventurer }
@@ -70,9 +59,6 @@
 				}
 			}
 		}
-		scope:target = {
-			exists = location
-		}
 	}
 	use_secrecy = {
 		use_convert_to_witchcraft_secrecy_trigger = { OWNER = scope:owner }
@@ -81,35 +67,43 @@
 	odds_prediction = {
 		add = base_odds_prediction_target_is_char_value
 		add = odds_skill_contribution_learning_value
-		add = odds_sway_scheme_misc_value
-		if = {
-			limit = {
-				scope:owner = {
-					exists = house
-					house = { has_house_modifier = witch_coven }
-				}
-			}
-			add = 20
-		}
-		if = {
-			limit = {
-				scope:target.ai_zeal < 0
-			}
-			add = scope:target.ai_zeal
-			multiply = -1
-			max = 50
-		}
+		add = odds_convert_to_witchcraft_misc_value
 		min = 0
 	}
 	
+	# Base Chances
 	base_success_chance = {
-		base = -40
-		
-		# Countermeasures.
-		apply_opportunistic_scheme_success_chance_adjustments_modifier = yes
-		
-	
-		 #########OPINION#DISABLED FOR AI TO SAVE PERFORMANCE
+		base = 0
+		scheme_type_skill_success_chance_modifier = { SKILL = LEARNING }
+
+		#Coven leader
+		modifier = {
+			scope:owner = {
+				house ?= { has_house_modifier = witch_coven }
+			}
+			desc = SCHEME_WITCH_COVEN
+			add = 20
+		}
+
+		#Their zeal
+		ai_value_modifier = {
+			who = scope:target
+
+			ai_zeal = {
+				if = {
+					limit = {
+						faith = { trait_is_virtue = witch has_doctrine_parameter = witchcraft_accepted }
+					}
+					value = 0.25
+				}
+				else = {
+					value = -1
+				}
+			}
+			max = 50
+			min = -25
+		}
+		 #########OPINION#DISABLED FOR AI TO SAVE PERFORMANCE changed by obfusCKate: start
 		opinion_modifier = {
 		trigger = {
 			scope:owner = {is_ai = no}
@@ -143,63 +137,146 @@
 			multiplier = 1.5
 			step = 5
 		}
+		#########OPINION#DISABLED FOR AI TO SAVE PERFORMANCE changed by obfusCKate: end
+		# Countermeasures.
+		apply_opportunistic_scheme_success_chance_adjustments_modifier = yes
 
-		#Learning based
-		compare_modifier = {
-			target = scope:owner
-			value = learning
-			multiplier = 1.5
-			desc = "SCHEME_LEARNING_MODIFIER"
+		#Attraction
+		modifier = {
+			add = 10
+			scope:owner = {
+				attraction >= 10
+				attraction < 20
+			}
+			scope:target = { is_attracted_to_gender_of = scope:owner  }
+			desc = SCHEME_ATTRACTION
 		}
-		
-		#Diplomacy also counts...
-		compare_modifier = { 
-			desc = sway_my_diplomacy
-			target = scope:owner 
-			value = diplomacy
-			multiplier = 0.75
+		modifier = {
+			add = 20
+			scope:owner = {
+				attraction >= 20
+				attraction < 30
+			}
+			scope:target = { is_attracted_to_gender_of = scope:owner  }
+			desc = SCHEME_ATTRACTION
 		}
-		
-		#...and your subterfuge ability
-		compare_modifier = { 
-			desc = OBF_MY_INTRIGUE
-			target = scope:owner
-			value = intrigue
-			multiplier = 0.75
-		} 
-			
-		#TARGET LEARNING  
-		witch_learning_modifier = yes 
+		modifier = {
+			add = 30
+			scope:owner = { attraction >= 30 }
+			scope:target = { is_attracted_to_gender_of = scope:owner  }
+			desc = SCHEME_ATTRACTION
+		}
 
-		#PERSONAL AND DINASTY PRESTIGE
-		witch_prestige_modifier = yes
-		
-		#STRESS LEVELS
-		witch_stress_modifier = yes
-		
-		#LANGUAGE AND CULTURE
-		witch_language_and_culture_modifier = yes
-		
-		#DIPLOMACY, MILITARY STRENGTH, HOSTILITIES AND CLAIMS
-		witch_hostility_modifier = yes
-		
-		#RELIGION AND SECRETS
-		witch_religion_modifier = yes 
-		   
-		#LIFESTYLE AND EDUCATION
-		witch_lifestyle_and_education_modifier = yes
-		 
-		#RELATIONS AND EASE OF CONTACT 
-		witch_relation_to_target_modifier = yes
-		
-		#CHARACTER_MODIFIERS
-		witch_char_mods_modifier = yes
-		
-		#TRAITS AND PERSONALITY
-		witch_traits_and_personality_modifier = yes
-		
-		#HARD MODIFIERS ON TARGET OPINION OF OWNER 
-		witch_target_opinion_modifier = yes
+		#Target traits
+		modifier = {
+			scope:target = {
+				has_trait = zealous
+				NOR = {
+					faith = {
+						trait_is_virtue = witch
+						has_doctrine_parameter = witchcraft_accepted
+					}
+				}
+			}
+			desc = "SCHEME_TRAIT_ZEALOUS"
+			add = -50
+		}
+		modifier = {
+			scope:target = {
+				has_trait = devoted
+				NOR = {
+					faith = {
+						trait_is_virtue = witch
+						has_doctrine_parameter = witchcraft_accepted
+					}
+				}
+			}
+			desc = "SCHEME_TRAIT_DEVOTED"
+			add = -30
+		}
+		modifier = {
+			scope:target = {
+				has_trait = order_member
+				NOR = {
+					faith = {
+						trait_is_virtue = witch
+						has_doctrine_parameter = witchcraft_accepted
+					}
+				}
+			}
+			desc = "SCHEME_TRAIT_ORDER_MEMBER"
+			add = -30
+		}
+		modifier = {
+			scope:target = { has_trait = craven }
+			desc = "SCHEME_TRAIT_CRAVEN"
+			add = -10
+		}
+		modifier = {
+			scope:target = { has_trait = paranoid }
+			desc = "SCHEME_TRAIT_PARANOID"
+			add = -20
+		}
+		modifier = {
+			scope:target = { has_trait = lifestyle_reveler }
+			desc = "SCHEME_REVELER"
+			add = 10
+		}
+		modifier = {
+			scope:target = { has_intrigue_lifestyle_trait_trigger = yes }
+			desc = "SCHEME_IS_A_SCHEMER"
+			add = 10
+		}
+		modifier = {
+			scope:target = { has_trait = seducer }
+			desc = "SCHEME_TRAIT_TARGET_SEDUCER"
+			add = 10
+		}
+		modifier = {
+			scope:target = { has_trait = lifestyle_mystic }
+			desc = "SCHEME_TRAIT_MYSTIC"
+			add = 20
+		}
+		modifier = {
+			scope:target = { has_trait = lifestyle_herbalist }
+			desc = "SCHEME_TRAIT_HERBALIST"
+			add = 10
+		}
+		modifier = {
+			scope:target = { has_trait = lustful }
+			desc = "SCHEME_LUSTFUL_TRAIT"
+			add = 5
+		}
+		modifier = {
+			scope:target = { has_trait = deceitful }
+			desc = "SCHEME_TRAIT_DECEITFUL"
+			add = 5
+		}
+		modifier = {
+			scope:target = { has_trait = ambitious }
+			desc = "SCHEME_TRAIT_AMBITIOUS"
+			add = 5
+		}
+		modifier = {
+			scope:target = {
+				has_trait = cynical
+				NOT = {
+					faith = { trait_is_virtue = witch }
+				}
+			}
+			desc = "SCHEME_TRAIT_CYNICAL"
+			add = 5
+		}
+		modifier = {
+			scope:target = { has_trait = trusting }
+			desc = "SCHEME_TRAIT_TRUSTING"
+			add = 5
+		}
+		modifier = {
+			scope:target = { has_trait = excommunicated }
+			desc = "SCHEME_TRAIT_EXCOMMUNICATED"
+			add = 10
+		}
 
 		# House Personal Scheme Success Chance on Cultural Parameter
 		modifier = {
@@ -212,39 +289,9 @@
 			}
 			scope:target.house = scope:owner.house
 		}
-		# Modifiers
-		# house_head_request_interaction
-		modifier = {
-			add = personal_scheme_variable_list_value
-			scope:owner = {
-				has_variable_list = supporting_personal_schemes
-			}
-			desc = HOUSE_HEAD_SCHEME_SUPPORT_DESC
-		}
-		modifier = {
-			add = -10
-			scope:owner = { has_character_modifier = personal_schemes_distracted_modifier }
-			desc = personal_schemes_distracted_modifier
-		}
-		# Estate
-		modifier = {
-			scope:owner.domicile ?= {
-				has_domicile_parameter = increased_success_personal_schemes_1
-			}
-			add = estate_increased_personal_scheme_success_1_value
-		}
-		modifier = {
-			scope:owner.domicile ?= {
-				has_domicile_parameter = increased_success_personal_schemes_2
-			}
-			add = estate_increased_personal_scheme_success_2_value
-		}
-		modifier = {
-			scope:owner.domicile ?= {
-				has_domicile_parameter = increased_success_personal_schemes_3
-			}
-			add = estate_increased_personal_scheme_success_3_value
-		}
+
+		# Personal Scheme Shared
+		personal_scheme_base_success_chance_modifiers = yes
 	}
 	base_secrecy = {
 		add = secrecy_base_value
@@ -263,76 +310,13 @@
 		scheme_target_character = { save_scope_as = target }
 		if = {
 			limit = {
-				scope:target = { any_secret = { secret_type = secret_witch } }
+				scope:target = { any_secret = { type = secret_witch } }
 			}
 			scope:owner = {
 				trigger_event = {
 					id = witch.2006
 					days = { 7 14 }
 				}
-			}
-		}
-
-		if = {
-			limit = {
-					distance_from_owner_to_target = { DISTANCE = 150000}
-					both_work_on_same_court = no
-			}
-			scope:scheme = {
-			add_scheme_progress = 5
-			}
-		}
-		if = {
-			limit = {
-					distance_from_owner_to_target = { DISTANCE = 120000}
-					both_work_on_same_court = no
-			}
-			scope:scheme = {
-			add_scheme_progress = 5
-			}
-		}
-		if = {
-			limit = {
-					distance_from_owner_to_target = { DISTANCE = 90000}
-					both_work_on_same_court = no
-			}
-			scope:scheme = {
-			add_scheme_progress = 5
-			}
-		}
-		if = {
-			limit = {
-					distance_from_owner_to_target = { DISTANCE = 60000}
-					both_work_on_same_court = no
-			}
-			scope:scheme = {
-			add_scheme_progress = 5
-			}
-		}
-		if = {
-			limit = {
-					distance_from_owner_to_target = { DISTANCE = 30000}
-					both_work_on_same_court = no
-			}
-			scope:scheme = {
-			add_scheme_progress = 10
-			}
-		}
-		if = {
-			limit = {
-					distance_from_owner_to_target = { DISTANCE = 20000}
-					both_work_on_same_court = no
-			}
-			scope:scheme = {
-			add_scheme_progress = 10
-			}
-		}
-		if = {
-			limit = {
-						both_work_on_same_court = yes
-			}
-			scope:scheme = {
-			add_scheme_progress = 60
 			}
 		}
 	}
