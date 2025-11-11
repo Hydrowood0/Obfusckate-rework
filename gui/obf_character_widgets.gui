@@ -423,7 +423,7 @@
 	# council
 	type obf_hbox_spy_network_manage = container {
 		progressbar = {
-			visible = "[And(Not(LessThanOrEqualTo_CFixedPoint( GetPlayer.MakeScope.Var('spy_network').GetValue, '(CFixedPoint)0' )),And(Or(GetScriptedGui('stop_spy_network').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),GetScriptedGui('start_spy_network').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End )),And(ActiveCouncilTask.HasCouncillor, Not(CouncilWindow.IsLiegeCouncilShown))))]"
+			visible = "[And(Not(LessThanOrEqualTo_CFixedPoint( GetPlayer.MakeScope.Var('spy_network').GetValue, '(CFixedPoint)0' )),And(Or(GetScriptedGui('stop_spy_network').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),GetScriptedGui('start_spy_network').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End )),And(ActiveCouncilTask.HasCouncillor, CouncilWindow.IsPlayerCouncilShown)))]"
 			tooltip = "NETWORK_COVERAGE_TT"
 			using = tooltip_nw
 
@@ -440,7 +440,7 @@
 			name = "High_Budget"
 			size = { 55 25 }
 			datacontext = "[Character]"
-			visible = "[And(GetScriptedGui('spy_network_budget_max').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(ActiveCouncilTask.HasCouncillor, Not(CouncilWindow.IsLiegeCouncilShown)))]"
+			visible = "[And(GetScriptedGui('spy_network_budget_max').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(ActiveCouncilTask.HasCouncillor, CouncilWindow.IsPlayerCouncilShown))]"
 			onclick = "[GetScriptedGui('spy_network_budget_max').Execute( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
 			text = "MAX_BUDGET"
 			tooltip = "MAX_BUDGET_TT"
@@ -458,7 +458,7 @@
 			name = "medium_Budget"
 			size = { 55 25 }
 			datacontext = "[Character]"
-			visible = "[And(GetScriptedGui('spy_network_budget_med').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(ActiveCouncilTask.HasCouncillor, Not(CouncilWindow.IsLiegeCouncilShown)))]"
+			visible = "[And(GetScriptedGui('spy_network_budget_med').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(ActiveCouncilTask.HasCouncillor, CouncilWindow.IsPlayerCouncilShown))]"
 			onclick = "[GetScriptedGui('spy_network_budget_med').Execute( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
 			text = "MEDIUM_BUDGET"
 			tooltip = "MEDIUM_BUDGET_TT"
@@ -476,7 +476,7 @@
 			name = "low_Budget"
 			size = { 55 25 }
 			datacontext = "[Character]"
-			visible = "[And(GetScriptedGui('spy_network_budget_min').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(ActiveCouncilTask.HasCouncillor, Not(CouncilWindow.IsLiegeCouncilShown)))]"
+			visible = "[And(GetScriptedGui('spy_network_budget_min').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(ActiveCouncilTask.HasCouncillor, CouncilWindow.IsPlayerCouncilShown))]"
 			onclick = "[GetScriptedGui('spy_network_budget_min').Execute( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
 			text = "LOW_BUDGET"
 			tooltip = "LOW_BUDGET_TT"
@@ -493,7 +493,7 @@
 			name = "no_Budget"
 			size = { 55 25 }
 			datacontext = "[Character]"
-			visible = "[And(GetScriptedGui('spy_network_budget_none').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(ActiveCouncilTask.HasCouncillor, Not(CouncilWindow.IsLiegeCouncilShown)))]"
+			visible = "[And(GetScriptedGui('spy_network_budget_none').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(ActiveCouncilTask.HasCouncillor, CouncilWindow.IsPlayerCouncilShown))]"
 			onclick = "[GetScriptedGui('spy_network_budget_none').Execute( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
 			text = "NO_BUDGET"
 			tooltip = "NO_BUDGET_TT"
@@ -511,7 +511,7 @@
 			name = "start_network"
 			size = { 40 40 }
 			datacontext = "[Character]"
-			visible = "[And(GetScriptedGui('start_spy_network').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(ActiveCouncilTask.HasCouncillor, Not(CouncilWindow.IsLiegeCouncilShown)))]"
+			visible = "[And(GetScriptedGui('start_spy_network').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(ActiveCouncilTask.HasCouncillor, CouncilWindow.IsPlayerCouncilShown))]"
 			onclick = "[GetScriptedGui('start_spy_network').Execute( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
 			tooltip = "PAUSE_NETWORK_GROWTH_TT"
 			using = tooltip_nw
@@ -561,7 +561,7 @@
 			name = "stop_network"
 			size = { 40 40 }
 			datacontext = "[Character]"
-			visible = "[And(GetScriptedGui('stop_spy_network').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(GetScriptedGui('stop_spy_network').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(ActiveCouncilTask.HasCouncillor, Not(CouncilWindow.IsLiegeCouncilShown))))]"
+			visible = "[And(GetScriptedGui('stop_spy_network').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(GetScriptedGui('stop_spy_network').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope).End ),And(ActiveCouncilTask.HasCouncillor, CouncilWindow.IsPlayerCouncilShown)))]"
 			onclick = "[GetScriptedGui('stop_spy_network').Execute( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
 			tooltip = "PROMOTE_NETWORK_GROWTH_TT"
 			using = tooltip_nw
