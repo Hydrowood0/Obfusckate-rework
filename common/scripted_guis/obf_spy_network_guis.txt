@@ -1,158 +1,158 @@
 ﻿
 start_spy_network = {
 
-	is_shown = {
-		OR = {NOT = {has_variable = spy_network}
-		 has_variable = pause_spy_network 
-		 spy_network_value < 0}
-		 
-		 is_ai = no
-	is_alive = yes
-	is_adult = yes
-	is_incapable = no
-	is_landless_adventurer = no
-	}
-	is_valid = {
-	spy_network_value > 0
-	}
-	effect = {
-	remove_variable = pause_spy_network
-	if = {
-		limit = {NOT = {has_variable = spy_network}}
-		set_variable = {
-		name = spy_network
-		value = 1.1 #0 game_start 没有spy_network
-			}
-		}
-	}
+    is_shown = {
+        OR = {NOT = {has_variable = spy_network}
+        has_variable = pause_spy_network
+        spy_network_value < 0}
+
+        is_ai = no
+        is_alive = yes
+        is_adult = yes
+        is_incapable = no
+        is_landless_adventurer = no
+    }
+    is_valid = {
+        spy_network_value > 0
+    }
+    effect = {
+        remove_variable = pause_spy_network
+        if = {
+            limit = {NOT = {has_variable = spy_network}}
+            set_variable = {
+                name = spy_network
+                value = 1.1 #0 game_start 没有spy_network
+            }
+        }
+    }
 }
 
 stop_spy_network = {
 
-	is_shown = {
-		NOT = { has_variable = pause_spy_network }
-		is_ai = no
-	is_alive = yes
-	is_adult = yes
-	is_incapable = no
-	is_landless_adventurer = no
-	has_variable = spy_network
-	}
-	is_valid = {
-	spy_network_value > 0
-	}
-	effect = {
-	set_variable = {
-	name = pause_spy_network
-		}
-	}
+    is_shown = {
+        NOT = { has_variable = pause_spy_network }
+        is_ai = no
+        is_alive = yes
+        is_adult = yes
+        is_incapable = no
+        is_landless_adventurer = no
+        has_variable = spy_network
+    }
+    is_valid = {
+        spy_network_value > 0
+    }
+    effect = {
+        set_variable = {
+            name = pause_spy_network
+        }
+    }
 }
-	
+
 
 spy_network_budget_none = {
 
-	is_shown = {
-	is_ai = no
-	is_alive = yes
-	is_adult = yes
-	is_incapable = no
-	is_landless_adventurer = no
-	}
-	is_valid = {
-	}
-	effect = {
-	set_variable = {
-	name = spy_network_budget
-	value = 0
-		}
-	}
+    is_shown = {
+        is_ai = no
+        is_alive = yes
+        is_adult = yes
+        is_incapable = no
+        is_landless_adventurer = no
+    }
+    is_valid = {
+    }
+    effect = {
+        set_variable = {
+            name = spy_network_budget
+            value = 0
+        }
+    }
 }
 
 spy_network_budget_min = {
 
-	is_shown = {
-	is_ai = no
-	is_alive = yes
-	is_adult = yes
-	is_incapable = no
-	is_landless_adventurer = no
-	}
-	is_valid = {
-	}
-	effect = {
-	set_variable = {
-	name = spy_network_budget
-	value = 70
-		}
-	}
+    is_shown = {
+        is_ai = no
+        is_alive = yes
+        is_adult = yes
+        is_incapable = no
+        is_landless_adventurer = no
+    }
+    is_valid = {
+    }
+    effect = {
+        set_variable = {
+            name = spy_network_budget
+            value = 70
+        }
+    }
 }
 
 spy_network_budget_med = {
 
-	is_shown = {
-	is_ai = no
-	is_alive = yes
-	is_adult = yes
-	is_incapable = no
-	is_landless_adventurer = no
-	}
-	is_valid = {
-	}
-	effect = {
-	set_variable = {
-	name = spy_network_budget
-	value = 140
-		}
-	}
+    is_shown = {
+        is_ai = no
+        is_alive = yes
+        is_adult = yes
+        is_incapable = no
+        is_landless_adventurer = no
+    }
+    is_valid = {
+    }
+    effect = {
+        set_variable = {
+            name = spy_network_budget
+            value = 140
+        }
+    }
 }
 
 spy_network_budget_max = {
 
-	is_shown = {
-	is_ai = no
-	is_alive = yes
-	is_adult = yes
-	is_incapable = no
-	is_landless_adventurer = no
-	}
-	is_valid = {
-	}
-	effect = {
-	set_variable = {
-	name = spy_network_budget
-	value = 200
-		}
-	}
+    is_shown = {
+        is_ai = no
+        is_alive = yes
+        is_adult = yes
+        is_incapable = no
+        is_landless_adventurer = no
+    }
+    is_valid = {
+    }
+    effect = {
+        set_variable = {
+            name = spy_network_budget
+            value = 200
+        }
+    }
 }
 
 highlight_budget_none = {
 
-	is_shown = {
-	exists = var:spy_network_budget
-	var:spy_network_budget = 0
-	}
+    is_shown = {
+        exists = var:spy_network_budget
+        var:spy_network_budget = 0
+    }
 }
 
 highlight_budget_min = {
 
-	is_shown = {
-	exists = var:spy_network_budget
-	var:spy_network_budget = 70
-	}
+    is_shown = {
+        exists = var:spy_network_budget
+        var:spy_network_budget = 70
+    }
 }
 highlight_budget_med = {
 
-	is_shown = {
-	exists = var:spy_network_budget
-	var:spy_network_budget = 140
-	}
+    is_shown = {
+        exists = var:spy_network_budget
+        var:spy_network_budget = 140
+    }
 }
 highlight_budget_max = {
 
-	is_shown = {
-	exists = var:spy_network_budget
-	var:spy_network_budget = 200
-	}
+    is_shown = {
+        exists = var:spy_network_budget
+        var:spy_network_budget = 200
+    }
 }
 
 

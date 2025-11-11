@@ -1,6 +1,7 @@
 ﻿personal_identity_discovery_decision = {
 	picture = {
-		reference = "gfx/interface/decisions/personal_identity.dds"
+		## reference = "gfx/interface/decisions/personal_identity.dds" ##missed 
+		reference = "gfx/interface/skinned/illustrations/decisions.dds"
 	}
 	
 	sort_order = 200
