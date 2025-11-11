@@ -1,58 +1,40 @@
-[h2]What this mod does:[/h2]
-This mod obfuscates the information that the character you are playing [u] isn't expected to know [/u] like stats of an unknown character or exact chances for schemes, etc. This takes away the feeling of omniscience and delivers a more challenging and roleplay driven experience, more consistent with the game setting.
+- This mod has made massive fixes based on the original Obfus mod and tries to catch up with vanilla updates. 1.16&1.18-related functions are still under development. If you encounter any bugs when using only the following mods in the order list, please don't hesitate to tell me immediately.
+- [b][u]Unsubscribe and resubscribe[/u][/b] to this mod to prevent lagging and invalidation ([u][b]to avoid some bugs in old versions of this mod[/b][/u]) after my update. (Many modders report that there is an issue with [i][u]Steam sometimes redistributing old version of the mod [/u][/i]. I've contacted Steam, but they won't do anything to fix this issue.)
+- All credit is attributed to  [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2874007571]Obfusckate[/url]'s author JP78 & [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3239002020]RUI:Character Unofficial[/url]'s author Saltfish; But don't use this mod with JP78's or my other submod, neither; Instead, Use this mod only, because this one is the newest.
 
-[h2] Discord [/h2]
-https://discord.gg/aakS5jPrdX
+[h2]- Arrange the mods in this order:：[/h2]
+0. [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2974850904] (Optional) Knight Manager continued[/url]
+1. this mod: obfusCKate - Hidden Information(rework)
+2. [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3239002020](Optional) RUI: Character Unofficial[/url]
+3. localisation.  [strike] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3508471691 ] [u] 汉化mod。弃用，本模组已集成中文 [/u] [/url] [/strike] & [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3521657245] [u] obfusCKate - Español en Inglés [/u] [/url] & FR & Russain & Korean & German.  [u]Some of them r not compatibled with this mod[/u].
+4.（optional）[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3030427202]Big Battle View[/url]
 
-You can [url=https://www.buymeacoffee.com/jorgemmpedro] Buy me a coffee [/url] if you wish
+ [h2]- What is new? [/h2]
+0. compatible with RUI & Knight Manager continued.
+1. Fix the family and subjects tab overlapping.
+2. Fix the Kurultai council tab, the-great-steppe-window.
+3. No more game crashes when raising a raid army.
+4. Fix the notification template background to vanilla.
+5. “hud outliner gui.bak” in the folder is without “Extend Outliner”, rename it and replace 'hud outliner.gui" if u don’t want "Extend Outliner'.
+6. No more crash happens when hovering the mouse over highlighted texts in game rule configuration(like "Conqueror" on conqueror bonus setting) .
+7. Optional Obfuscate influence & herd & [b][i][u]age[/u][/i][/b] (configure it in game rules, compatible with RUI).
+8. window_county.gui fixed for nomad version.
 
-[h2]NEW UPDATE - 28 November - Latest Patch 1.14.2.2 ( [/h2]
+9. spouse & concubine finder-window: age displayed.
+10. localisation integrated. Except for the 2 finished and implemented localisations, CN&EN, other localisations are replaced by English by default.
 
+11. The People You Know filter/ acquaintances list wiil not be empty/ wiped 
+12. Disciple relation is now calculated.
+13. Spynetwork works again at the 1.18 version.
+14. Show the 5 stats of recruitable characters in the tavern recruit event.
 
-[h3]  Troubleshoot & compatibility [/h3]
-Read notes on compatibility at the end of description
-
-[h2] Why this mod? [/h2]
-The fact that the player is omniscient (knows every single detail about the world and the characters on it) starting to make the game feel tedious for me. So I decided to make this mod with a more roleplaying experience in mind. Although I started creating this mod for myself, while I was working on it I thought that more people would enjoy it and so I decided to upload it. hen, after positive feedback and appreciation for this mod, I decided to continue expanding it. Months have passed and, with some ideas of my own and also thanks to the feedback I receive, I keep enhancing the mod (I hope) always with the same goal in mind: Roleplaying. 
-As I stated in response to the first comments when I first uploaded this mod, I never intended to make any money from it, but lately some people have been asking if they can donate or why don't I set up an account for donations. 
-
-Here it is:
-[h3]If you would like to support me...[/h3]
-You can [url=https://www.buymeacoffee.com/jorgemmpedro] Buy me a coffee [/url] if you wish but, like I mentioned earlier, I work on the mod for enjoyment so, as long as I can, with or without the [url=https://www.buymeacoffee.com/jorgemmpedro] coffee [/url], if I feel the need to enhance this mod or perfect it, I will be working on it.
-
-[h2] One Proud Bavarian review [/h2]
- https://www.youtube.com/watch?v=gkmY-qzTVL4&t=50s
-
-[h2] I want a more hardcore experience [/h2]
-You can customize your experience on the game rules
-
-
-[h2] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3018119176] Note Taker & Memorandum [/url] [/h2] This mod adds allows you to take notes and access a personal memorandum that lists all characters with whom you have memories or notes on.
-
-[h2] And check out my mod [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3015084755] My Sexual Preference [/url] [/h2] This mod adds "Personal Discovery" decision that an adult character player can take every 20 years, allowing them to embrace self-discovery and choose their sexual preference (change in game sexuality).
-
-[h2] And check out my other mod CK3 Music Control [/h2]
-[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3014144039] CK3 Music Control [/url]. This mod adds a next song button and a toggable, playable, movable and configurable playlist.
-
-[h2] See the post on detailed information and tips about obfusCKate [url=https://steamcommunity.com/workshop/filedetails/discussion/2874007571/3757725715240157537/] here [/url] [/h2]
+[h3]todo：[/h3]
+0. [url=https://store.steampowered.com/news/app/1158310/view/509590093865943751] Waiting for the official implementation of this mod function Development Log #182 《 Terra Obscura 》[/url]
+1. "befriend_scheme.txt" "convert_to_witchcraft_scheme" "sway_scheme.txt" These three files are too difficult to compare and update. I will use the original vanilla ones for the time being.
 
 
-[h2] [u] Game version[/u] [/h2]
-latest
-
-[h3]Languages:[/h3] 
-If you are not playing in english, some information might be shown.
-Text is fully localized so it will be easy to translate for anyone who wants it.
-
-[h3]Additional notes:[/h3] 
-Tooltips in the game explain most changes
-
-[h2] [u] Compatibility[/u] [/h2]
-[b]This mod must be [u]last[/u] on load order [/b]
-This mod is expected to be FULLY compatible with mods that only add flavour like RICE, etc
-This mod will most certainly have major compatibility issues with overhauls and mods that change the UI, game rules or schemes
-
-
-[h3]Translation:[/h3]
-German: Thanks to user [b] Smitty Werbenjägermanjensen [/b]: https://steamcommunity.com/sharedfiles/filedetails/?id=3013023799
-Chinese: Thanks to user [b]Concubine Moon [/b]:https://steamcommunity.com/sharedfiles/filedetails/?id=2875456658
+[h3]"bugs" will not be fixed:[/h3]
+1. "Seems there is a graphical bug w/e entering the culture view, the culture head portrait/placeholder flashes constantly; I'm getting flickering. Unknown character portraits flicker with a white box when moving the mouse. " [url=https://forum.paradoxplaza.com/forum/threads/gui-and-hud-flickering.1867948] It looks like a paradox bug. [/url] I also encountered it, I guess it is related to the system configuration (VRAM/GPU/RAM/CPU) & driver (DX11/Vulkan).
+2. Not-mentioned-above mod compatibility issues ("Better Battle View", "More Family Relations", "Height of Crown", "Fallen Eagle", "CoA mod(Patrum Scuta, Happy Heraldry, etc.)", etc. )
+3. "When I choose a task for the Kurultai (tribal council), the UI reveals the exact value of the relevant stat" - Sadly, this info cannot be hidden by modding, I tried. It is encapsulated by Paradox into a whole. The original Obfus mod has not modified this either; however, the non-nomadic text of the vanilla game does not contain stat values. the code is hard-coded into the following: COUNCIL_TASK_EFFECTS: "#S Effets#!\n[ActiveCouncilTask.GetTaskEffect]"
+[img]https://i.imgur.com/1RLfdY0.jpg[/img] [img]https://i.imgur.com/8aD4G4U.gif[/img]
