@@ -38,7 +38,7 @@
  DEVELOPMENT_INCREASING_TT: "#P #BOL 发展中#!#!\n\n点击以#I #Y 暂停#!#!网络发展。\n要求你的间谍总管停止继续建立新的联络。[intel_network|E]的现有联络仍将发挥作用，但不会继续扩张。维护费用也将保持在现有等级。\n\n#E 当你试图维持#BOL 维护费用#!时十分有用。#!"
  DEVELOPMENT_DECREASING_TT: "#Y #BOL 缩减中#!#!\n\n目前，由于预算不足或间谍首脑能力不足，[intel_network|E]正在逐渐缩减。这将持续到其规模与预算水平相当时。\n\n#E 如果你希望#BOL 保持现有网络发展度等级#!，你应该选择更高的预算水平并暂停网络增长。#!"
  REDUCING_OPTION_TT: "#N #BOL 缩减中#!#!"
- DEVELOPMENT_NOT_POSSIBLE_OPTION_TT:"#N #BOL 预计不会有任何发展 #!#!
+ DEVELOPMENT_NOT_POSSIBLE_OPTION_TT:"#N #BOL 预计不会有任何发展 #!#!"
 
  MOD_FEATURES_TOOLTIP: "#T #E #clickable obfusCKate#!模组功能概览#!#!\n$mod_features_desc$\n\n$mod_features_disable$"
  mod_features_desc: "尽管你可能不需要这玩意儿，但我们人性化的设计了这个说明，#P 点击#!就能更好的了解模组。"
