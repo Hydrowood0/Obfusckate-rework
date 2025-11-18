@@ -47,7 +47,7 @@
  DEVELOPMENT_INCREASING_TT: "#P #BOL ACTIVE DEVELOPMENT#!#!\n\nClick to #I #Y Pause#!#! network development.\nInstruct your Spymaster to halt efforts in establishing new contacts for your [intel_network|E]. Existing connections will remain functional but no further expansion will occur. Maintenance cost will remain at current level.\n\n#E Useful if you wish to control #BOL maintenance expenses#! or stabilize your current operations.#!" #NT!
  DEVELOPMENT_DECREASING_TT: "#Y #BOL BEING REDUCED#!#!\n\nAt the moment, given your budget allocation or your spymaster inhability, the [intel_network|E] is being reduced progressively.This will stabilize when the network development matches your allocated budget.\n\n#E If you wish #BOL to mantain the current network development level#!, select a higher budget and then pause the development at the current level.#!" #NT!
  REDUCING_OPTION_TT: "#N #BOL REDUCING #!#!" #NT!
- DEVELOPMENT_NOT_POSSIBLE_OPTION_TT:"#N #BOL NO DEVELOPMENT EXPECTED #!#! 
+ DEVELOPMENT_NOT_POSSIBLE_OPTION_TT:"#N #BOL NO DEVELOPMENT EXPECTED #!#!" 
   
  ### MOD FEATURES BUTTON 
  MOD_FEATURES_TOOLTIP: "#T #E #clickable obfusCKate#! Mod Overview and Features#!#!\n$mod_features_desc$\n\n$mod_features_disable$" #NT!
