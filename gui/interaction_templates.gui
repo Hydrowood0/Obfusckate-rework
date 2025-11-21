@@ -1531,19 +1531,27 @@ types CharacterInteraction
 				icon = {
 					texture = "gfx/interface/icons/symbols/icon_cross.dds"
 					size = { 30 30 }
-					visible = "[Not( CharacterInteractionConfirmationWindow.IsAnswerPositive )]"
+					#changed by_obfusCKate: Start
+					# T's Note: Changing to visible = no, as it directly tells you the result of the request if left untouched
+					visible = no
+					#	visible = "[Not( CharacterInteractionConfirmationWindow.IsAnswerPositive )]"
+					#changed by_obfusCKate: End
 				}
 
 				icon = {
 					texture = "gfx/interface/icons/symbols/icon_check.dds"
 					size = { 30 30 }
-					visible = "[CharacterInteractionConfirmationWindow.IsAnswerPositive]"
+					#changed by_obfusCKate: Start
+					# T's Note: Changing to visible = no, as it directly tells you the result of the request if left untouched
+					visible = no
+					#	visible = "[CharacterInteractionConfirmationWindow.IsAnswerPositive]"
+					#changed by_obfusCKate: End
 				}
 
 				text_single = {
-				#changed by_obfusCKate: Start
+					#changed by_obfusCKate: Start
 					visible = no
-				#changed by_obfusCKate: End
+					#changed by_obfusCKate: End
 					layoutpolicy_horizontal = expanding
 					name = "answer"
 					text = "[CharacterInteractionConfirmationWindow.GetAnswer]"
@@ -1568,24 +1576,26 @@ types CharacterInteraction
 					max_width = 240
 				}
 				
-				text_single = {
-					layoutpolicy_horizontal = expanding
-					visible = "[And(And( Not( CharacterInteractionConfirmationWindow.IsAiMaybe ), Not( CharacterInteractionConfirmationWindow.GetRecipient.IsPlayer ) ), LessThanOrEqualTo_int32( CharacterInteractionConfirmationWindow.GetAnswerScore, '(int32)0' ))]"
-					name = "answer_refused"
-					text = "ANSWER_WILL_REFUSE"
-					default_format = "#high"
-					using = Font_Size_Medium
-					align = nobaseline
-				}
-				text_single = {
-					layoutpolicy_horizontal = expanding
-					visible = "[And(And( Not( CharacterInteractionConfirmationWindow.IsAiMaybe ), Not( CharacterInteractionConfirmationWindow.GetRecipient.IsPlayer ) ), GreaterThan_int32( CharacterInteractionConfirmationWindow.GetAnswerScore, '(int32)0' ))]"
-					name = "answer_accepted"
-					text = "ANSWER_WILL_HAPPEN"
-					default_format = "#high"
-					using = Font_Size_Medium
-					align = nobaseline
-				}
+				# T's Note: Commenting this out for now, as it directly tells you the result of the request if left untouched, which seems against the point of the mod?  I don't understand the purpose of this part tbh
+
+				#	text_single = {
+				#		layoutpolicy_horizontal = expanding
+				#		visible = "[And(And( Not( CharacterInteractionConfirmationWindow.IsAiMaybe ), Not( CharacterInteractionConfirmationWindow.GetRecipient.IsPlayer ) ), LessThanOrEqualTo_int32( CharacterInteractionConfirmationWindow.GetAnswerScore, '(int32)0' ))]"
+				#		name = "answer_refused"
+				#		text = "ANSWER_WILL_REFUSE"
+				#		default_format = "#high"
+				#		using = Font_Size_Medium
+				#		align = nobaseline
+				#	}
+				#	text_single = {
+				#		layoutpolicy_horizontal = expanding
+				#		visible = "[And(And( Not( CharacterInteractionConfirmationWindow.IsAiMaybe ), Not( CharacterInteractionConfirmationWindow.GetRecipient.IsPlayer ) ), GreaterThan_int32( CharacterInteractionConfirmationWindow.GetAnswerScore, '(int32)0' ))]"
+				#		name = "answer_accepted"
+				#		text = "ANSWER_WILL_HAPPEN"
+				#		default_format = "#high"
+				#		using = Font_Size_Medium
+				#		align = nobaseline
+				#	}
 				
 				#changed by obfusCKate: end
 
