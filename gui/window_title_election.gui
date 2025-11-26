@@ -71,11 +71,11 @@ window = {
 				}
 
 				background = {
-					using = Background_Window_Header
+					using = Background_Header
 				}
 
 				background = {
-					using = Background_Window_Header_Pattern
+					using = Background_Header_Pattern
 				}
 
 				vbox = {
@@ -659,7 +659,7 @@ window = {
 															item = {
 																icon_trait = {
 																	#Changed by ObfusCKate: Start
-																	visible = "[Trait.IsValid]"
+																	# visible = "[Trait.IsValid]"
 																	#visible = "[And(Trait.IsValid, GetScriptedGui('gui_show_traits_in_lists').IsValid( GuiScope.SetRoot( #GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
 																	#Changed by ObfusCKate: End
 
