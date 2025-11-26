@@ -2023,13 +2023,22 @@ obf_flag_characters_on_game_start = {
 			# 	limit = @@@
 			# 	is_alive = yes
 			# 				NOT = @@@
-			this = scope:player_character
+			# this = scope:player_character
 			#	!!!
 			#!!!
 			# 	list = basic_acquaintances
 			# 	character_met_effect = yes
 			# 	#!!!
 			# 	!!!
+
+			every_in_list = {
+				limit = {
+					is_alive = yes
+							this != scope:player_character
+				}
+				list = basic_acquaintances
+				character_met_effect = yes
+			}
 
 			if = {
 				limit = {
@@ -4247,7 +4256,15 @@ obf_make_acquaintances_from_knowledge = {
 		# 	limit = @@@
 		# 	is_alive = yes
 		# 				NOT = @@@
-		this = scope:player_character
+		# this = scope:player_character
+		every_in_list = {
+			limit = {
+				is_alive = yes
+						this != scope:player_character
+			}
+			list = basic_acquaintances
+			character_met_effect = yes
+		}
 	}
 }
 # 	list = basic_acquaintances
@@ -5369,6 +5386,38 @@ obf_new_acquaintance_befriend_outcome = {
 #####				#	acquaintance.2003
 #####				#	!!!
 #####				#!!!
+
+####SEDUCTION acquaintances
+##Included on scheme
+seduce_ongoing_milestone_1 = {
+	on_actions ={
+	new_acquaintance_seduction
+		}
+}
+
+seduce_ongoing_milestone_2 = {
+	on_actions ={
+	new_acquaintance_seduction
+		}
+}
+
+new_acquaintance_seduction = {
+trigger = {
+OR = {
+	scope:owner = {
+		is_ai = no
+		is_alive = yes
+	}
+	scope:target = {
+		is_ai = no
+		is_alive = yes
+	}							
+}
+scope:target = {NOT = {has_relation_to = scope:owner} }}	
+	events = {
+	acquaintance.2003
+	}
+}
 
 seduce_success = {
 	on_actions ={
