@@ -16,3 +16,5 @@ obf_faction_event.1000.desc: "The rumors have been confirmed! There is a faction
 obf_faction_event.1000.desc_faction_leader:"It is now clear that [faction_leader.GetShortUIName] is leading a [faction.GetName] against me"
 obf_faction_event.1000.a: "Traitors shall pay for this rebellious behaviour"
 obf_faction_event.1000.a.effect: "Opens factions window" 
+
+obf_faction_event.1001.t: "Rumors of peasant rebellion" # added by ljl

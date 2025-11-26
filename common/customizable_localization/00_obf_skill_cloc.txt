@@ -1,7 +1,7 @@
 ﻿# 定义一个名为 get_char_influence_level_name 的自定义描述
 get_char_influence_level_name = {
     # 'this' 上下文将是我们要检查的角色
-
+	type = character
     # text 块会从上到下检查 trigger，返回第一个满足条件的 text
     text = {
         trigger = { influence_level = 5 }
