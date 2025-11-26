@@ -1103,7 +1103,8 @@ immediate = {
 	}
 	option = {
 		name = obf_interaction.0012.a
-		scope:actor = {
+		scope:guest = {
+			remove_short_term_gold = 0 #ljl added to prevent bug
 		}
 	}
 	
@@ -1130,7 +1131,8 @@ immediate = {
 	}
 	option = {
 		name = obf_interaction.0013.a
-		scope:actor = {
+		scope:old_employer = {
+			remove_short_term_gold = 0 #ljl added to prevent bug
 		}
 	}
 	
