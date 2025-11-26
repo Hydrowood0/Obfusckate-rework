@@ -597,7 +597,11 @@ types CoATypes
 
 		flowcontainer = {
 			direction = vertical
+
+			block "position" {
 			position = { 0 -10 }
+			}
+			
 			spacing = -4
 			ignoreinvisible = yes
 
@@ -1086,6 +1090,20 @@ types CoATypes
 		visible = "[DynastyHouse.IsValid]"
 	}
 
+
+	## House relation icon
+	#
+	# Show the House Relation level between the players house,
+	# and this house.
+	#
+	type icon_house_relation = icon {
+		visible = "[DynastyHouse.HasHouseRelationWith( GetPlayer.GetHouse )]"
+		size = { 16 16 }
+
+		texture = "[DynastyHouse.GetHouseRelationWith( GetPlayer.GetHouse ).GetLevel.GetFlatIcon]"
+	}
+
+
 	type coa_house_lowborn_widget = widget
 	{
 		layoutpolicy_horizontal = shrinking
@@ -1099,6 +1117,7 @@ types CoATypes
 		visible = "[ShowHouse]"
 		##########changed by obfusCKate: End 
 		size = { 48 48 }
+
 		hbox = {
 			margin = { 4 4 }
 
@@ -1150,6 +1169,7 @@ types CoATypes
 		visible = "[ShowHouse]"
 		##########changed by obfusCKate: End 
 		size = { 24 24 }
+
 		hbox = {
 
 			block "culture_template_data_datacontext"
@@ -1198,6 +1218,7 @@ types CoATypes
 		visible = "[ShowHouse]"
 		##########changed by obfusCKate: End 
 		size = { 64 64 }
+
 		hbox = {
 			margin = { 4 4 }
 
@@ -1248,6 +1269,7 @@ types CoATypes
 		visible = "[ShowHouse]"
 		##########changed by obfusCKate: End 
 		size = { 88 88 }
+
 		hbox = {
 			margin = { 4 4 }
 
@@ -1350,6 +1372,7 @@ types CoATypes
 		visible = "[ShowHouse]"
 		##########changed by obfusCKate: End 
 		size = { 160 160 }
+
 		hbox = {
 			margin = { 3 5 }
 
@@ -1391,10 +1414,20 @@ types CoATypes
 					texture = "[CultureTemplateData.GetCultureHouseCoAFrame]"
 					size = { 156 156 }
 				}
+
+				block "house_relation_icon"
+				{
+					icon_house_relation = {
+						parentanchor = left|bottom
+						position = { 16 -16 }
+						size = { 32 32 }
+					}
+				}
 			}
 		}
 	}
 
+	# Frame used at the front of all House CoAs
 	type coa_house_frame = highlight_icon {
 		name = "house_frame"
 		parentanchor = center
@@ -1956,6 +1989,7 @@ types CoATypes
 		flowcontainer = {
 			direction = vertical
 			ignoreinvisible = yes
+			spacing = 3
 
 			icon = {
 				name = "crown"
@@ -2018,6 +2052,7 @@ types CoATypes
 		flowcontainer = {
 			direction = vertical
 			ignoreinvisible = yes
+			spacing = 3
 
 			icon = {
 				name = "crown"
@@ -2117,6 +2152,7 @@ types CoATypes
 		flowcontainer = {
 			direction = vertical
 			ignoreinvisible = yes
+			spacing = 3
 
 			icon = {
 				name = "crown"
@@ -2176,10 +2212,10 @@ types CoATypes
 	}
 
 	type coa_adventurer_bookmark = container {
-
 		flowcontainer = {
 			direction = vertical
 			ignoreinvisible = yes
+			spacing = 4
 
 			icon = {
 				name = "crown"

@@ -621,12 +621,12 @@ spy_network_value_on_start = {
         limit = {
 			OR = {
 				# 规则一：原版规则，对所有政府都有效
-				short_term_gold >= low_level_report_cost
+				short_term_gold <= 300 
 
 				# 规则二：为天朝制增加的额外检查
 				AND = {
 					government_has_flag = government_is_celestial
-					treasury >= low_level_report_cost
+					treasury <= 300
 				}
 			}
         }

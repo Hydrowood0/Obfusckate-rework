@@ -341,26 +341,26 @@ immediate = {
 			}
 		else_if = {
 		limit = {
-				scope:target = {
+				scope:target = { ## scope:target  ??? ljl
 				is_ai = yes
 				NOT = {has_character_flag = partially_spied_2}}
 				OR = {
 				scope:scheme = {has_scheme_modifier = seduce_success_1_modifier}
-				scope:scheme = {scheme_progress >= 6}}}
-		scope:target = {
-				character_met_effect = yes
-				}
+				scope:scheme = {scheme_progress >= scheme_progress_66 }}} ## original scheme_progress >= 6
+				scope:target = {
+						character_met_effect = yes
+						}
 			}
 		else_if = {
 		limit = {
-				scope:owner = {
+				scope:owner = { ## scope:owner  ??? ljl
 				is_ai = yes
 				NOT = {has_character_flag = partially_spied_2}}
 				OR = {
 				scope:scheme = {has_scheme_modifier = seduce_success_1_modifier}
-				scope:scheme = {scheme_progress >= 6}}}
-		scope:owner = {
-			character_met_effect = yes
+				scope:scheme = {scheme_progress >= scheme_progress_66 }}} ## original scheme_progress >= 6
+				scope:owner = {
+					character_met_effect = yes
 				}
 			}
 		}
@@ -368,47 +368,101 @@ immediate = {
 
 #### SCHEME OUTCOMES  SEDUCE
 acquaintance.2004 = {
-	type = character_event
-	hidden = yes 
-		trigger = { 
-				OR = {scope:owner = {is_ai = no}
-				scope:target = {is_ai = no}}
-				}
-immediate = {
-		if = {
-		limit = {
-		scope:target = {
-					is_ai = yes
-			scope:scheme = {
-			OR = {
-					has_scheme_modifier = seduce_failure_2_modifier
-					has_variable = declined_seduce_milestone_2_event
-						}
-					}
-				}
-			}
-		scope:target = {
-				character_barely_known_effect = yes
-				}
-			}
-		else_if = {
-		limit = {
-		scope:owner = {
-					is_ai = yes
-				scope:scheme = {
-			OR = {
-					has_scheme_modifier = seduce_failure_2_modifier
-					has_variable = declined_seduce_milestone_2_event
-						}
-					}
-				}
-			}
-		scope:owner = {
-				character_barely_known_effect = yes
-				}
-		}
-	}
+    type = character_event
+    hidden = yes 
+    trigger = { 
+        OR = {
+            scope:owner = { is_ai = no }
+            scope:target = { is_ai = no }
+        }
+    }
+    immediate = {
+        if = {
+            limit = {
+                # 1. 检查目标是否为AI（在目标作用域下判断）
+                scope:target = { 
+                    is_ai = yes 
+                }
+                
+                # 2. 安全检查：确认计谋是否存在（防止计谋已结束导致的空指针报错）
+                # 教程提到 Jomini 引擎中可用 exists 或 always 检测作用域存在 [cite: 271, 567]
+                exists = scope:scheme 
+
+                # 3. 检查计谋本身的状态（移出来，作为并列条件）
+                scope:scheme = {
+                    OR = {
+                        has_scheme_modifier = seduce_failure_2_modifier
+                        has_variable = declined_seduce_milestone_2_event
+                    }
+                }
+            }
+            # 执行效果
+            scope:target = {
+                character_barely_known_effect = yes
+            }
+        }
+        # 同理修正 else_if 部分
+        else_if = {
+            limit = {
+                scope:owner = { is_ai = yes }
+                
+                exists = scope:scheme # 安全检查
+                
+                scope:scheme = {
+                    OR = {
+                        has_scheme_modifier = seduce_failure_2_modifier
+                        has_variable = declined_seduce_milestone_2_event
+                    }
+                }
+            }
+            scope:owner = {
+                character_barely_known_effect = yes
+            }
+        }
+    }
 }
+# acquaintance.2004 = {  ## ljl 报错 Failed context switch  注释掉
+# 	type = character_event
+# 	hidden = yes 
+# 		trigger = { 
+# 				OR = {scope:owner = {is_ai = no}
+# 				scope:target = {is_ai = no}}
+# 				}
+# immediate = {
+# 		if = {
+# 		limit = {
+# 		scope:target = {
+# 					is_ai = yes
+# 			scope:scheme = {
+# 			OR = {
+# 					has_scheme_modifier = seduce_failure_2_modifier
+# 					has_variable = declined_seduce_milestone_2_event
+# 						}
+# 					}
+# 				}
+# 			}
+# 		scope:target = {
+# 				character_barely_known_effect = yes
+# 				}
+# 			}
+# 		else_if = {
+# 		limit = {
+# 		scope:owner = {
+# 					is_ai = yes
+# 				scope:scheme = {
+# 			OR = {
+# 					has_scheme_modifier = seduce_failure_2_modifier
+# 					has_variable = declined_seduce_milestone_2_event
+# 						}
+# 					}
+# 				}
+# 			}
+# 		scope:owner = {
+# 				character_barely_known_effect = yes
+# 				}
+# 		}
+# 	}
+# }
 
 #####ROMANCE
 #Make an acquaintance through romance

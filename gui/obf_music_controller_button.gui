@@ -8,8 +8,8 @@
 		# 	rawtext = "#italic #EMP #clickable Toggle Music Player#!#!#!"
 		# } 
 		# "#italic #EMP #clickable Toggle Music Player#!#!#!" ## ljl 报错
-		#tooltip_en = "#italic #EMP #clickable Toggle Music Player#!#!#!"
-		tooltip = "#italic #EMP #clickable Toggle Music Player#!#!#!"
+		# tooltip_en = "#italic #EMP #clickable Toggle Music Player#!#!#!"
+		# tooltip = "#italic #EMP #clickable Toggle Music Player#!#!#!"
 		using = tooltip_es
 		size = {100 100}
 		alpha = 0.2
