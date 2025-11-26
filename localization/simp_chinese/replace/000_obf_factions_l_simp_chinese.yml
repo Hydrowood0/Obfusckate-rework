@@ -11,3 +11,5 @@
  obf_faction_event.1000.desc_faction_leader: "现在可以确认，[faction_leader.GetShortUIName]正领导一个针对我的[faction.GetName]。"
  obf_faction_event.1000.a: "背叛之人必须付出代价。"
  obf_faction_event.1000.a.effect: "打开派系界面"
+
+ obf_faction_event.1001.t: "农民造反的传言" # added by ljl

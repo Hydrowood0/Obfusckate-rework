@@ -579,7 +579,11 @@ types SituationTypes
 								spacing = 0 
 								text_single = {
 									# 第一部分
-									text = "[Character.GetFirstNamePossessiveNoTooltip]  "
+									text = "[Character.GetFirstNamePossessiveNoTooltip]"
+								}
+								text_single = {
+									# 第1.1部分
+									raw_text = "  " 
 								}
 								text_single = {
 									# 第二部分
@@ -1089,7 +1093,11 @@ types SituationTypes
 
 				text_single = {
 					# 第一部分
-					text = "[Character.GetFirstNamePossessiveNoTooltip]  "
+					text = "[Character.GetFirstNamePossessiveNoTooltip]"
+				}
+				text_single = {
+					# 第1.1部分
+					raw_text = "  " 
 				}
 				text_single = {
 					# 第二部分

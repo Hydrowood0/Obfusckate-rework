@@ -427,7 +427,8 @@
 									using = Font_Size_Big
 									align = center
 									autoresize = no
-									fontsize_min = 14
+									fontsize_min = 12
+									#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
 									max_width = 185
 								}
 
@@ -789,7 +790,8 @@
 									using = Font_Size_Big
 									align = center
 									autoresize = no
-									fontsize_min = 14
+									fontsize_min = 12
+									#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
 									max_width = 185
 								}
 

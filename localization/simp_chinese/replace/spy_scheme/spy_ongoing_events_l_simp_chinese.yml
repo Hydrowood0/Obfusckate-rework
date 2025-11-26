@@ -29,6 +29,7 @@
  spy_ongoing.1002.closing: "\n\n如果这些谣言传到[target_character.GetTitledFirstNamePossessive]的耳朵里，后果你也清楚。这样的统治者一般都是写奸诈小人、阴暗分子，少见公正或有尊严的。\n\n不过别担心，我也不是什么恶人。如果你想把这个秘密藏起来，那么随信附有让我沉默的条件。如果你有足够的智慧采取相应的行动，你的名誉和秘密就掌握在你的手中。\n\n期待你的回复。"
  spy_ongoing.1002.a.effect:0 "尽管你支付了一笔费用希望对方闭嘴，但[target_character.GetShortUIName]仍有一定概率发现你正在调查[target_character.GetHerHis]的宫廷。"
  spy_ongoing.1002.c.effect:0 "[target_character.GetShortUIName]发现你正在调查。"
+ spy_ongoing.1003.t: "间谍首脑发现了一些消息"
  spy_ongoing.1004.t: "派系成员"
  spy_ongoing.1004.desc_faction_leader_and_member: "我的间谍首脑[spymaster.GetTitledFirstName]报告称，[spymaster.GetSheHe]找到一些指向[target_character.GetShortUIName]的证据。这些证据可以证明[target_character.GetShortUIName]是我领地内[faction.GetName]的领袖，并试图有组织的挑战我的统治。[spymaster.GetShortUIName]同时指出，[random_member.GetShortUIName]可能也与[target_character.GetShortUINamePossessive]的派系有关。他们的名字同时出现在了一些奇怪的事件中。"
  spy_ongoing.1004.desc_no_leader_and_member: "我的间谍首脑[spymaster.GetTitledFirstName]报告称，[spymaster.GetSheHe]找到一些指向[target_character.GetShortUIName]的证据。证明[target_character.GetShortUIName]是[faction.GetName]的参与。[spymaster.GetShortUIName]怀疑[random_member.GetShortUIName]是另一名成员，他们最近有着频繁的联系。"

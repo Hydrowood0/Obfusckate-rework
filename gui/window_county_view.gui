@@ -99,7 +99,8 @@ window = {
 							using = Font_Size_Big
 							font = TitleFont
 							max_width = 380
-							fontsize_min = 16
+							fontsize_min = 12
+							#16  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
 						}
 
 						button_edit_text = {
@@ -1076,7 +1077,8 @@ window = {
 										align = nobaseline
 										using = Font_Size_Big
 										max_width = 129
-										fontsize_min = 14
+										fontsize_min = 12
+										#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
 										margin_left = 5
 
 										tooltip = "[HoldingView.GetProvince.GetTitle.GetNameNoTierNoTooltip]"

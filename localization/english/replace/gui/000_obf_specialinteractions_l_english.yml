@@ -175,6 +175,13 @@ obf_interaction.0011.a:"Maybe we shouldn't have any more drinks tonight"
 obf_interaction.0011.b:"Better not light any fire while [recipient.GetSheHe] is talking."
 obf_interaction.0011.part_success:"You get some information about [visited_ruler.GetShortUIName]"
 
+obf_interaction.0012.t: "New Guest"
+obf_interaction.0012.desc: "Your Majesty, a guest is here. He just came from [visited_ruler.GetShortUIName]. You can ask him about [visited_ruler.GetShortUIName]."
+obf_interaction.0012.a: "I see."
+obf_interaction.0013.t: "New Courtier"
+obf_interaction.0013.desc: "Your Majesty, a courtier is here. He just came from [visited_ruler.GetShortUIName]. You can ask him about [visited_ruler.GetShortUIName]."
+obf_interaction.0013.a: "I see."
+
 obf_interaction.0014.t:"The joke was on me"
 obf_interaction.0014.desc: "I've come to the realization that I may have overestimated [deceiving_character.GetTitledFirstName], thus misjudging [deceiving_character.GetHerHis] competence in carrying out [deceiving_character.GetHerHis] duties as [deceiving_character.GetCouncilTitle]. Or perhaps it was #EMP [deceiving_character.GetHerHim]#! who underestimated me and has been deliberately upholding this charade."
 obf_interaction.0014.desc.a:"I shouldn't have trusted [deceiving_character.GetTitledFirstName]! I must fire [deceiving_character.GetHerHim] immediately!"

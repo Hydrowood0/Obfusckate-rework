@@ -32,6 +32,7 @@
  spy_ongoing.1002.a.effect: "Although you are paying for silence, there is still a small chance that [target_character.GetShortUIName] aknowledges you are spying on [target_character.GetHerHis] court." #NT!
  spy_ongoing.1002.c: "I will not be blackmailed!" #NT!
  spy_ongoing.1002.c.effect: " [target_character.GetShortUIName] discovers you are spying" #NT!
+ spy_ongoing.1003.t : "Some information was discovered"
   
  spy_ongoing.1004.t: "Faction Member" #NT!
  spy_ongoing.1004.desc_faction_leader_and_member: "My spymaster, [spymaster.GetTitledFirstName] reports that [spymaster.GetSheHe] has reasons to believe that [target_character.GetShortUIName] is the leader of a [faction.GetName] within my realm, organized and intent on challenging my rule. [spymaster.GetSheHe] also suspects that [random_member.GetShortUIName] is affiliated with [target_character.GetShortUINamePossessive] faction, due to the frequent discreet gatherings between both." #NT!
