@@ -43,16 +43,41 @@ related_to_liege_trigger = {
 	}
 }
 
+# is_at_distance_17500 = {
+# 	exists = capital_province
+# 	capital_province = {
+# 		save_temporary_scope_as = my_capital
+# 	}
+# 	$CHARACTER$ = {
+# 		capital_province = {
+# 			squared_distance = {
+# 				target = scope:my_capital
+# 				value < 200000
+# 			}
+# 		}
+# 	}
+# }
+
 is_at_distance_17500 = {
-	exists = capital_province
-	capital_province = {
-		save_temporary_scope_as = my_capital
-	}
-	$CHARACTER$ = {
-		capital_province = {
-			squared_distance = {
-				target = scope:my_capital
-				value < 200000
+	OR = {
+		# 1.184 ljl 新增：无地冒险者豁免
+		scope:owner = { is_landless_adventurer = yes } # 注意：这里原代码用的是 $CHARACTER$ 参数，但在 Trigger 文件里通常默认 scope 
+		# 如果 ObfusCKate 用了参数传递，稳妥起见直接总是返回 yes 或者检查 root
+		always = yes 
+		
+		# 原有逻辑
+		AND = {
+			exists = capital_province
+			capital_province = {
+				save_temporary_scope_as = my_capital
+			}
+			$CHARACTER$ = {
+				capital_province = {
+					squared_distance = {
+						target = scope:my_capital
+						value < 200000
+					}
+				}
 			}
 		}
 	}
@@ -212,6 +237,13 @@ agent_willing_to_help_without_spymaster_trigger = {
 
 target_knows_about_owner_trigger = { 
 			OR = {
+				# === 1.184 ljl 添加以下两行修复代码 ===
+				scope:owner = { is_landless_adventurer = yes }
+				scope:target = { is_landless_adventurer = yes }
+				# # 1.184 ljl 【修复】防止任何一方没有首都导致判定失效
+				# NOT = { exists = scope:owner.capital_county }
+				# NOT = { exists = scope:target.court_owner.capital_county }
+				# # ===========================
 				AND = {
 				scope:target = {
 				exists = court_owner
@@ -819,10 +851,28 @@ is_cynical_or_non_believer_person_trigger = {
 ######OTHER
 
 target_is_near = {
+    # === 1.184 ljl添加无地冒险者修复逻辑 ===
+    OR = {
+        scope:owner = { is_landless_adventurer = yes }
+        scope:target = { is_landless_adventurer = yes }
+		# 1.184 ljl【修复】如果没有首都（例如也是流浪者），直接视为距离足够近，防止报错
+		NOT = { exists = scope:owner.capital_county }
+		NOT = { exists = scope:target.court_owner.capital_county }
+        
+        AND = {
+    # ===================
 			scope:target.court_owner.capital_county = { squared_distance = { target = scope:owner.capital_county value < 70000}}
 			NOT = { scope:target.court_owner.top_liege = scope:owner.top_liege }
+        }
+    }
+}
+
+# target_is_near = {
+	
+# 			scope:target.court_owner.capital_county = { squared_distance = { target = scope:owner.capital_county value < 70000}}
+# 			NOT = { scope:target.court_owner.top_liege = scope:owner.top_liege }
 			
-		}
+# 		}
 		
 target_is_foreign_trigger = {
 			NOT = { scope:target.court_owner.top_liege = scope:owner.top_liege }

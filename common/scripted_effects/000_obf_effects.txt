@@ -97,151 +97,190 @@ character_deception_effect = {
 		}
 		
 character_known_effect = {
-				
-			if = {
-				limit = {exists = scope:player_character
-					exists = var:years_known}
-				if = {
-				limit = {is_at_same_location = scope:player_character} ### same location
-				change_variable = {
-						name = years_known
-						add = 4
-					}
-				}
-				else_if = {
-				limit = {
-					OR = {
-						is_vassal_of = scope:player_character
-						is_tributary_of = scope:player_character #added by ljl
-					} ### vassal or tributary
-				} ### vassal
-				change_variable = {
-						name = years_known
-						add = 1
-					}
-				}
-				else_if = {
-				limit = {top_liege = scope:player_character.top_liege} ### same_realm
-				change_variable = {
-						name = years_known
-						add = 0.5
-					}
-				}
-				else_if = {
-				limit = {NOT = {top_liege = scope:player_character.top_liege}} ### Not in same realm
-				change_variable = {
-						name = years_known
-						add = 0.25
-					}
-				}
-			}
-			else_if = {
-				limit = {exists = var:years_known}
-				change_variable = {
-						name = years_known
-						add = 0.75
-					}
-			}
-			else = {
-				set_variable = {
-						name = years_known
-						value = 0
-					}
-			}
-			if = {
-				limit = {revelation_score >= 90}
 			
-			add_character_flag = {
-				flag = partially_spied
-				years = 15
-					}
-			add_character_flag = {
-				flag = partially_spied_2
-				years = 12
-					}
-			add_character_flag = {
-				flag = partially_spied_3
-				years = 8
-					}
+	if = {
+		limit = {
+			exists = scope:player_character
+			exists = var:years_known
+		}
+		# 1. Same Location (Safe for everyone)
+		if = {
+			limit = {is_at_same_location = scope:player_character} 
+			change_variable = {
+					name = years_known
+					add = 4
+				}
+		}
+		# 2. Vassal check (ONLY for landed characters to avoid errors)
+		else_if = {
+			limit = {
+				is_landless_adventurer = no
+				scope:player_character = { is_landless_adventurer = no }
+				OR = {
+					is_vassal_of = scope:player_character
+					is_tributary_of = scope:player_character #added by ljl
+				} 
+			} 
+			change_variable = {
+					name = years_known
+					add = 1
+				}
+		}
+		# 3. Same Realm check (ONLY for landed characters)
+		else_if = {
+			limit = {
+				is_landless_adventurer = no
+				scope:player_character = { is_landless_adventurer = no }
+				top_liege = scope:player_character.top_liege
 			}
-			else = {
-			
-			add_character_flag = {
-				flag = partially_spied
-				years = 8
-					}
-			add_character_flag = {
-				flag = partially_spied_2
-				years = 5
-					}
-			add_character_flag = {
-				flag = partially_spied_3
-				years = 3
-					}
-			
+			change_variable = {
+					name = years_known
+					add = 0.5
+				}
+		}
+		# 4. Different Realm OR Landless Fallback
+		else_if = {
+			limit = {
+				OR = {
+					# 1.184 ljl If either is landless, treat as not in same realm
+					is_landless_adventurer = yes 
+					scope:player_character = { is_landless_adventurer = yes }
+					# Standard check for landed
+					NOT = { top_liege = scope:player_character.top_liege }
+				}
+			} 
+			change_variable = {
+					name = years_known
+					add = 0.25
+				}
+		}
+	}
+	else_if = {
+		limit = {exists = var:years_known}
+		change_variable = {
+				name = years_known
+				add = 0.75
 			}
+	}
+	else = {
+		set_variable = {
+				name = years_known
+				value = 0
+			}
+	}
+	
+	if = {
+		limit = {revelation_score >= 90}
+	
+		add_character_flag = {
+			flag = partially_spied
+			years = 15
+				}
+		add_character_flag = {
+			flag = partially_spied_2
+			years = 12
+				}
+		add_character_flag = {
+			flag = partially_spied_3
+			years = 8
+				}
+	}
+	else = {
+	
+		add_character_flag = {
+			flag = partially_spied
+			years = 8
+				}
+		add_character_flag = {
+			flag = partially_spied_2
+			years = 5
+				}
+		add_character_flag = {
+			flag = partially_spied_3
+			years = 3
+				}
+	
+	}
 			
 }
 
 character_barely_known_effect = {
-			add_character_flag = {
-				flag = partially_spied
-				years = 5
-					}
-			add_character_flag = {
-				flag = partially_spied_2
-				years = 2
-					}
-			if = {
-				limit = {exists = scope:player_character
-					exists = var:years_known}
-				if = {
-				limit = {is_at_same_location = scope:player_character} ### same location
-				change_variable = {
-						name = years_known
-						add = 1
-					}
-				}
-				else_if = {
-				limit = {
-					OR = {
-						is_vassal_of = scope:player_character
-						is_tributary_of = scope:player_character #added by ljl
-					} ### vassal or tributary
-				}
-				change_variable = {
-						name = years_known
-						add = 0.25
-					}
-				}
-				else_if = {
-				limit = {top_liege = scope:player_character.top_liege} ### same_realm
-				change_variable = {
-						name = years_known
-						add = 0.125
-					}
-				}
-				else_if = {
-				limit = {NOT = {top_liege = scope:player_character.top_liege}} ### Not in same realm
-				change_variable = {
-						name = years_known
-						add = 0.06
-					}
-				}
+	add_character_flag = {
+		flag = partially_spied
+		years = 5
 			}
-			else_if = {
-				limit = {exists = var:years_known}
-				change_variable = {
-						name = years_known
-						add = 0.2
-					}
+	add_character_flag = {
+		flag = partially_spied_2
+		years = 2
 			}
-			else = {
-				set_variable = {
-						name = years_known
-						value = 0
-					}
+	if = {
+		limit = {
+			exists = scope:player_character
+			exists = var:years_known
+		}
+		# 1. Same Location
+		if = {
+			limit = {is_at_same_location = scope:player_character} ### same location
+			change_variable = {
+					name = years_known
+					add = 1
+				}
+		}
+		# 2. Vassal Check (Landed Only)
+		else_if = {
+			limit = {
+				is_landless_adventurer = no
+				scope:player_character = { is_landless_adventurer = no }
+				OR = {
+					is_vassal_of = scope:player_character
+					is_tributary_of = scope:player_character #added by ljl
+				} 
 			}
+			change_variable = {
+					name = years_known
+					add = 0.25
+				}
+		}
+		# 3. Same Realm (Landed Only)
+		else_if = {
+			limit = {
+				is_landless_adventurer = no
+				scope:player_character = { is_landless_adventurer = no }
+				top_liege = scope:player_character.top_liege
+			} ### same_realm
+			change_variable = {
+					name = years_known
+					add = 0.125
+				}
+		}
+		# 4. 1.184 ljlDifferent Realm or Landless Fallback
+		else_if = {
+			limit = {
+				OR = {
+					is_landless_adventurer = yes 
+					scope:player_character = { is_landless_adventurer = yes }
+					NOT = {top_liege = scope:player_character.top_liege}
+				}
+			} ### Not in same realm
+			change_variable = {
+					name = years_known
+					add = 0.06
+				}
+		}
+	}
+	else_if = {
+		limit = {exists = var:years_known}
+		change_variable = {
+				name = years_known
+				add = 0.2
+			}
+	}
+	else = {
+		set_variable = {
+				name = years_known
+				value = 0
+			}
+	}
 }
 
 character_met_effect = {
