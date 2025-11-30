@@ -1,12 +1,12 @@
 - This mod has made massive fixes based on the original Obfus mod and tries to catch up with vanilla updates. 1.16&1.18-related functions are still under development. If you encounter any bugs when using only the following mods in the order list, please don't hesitate to tell me immediately.
-- [b][u]Unsubscribe and resubscribe[/u][/b] to this mod to prevent lagging and invalidation ([u][b]to avoid some bugs in old versions of this mod[/b][/u]) after my update. (Many modders report that there is an issue with [i][u]Steam sometimes redistributing old version of the mod [/u][/i]. I've contacted Steam, but they won't do anything to fix this issue.)
-- All credit is attributed to  [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2874007571]Obfusckate[/url]'s author JP78 & [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3239002020]RUI:Character Unofficial[/url]'s author Saltfish; But don't use this mod with JP78's or my other submod, neither; Instead, Use this mod only, because this one is the newest.
+[h3]- [b][u]Unsubscribe and exit steam, then resubscribe[/u][/b] to this mod to prevent lagging and invalidation ([u][b]to avoid some bugs(etc. seduce never done) in old versions of this mod[/b][/u]) after my update. (Many modders report that there is an issue with [i][u]Steam sometimes redistributing the old version of the mod [/u][/i]. I've contacted Steam, but they won't do anything to fix this issue.)[/h3]
+- All credit is attributed to  [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2874007571]Obfusckate[/url]'s author JP78 & [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3239002020]RUI: Character Unofficial[/url]'s author Saltfish; But don't use this mod with JP78's or my other submod, neither; Instead, use this mod ONLY, because this one is the newest.
 
-[h2]- Arrange the mods in this order:：[/h2]
+[h2]- Arrange the mods in this order：[/h2]
 0. [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2974850904] (Optional) Knight Manager continued[/url]
 1. this mod: obfusCKate - Hidden Information(rework)
 2. [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3239002020](Optional) RUI: Character Unofficial[/url]
-3. localisation.  [strike] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3508471691 ] [u] 汉化mod。弃用，本模组已集成中文 [/u] [/url] [/strike] & [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3521657245] [u] obfusCKate - Español en Inglés [/u] [/url] & FR & Russain & Korean & German.  [u]Some of them r not compatibled with this mod[/u].
+3. localisation.  [strike] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3508471691 ] [u] 汉化mod。弃用，本模组已集成简中 [/u] [/url] [/strike] & [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3521657245] [u] obfusCKate - Español en Inglés [/u] [/url] & FR & Russain & Korean & German.  [u]Some of them r not compatible with this mod[/u].
 4.（optional）[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3030427202]Big Battle View[/url]
 
  [h2]- What is new? [/h2]
@@ -16,21 +16,21 @@
 3. No more game crashes when raising a raid army.
 4. Fix the notification template background to vanilla.
 5. “hud outliner gui.bak” in the folder is without “Extend Outliner”, rename it and replace 'hud outliner.gui" if u don’t want "Extend Outliner'.
-6. No more crash happens when hovering the mouse over highlighted texts in game rule configuration(like "Conqueror" on conqueror bonus setting) .
+6. No more crash happens when hovering the mouse over highlighted texts in game rule configuration(like "Conqueror" on conqueror bonus setting).
 7. Optional Obfuscate influence & herd & [b][i][u]age[/u][/i][/b] (configure it in game rules, compatible with RUI).
-8. window_county.gui fixed for nomad version.
+8. window_county.gui fixed for Nomad version.
 
 9. spouse & concubine finder-window: age displayed.
 10. localisation integrated. Except for the 2 finished and implemented localisations, CN&EN, other localisations are replaced by English by default.
 
-11. The People You Know filter/ acquaintances list wiil not be empty/ wiped 
+11. The People You Know filter/ acquaintances list will not be empty/ wiped 
 12. Disciple relation is now calculated.
 13. Spynetwork works again at the 1.18 version.
 14. Show the 5 stats of recruitable characters in the tavern recruit event.
 
 [h3]todo：[/h3]
 0. [url=https://store.steampowered.com/news/app/1158310/view/509590093865943751] Waiting for the official implementation of this mod function Development Log #182 《 Terra Obscura 》[/url]
-1. "befriend_scheme.txt" "convert_to_witchcraft_scheme" "sway_scheme.txt" These three files are too difficult to compare and update. I will use the original vanilla ones for the time being.
+1. "befriend_scheme.txt" ", convert_to_witchcraft_scheme" ", sway_scheme.txt". These three files are too difficult to compare and update. I will use the original vanilla ones for the time being.
 
 
 [h3]"bugs" will not be fixed:[/h3]

@@ -45,7 +45,8 @@ widget = {
     name = "obf_open_playlist"
     parentanchor = top|right
     widgetanchor = top|right
-    position = { -650 0}
+   # position = { -650 0}
+	position = { -625 1150}
     size = { 30 30 }
     layer = middle
 	

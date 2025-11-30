@@ -5403,6 +5403,10 @@ seduce_ongoing_milestone_2 = {
 
 new_acquaintance_seduction = {
 trigger = {
+	# === 1.184 ljl修复：无地冒险者不触发此 Mod 事件，防止脚本错误导致原版事件无法弹出 ===
+	scope:owner = { is_landless_adventurer = no }
+	scope:target = { is_landless_adventurer = no }
+	# ===================================================================
 OR = {
 	scope:owner = {
 		is_ai = no
@@ -5445,6 +5449,10 @@ seduce_failure = {
 }
 obf_new_acquaintance_seduction_outcome = {
 	trigger = {
+		# === 1.184 ljl修复：无地冒险者不触发此 Mod 事件，防止脚本错误导致原版事件无法弹出 ===
+		scope:owner = { is_landless_adventurer = no }
+		scope:target = { is_landless_adventurer = no }
+		# ===================================================================
 		OR = {
 			scope:owner = {
 				is_ai = no

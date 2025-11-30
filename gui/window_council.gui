@@ -69,7 +69,7 @@ window = {
 						text_single = {
 							minimumsize = { 281 38 }
 							margin = { 15 0 }
-						text = "COUNCIL_WINDOW_PLAYER_COUNCIL"
+							text = "COUNCIL_WINDOW_PLAYER_COUNCIL"
 							resizeparent = yes
 							align = center|nobaseline
 							default_format = "#low"
@@ -411,7 +411,7 @@ types CouncilWindow
 
 	type widget_councillor_item = widget {
 		size = { 260 250 }
-		
+
 		state = {
 			name = _mouse_hierarchy_enter
 			on_start = "[PdxGuiWidget.FindChild('character_skills').TriggerAnimation('mouse_enter_panel')]"
@@ -427,10 +427,10 @@ types CouncilWindow
 		# The councillor
 		# The active council task
 		widget = {
-			### block "visible"
-			###{
-			visible = "[Not(GuiCouncilPosition.ArePotentialTasksVisible)]"
-			### }
+			block "visible"
+			{
+				visible = "[Not(GuiCouncilPosition.ArePotentialTasksVisible)]"
+			}
 			size = { 100% 100% }
 
 			state = {
@@ -673,22 +673,22 @@ types CouncilWindow
 					}
 
 					
-					blockoverride "value" {
-						hbox = {
-							layoutpolicy_horizontal = expanding
-							layoutpolicy_vertical = expanding
-							margin_top = -15
-							text_multi = {
-								margin_left = -4
-								margin_right = -5
-							    min_width = 13 ###
-								max_width = 180
-								text = "COUNCIL_EFFICIENCY"
+					# blockoverride "value" {
+					# 	hbox = {
+					# 		layoutpolicy_horizontal = expanding
+					# 		layoutpolicy_vertical = expanding
+					# 		margin_top = -15
+					# 		text_multi = {
+					# 			margin_left = -4
+					# 			margin_right = -5
+					# 		    min_width = 13 ###
+					# 			max_width = 180
+					# 			text = "COUNCIL_EFFICIENCY"
 
-								fontsize_min = 11
-							}
-						}
-					}
+					# 			fontsize_min = 11
+					# 		}
+					# 	}
+					# }
 				}
 			##}
 			#changed by obfusCKate: End
@@ -900,8 +900,8 @@ types CouncilWindow
 
 			widget = {
 				visible = "[GuiCouncilPosition.ArePotentialTasksVisible]"
-				
-				block "expanded_potential_tasks" ####
+
+				block "expanded_potential_tasks"
 				{
 					layoutpolicy_horizontal = expanding
 					layoutpolicy_vertical = expanding
@@ -1104,17 +1104,17 @@ types CouncilWindow
 						direction = vertical
 						ignoreinvisible = yes
 
-					icon = {
-						name = "church_approval_icon"
-						visible = "[Character.IsTheocraticLesseeOf( GetPlayer )]"
-						size = { 50 50 }
+						icon = {
+							name = "church_approval_icon"
+							visible = "[Character.IsTheocraticLesseeOf( GetPlayer )]"
+							size = { 50 50 }
 
-						texture = "gfx/interface/icons/icon_bishop_approval.dds"
-						framesize = { 120 120 }
-						frame = "[Select_int32( And( Character.TheocraticLesseeHasApprovalStatus, Character.TheocraticLesseeApprovesOfLiege ), '(int32)1', '(int32)2' )]"
+							texture = "gfx/interface/icons/icon_bishop_approval.dds"
+							framesize = { 120 120 }
+							frame = "[Select_int32( And( Character.TheocraticLesseeHasApprovalStatus, Character.TheocraticLesseeApprovesOfLiege ), '(int32)1', '(int32)2' )]"
 
-						tooltip = "[Character.GetTheocraticLesseeApprovalTooltip]"
-					}
+							tooltip = "[Character.GetTheocraticLesseeApprovalTooltip]"
+						}
 
 						widget = {
 							size = { 52 87 }
@@ -1224,7 +1224,7 @@ types CouncilWindow
 
 									widget = {
 										size = { 40 40 }
-											visible = "[And(Not(GuiPotentialCouncilTask.CanSelect), Not(Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown )))]"
+										visible = "[And(Not(GuiPotentialCouncilTask.CanSelect), Not(Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown )))]"
 
 										icon = {
 											parentanchor = center
@@ -1352,7 +1352,7 @@ types CouncilTaskTypes
 			text_multi = {
 				name = "effects"
 				## need ljl changed? show exact value in nomad
-				text = COUNCIL_TASK_EFFECTS  
+				text = COUNCIL_TASK_EFFECTS
 				layoutpolicy_horizontal = expanding
 				autoresize = yes
 				max_width = 380
@@ -1386,7 +1386,8 @@ types CouncilTaskTypes
 	type vbox_council_layout = vbox {
 		### COUNCIL
 		vbox = {
-			visible = "[Not( And( CouncilWindow.GetCharacter.GetGovernment.HasGovernmentFlag( 'government_is_celestial' ), GreaterThanOrEqualTo_int32( CouncilWindow.GetCharacter.GetPrimaryTitle, GetTitleByKey('h_china').Self) ) )]"
+			# visible = "[And( CouncilWindow.GetCharacter.GetGovernment.HasGovernmentFlag( 'government_is_celestial' ), GreaterThanOrEqualTo_int32( CouncilWindow.GetCharacter.GetPrimaryTitle.GetTierFrame, '(int32)7' ) )]"
+			visible = "[Not( And( CouncilWindow.GetCharacter.GetGovernment.HasGovernmentFlag( 'government_is_celestial' ), ObjectsEqual( CouncilWindow.GetCharacter.GetPrimaryTitle, GetTitleByKey('h_china').Self) ) )]"
 			layoutpolicy_horizontal = expanding
 			layoutpolicy_vertical = expanding
 			datacontext = "[CouncilWindow]"
@@ -1617,8 +1618,8 @@ types CouncilTaskTypes
 					}
 				}
 
-			block "widget_councillor_item_Spymaster"
-			{
+			# block "widget_councillor_item_Spymaster"
+			# {
 				widget_councillor_item = { # Spymaster (If Nomadic it's moved up here)
 					layoutpolicy_horizontal = expanding
 					layoutpolicy_vertical = expanding
@@ -1648,7 +1649,7 @@ types CouncilTaskTypes
 					#changed by obfusCKate: End
 					
 				}
-			}
+			# }
 
 				widget_councillor_item = { # Court Chaplain
 					layoutpolicy_horizontal = expanding
@@ -1764,7 +1765,7 @@ types CouncilTaskTypes
 					}
 				}
 
-					widget_councillor_item = { # Spymaster
+				widget_councillor_item = { # Spymaster
 					layoutpolicy_horizontal = expanding
 					layoutpolicy_vertical = expanding
 					datacontext = "[CouncilWindow.GetCouncillor('councillor_spymaster')]"
@@ -1790,7 +1791,7 @@ types CouncilTaskTypes
 				}
 			}
 
-			vbox = { 
+			vbox = {
 				name = "kurultai_council_first"
 				layoutpolicy_horizontal = expanding
 				layoutpolicy_vertical = expanding
@@ -1827,12 +1828,13 @@ types CouncilTaskTypes
 						datacontext = "[CouncilWindow.GetCouncillor('councillor_kurultai_4')]"
 					}
 				}
-			} 
+			}
 		}
 
 		### MINISTRY
 		vbox = {
-			visible = "[And( CouncilWindow.GetCharacter.GetGovernment.HasGovernmentFlag( 'government_is_celestial' ), GreaterThanOrEqualTo_int32( CouncilWindow.GetCharacter.GetPrimaryTitle, GetTitleByKey('h_china').Self) )]"
+			# visible = "[And( CouncilWindow.GetCharacter.GetGovernment.HasGovernmentFlag( 'government_is_celestial' ), GreaterThanOrEqualTo_int32( CouncilWindow.GetCharacter.GetPrimaryTitle.GetTierFrame, '(int32)7' ) )]"
+			visible = "[And( CouncilWindow.GetCharacter.GetGovernment.HasGovernmentFlag( 'government_is_celestial' ), ObjectsEqual( CouncilWindow.GetCharacter.GetPrimaryTitle, GetTitleByKey('h_china').Self) )]"
 			layoutpolicy_horizontal = expanding
 			layoutpolicy_vertical = expanding
 			datacontext = "[CouncilWindow]"
@@ -2153,7 +2155,7 @@ types CouncilTaskTypes
 	}
 
 
-	type kurultai_hbox = hbox 
+	type kurultai_hbox = hbox
 	{
 		widget_councillor_item = { # Kurultai
 			layoutpolicy_horizontal = expanding
