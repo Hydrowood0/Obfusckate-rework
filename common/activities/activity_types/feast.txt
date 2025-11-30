@@ -1111,6 +1111,14 @@ activity_feast = {
 			else = {
 				value = base_feast_ui_cost_value
 			}		
+			#mpo_nerge.1060 #Unop: So the feast is acutally free is displayed by the event
+			if = {
+				limit = { has_variable = mpo_nerge_1060_free_feast }
+				multiply = {
+					value =  0 # Free
+					desc = mpo_nerge_1060_free_feast_desc
+				}
+			}
 		}
 	}
 
@@ -3005,6 +3013,13 @@ activity_feast = {
 								}
 							}
 							value = 0
+						if = {
+							limit = { has_variable = mpo_nerge_1060_free_feast }
+							multiply = {
+								value =  0 # Free
+								desc = mpo_nerge_1060_free_feast_desc
+							}
+						}
 						}
 						else = {
 							value = feast_type_murder_value
@@ -3141,6 +3156,14 @@ activity_feast = {
 							multiply = {
 								value = 0.5
 								desc = mpo_nerge_feast_discount
+							}
+						}
+						#mpo_nerge.1060 #Unop: So the feast is acutally free is displayed by the event
+						if = {
+							limit = { has_variable = mpo_nerge_1060_free_feast }
+							multiply = {
+								value =  0 # Free
+								desc = mpo_nerge_1060_free_feast_desc
 							}
 						}
 						if = {
@@ -3487,6 +3510,14 @@ activity_feast = {
 										is_ai = yes
 										has_character_flag = feast_ai_override
 									}
+								}
+							}
+							#mpo_nerge.1060 #Unop: So the feast is acutally free is displayed by the event
+							if = {
+								limit = { has_variable = mpo_nerge_1060_free_feast }
+								multiply = {
+									value =  0 # Free
+									desc = mpo_nerge_1060_free_feast_desc
 								}
 							}
 							value = 0

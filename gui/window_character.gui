@@ -6,7 +6,7 @@ window = {
 	name = "character_window"
 	widgetid = "character_window"
 	datacontext = "[GetVariableSystem]"
-	datacontext = "[CharacterWindow.GetCharacter]"  
+	datacontext = "[CharacterWindow.GetCharacter]"
 	movable = no
 	layer = middle
 	allow_outside = yes
@@ -83,7 +83,7 @@ window = {
 
 				using = Animation_Character_Window_Refresh_Short
 
-				blockoverride "portrait_button" 
+				blockoverride "portrait_button"
 				{
 					using = tooltip_es
 					tooltip_offset = { -50 0 }
@@ -134,7 +134,7 @@ window = {
 						size = { 30 30 }
 						icon = {
 							size = { 30 30 }
-						texture = "gfx/interface/icons/icon_group_of_characters.dds"
+							texture = "gfx/interface/icons/icon_group_of_characters.dds"
 						}
 						tooltip = "CHARACTER_AI_VALUES_DEBUG_TOOLTIP"
 						onclick = "[ExecuteConsoleCommand('aiwatch')]"
@@ -328,11 +328,12 @@ window = {
 						}
 					}
 					portrait_opinion = {
-						name = "liege_opinion" 
+						name = "liege_opinion"
 
 						datacontext = "[CharacterWindow.GetCharacter]"
 						visible = "[And(ShowOpinionAboutLiege, And( Character.GetLiege.IsValid, And( Character.IsAlive, Not(Character.IsLocalPlayer ) ) ) )]"
-						### visible = "[And(Not(ObfLoaded), And( Character.GetLiege.IsValid, And( Character.IsAlive, Not(Character.IsLocalPlayer ) ) ) )]"
+						## visible = "[And( Character.GetLiege.IsValid, And( Character.IsAlive, Not(Character.IsLocalPlayer ) ) )]"
+						## visible = "[And(Not(ObfLoaded), And( Character.GetLiege.IsValid, And( Character.IsAlive, Not(Character.IsLocalPlayer ) ) ) )]"
 						############changed by obfusCKate: End (some conflits if left visible)
 
 						blockoverride "dread_logic" {
@@ -667,7 +668,7 @@ window = {
 					}
 				}
 			}
-			
+
 			flowcontainer = {
 				parentanchor = bottom|left
 				position = { 5 -5 }
@@ -852,7 +853,7 @@ window = {
 						}
 					}
 				}
- 
+
 				button_normal = {
 					name = "open_memories"  
 					#changed by obfusCKate: Start 
@@ -1012,6 +1013,7 @@ window = {
 							layoutpolicy_horizontal = expanding
 							margin = { 3 0 }
 							margin_top = 1
+							margin_left = 2
 
 							text_single = {
 								name = "character_name"
@@ -1088,16 +1090,16 @@ window = {
 				hbox = {
 					name = "skills_culture_religion"
 					layoutpolicy_horizontal = expanding
-		
+
 					background = {
 						using = Background_Area
 					}
-					
+
 					hbox = {
-						name = "tutorial_highlight_skills"
+
 
 						hbox = {
-							name = "skills_grid"
+							name = "tutorial_highlight_skills"
 							datamodel = "[CharacterWindow.GetSkills]"
 							margin = { 2 0 }
 
@@ -1227,7 +1229,7 @@ window = {
 								max_width = 50
 							}
 						}
-						
+
 						divider_light = {
 							layoutpolicy_vertical = expanding
 						}
@@ -2000,7 +2002,7 @@ window = {
 			####################################
 			########### FAMILY TAB #############
 			####################################
- 
+
 			widget = {
 				name = "family"
 				visible = "[And(CharacterWindow.IsTabShown('family'), Not( GreaterThan_CFixedPoint( GetPlayer.MakeScope.Var('hide_ui_character_sheet_bottom').GetValue, '(CFixedPoint)0' ) ))]"
@@ -3300,8 +3302,8 @@ window = {
 						####Changed by obfusCKate: END ## THIS HIDES UNKNOWN CHARACTERS IN COURT
 
 						item = {
-							widget_courtier_item = {  
-								datacontext = "[CharacterListItem.GetCharacter]" 
+							widget_courtier_item = {
+								datacontext = "[CharacterListItem.GetCharacter]"
 								visible = "[GetScriptedGui('gui_show_chars_in_list').IsValid( GuiScope.SetRoot(CharacterListItem.GetCharacter.MakeScope).AddScope( 'player', GetPlayer.MakeScope ).End )]"
 								layoutpolicy_horizontal = expanding
 								####Changed by obfusCKate: END ## THIS HIDES UNKNOWN CHARACTERS IN COURT
@@ -3389,7 +3391,7 @@ window = {
 						datamodel = "[CharacterSelectionList.GetList]"
 						visible = "[Not(CharacterSelectionList.IsBuildingList)]"
 						addcolumn = 575
-						addrow = 125 ##90
+						addrow = 125
 						setitemsizefromcell = yes
 
 						item = {
@@ -3420,11 +3422,11 @@ window = {
 
 										text_single = {
 											visible = "[NotEqualTo_int32(Character.GetPrimaryTitle.GetTierFrame, '(int32)2')]" #nonbaron
-											layoutpolicy_horizontal = expanding											
+											layoutpolicy_horizontal = expanding
 
 											text = "REALM_WINDOW_SIZE"
 											align = nobaseline
-											max_width = 200 ###
+											max_width = 200
 
 											tooltip = "REALM_WINDOW_SIZE_TT"
 											
@@ -3747,7 +3749,7 @@ window = {
 					item = {
 						vbox = {
 							layoutpolicy_horizontal = expanding
-							spacing = 10   #20
+							spacing = 10
 
 							divider_light = {
 								layoutpolicy_horizontal = expanding
@@ -4709,18 +4711,16 @@ types CharacterWindow
 			name = "char_view_titles"  #lesson_china_titles uses this
 			visible = "[Not( IsDataModelEmpty( CharacterWindow.GetTitles ) )]"
 			layoutpolicy_horizontal = expanding
-			spacing = 5 ##
+			spacing = 5
 
 			background = {
 				margin_left = 5
-				#margin_top = -15
-				#margin_bottom = -15
 				using = Background_Area_Titles
 			}
 
 			hbox = {
 				margin_left = 5
-				#minimumsize = { 60 0 }
+
 				text_single = {
 					visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetTitles), '(int32)1' )]"
 
@@ -4734,7 +4734,6 @@ types CharacterWindow
 					text = "CV_TITLES_SINGULAR"
 					align = nobaseline
 				}
-				## expand = {}
 			}
 
 			button_standard_hover = {
@@ -4755,7 +4754,6 @@ types CharacterWindow
 						text = "KEY_KP_PLUS"
 						align = center|nobaseline
 						default_format = "#weak"
-						#margin_bottom = 5  #align = center
 					}
 
 					text_single = {
@@ -4765,7 +4763,6 @@ types CharacterWindow
 						text = "[GetNumberAbove_int32( GetDataModelSize(CharacterWindow.GetTitles), '(int32)8' )|=]"
 						align = center|nobaseline
 						default_format = "#weak"
-						#margin_bottom = 5  #align = center
 					}
 				}
 			}
@@ -4776,7 +4773,7 @@ types CharacterWindow
 				fixedgridbox = {
 					datamodel = "[CharacterWindow.GetTitles]"
 					flipdirection = yes
-					addrow = 56 ##60
+					addrow = 56
 					addcolumn = 38
 					maxverticalslots = 1
 
@@ -5419,12 +5416,10 @@ types CharacterWindow
 
 		margin = { 0 5 }
 		margin_right = 10
-		#spacing = 8 margin_left = 1
-		#margin_bottom = 6 margin_top = 3
 
 		background = {
 			using = Background_Area_Dark
-			margin_left = 3 ##5
+			margin_left = 3
 		}
 
 		#Gold
@@ -5592,10 +5587,10 @@ types CharacterWindow
 					default_format = "#high"
 					align = center|nobaseline
 					fontsize_min = 12
-					max_width = 60 ## 50
+					max_width = 50
 				}
 
-				expand = {}### expand = {}
+				expand = {}
 			}
 		}
 
@@ -5643,7 +5638,7 @@ types CharacterWindow
 					default_format = "#high"
 					align = center|nobaseline
 					fontsize_min = 12
-					## max_width = 50
+					max_width = 50
 				}
 
 				expand = {}
@@ -5669,10 +5664,10 @@ types CharacterWindow
 			size = { 72 32 }
 
 			tooltipwidget = {
-					legitimacy_hud_tooltip = {
-						datacontext = "[CharacterWindow.GetLegitimacyBar]"
-					}
+				legitimacy_hud_tooltip = {
+					datacontext = "[CharacterWindow.GetLegitimacyBar]"
 				}
+			}
 
 			using = tooltip_se
 			## using = tooltip_ne ## (north east)
@@ -5692,10 +5687,9 @@ types CharacterWindow
 				expand = {}
 
 				icon = {
-					size = { 30 30 } ##{ 32 32 }
+					size = { 30 30 }
 
 					texture = "[Character.GetLegitimacyType.GetLevelsIcon]"
-					## texture = "gfx/interface/icons/legitimacy_level_icon.dds"
 					framesize = { 70 70 }
 					frame = "[IntToFrameIndex( LegitimacyLevel.GetIndex )]"
 				}
@@ -5730,7 +5724,7 @@ types CharacterWindow
 			name = "barter_goods"
 			visible = "[Character.HasBarterGoods]"
 			size = { 72 32 }
-			
+
 			hbox = {
 				tooltip = "[Character.GetBarterGoodsTooltipWithBalance]"
 				using = tooltip_se
@@ -5759,7 +5753,8 @@ types CharacterWindow
 
 					#changed by obfusCKate: Start
 					## using = obf_bartergoods_text_template
-					#text = "[Character.GetDread|0]"
+					#text = "[Character.GetCurrency('barter_goods')|0]"
+
 					#changed by obfusCKate: End
 					default_format = "#high"
 					align = center|nobaseline
@@ -5791,16 +5786,16 @@ types CharacterWindow
 				#######changed by obfusCKate: Start
 				visible = "[And(ShowMilitaryStrength, Character.HasLandedTitles)]"
 				#######changed by obfusCKate: End
-				spacing = 3 ##2
+				spacing = 3
 
 				expand = {}
-   
+
 				icon = {
 					name = "icon_combat_strength"
 					size = { 30 30 }
 					texture = "gfx/interface/icons/icon_soldier.dds"
 				}
-				
+
 				text_single = {
 					name = "military_total_strength"
 					text = "[CharacterWindow.GetCachedMilitaryStrengthText]"
@@ -5829,7 +5824,6 @@ types CharacterWindow
 			obf_button_ask_military_advice = {}
 			#######changed by obfusCKate: End
 		}
-		 ### expand = {}
 	}
 }
 
@@ -5867,16 +5861,16 @@ template Animation_Character_Window_Refresh_Short
 		using = Animation_Refresh_FadeIn
 		duration = 0.25
 	}
-} 
+}
 
 template Character_Window_Relation_Icon
 {
 	size = { 24 24 }
-	framesize = { 40 40 } 
- 
+	framesize = { 40 40 }
+
 	visible = "[ScriptedRelation.HasRelationBetween( CharacterWindow.GetCharacter, Character.Self )]"
 
-	tooltipwidget = { 
+	tooltipwidget = {
 		scripted_relation_tooltip = {
 			blockoverride "description_text"
 			{

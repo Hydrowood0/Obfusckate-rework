@@ -15,6 +15,11 @@ sway_target_of_interest_trigger = {
 	in_diplomatic_range = $CHARACTER$
 	is_capable_adult = yes
 	OR = {
+		# === 1.184 ljl 修复：无地冒险者直接允许拉拢，跳过后续的首都检查 ===
+		is_landless_adventurer = yes
+		$CHARACTER$ = { is_landless_adventurer = yes }
+		# ===================================================
+
 		has_relation_to = $CHARACTER$
 		# We are their liege
 		is_vassal_or_below_of = $CHARACTER$
@@ -156,6 +161,10 @@ can_be_target_of_befriend_trigger = {
 }
 target_at_distance_trigger = {
 		OR = {
+			# === 1.184 ljl 新增：无地冒险者直接通过 ===
+			scope:owner = { is_landless_adventurer = yes }
+			scope:target = { is_landless_adventurer = yes }
+			# ============================
 			is_vassal_of = scope:target
 			is_tributary_of = scope:target ## added by ljl
 			scope:target = {is_vassal_of = scope:owner}
@@ -167,9 +176,16 @@ target_at_distance_trigger = {
 	}
 
 distance_from_owner_to_target = {
-		scope:target = {is_alive = yes}
+		scope:owner = {is_alive = yes}
 		scope:target = {is_alive = yes}
 		OR = {
+		# === 1.184 ljl 新增：无地冒险者直接视为距离满足（避免卡死） ===
+		scope:owner = { is_landless_adventurer = yes }
+		scope:target = { is_landless_adventurer = yes }
+		# ===============================================
+		# # 1.184 ljl【修复】没有头衔首府的（例如雇佣兵团、无地头衔）直接通过
+		# NOT = { exists = scope:owner.primary_title.title_capital_county }
+		# # ===============================================
 		trigger_if = {
 			limit = {exists = scope:owner.primary_title.title_capital_county
 						scope:target = {
@@ -198,9 +214,13 @@ distance_from_owner_to_target = {
 }
 
 distance_from_owner_to_target_more_than = {
-		scope:target = {is_alive = yes}
+		scope:owner = {is_alive = yes}
 		scope:target = {is_alive = yes}
 		OR = {
+		# === 1.184 ljl新增：无地冒险者豁免 ===
+		scope:owner = { is_landless_adventurer = yes }
+		scope:target = { is_landless_adventurer = yes }
+		# ==========================
 		trigger_if = {
 			limit = {exists = scope:owner.primary_title.title_capital_county
 						scope:target = {
