@@ -2,4 +2,4 @@
  ADMIN_GOVERNOR_EFFICIENCY_GOOD: "#P 高#!"
  ADMIN_GOVERNOR_EFFICIENCY_AVERAGE: "#aptitude_average 一般#!"
  ADMIN_GOVERNOR_EFFICIENCY_BAD: "#N 低#!"
- ADMIN_WINDOW_THEME_GOVERNOR_EFFICIENCY_VALID_TT: "#T [governor_efficiency|e]：$ADMIN_WINDOW_THEME_GOVERNOR_EFFICIENCY_VALUE$#!"
+ ADMIN_WINDOW_THEME_GOVERNOR_EFFICIENCY_VALID_TT: "#T [governor_efficiency|e]：$ADMIN_WINDOW_THEME_GOVERNOR_EFFICIENCY_VALUE$#!\n#weak （数值范围说明）#!\n#P 高#!：≥ 20\n#aptitude_average 一般#!：-20 至 19\n#N 低#!：≤ -21\n\n#weak （最低：#N -50%#!~最高：#P +50%#!）#!\n\n基础：#N -100#!\n"

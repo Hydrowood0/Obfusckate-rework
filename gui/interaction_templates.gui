@@ -194,31 +194,31 @@ types CharacterInteraction
 				visible = "[Not( MatchOffer.IsSameSex )]"
 
 				hbox = {
-				layoutpolicy_horizontal = expanding
+					layoutpolicy_horizontal = expanding
 
-				text_label_left = {
-					name = "traits_header"
-					#added by obfusCKate: Start
-					## visible = "[MatchOffer.HasInheritableTraits]"
-					visible = no
-					#added by obfusCKate: End
-					text = "INHERITABLE_TRAITS"
+					text_label_left = {
+						name = "traits_header"
+						#added by obfusCKate: Start
+						## visible = "[MatchOffer.HasInheritableTraits]"
+						visible = no
+						#added by obfusCKate: End
+						text = "INHERITABLE_TRAITS"
+					}
+
+					expand = {}
 				}
 
-				expand = {}
-			}
-
-			text_single = {
-				name = "no_traits"
-				#added by obfusCKate: Start
-				# visible = "[Not(MatchOffer.HasInheritableTraits)]"
-				visible = no
-				#added by obfusCKate: End
-				text = "NO_INHERITABLE_TRAITS"
+				text_single = {
+					name = "no_traits"
+					#added by obfusCKate: Start
+					# visible = "[Not(MatchOffer.HasInheritableTraits)]"
+					visible = no
+					#added by obfusCKate: End
+					text = "NO_INHERITABLE_TRAITS"
 					align = nobaseline
 					default_format = "#low;italic"
 					margin = { 4 16 }
-			}
+				}
 
 				overlappingitembox = {
 					size = { 240 55}
@@ -234,7 +234,7 @@ types CharacterInteraction
 						container = {
 							datacontext = "[MatchmakerTraitInfo.GetTrait]"
 							datacontext = "[MatchmakerTraitInfo.GetCharacter]"
-							
+
 							icon_trait = {
 								blockoverride "actual_description_text"
 								{
@@ -593,7 +593,7 @@ types CharacterInteraction
 			}
 		}
 	}
-	
+
 	type vbox_list_interaction_maa_selection = vbox {
 		name = "maa_grid"
 		datamodel = "[CharacterInteractionConfirmationWindow.GetMaa]"
@@ -1047,9 +1047,9 @@ types CharacterInteraction
 		name = "affected_characters_accept"
 		layoutpolicy_horizontal = expanding
 		spacing = 5
-		
+
 		datacontext = "[InteractionEffectsDescription.GetDisplayedEffects]"
-		
+
 		# Duplicate recipient if it's player - player info should go first
 		vbox_character_interaction_effects_me = {
 			datacontext = "[InteractionEffectsDescription.GetRecipient]"
@@ -1218,7 +1218,7 @@ types CharacterInteraction
 		hbox = {
 			block "visibility"
 			{
-			visible = "[And(InteractionEffectsDescription.IsMaybeAnswer,InteractionEffectsDescription.HasRejectionEffect)]"
+				visible = "[And(InteractionEffectsDescription.IsMaybeAnswer,InteractionEffectsDescription.HasRejectionEffect)]"
 			}
 			layoutpolicy_horizontal = expanding
 
@@ -1483,7 +1483,7 @@ types CharacterInteraction
 				using = Background_Area_Dark
 			}
 
-		   	hbox = {
+			hbox = {
 				visible = "[CharacterInteractionConfirmationWindow.IsForcedToAccept]"			
 				parentanchor = center
 				layoutpolicy_horizontal = expanding
@@ -1494,17 +1494,17 @@ types CharacterInteraction
 
 				expand = {}
 
-			icon = {
-				texture = "gfx/interface/icons/symbols/icon_check.dds"
-				size = { 30 30 }
-				#visible = "[CharacterInteractionConfirmationWindow.IsAnswerPositive]"
-				#changed by obfusCKate: Start
-				visible = no
-				#changed by obfusCKate: End
+				icon = {
+					texture = "gfx/interface/icons/symbols/icon_check.dds"
+					size = { 30 30 }
+					#visible = "[CharacterInteractionConfirmationWindow.IsAnswerPositive]"
+					#changed by obfusCKate: Start
+					visible = no
+					#changed by obfusCKate: End
 				}
 
 				text_single = {
-					layoutpolicy_horizontal = expanding
+					#layoutpolicy_horizontal = expanding
 					name = "answer"
 					text = "ANSWER_REASON_AUTO_ACCEPT"
 					default_format = "#color_green"
@@ -1587,9 +1587,8 @@ types CharacterInteraction
 					using = Font_Size_Medium
 					align = nobaseline
 				}
-				
 				#changed by obfusCKate: end
-
+				expand = {}
 			}
 
 			progressbar_standard = {
@@ -1928,7 +1927,7 @@ types CharacterInteraction
 								align = nobaseline
 								using = Font_Size_Medium
 							}
-							
+
 							text_single = {
 								#changed by ObfusCKate:Start
 								visible = no
@@ -2030,7 +2029,7 @@ types CharacterInteraction
 			}
 		}
 	}
-	
+
 	type scheme_header_widget = widget {
 		name = "interaction_window_heading_scheme"
 		widgetid = "interaction_window_heading_scheme"
@@ -2552,7 +2551,7 @@ types CharacterInteraction
 
 			button_replace = {
 				parentanchor = center
-				
+
 				block "size_icon" {}
 
 				block "ReplaceClick"
@@ -2572,7 +2571,7 @@ types CharacterInteraction
 
 			button_cancel = {
 				parentanchor = center
-				
+
 				block "size_icon" {}
 
 				block "RevertClick"
@@ -2590,7 +2589,7 @@ types CharacterInteraction
 
 	type dynamicgridbox_interaction_list = dynamicgridbox {
 		name = "interaction_list"
-
+		
 		item = {
 			container = {
 				name = "interaction_widget"
@@ -2644,7 +2643,7 @@ types CharacterInteraction
 
 
 					# To get a hover glow for the entire row
-				button_standard_hover = {
+					button_standard_hover = {
 						visible = "[InteractionItem.IsValid]"
 						size = { 100% 100% }
 					}
@@ -2655,23 +2654,23 @@ types CharacterInteraction
 						margin = { 8 0 }
 						
 						button = {
-					name = "interaction_button"
+							name = "interaction_button"
 
-					enabled = "[InteractionItem.IsValid]"
-					onclick = "[InteractionItem.OnClick]"
+							enabled = "[InteractionItem.IsValid]"
+							onclick = "[InteractionItem.OnClick]"
 
 							layoutpolicy_horizontal = growing
 							layoutpolicy_vertical = expanding
 
-					hbox = {
+							hbox = {
 								spacing = 4
 
-						icon = {
-							visible = "[InteractionItem.IsCharacterInteraction]"
-							name = "interaction_icon"
-							size = { 30 30 }
-							texture = "[InteractionItem.GetCharacterInteraction.GetIcon( CharacterInteractionMenuWindow.GetCharacter.Self )]"
-						}
+								icon = {
+									visible = "[InteractionItem.IsCharacterInteraction]"
+									name = "interaction_icon"
+									size = { 30 30 }
+									texture = "[InteractionItem.GetCharacterInteraction.GetIcon( CharacterInteractionMenuWindow.GetCharacter.Self )]"
+								}
 
 								spacer = {
 									name = "no_icon_margin_adjust"
@@ -2681,9 +2680,9 @@ types CharacterInteraction
 
 								textbox = {
 									layoutpolicy_horizontal = growing
-							alwaystransparent = yes
+									alwaystransparent = yes
 									raw_text = "[Select_CString( InteractionItem.IsValid, '#clickable', '#weak' )] [InteractionItem.GetName]"
-							align = nobaseline
+									align = nobaseline
 									elide = right
 								}
 							}
@@ -2739,7 +2738,7 @@ types CharacterInteraction
 									parentanchor = center
 									size = { 30 30 }
 
-							icon = {
+									icon = {
 										visible = "[SchemeType.IsPersonal]"
 										size = {100% 100%}
 										texture = "gfx/interface/icons/scheme_types/icon_scheme_personal.dds"
@@ -2795,8 +2794,8 @@ types CharacterInteraction
 
 								icon = {
 									size = { 25 25 }
-								name = "extra_icon"
-								texture = "[InteractionItem.GetExtraIcon]"
+									name = "extra_icon"
+									texture = "[InteractionItem.GetExtraIcon]"
 									parentanchor = center
 								}
 							}
@@ -2807,13 +2806,13 @@ types CharacterInteraction
 								visible = "[And(Not(InteractionItem.IsMore),Not(InteractionItem.IsPotentialAccept))]"
 								size = { @interaction_item_column_width  @interaction_item_column_width  }
 
-							icon = {
+								icon = {
 									enabled = "[InteractionItem.IsValid]"
 									size = { @interaction_item_column_width  @interaction_item_column_width  }
 
-								name = "dont_accept"
-								texture = "gfx/interface/icons/symbols/icon_cross.dds"
-							}
+									name = "dont_accept"
+									texture = "gfx/interface/icons/symbols/icon_cross.dds"
+								}
 							}
 
 							button = {
@@ -2823,9 +2822,9 @@ types CharacterInteraction
 								tooltip = "[InteractionItem.GetWarningTooltipDesc]"
 								size = { @interaction_item_column_width  @interaction_item_column_width  }
 
-							warning_icon = {
-								name = "warning_icon"
-								size = { 25 25 }
+								warning_icon = {
+									name = "warning_icon"
+									size = { 25 25 }
 
 									parentanchor = center
 								}
@@ -2897,8 +2896,8 @@ types CharacterInteraction
 					default_format = "#weak_glow"
 				}
 
-		background = {
-			using = Background_Area_Dark
+				background = {
+					using = Background_Area_Dark
 					alpha = 0.5
 
 					modify_texture = {
@@ -2987,92 +2986,92 @@ types InteractionCharacterList
 							margin_right = -2
 						}
 
-					# Candidate Score
-					widget = {
+						# Candidate Score
+						widget = {
 							visible = "[CharacterInteractionConfirmationWindow.IsSortedBy( 'candidate_score' )]"
-						size = { 63 30 }
+							size = { 63 30 }
 
-						text_single = {
-							text = "[CharacterInteractionConfirmationWindow.GetCandidateScore( CharacterListItem.Self )|V0]"
+							text_single = {
+								text = "[CharacterInteractionConfirmationWindow.GetCandidateScore( CharacterListItem.Self )|V0]"
 
-							parentanchor = right|vcenter
-							align = nobaseline
+								parentanchor = right|vcenter
+								align = nobaseline
 
-							background = {
-								margin_left = 30
-								margin_right = 30
-																													
-								texture = "gfx/interface/component_tiles/tile_title_bg_01.dds"
-								spriteType = Corneredtiled
-								spriteborder = { 40 8 }
-								texture_density = 2
+								background = {
+									margin_left = 30
+									margin_right = 30
 
-								modify_texture = {
-									name = "mask"
-									texture = "gfx/interface/component_masks/mask_fade_horizontal_middle_thick.dds"
-									spriteType = Corneredstretched
-									spriteborder = { 0 0 }
-									blend_mode = alphamultiply
+									texture = "gfx/interface/component_tiles/tile_title_bg_01.dds"
+									spriteType = Corneredtiled
+									spriteborder = { 40 8 }
+									texture_density = 2
+
+									modify_texture = {
+										name = "mask"
+										texture = "gfx/interface/component_masks/mask_fade_horizontal_middle_thick.dds"
+										spriteType = Corneredstretched
+										spriteborder = { 0 0 }
+										blend_mode = alphamultiply
+									}
 								}
 							}
-						}
 
 							icon = {
-							parentanchor = vcenter
-							size = { 30 30 }
+								parentanchor = vcenter
+								size = { 30 30 }
 								texture = "gfx/interface/icons/appointment_score.dds"
-						}
+							}
 
-						tooltipwidget = {
-							widget_value_breakdown_tooltip = {
-								block "score_breakdown" {
-									datacontext = "[CharacterInteractionConfirmationWindow.GetCandidateScoreBreakdown( CharacterListItem.Self )]"
-								}
+							tooltipwidget = {
+								widget_value_breakdown_tooltip = {
+									block "score_breakdown" {
+										datacontext = "[CharacterInteractionConfirmationWindow.GetCandidateScoreBreakdown( CharacterListItem.Self )]"
+									}
 									blockoverride "header_text" {
 										text = "CHARACTER_INTERACTION_CANDIDATE_SCORE_TT_HEADING"
 									}
-							}
-						}
-					}
-
-					# Governor Efficiency
-					widget = {
-							visible = "[CharacterInteractionConfirmationWindow.IsSortedBy( 'governor_efficiency' )]"
-						size = { 65 30 }
-
-						tooltip = "ADMIN_WINDOW_THEME_GOVERNOR_EFFICIENCY_TT"
-
-						text_single = {
-							name = "char_governor_efficiency_value"
-							text = "ADMIN_WINDOW_THEME_GOVERNOR_EFFICIENCY_VALUE"
-
-							parentanchor = right|vcenter
-							align = nobaseline
-
-							background = {
-								margin_left = 30
-								margin_right = 30
-
-								texture = "gfx/interface/component_tiles/tile_title_bg_01.dds"
-								spriteType = Corneredtiled
-								spriteborder = { 40 8 }
-								texture_density = 2
-
-								modify_texture = {
-									name = "mask"
-									texture = "gfx/interface/component_masks/mask_fade_horizontal_middle_thick.dds"
-									spriteType = Corneredstretched
-									spriteborder = { 0 0 }
-									blend_mode = alphamultiply
 								}
 							}
 						}
 
-						icon = {
-							size = { 30 30 }
-							texture = "gfx/interface/icons/icon_skill_governor_efficiency.dds"
+						# Governor Efficiency
+						widget = {
+							visible = "[CharacterInteractionConfirmationWindow.IsSortedBy( 'governor_efficiency' )]"
+							size = { 65 30 }
+
+							tooltip = "ADMIN_WINDOW_THEME_GOVERNOR_EFFICIENCY_TT"
+
+							text_single = {
+								name = "char_governor_efficiency_value"
+								text = "ADMIN_WINDOW_THEME_GOVERNOR_EFFICIENCY_VALUE"
+
+								parentanchor = right|vcenter
+								align = nobaseline
+
+								background = {
+									margin_left = 30
+									margin_right = 30
+
+									texture = "gfx/interface/component_tiles/tile_title_bg_01.dds"
+									spriteType = Corneredtiled
+									spriteborder = { 40 8 }
+									texture_density = 2
+
+									modify_texture = {
+										name = "mask"
+										texture = "gfx/interface/component_masks/mask_fade_horizontal_middle_thick.dds"
+										spriteType = Corneredstretched
+										spriteborder = { 0 0 }
+										blend_mode = alphamultiply
+									}
+								}
+							}
+
+							icon = {
+								size = { 30 30 }
+								texture = "gfx/interface/icons/icon_skill_governor_efficiency.dds"
+							}
 						}
-					}
 
 						# Obedience
 						widget = {
@@ -3120,39 +3119,39 @@ types InteractionCharacterList
 							}
 						}
 
-					# Acceptance
-					hbox = {
+						# Acceptance
+						hbox = {
 							visible = "[Not( CharacterInteractionConfirmationWindow.IsForcedToAccept )]"
 
 							margin_left = 15
 
-						### Will Accept ###
-						icon = {
-							visible = "[GreaterThan_CFixedPoint( CharacterInteractionConfirmationWindow.GetAcceptanceValue( CharacterListItem.Self ), '(CFixedPoint)0' )]"
+							### Will Accept ###
+							icon = {
+								visible = "[GreaterThan_CFixedPoint( CharacterInteractionConfirmationWindow.GetAcceptanceValue( CharacterListItem.Self ), '(CFixedPoint)0' )]"
 								size = { 30 30 }
 
-							texture = "gfx/interface/icons/symbols/icon_check.dds"
+								texture = "gfx/interface/icons/symbols/icon_check.dds"
 
-							value = "[CharacterInteractionConfirmationWindow.GetAnswerScore]"
-							#changed by obfusCKate: Start
-							# tooltip = "[CharacterInteractionConfirmationWindow.GetAcceptanceBreakdown( CharacterListItem.Self )]"
-							###deleted tooltip
-							#changed by obfusCKate: End
-							
-						}
+								value = "[CharacterInteractionConfirmationWindow.GetAnswerScore]"
+								#changed by obfusCKate: Start
+								# tooltip = "[CharacterInteractionConfirmationWindow.GetAcceptanceBreakdown( CharacterListItem.Self )]"
+								###deleted tooltip
+								#changed by obfusCKate: End
+								
+							}
 
-						### Will Not Accept ###
-						icon = {
-							visible = "[LessThanOrEqualTo_CFixedPoint( CharacterInteractionConfirmationWindow.GetAcceptanceValue( CharacterListItem.Self ), '(CFixedPoint)0' )]"
+							### Will Not Accept ###
+							icon = {
+								visible = "[LessThanOrEqualTo_CFixedPoint( CharacterInteractionConfirmationWindow.GetAcceptanceValue( CharacterListItem.Self ), '(CFixedPoint)0' )]"
 								size = { 30 30 }
 
-							texture = "gfx/interface/icons/symbols/icon_cross.dds"
+								texture = "gfx/interface/icons/symbols/icon_cross.dds"
 
-							value = "[CharacterInteractionConfirmationWindow.GetAnswerScore]"
-							#changed by obfusCKate: Start 
-							# tooltip = "[CharacterInteractionConfirmationWindow.GetAcceptanceBreakdown( CharacterListItem.Self )]"
-							###deleted tooltip
-							#changed by obfusCKate: End
+								value = "[CharacterInteractionConfirmationWindow.GetAnswerScore]"
+								#changed by obfusCKate: Start 
+								# tooltip = "[CharacterInteractionConfirmationWindow.GetAcceptanceBreakdown( CharacterListItem.Self )]"
+								###deleted tooltip
+								#changed by obfusCKate: End
 							}
 						}
 					}
