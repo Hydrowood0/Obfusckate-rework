@@ -95,6 +95,10 @@ diplomacy_skill_value_text = {
 		}
 		localization_key = SKILL_UNKNOWN
 	}
+	#  text = {
+    #     # 不设置任何 trigger，确保总有返回值
+    #     localization_key = SKILL_DIPLOMACY_VALUE # 或者 SKILL_DIPLOMACY_VALUE (如果你希望默认显示数值)
+    # }
 }
 
 martial_skill_value_text_reverse = {
