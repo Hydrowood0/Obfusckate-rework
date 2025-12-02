@@ -27,7 +27,7 @@
 		is_adult = yes
 		is_imprisoned = no
 		######### changed by obfusCKate: start
-		is_in_army = no 
+		## is_in_army = no #commented by vljl 1.185
 
 		custom_tooltip = { 
 		text = "at_war_with_target_or_lieges" 
@@ -72,9 +72,9 @@
 				}
 			}
 		}
-		scope:target = {
-			exists = location
-		}
+		# scope:target = { #commented by ljl v1.185
+		# 	exists = location
+		# }
 	}
 	use_secrecy = {
 		use_convert_to_witchcraft_secrecy_trigger = { OWNER = scope:owner }
@@ -89,7 +89,7 @@
 	
 	# Base Chances
 	base_success_chance = {
-		base = -40 ## vanilla 0
+		base = -40 ## vanilla 0 mod 40
 		scheme_type_skill_success_chance_modifier = { SKILL = LEARNING }
 
 		#Coven leader
@@ -108,7 +108,7 @@
 			ai_zeal = {
 				if = {
 					limit = {
-						faith = { trait_is_virtue = witch has_doctrine_parameter = witchcraft_accepted }
+						scope:target.faith = { trait_is_virtue = witch has_doctrine_parameter = witchcraft_accepted }
 					}
 					value = 0.25
 				}
@@ -119,7 +119,7 @@
 			max = 50
 			min = -25
 		}
-		 #########OPINION#DISABLED FOR AI TO SAVE PERFORMANCE changed by obfusCKate: start
+		#########OPINION#DISABLED FOR AI TO SAVE PERFORMANCE changed by obfusCKate: start
 		opinion_modifier = {
 		trigger = {
 			scope:owner = {is_ai = no}
