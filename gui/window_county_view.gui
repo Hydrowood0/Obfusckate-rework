@@ -2083,11 +2083,11 @@ window = {
 
 										blockoverride "building_frame" {
 											icon = {
-											size = { 100% 100% }
-											texture = "gfx/interface/buttons/button_duchy_capital.dds"
-											alwaystransparent = yes
-											spriteType = Corneredtiled
-											spriteborder = { 18 18 }
+												size = { 100% 100% }
+												texture = "gfx/interface/buttons/button_duchy_capital.dds"
+												alwaystransparent = yes
+												spriteType = Corneredtiled
+												spriteborder = { 18 18 }
 
 												modify_texture = {
 													texture = "gfx/interface/colors/gold.dds"
@@ -2108,11 +2108,11 @@ window = {
 
 										blockoverride "building_frame" {
 											icon = {
-											size = { 100% 100% }
-											texture = "gfx/interface/buttons/button_special_building.dds"
-											alwaystransparent = yes
-											spriteType = Corneredtiled
-											spriteborder = { 18 18 }
+												size = { 100% 100% }
+												texture = "gfx/interface/buttons/button_special_building.dds"
+												alwaystransparent = yes
+												spriteType = Corneredtiled
+												spriteborder = { 18 18 }
 
 												modify_texture = {
 													texture = "gfx/interface/colors/gold.dds"

@@ -345,6 +345,7 @@ window = {
 						blockoverride "opinion_text"
 						{
 							text = "[Character.GetOpinionOf( Character.GetLiege )|=]"
+							#text = "[OpinionText( Character.GetLiege )]"
 							fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCharacter.GetLiege )]"
 						}
 
