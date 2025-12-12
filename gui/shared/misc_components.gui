@@ -271,7 +271,8 @@ types Miscelaneous
 
 		hbox = {
 			margin = { 10 0 }
-			ignoreinvisible = yes
+			layoutpolicy_horizontal = expanding
+
 			spacing = 5
 
 			button_expand_fold_out = {
@@ -282,6 +283,8 @@ types Miscelaneous
 				layoutpolicy_horizontal = expanding
 				align = nobaseline
 				alwaystransparent = yes
+				autoresize = no
+
 
 				block "text" {}
 			}
@@ -290,6 +293,7 @@ types Miscelaneous
 
 	type button_expandable_toggle_field_silk_road = button_tertiary {
 		layoutpolicy_horizontal = expanding
+
 
 		block "onclick"
 		{
@@ -320,32 +324,29 @@ types Miscelaneous
 			}
 
 			vbox = {
+				layoutpolicy_horizontal = expanding
 				text_single = {
-					layoutpolicy_horizontal = growing
+					layoutpolicy_horizontal = expanding
 					text = "[Building.GetName]"
 					align = nobaseline
-					max_width = 180
+					autoresize = no
 				}
 
 				text_single = {
 					layoutpolicy_horizontal = expanding
 					align = nobaseline
 					alwaystransparent = yes
-					max_width = 180
+					autoresize = no
 
 					block "text" {}
 				}
 			}
 
-			expand = {}
-
-			text_single = {
-				layoutpolicy_horizontal = growing
+			text_multi = {
 				datacontext = "[SituationSubRegion.GetCurrentPhase]"
 				text = "CURRENT_PHASE_IN_SUBREGION_HEADER"
 				align = right|nobaseline
-				multiline = yes
-				max_width = 180
+				size = { 180 42 }
 			}
 		}
 	}
