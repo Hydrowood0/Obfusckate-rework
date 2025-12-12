@@ -80,6 +80,7 @@ window = {
 					text_label_center = {
 						text = "COUNCIL_WINDOW_CURRENTLY_APPOINTED"
 						default_format = "#low"
+						max_width = 320
 					}
 					
 					text_multi = {
@@ -136,6 +137,9 @@ window = {
 						text_single = {
 							text = "COUNCIL_WINDOW_SKILLS"
 							default_format = "#S"
+							autoresize = no
+							layoutpolicy_horizontal = expanding
+							align = center
 						}
 						
 						hbox = {

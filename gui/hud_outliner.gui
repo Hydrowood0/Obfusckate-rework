@@ -207,6 +207,7 @@ types Outliner {
 				layoutpolicy_horizontal = expanding
 				align = nobaseline
 				default_format = "#high"
+				max_width = 180
 
 				block "oh_name"
 				{
@@ -268,30 +269,29 @@ types Outliner {
 	type outliner_pinned_characters_info = vbox {
 		name = "pinned_characters"
 
-		block "pinned_characters_visible" { # added
+		### Extended Outliner Begin
+		block "pinned_characters_visible" {
 			visible = "[Outliner.IsCategoryShown('pinned_character')]"
-		} # added
+		}
+		### Extended Outliner End
 
 		datamodel = "[Outliner.GetPinnedCharacters]"
 		layoutpolicy_horizontal = expanding
 #		margin = { 5 5 }
 #		margin_bottom = 4
 
-		hbox = {
+
+		text_single = {
+			visible = "[And(Outliner.IsCategoryShown('pinned_character'), IsDataModelEmpty(Outliner.GetPinnedCharacters))]"
+			name = "no_pinned_characters"
+			text = "OUTLINER_NO_PINNED_CHARACTERS"
+			default_format = "#light_background;italic"
+			align = hcenter|nobaseline
+
+			autoresize = no
 			layoutpolicy_horizontal = expanding
-
-			expand = {}
-
-			text_single = {
-				visible = "[And(Outliner.IsCategoryShown('pinned_character'), IsDataModelEmpty(Outliner.GetPinnedCharacters))]"
-				name = "no_pinned_characters"
-				text = "OUTLINER_NO_PINNED_CHARACTERS"
-				autoresize = yes
-				default_format = "#light_background;italic"
-			}
-
-			expand = {}
 		}
+		
 
 		item = {
 			hbox = {
@@ -847,20 +847,15 @@ types Outliner {
 #		margin = { 4 4 }
 #		margin_bottom = 4
 
-		hbox = {
-			name = "no_units_label"
+		text_single = {
+			visible = "[And(And(Outliner.IsCategoryShown('unit'), IsDataModelEmpty(Outliner.GetUnitItems)), GetPlayer.IsValid)]"
+			name = "no_units"
+			text = "OUTLINER_NO_ARMIES"
+			default_format = "#light_background;italic"
+
+			autoresize = no
+			align = hcenter|nobaseline
 			layoutpolicy_horizontal = expanding
-
-			expand = {}
-
-			text_single = {
-				visible = "[And(And(Outliner.IsCategoryShown('unit'), IsDataModelEmpty(Outliner.GetUnitItems)), GetPlayer.IsValid)]"
-				name = "no_units"
-				text = "OUTLINER_NO_ARMIES"
-				default_format = "#light_background;italic"
-			}
-
-			expand = {}
 		}
 
 		################################
