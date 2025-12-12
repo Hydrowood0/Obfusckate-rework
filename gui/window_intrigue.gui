@@ -64,7 +64,7 @@ window = {
 							alpha = 0.8
 						}
 					}
-					
+
 					blockoverride "header_text"
 					{
 						text = "INTRIGUE_VIEW"
@@ -1019,7 +1019,7 @@ types IntrigueWindow
 						text = "SCHEME_WINDOW_ITEM_NAME"
 						using = Font_Size_Medium
 						align = nobaseline
-						max_width = 480
+						max_width = 430
 						margin_left = 15
 					}
 
@@ -1184,7 +1184,7 @@ types IntrigueWindow
 						layoutpolicy_horizontal = expanding
 						size = { 390 30 }
 
-						tooltip = "SCHEME_WINDOW_SUCCESS_TOOLTIP"  
+						tooltip = "SCHEME_WINDOW_SUCCESS_TOOLTIP"
 
 						widget = {
 							name = "scheme_success_progressbar"
@@ -1196,7 +1196,7 @@ types IntrigueWindow
 
 							icon = {
 								parentanchor = center
-								size = { 372 26 } 
+								size = { 372 26 }
 								texture = "gfx/interface/window_scheme/scheme_success_progressbar_bg.dds"
 							}
 
@@ -1907,9 +1907,9 @@ types IntrigueWindowTypes
 						}
 					}
 
-			text_single = {
-				text = "SCHEME_WINDOW_ITEM_NAME"
-				using = Font_Size_Medium
+					text_single = {
+						text = "SCHEME_WINDOW_ITEM_NAME"
+						using = Font_Size_Medium
 						align = nobaseline
 						max_width = 480
 						margin_left = 15
@@ -1923,7 +1923,7 @@ types IntrigueWindowTypes
 				layoutpolicy_horizontal = expanding
 
 				margin = { 10 5 }
-					spacing = 5
+				spacing = 5
 
 				portrait_head = {
 					name = "target_portrait"
@@ -1944,17 +1944,17 @@ types IntrigueWindowTypes
 					hbox = {
 						layoutpolicy_horizontal = expanding
 						spacing = 5
-						
+
 						#Added by obfusCKate: Start
 						#tooltip = "SCHEME_WINDOW_SUCCESS_DISCOVERED_TOOLTIP"
 						tooltip = "SCHEME_WINDOW_SUCCESS_TOOLTIP"
 						#Added by obfusCKate: End
-					icon = { 
-						name = success_icon
-						size = { 30 30 }
+						icon = { 
+							name = success_icon
+							size = { 30 30 }
 
-						texture = "gfx/interface/icons/schemes/icon_scheme_success.dds"
-					}
+							texture = "gfx/interface/icons/schemes/icon_scheme_success.dds"
+						}
 
 						text_multi = {
 							name = "success"
@@ -1962,35 +1962,35 @@ types IntrigueWindowTypes
 							text = "SCHEME_WINDOW_SUCCESS_CHANCE_MAIN"
 							align = nobaseline
 							max_width = 350
-					}
+						}
 
 						expand = {}
-				}
+					}
 
 					hbox = {
-					visible = "[Scheme.IsSecret]"
-					layoutpolicy_horizontal = expanding
-					spacing = 5
+						visible = "[Scheme.IsSecret]"
+						layoutpolicy_horizontal = expanding
+						spacing = 5
 
-					tooltip = "SCHEME_WINDOW_SECRECY_DISCOVERED_TOOLTIP"
+						tooltip = "SCHEME_WINDOW_SECRECY_DISCOVERED_TOOLTIP"
 
-					icon = {
-						name = "secrecy_icon"
-						size = { 30 30 }
-						texture = "gfx/interface/icons/schemes/icon_secrecy.dds"
-					}
+						icon = {
+							name = "secrecy_icon"
+							size = { 30 30 }
+							texture = "gfx/interface/icons/schemes/icon_secrecy.dds"
+						}
 
-					text_single = {
-						name = "secrecy"
-						size = { 40 20 }
-						#changed by obfusCKate: Start
-						# text = "SCHEME_WINDOW_SECRECY"
-						text = "SCHEME_DISCOVERY_CHANCE_OB"
-						#changed by obfusCKate: End
-						using = Font_Size_Medium
-						align = nobaseline
-						max_width = 350
-					}
+						text_single = {
+							name = "secrecy"
+							size = { 40 20 }
+							#changed by obfusCKate: Start
+							# text = "SCHEME_WINDOW_SECRECY"
+							text = "SCHEME_DISCOVERY_CHANCE_OB"
+							#changed by obfusCKate: End
+							using = Font_Size_Medium
+							align = nobaseline
+							max_width = 350
+						}
 
 						expand = {}
 					}
