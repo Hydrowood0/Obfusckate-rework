@@ -13,6 +13,17 @@
 	}
 
 	effect_desc = {
+
+		# SAS Change
+		triggered_desc = {
+			trigger = {
+				scope:councillor_liege = {
+					can_use_spy_network = yes
+				}
+			}
+			desc = agot_task_disrupt_schemes_discover_spies
+		}
+		# SAS Change End
 		#Hostile Scheme Resistance Descs
 		desc = task_disrupt_schemes_hostile_scheme_resistance_base
 		triggered_desc = {
@@ -327,7 +338,10 @@ task_support_schemes = {
 		scale = spymaster_espionage_success_chance_total
 	}
 
-	monthly_on_action = task_support_schemes_side_effects
+	# SAS Change + obfus ? ljl changed? bug?
+	#monthly_on_action = task_support_schemes_side_effects
+	monthly_on_action = choose_appropriate_support_schemes_action
+	# SAS Change End
 
 	ai_will_do = {
 		value = 0
@@ -362,6 +376,16 @@ task_find_secrets = { #FIND SECRETS TASK
 	}
 
 	effect_desc = {
+		# SAS Change
+		triggered_desc = {
+			trigger = {
+				scope:councillor_liege = {
+					can_use_spy_network = yes
+				}
+			}
+			desc = agot_task_disrupt_schemes_recruit_spies
+		}
+		# SAS Change End
 		desc = task_find_secrets_effect_desc
 		desc = {
 			desc = council_task_possible_side_effects
@@ -651,6 +675,7 @@ task_find_secrets = { #FIND SECRETS TASK
 
 	on_start_task_court = { # WHAT HAPPENS WHEN THE TASK STARTS
 		#spawn a task contract to help finding secrets
+		## Obfusckate: start
 		if = {
 			limit = {
 			scope:councillor_liege = {is_ai = no}
@@ -663,6 +688,7 @@ task_find_secrets = { #FIND SECRETS TASK
 					}
 			}
 		}
+		## Obfusckate: end
 		if = {
 			limit = {
 				any_task_contract = {
@@ -694,7 +720,7 @@ task_find_secrets = { #FIND SECRETS TASK
 			}
 		}
 	}
-
+	## Obfusckate: start
 	on_finish_task_court = { #OUTCOME
 		scope:councillor_liege = {
 			if = {
@@ -720,6 +746,7 @@ task_find_secrets = { #FIND SECRETS TASK
 					}
 				}
 			}
+	## Obfusckate: end
 			if = {
 				limit = {
 					scope:target_character = {
@@ -735,9 +762,23 @@ task_find_secrets = { #FIND SECRETS TASK
 						name = having_find_secrets_event
 						value = yes
 					}
-					trigger_event = {
-						on_action = task_find_secrets_outcome
+					# SAS Change
+					if = {
+						limit = {
+							scope:councillor_liege = {
+								can_use_spy_network = yes
+							}
+						}
+						trigger_event = {
+							on_action = sas_spy_network_task_find_secrets_outcome
+						}
 					}
+					else = {
+						trigger_event = {
+							on_action = task_find_secrets_outcome
+						}
+					}
+					# SAS Change End
 				}
 			}
 			if = {
@@ -769,9 +810,9 @@ task_find_secrets = { #FIND SECRETS TASK
 			}
 		}
 	}
-
+	## Obfusckate: start
 	monthly_on_action = task_find_secrets_side_effects_obf 
-	
+	## Obfusckate: end
 	ai_will_do = {
 		value = 2
 		if = { # Greedy AI's like spying on their subjects
@@ -783,6 +824,16 @@ task_find_secrets = { #FIND SECRETS TASK
 				divide = 2
 			}
 		}
+		# SAS Change
+		if = { # AI's with Smugglers really like this
+			limit = {
+				scope:councillor_liege = {
+					exists = court_position:smuggler_court_position
+				}
+			}
+			add = 25
+		}
+		# SAS Change End
 		if = { # AI's with Golden Obligations really like this
 			limit = {
 				scope:councillor_liege = {
