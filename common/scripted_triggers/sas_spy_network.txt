@@ -1,0 +1,12 @@
+﻿can_use_spy_network = {
+	exists = house
+	trigger_if = {
+		limit = { exists = house }
+		house = {
+			OR = {
+				has_house_modifier = sas_starter_spy_network_modifier
+				has_house_modifier = sas_establish_criminal_underground_house_modifier
+			}
+		}
+	}
+}

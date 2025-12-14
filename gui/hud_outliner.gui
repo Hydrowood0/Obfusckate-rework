@@ -270,9 +270,11 @@ types Outliner {
 		name = "pinned_characters"
 
 		### Extended Outliner Begin
+
 		block "pinned_characters_visible" {
 			visible = "[Outliner.IsCategoryShown('pinned_character')]"
 		}
+
 		### Extended Outliner End
 
 		datamodel = "[Outliner.GetPinnedCharacters]"
@@ -384,7 +386,7 @@ types Outliner {
 										autoresize = no
 										align = nobaseline
 										default_format = "#high"
-										fontsize_min = 12 
+										fontsize_min = 12   #14  # Added
 
 										spacing = 0 
 										text_single = {
@@ -402,7 +404,7 @@ types Outliner {
 											tooltip = "BIRTHDAY_ACQUAINTANCE"
 										}		
 										
-									}	
+									}
 
 									expand = {}
 
@@ -507,9 +509,9 @@ types Outliner {
 #									texture = "gfx/interface/icons/portraits/powerful_vassal_small.dds"
 #									framesize = { 28 28 }
 #									frame = "[Character.GetPowerfulVassalFrame]"
-#									
+#
 #									tooltip = "[Character.GetPowerfulVassalTooltip]"
-#									
+#
 #								}
 							}
 
@@ -962,19 +964,19 @@ types Outliner {
 
 					### Extended Outliner End
 
-					
+
 					vbox = {
 						name = "army_info"
 						layoutpolicy_horizontal = expanding
 #						margin = { 6 4 }
-#						spacing = 0 				
+#						spacing = 0
 
 						hbox = {
 							name = "unit_item_1st_line"
 							layoutpolicy_horizontal = expanding
 							margin = { 5 0 } # Added
 
-							
+
 #							text_single = {
 #								layoutpolicy_horizontal = expanding
 #								autoresize = no
@@ -1023,11 +1025,11 @@ types Outliner {
 
 							### Extended Outliner End
 						}
-										
+
 						hbox = {
 							name = "unit_item_2nd_line"
 							layoutpolicy_horizontal = expanding
-							
+
 #							margin_left = -14
 #							soldiers_and_quality_small = {
 #								datacontext = "[Army.GetComposition]"								
@@ -1040,13 +1042,13 @@ types Outliner {
 #								visible = "[Army.IsArmySufferingFromAttrition]"
 #								texture = "gfx/interface/icons/map_icons/attrition_icon.dds"
 #								size = { 24 24 }
-#								
+#
 #							}
-#							
+#
 #
 #							spacer = { size = { 4 } }
-#						
-#							
+#
+#
 #
 #							container_supply_icon = {}
 
@@ -1326,7 +1328,6 @@ types Outliner {
 							### Extended Outliner End
 
 							hbox = {
-
 								text_single = {
 									max_width = 80
 									name = "holding_name"
@@ -1388,6 +1389,7 @@ types Outliner {
 								spacer = { size = { 5 } }
 
 								hbox = {
+									visible = "[Not( IsNomad( GetPlayer ) )]"
 									min_width = 70
 
 									icon = {
@@ -1403,9 +1405,27 @@ types Outliner {
 									}
 								}
 
+								hbox = {
+									visible = "[IsNomad( GetPlayer )]"
+									min_width = 70
+
+									icon = {
+										size = { 20 20 }
+										texture = "gfx/interface/icons/icon_county_fertility.dds"
+									}
+
+									text_single = {
+										text = "[Holding.GetProvince.GetCounty.GetCountyFertility|V1]"
+										min_width = 50
+										align = right|nobaseline
+										default_format = "#high"
+									}
+								}
+
 								spacer = { size = { 5 } }
 
 								hbox = {
+									visible = "[Not( IsNomad( GetPlayer ) )]"
 									min_width = 55
 
 									icon = {
@@ -1421,6 +1441,23 @@ types Outliner {
 									}
 								}
 
+								hbox = {
+									visible = "[IsNomad( GetPlayer )]"
+									min_width = 55
+
+									icon = {
+										size = { 20 20 }
+										texture = "gfx/interface/icons/icon_herd.dds"
+									}
+
+									text_single = {
+										text = "[Holding.GetProvince.GetCounty.GetHerdFromCounty|=0]"
+										min_width = 35
+										align = right|nobaseline
+										default_format = "#high"
+									}
+								}
+
 								spacer = { size = { 20 } }
 							}
 						}
@@ -1428,20 +1465,42 @@ types Outliner {
 						### Extended Outliner End
 
 #							hbox = {
-#								visible = "[Not(Holding.IsConstructionInProgress)]"
+#								visible = "[And( Not( Holding.IsConstructionInProgress ), Not( IsNomad( GetPlayer ) ) )]"
 #
 #								text_single = {
 #									text = "HOLDING_TAX_VALUE"
 #									min_width = 70
+#									max_width = 70
 #									align = left|nobaseline
 #									default_format = "#high"
 #								}
 #
 #								text_single = {
 #									text = "HOLDING_LEVY_SIZE"
+#									max_width = 60
 #									min_width = 60
 #									align = left|nobaseline
 #									default_format = "#high"
+#								}
+#							}
+#
+#							hbox = {
+#								visible = "[And( Not( Holding.IsConstructionInProgress ), IsNomad( GetPlayer ) )]"
+#
+#								text_single = {
+#									text = "HOLDING_COUNTY_FERTILITY"
+#									min_width = 70
+#									max_width = 70
+#									align = left|nobaseline
+#									default_format = "#high;glow_color:{0.1,0.1,0.1,1.0}"
+#								}
+#
+#								text_single = {
+#									text = "HOLDING_COUNTY_HERD"
+#									min_width = 60
+#									max_width = 60
+#									align = left|nobaseline
+#									default_format = "#high;glow_color:{0.1,0.1,0.1,1.0}"
 #								}
 #							}
 #						}

@@ -1,40 +1,28 @@
-- This mod has made massive fixes based on the original Obfus mod and tries to catch up with vanilla updates. 1.16&1.18-related functions are still under development. If you encounter any bugs when using only the following mods in the order list, please don't hesitate to tell me immediately.
+- This mod has made [b][i][u][url=https://steamcommunity.com/workshop/filedetails/discussion/3508469370/842866343519756030/]massive fixes[/url]  [/u][/i][/b]based on the original Obfus mod and tries to catch up with vanilla updates. 1.16&1.18-related functions are still under development. If you encounter any bugs when using only the following mods in the order list, please don't hesitate to tell me immediately.
 [h3]- [b][u]Unsubscribe and exit steam, then resubscribe[/u][/b] to this mod to prevent lagging and invalidation ([u][b]to avoid some bugs(etc. seduce never done) in old versions of this mod[/b][/u]) after my update. (Many modders report that there is an issue with [i][u]Steam sometimes redistributing the old version of the mod [/u][/i]. I've contacted Steam, but they won't do anything to fix this issue.)[/h3]
 - All credit is attributed to  [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2874007571]Obfusckate[/url]'s author JP78 & [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3239002020]RUI: Character Unofficial[/url]'s author Saltfish; But don't use this mod with JP78's or my other submod, neither; Instead, use this mod ONLY, because this one is the newest.
 
-[h2]- Arrange the mods in this order：[/h2]
-0. [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2974850904] (Optional) Knight Manager continued[/url]
-1. this mod: obfusCKate - Hidden Information(rework)
-2. [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3239002020](Optional) RUI: Character Unofficial[/url]
-3. localisation.  [strike] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3508471691 ] [u] 汉化mod。弃用，本模组已集成简中 [/u] [/url] [/strike] & [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3521657245] [u] obfusCKate - Español en Inglés [/u] [/url] & FR & Russain & Korean & German.  [u]Some of them r not compatible with this mod[/u].
-4.（optional）[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3030427202]Big Battle View[/url]
-
- [h2]- What is new? [/h2]
-0. compatible with RUI & Knight Manager continued.
-1. Fix the family and subjects tab overlapping.
-2. Fix the Kurultai council tab, the-great-steppe-window.
-3. No more game crashes when raising a raid army.
-4. Fix the notification template background to vanilla.
-5. “hud outliner gui.bak” in the folder is without “Extend Outliner”, rename it and replace 'hud outliner.gui" if u don’t want "Extend Outliner'.
-6. No more crash happens when hovering the mouse over highlighted texts in game rule configuration(like "Conqueror" on conqueror bonus setting).
-7. Optional Obfuscate influence & herd & [b][i][u]age[/u][/i][/b] (configure it in game rules, compatible with RUI).
-8. window_county.gui fixed for Nomad version.
-
-9. spouse & concubine finder-window: age displayed.
-10. localisation integrated. Except for the 2 finished and implemented localisations, CN&EN, other localisations are replaced by English by default.
-
-11. The People You Know filter/ acquaintances list will not be empty/ wiped 
-12. Disciple relation is now calculated.
-13. Spynetwork works again at the 1.18 version.
-14. Show the 5 stats of recruitable characters in the tavern recruit event.
-
 [h3]todo：[/h3]
 0. [url=https://store.steampowered.com/news/app/1158310/view/509590093865943751] Waiting for the official implementation of this mod function Development Log #182 《 Terra Obscura 》[/url]
-1. "befriend_scheme.txt" ", convert_to_witchcraft_scheme" ", sway_scheme.txt". These three files are too difficult to compare and update. I will use the original vanilla ones for the time being.
+1. make a version with just the congenital traits hidden.
+2. add the possiblity of being able to see the portrait of those who died and you already knew what they looked like.
 
 
 [h3]"bugs" will not be fixed:[/h3]
 1. "Seems there is a graphical bug w/e entering the culture view, the culture head portrait/placeholder flashes constantly; I'm getting flickering. Unknown character portraits flicker with a white box when moving the mouse. " [url=https://forum.paradoxplaza.com/forum/threads/gui-and-hud-flickering.1867948] It looks like a paradox bug. [/url] I also encountered it, I guess it is related to the system configuration (VRAM/GPU/RAM/CPU) & driver (DX11/Vulkan).
-2. Not-mentioned-above mod compatibility issues ("Better Battle View", "More Family Relations", "Height of Crown", "Fallen Eagle", "CoA mod(Patrum Scuta, Happy Heraldry, etc.)", etc. )
-3. "When I choose a task for the Kurultai (tribal council), the UI reveals the exact value of the relevant stat" - Sadly, this info cannot be hidden by modding, I tried. It is encapsulated by Paradox into a whole. The original Obfus mod has not modified this either; however, the non-nomadic text of the vanilla game does not contain stat values. the code is hard-coded into the following: COUNCIL_TASK_EFFECTS: "#S Effets#!\n[ActiveCouncilTask.GetTaskEffect]"
-[img]https://i.imgur.com/1RLfdY0.jpg[/img] [img]https://i.imgur.com/8aD4G4U.gif[/img]
+2. "When I choose a task for the Kurultai (tribal council), the UI reveals the exact value of the relevant stat" - Sadly, this info cannot be hidden by modding, I tried. It is encapsulated by Paradox into a whole. The original Obfus mod has not modified this either; however, the non-nomadic text of the vanilla game does not contain stat values. the code is hard-coded into the following: COUNCIL_TASK_EFFECTS: "#S Effets#!\n[ActiveCouncilTask.GetTaskEffect]"
+[img]https://i.imgur.com/1RLfdY0.jpg[/img] [img]https://i.imgur.com/QPQXiJy.gif[/img]
+3. Not-mentioned-above mod compatibility issues ("AGOT", "EK2", "Better Battle View", "More Family Relations", "Height of Crown", "Fallen Eagle", "CoA mod(Patrum Scuta, Happy Heraldry, etc.)", etc. )
+[h2]3.1Compatibility:[/h2][b][i][u]Just like the original Obfusckate mod. Since this is a UI overhaul mod, you can try to put it at the bottom of the list as much as possible to cover the modifications of other mods.  Adding this mod in the mid-campaign is OK, but removing it may cause a "crash to desktop", since there are too many "delay = { " of "pulse " in "on_action" files. [/u][/i][/b]
+
+[h3]Tips: Use [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3588196638]CK3 Log Analyser [/url] to figure out which files are in conflict.[/h3]
+[h2]- Arrange the mods in this order：[/h2]
+0. (optional) [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3592971803]Sabotage and Subterfuge[/url]
+0. [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2974850904] (Optional) Knight Manager continued[/url]
+1. this mod: obfusCKate - Hidden Information(rework)
+2. [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3239002020](Optional) RUI: Character Unofficial[/url]
+3. localisation.  [strike] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3508471691 ] [u] 汉化 mod。弃用，本模组已集成简中 [/u] [/url] [/strike] & [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3521657245] [u] obfusCKate - Español en Inglés [/u] [/url] & FR & Russain & Korean & German.  [u]Some of them r not compatible with this mod[/u].
+x. (optional) [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3030427202]Big Battle View[/url]  or [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3454148607]布阵：副将&战术机制扩展[/url]
+x. (optional) [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2886417277]artifact manager[/url]
+x. (optional) [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3157042775]balance of power UI[/url]
+x. (optional) [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3582007365]regency rework[/url]

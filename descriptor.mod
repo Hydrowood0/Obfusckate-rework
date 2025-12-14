@@ -1,12 +1,10 @@
-version="1.185"
+version="1.186"
 tags={
 	"Fixes"
 	"Gameplay"
 	"Schemes"
 	"Character Interactions"
-	"Graphics"
 	"Total Conversion"
-	"Utilities"
 }
 name="obfusCKate(rework & RUI:Character Compatibled)"
 supported_version="1.18.*"
