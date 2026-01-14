@@ -1,0 +1,4 @@
+﻿l_polish:
+ WINDOW_ARMY_CHECK_CHARACTER: "Sprawdź okno postaci"
+ WINDOW_ARMY_CHECK_FOR_INFORMATION: "Sprawdź okno postaci, aby uzyskać #E informacje#! o armii i sojusznikach... #BER jeśli je posiadasz.#!"
+ COA_REALM_TOOLTIP_CHARACTER:4 "#T [CHARACTER.GetPrimaryTitle.GetNameWithUnderlyingNoTooltip|U]#!\n[CHARACTER.GetGovernment.GetName] [CHARACTER.GetPrimaryTitle.GetRankConcept]-[rank|E] [realm|E]\n[ruler|E]: [CHARACTER.GetUIName|U]\nWielkość państwa: [CHARACTER.RealmSize|V] [counties|E]\n\n#S Sukcesja#!\nPrawo sukcesyjne: $SUCCESSION_FORM_NAME$\n\n[line_of_succession|E]:\n[CHARACTER.GetPrimaryTitle.GetLineOfSuccessionDesc]"

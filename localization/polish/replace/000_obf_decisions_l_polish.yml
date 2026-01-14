@@ -1,0 +1,6 @@
+﻿l_polish:
+ find_spouse_decision:0 "Znajdź małżonka"
+ find_spouse_decision_desc:0 "Biorąc na siebie ciężar przyszłości mojego rodu, muszę wyruszyć na poszukiwanie małżonka, który wzmocni moje panowanie i zapewni dobrobyt mojej dynastii. Jest to podróż pełna zawiłości, ponieważ powinienem szukać rady u tych, którzy potrafią poruszać się po zawiłych pajęczynach dworskiego życia."
+ find_spouse_decision_tooltip: "Będziesz miał możliwość nominowania jednego ze swoich radnych lub nadwornego lekarza jako herolda (#X pod warunkiem, że nie jest on jednym z twoich spadkobierców lub kochanków#!), który postara się sporządzić odpowiednią listę kandydatów na małżonków. Alternatywnie, możesz poszukać wskazówek wśród swoich przyjaciół."
+ find_spouse_decision_selection_tooltip: "Będziesz miał możliwość nominowania jednego ze swoich radnych lub nadwornego lekarza jako herolda (#X pod warunkiem, że nie jest on jednym z twoich spadkobierców lub kochanków#!), który postara się sporządzić odpowiednią listę kandydatów na małżonków. Alternatywnie, możesz poszukać wskazówek wśród swoich przyjaciół.\n\nSkuteczność i trafność ich wyboru będzie zależeć od ich umiejętności i opinii, jaką mają o tobie, więc wybierz mądrze...\ni, jak wszystko, co robisz, szukanie na próżno może przynieść konsekwencje...."
+ find_spouse_decision_confirm: "Znajdź małżonka"
