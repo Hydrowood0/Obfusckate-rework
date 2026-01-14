@@ -1,0 +1,5 @@
+﻿l_polish:
+ ADMIN_GOVERNOR_EFFICIENCY_GOOD: "#P Wysoka#!"
+ ADMIN_GOVERNOR_EFFICIENCY_AVERAGE: "#aptitude_average Średnia#!"
+ ADMIN_GOVERNOR_EFFICIENCY_BAD: "#N Niska#!"
+ ADMIN_WINDOW_THEME_GOVERNOR_EFFICIENCY_VALID_TT: "#T [governor_efficiency|e]: $ADMIN_WINDOW_THEME_GOVERNOR_EFFICIENCY_VALUE$#!\n#weak (Zakresy wartości)#!\n#P Wysoka#!: >= 20\n#aptitude_average Średnia#!: -20 to 19\n#N Niska#!: <= -21\n\n#weak (Min: #N -50%#! - Max: #P +50%#!)#!\n\nBazowo: #N -100#!\n"
