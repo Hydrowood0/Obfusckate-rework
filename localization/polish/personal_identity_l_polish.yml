@@ -1,0 +1,13 @@
+﻿l_polish:
+ personal_identity_discovery_decision:0 "Odkrywanie Własnej Tożsamości"
+ personal_identity_discovery_decision_desc:0 "Pośród gobelinów tożsamości stoisz na progu osobistego objawienia, gotowy do rozwikłania nici swoich pragnień i skłonności. Ścieżka samopoznania kusi, zapraszając do przyjęcia swojej prawdziwej istoty i dokonania decydującego wyboru co do natury swoich uczuć."
+ personal_identity_discovery_decision_tooltip: "Chwila odkrywania samego siebie: Zastanów się nad swoimi najskrytszymi uczuciami i podążaj ścieżką samoświadomości, podejmując szczerą decyzję, która kształtuje twoje rozumienie uczuć i pożądania."
+ personal_identity_discovery_decision_selection_tooltip: "Chwila odkrywania samego siebie: Zastanów się nad swoimi najskrytszymi uczuciami i podążaj ścieżką samoświadomości, podejmując szczerą decyzję, która kształtuje twoje rozumienie uczuć i pożądania.\n\n#E Ta decyzja pozwala zmienić orientację seksualną postaci i można ją wyłączyć w zasadach gry#!"
+ personal_identity_discovery_decision_confirm: "Samoodkrywanie"
+ set_sexuality.0001.t:0 "Odkrywanie samego siebie"
+ set_sexuality.0001.desc:0 "Gdy znajdujesz chwilę dla siebie, twoje myśli kierują się do wewnątrz, zastanawiając się nad wieloma aspektami twojej tożsamości. Wśród myśli, które przychodzą ci do głowy, wyróżnia się twoja własna orientacja seksualna, element układanki twojego prawdziwego ja, którego jeszcze w pełni nie zrozumiałeś.\n\nW tej introspektywnej chwili zastanawiasz się nad naturą przyciągania, złożonością pragnień twojego serca i sposobami, w jakie twoja orientacja kształtuje twoje interakcje z otaczającym cię światem. W miarę zgłębiania tych myśli uświadamiasz sobie, że zrozumienie własnych preferencji seksualnych nie jest tylko osobistą podróżą, ale istotną częścią obejmowania całego siebie."
+ set_sexuality.0001.a:0 "Zdajesz sobie sprawę, że jesteś aseksualny"
+ set_sexuality.0001.b:0 "Zdajesz sobie sprawę, że jesteś biseksualny"
+ set_sexuality.0001.c:0 "Zdajesz sobie sprawę, że jesteś homoseksualny"
+ set_sexuality.0001.d:0 "Zdajesz sobie sprawę, że jesteś heteroseksualny"
+ set_sexuality.0001.e:0 "Zadowolony z tego, kim jesteś, twoje serce odnajduje spokój."
