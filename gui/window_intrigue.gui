@@ -122,7 +122,7 @@ window = {
 						using = tooltip_above
 					}
 					#AGOT Added; Spy Network Tab
-					button_tab = {
+					button_tab = { ##merge mod: Sabotage and Subterfuge 3592971803
 						name = "open_spy_network_tab"
 						layoutpolicy_horizontal = expanding
 						# SAS Change
