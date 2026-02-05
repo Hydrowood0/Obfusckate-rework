@@ -1,7 +1,13 @@
-﻿can_use_spy_network = {
+﻿can_use_spy_network = { ##merge mod: Sabotage and Subterfuge 3592971803
 	exists = house
 	trigger_if = {
-		limit = { exists = house }
+		limit = {
+			exists = house
+			OR={
+				has_game_rule = fledgling_undergrounds
+				has_game_rule = full_undergrounds
+			}
+		}
 		house = {
 			OR = {
 				has_house_modifier = sas_starter_spy_network_modifier

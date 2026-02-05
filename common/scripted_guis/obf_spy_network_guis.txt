@@ -1,4 +1,10 @@
-﻿
+﻿show_spies_window = { ##merge mod: Sabotage and Subterfuge 3592971803
+    is_shown = {
+        can_use_spy_network = yes
+    }
+}
+
+
 start_spy_network = {
 
     is_shown = {

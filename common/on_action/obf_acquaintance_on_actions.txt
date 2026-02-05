@@ -10,6 +10,16 @@ on_game_start_after_lobby = {
 	on_actions ={
 		obf_flag_characters_on_game_start
 		obf_set_up_spy_network_on_start_on_action
+		obf_on_game_start_after_lobby
+	}
+}
+
+obf_on_game_start_after_lobby = {
+	effect = {
+		set_global_variable = {
+			name = obf_is_loaded
+			value = yes
+		}
 	}
 }
 
