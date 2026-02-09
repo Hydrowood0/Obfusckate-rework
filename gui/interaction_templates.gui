@@ -1557,8 +1557,8 @@ types CharacterInteraction
 				
 				text_multi = {
 					layoutpolicy_horizontal = expanding
-					visible = "[And( Not( CharacterInteractionConfirmationWindow.IsAiMaybe ), Not( CharacterInteractionConfirmationWindow.GetRecipient.IsPlayer ) )]"
-					## visible = "[And( And( CharacterInteractionConfirmationWindow.IsAiMaybe, Not( CharacterInteractionConfirmationWindow.GetRecipient.IsPlayer ) ), Or(Not(CharacterInteractionConfirmationWindow.IsAiAcceptNegotiation), CharacterInteractionConfirmationWindow.IsAiAcceptNegotiation)))]"
+					# visible = "[And( Not( CharacterInteractionConfirmationWindow.IsAiMaybe ), Not( CharacterInteractionConfirmationWindow.GetRecipient.IsPlayer ) )]"
+					visible = "[And( And( CharacterInteractionConfirmationWindow.IsAiMaybe, Not( CharacterInteractionConfirmationWindow.GetRecipient.IsPlayer ) ), Or(Not(CharacterInteractionConfirmationWindow.IsAiAcceptNegotiation), CharacterInteractionConfirmationWindow.IsAiAcceptNegotiation)))]"
 					## 后半句or冗余了
 					name = "answer_chance"
 					text = "ANSWER_CHANCE_TO_PROPOSAL"
