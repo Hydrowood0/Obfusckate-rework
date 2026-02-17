@@ -952,17 +952,17 @@ OR = {
 			}
 		}
 }
-obf_has_high_level_knowledge_flags = {
-OR = {
-	has_character_flag = humble_character
-	has_character_flag = illusory_diplomat
-	has_character_flag = illusory_administrator
-	has_character_flag = illusory_intriguer
-	has_character_flag = illusory_scholar
-	has_character_flag = illusory_warrior
-	has_character_flag = partially_spied_3
-	}
 
+obf_has_high_level_knowledge_flags = {
+	OR = {
+		has_character_flag = humble_character
+		has_character_flag = illusory_diplomat
+		has_character_flag = illusory_administrator
+		has_character_flag = illusory_intriguer
+		has_character_flag = illusory_scholar
+		has_character_flag = illusory_warrior
+		has_character_flag = partially_spied_3
+	}
 }
 
 # Scripted trigger for close or intimate relations

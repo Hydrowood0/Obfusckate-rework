@@ -1476,30 +1476,32 @@ spy_ongoing.2000 = { #Some reports
 	
 	trigger = {
 		scope:recipient = {
-		OR = {has_character_flag = pending_low_level_report
-		has_character_flag = pending_medium_level_report
-		has_character_flag = pending_high_level_report}
+			OR = {
+				has_character_flag = pending_low_level_report
+				has_character_flag = pending_medium_level_report
+				has_character_flag = pending_high_level_report
+			}
 		}
 	}
 	
 	option = {
-	if = {
-		limit = {scope:recipient = {has_character_flag = pending_high_level_report}}
-		trigger_event = {
+		if = {
+			limit = {scope:recipient = {has_character_flag = pending_high_level_report}}
+			trigger_event = {
 				id = spy_ongoing.2003
 				days = high_level_report_eta 
 			}
 		}
-	else_if = {
-		limit = {scope:recipient = {has_character_flag = pending_medium_level_report}}
-		trigger_event = {
+		else_if = {
+			limit = {scope:recipient = {has_character_flag = pending_medium_level_report}}
+			trigger_event = {
 				id = spy_ongoing.2002
 				days = medium_level_report_eta 
 			}
 		}
-	else_if = {
-		limit = {scope:recipient = {has_character_flag = pending_low_level_report}}
-		trigger_event = {
+		else_if = {
+			limit = {scope:recipient = {has_character_flag = pending_low_level_report}}
+			trigger_event = {
 				id = spy_ongoing.2001
 				days = low_level_report_eta 
 			}
@@ -1512,47 +1514,62 @@ spy_ongoing.2001 = { #low level reports
 	hidden = yes
 	
 	trigger = {
-		scope:recipient = {OR = {
-		is_alive = no
-		has_character_flag = pending_low_level_report}}
+		scope:recipient = {
+			OR = {
+				is_alive = no
+				has_character_flag = pending_low_level_report
+			}
+		}
 	}
 	
 	immediate = {
-	scope:recipient = {
+		scope:recipient = {
 			host = {
-			save_scope_as = host
-			}}
+				save_scope_as = host
+			}
+		}
 	}
 	
 	option = { #died
 		trigger = {
-		scope:recipient = {is_alive = no}
+			scope:recipient = { 
+				is_alive = no 
+			}
 		}
-		scope:actor = {requested_report_death = yes}
+		scope:actor = { requested_report_death = yes }
 	}
 	
 	option = { #low level 
 		trigger = {
-		scope:recipient = {
-		is_alive = yes
-		has_character_flag = pending_low_level_report}
-		}
-		
-		scope:recipient = {low_level_report_effect = yes
-		remove_character_flag = pending_low_level_report}
-			scope:host = {
-			low_level_report_effect = yes
-			every_courtier_or_guest = {
-			limit = {OR = {
-				is_councillor_of = scope:host
-				is_consort_of = scope:host
-				is_consort_of = scope:recipient
-				is_close_family_of = scope:host
-						is_close_family_of = scope:recipient}}
-			low_level_report_effect = yes
+			scope:recipient = {
+				is_alive = yes
+				has_character_flag = pending_low_level_report
 			}
 		}
-		scope:actor = {requested_report_ready = yes}
+		
+		scope:recipient = {
+			low_level_report_effect = yes
+			remove_character_flag = pending_low_level_report
+		}
+		scope:host = {
+			low_level_report_effect = yes
+
+			every_courtier_or_guest = {
+				limit = {
+					OR = {
+						is_councillor_of = scope:host
+						is_consort_of = scope:host
+						is_consort_of = scope:recipient
+						is_close_family_of = scope:host
+						is_close_family_of = scope:recipient
+					}
+				}
+				low_level_report_effect = yes
+			}
+		}
+		scope:actor = {
+			requested_report_ready = yes
+		}
 	}
 	
 }
