@@ -1,0 +1,23 @@
+﻿# dt 2026/2/17
+intel_network_level = {
+	texture = "gfx/interface/icons/modifiers/mask_mixed.dds"
+	parent = intel_network
+}
+
+intel_network_development = {
+	alias = { obf_development }
+	texture = "gfx/interface/icons/modifiers/mask_mixed.dds"
+	parent = intel_network
+}
+
+intel_network_coverage = {
+	alias = { obf_coverage }
+	texture = "gfx/interface/icons/modifiers/mask_mixed.dds"
+	parent = intel_network
+}
+
+
+task_expand_intel_network = {
+	texture = "gfx/interface/icons/modifiers/mask_mixed.dds"
+	parent = intel_network
+}

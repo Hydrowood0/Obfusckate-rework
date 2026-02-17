@@ -1,0 +1,48 @@
+﻿#### SCHEME SUCCESS INDICATORS
+gui_show_scheme_success_very_unlikely = {
+    saved_scopes = {
+        player
+    }
+    is_valid = {
+        scheme_success_chance <= 15
+    }
+}
+
+gui_show_scheme_success_unlikely = {
+    saved_scopes = {
+        player
+    }
+    is_valid = {
+        scheme_success_chance > 15
+        scheme_success_chance <= 33
+    }
+}
+
+gui_show_scheme_success_maybe = {
+    saved_scopes = {
+        player
+    }
+    is_valid = {
+        scheme_success_chance > 33
+        scheme_success_chance <= 67
+    }
+}
+
+gui_show_scheme_success_likely = {
+    saved_scopes = {
+        player
+    }
+    is_valid = {
+        scheme_success_chance > 67
+        scheme_success_chance <= 84
+    }
+}
+
+gui_show_scheme_success_very_likely = {
+    saved_scopes = {
+        player
+    }
+    is_valid = {
+        scheme_success_chance > 84
+    }
+}

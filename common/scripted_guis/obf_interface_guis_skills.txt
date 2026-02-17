@@ -1,0 +1,70 @@
+﻿#### SKILLS GUI
+gui_skills_are_known = {
+    saved_scopes = { character }
+    is_valid = { gui_skills_are_known = yes }
+}
+
+gui_skills_are_roughly_known = {
+    saved_scopes = { character }
+    is_valid = { gui_skills_are_roughly_known = yes }
+}
+
+gui_skills_are_not_known = {
+    saved_scopes = { character }
+    is_valid = { gui_skills_are_not_known = yes }
+}
+
+gui_any_skill_for_humble = {
+    saved_scopes = { character }
+    is_valid = { gui_any_skill_for_humble = yes }
+}
+
+gui_skills_diplo_for_known = {
+    saved_scopes = { character }
+    is_valid = { gui_skills_diplo_for_known = yes }
+}
+
+gui_skills_diplo_for_illusory = {
+    saved_scopes = { character }
+    is_valid = { gui_skills_diplo_for_illusory = yes }
+}
+
+gui_skills_martial_for_known = {
+    saved_scopes = { character }
+    is_valid = { gui_skills_martial_for_known = yes }
+}
+
+gui_skills_martial_for_illusory = {
+    saved_scopes = { character }
+    is_valid = { gui_skills_martial_for_illusory = yes }
+}
+
+gui_skills_steward_for_known = {
+    saved_scopes = { character }
+    is_valid = { gui_skills_steward_for_known = yes }
+}
+
+gui_skills_steward_for_illusory = {
+    saved_scopes = { character }
+    is_valid = { gui_skills_steward_for_illusory = yes }
+}
+
+gui_skills_intrigue_for_known = {
+    saved_scopes = { character }
+    is_valid = { gui_skills_intrigue_for_known = yes }
+}
+
+gui_skills_intrigue_for_illusory = {
+    saved_scopes = { character }
+    is_valid = { gui_skills_intrigue_for_illusory = yes }
+}
+
+gui_skills_learning_for_known = {
+    saved_scopes = { character }
+    is_valid = { gui_skills_learning_for_known = yes }
+}
+
+gui_skills_learning_for_illusory = {
+    saved_scopes = { character }
+    is_valid = { gui_skills_learning_for_illusory = yes }
+}

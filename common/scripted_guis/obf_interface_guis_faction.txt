@@ -1,0 +1,119 @@
+﻿#### FACTIONS GUI
+
+gui_show_factions_against = {
+    saved_scopes = { player }
+    is_valid = {
+        exists = yes
+        OR = {
+            has_variable = faction_discovered
+            faction_can_press_demands = yes
+            faction_is_at_war = yes
+            any_faction_member = { this ?= scope:player }
+            faction_target = { NOT = { this ?= scope:player } }
+            AND = { faction_is_type = independence_faction faction_discontent >= 90 }
+            AND = { faction_is_type = nation_fracturing_faction faction_discontent >= 85 }
+            AND = { faction_is_type = liberty_faction faction_discontent >= 80 }
+            AND = { faction_is_type = claimant_faction faction_discontent >= 75 }
+            AND = { faction_is_type = populist_faction faction_discontent >= 60 }
+            AND = { faction_is_type = peasant_faction faction_discontent >= 50 }
+        }
+    }
+}
+
+gui_show_faction_power_very_low = {
+    is_valid = {
+        exists = yes
+        faction_power < 50
+    }
+}
+
+gui_show_faction_power_low = {
+    is_valid = {
+        exists = yes
+        faction_power >= 50
+        faction_power < 80
+    }
+}
+
+gui_show_faction_power_balanced = {
+    is_valid = {
+        exists = yes
+        faction_power >= 80
+        faction_power < 150
+    }
+}
+
+gui_show_faction_power_high = {
+    is_valid = {
+        exists = yes
+        faction_power >= 150
+        faction_power < 300
+    }
+}
+
+gui_show_faction_power_very_high = {
+    is_valid = {
+        exists = yes
+        faction_power >= 300
+    }
+}
+
+gui_show_ultimatum = {
+    saved_scopes = { player }
+    is_valid = {
+        exists = yes
+        faction_target = { this ?= scope:player }
+    }
+}
+
+gui_show_faction_discontent_low = {
+    is_valid = { faction_discontent <= 20 }
+}
+
+gui_show_faction_discontent_medium = {
+    is_valid = { faction_discontent <= 60 faction_discontent > 20 }
+}
+
+gui_show_faction_discontent_high = {
+    is_valid = { faction_discontent <= 85 faction_discontent > 60 }
+}
+
+gui_show_faction_discontent_risky = {
+    is_valid = { faction_discontent > 85 }
+}
+
+gui_show_factions_members = {
+    saved_scopes = { player }
+    is_valid = {
+        OR = {
+            AND = {
+                exists = joined_faction
+                joined_faction = {
+                    OR = { NOT = { faction_target = scope:player } faction_is_at_war = yes }
+                }
+            }
+            has_variable = obf_is_a_faction_member
+            is_leading_faction_type = populist_faction
+            is_leading_faction_type = peasant_faction
+            AND = {
+                exists = joined_faction
+                joined_faction = { OR = { faction_is_type = peasant_faction faction_is_type = populist_faction } }
+            }
+        }
+    }
+}
+
+gui_show_factions_members_interface_message = {
+    saved_scopes = { character }
+    is_valid = {
+        exists = scope:character
+        exists = root
+        scope:character ?= {
+            NAND = {
+                exists = joined_faction
+                joined_faction = { faction_target = root }
+                NOT = { has_variable = obf_is_a_faction_member }
+            }
+        }
+    }
+}
