@@ -2229,7 +2229,7 @@ types PortraitTypes
 			name = "tutorial_highlight_character_view_opinion"
             #Changed by ObfusCKate: Start
 			visible = "[And(Character.IsValid,ShowOpinion)]"
-			max_width = 45
+			max_width = 80 ##changed by ljl, vanilla is 45
 			align = nobaseline
 			margin = { 3 0 }
 			tooltipwidget = character_opinion_tooltip
@@ -2238,7 +2238,7 @@ types PortraitTypes
 
 			block "opinion_text" {
 				## text = "[Character.GetOpinionOf( GetPlayer )|=]"
-				text = "[OpinionText(GetPlayer)|=]"
+				text = "[OpinionText(GetPlayer)|=]" 
 				fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
 			}
 			#changed by obfusCKate: end
