@@ -2449,7 +2449,7 @@ gui_skills_learning_for_illusory = {
 
 ####PORTRAITS SCRIPTED GUI'
 
-gui_portrait_shown = {
+gui_portrait_shown = { ##ljl 原版用仇人杀死测试无效
 saved_scopes = {
 character
 }
@@ -2546,8 +2546,105 @@ character
 			}
 
 	}
+# gui_portrait_shown = { gemini版用仇人杀死测试无效
+#     saved_scopes = { character }
+#     is_valid = {
+#         exists = scope:character
+#         exists = root
 
-gui_portrait_not_shown = { ### HERE, JUST IN CASE BUT NOT UPDATED. NEEDS CHANGES
+#         OR = {
+#             # 逻辑 A：角色活着且满足即时交互条件（原有的位置、旅行、密谋等）
+#             AND = {
+#                 scope:character = { is_alive = yes }
+#                 # OR = {
+#                 #     is_at_same_location = root
+#                 #     obf_is_courtier_or_guest = yes
+#                 #     is_courtier_of = root
+#                 #     obf_works_in_same_court = yes
+#                 #     # ... 其他需要“活着”才能触发的即时条件 ...
+#                 # }
+# 				scope:character ?= {
+# 					OR = {
+# 						this ?= root
+# 						any_scheme = {
+# 								OR = {		scheme_type = seduce
+# 											scheme_type = courting
+# 											scheme_type = befriend
+# 											scheme_type = convert_to_witchcraft}
+# 											scheme_target_character = root
+# 										}
+# 						is_at_same_location = root
+# 						is_spouse_of_even_if_dead = root
+# 						obf_is_fellow_vassal_or_liege_councillor = yes
+# 						obf_has_high_level_knowledge_flags = yes
+# 						obf_has_close_or_intimate_relation = yes
+# 						obf_has_near_intimate_or_close_relation	= yes
+# 						is_close_or_extended_family_of = root
+# 						obf_has_important_court_position = yes
+# 						obf_is_courtier_or_guest = yes
+# 						is_courtier_of = root
+# 						obf_has_guardian_or_ward_relation = yes
+# 						is_imprisoned_by = root
+# 						AND = {
+# 							exists = root.liege
+# 							this ?= root.liege
+# 						}
+# 						is_contact_of = root
+# 						is_vassal_of = root
+# 						is_tributary_of = root ## added by ljl
+# 						obf_is_fellow_vassal_or_liege_councillor = yes
+# 						obf_works_in_same_court	= yes
+# 						obf_has_rival_or_negative_relation = yes
+# 						has_character_flag = partially_spied
+# 						has_character_flag = partially_spied_2
+# 					}
+# 				}
+#             }
+
+#             # 逻辑 B：无论死活，只要存在确定的社会关系（你认识的人）
+#             # 注意：大部分 any_ 逻辑在原代码中已经包含了 even_if_dead = yes
+#             this = root # 永远能看到自己
+#             is_spouse_of_even_if_dead = root
+#             is_close_or_extended_family_of = root
+#             is_vassal_of = root
+#             is_contact_of = root
+#             is_tributary_of = root
+
+#             # 关系网检查
+#             any_consort = { this = scope:character even_if_dead = yes }
+#             any_child = { this = scope:character even_if_dead = yes }
+#             any_parent = { this = scope:character even_if_dead = yes }
+#             any_sibling = { this = scope:character even_if_dead = yes }
+# 			# 2. 核心修复：王朝/家族成员（包含堂表亲）同一个家族 (House)，即使死了也显示
+#             AND = {
+#                 exists = scope:character.house
+#                 root.house = scope:character.house
+#             }
+#             # 只要是同一个王朝，无论死活都显示
+#             AND = {
+#                 exists = scope:character.dynasty
+#                 root.dynasty = scope:character.dynasty
+#             }
+            
+#             # ObfusCKate 特有的标志位（通常代表已经认识/调查过的人）
+#             has_character_flag = has_been_spied
+#             has_character_flag = partially_spied
+#             has_character_flag = partially_spied_2
+#             obf_has_high_level_knowledge_flags = yes
+#             obf_has_close_or_intimate_relation = yes
+            
+#             # 各种社交关系
+#             any_relation = { type = friend this = scope:character even_if_dead = yes }
+#             any_relation = { type = lover this = scope:character even_if_dead = yes }
+#             any_relation = { type = rival this = scope:character even_if_dead = yes }
+#             any_relation = { type = nemesis this = scope:character even_if_dead = yes }
+            
+#             # 特殊检查：如果是死者，且你曾是他们的监护人/被监护人
+#             obf_has_guardian_or_ward_relation = yes
+#         }
+#     }
+# }
+gui_portrait_not_shown = { ### not in use!! HERE, JUST IN CASE BUT NOT UPDATED. NEEDS CHANGES. 
 saved_scopes = {
 character
 }
@@ -2851,41 +2948,59 @@ character
 # }
 
 gui_show_personality_traits = {
-saved_scopes = {
-character
-}
+	saved_scopes = {character}
 	is_valid = {
-		exists = scope:character
+	exists = scope:character
 	exists = root
-	root ?= {is_incapable = no	
-			age >= 6}
-	
+	root ?= {
+		is_incapable = no	
+		age >= 6
+	}
+	# NOT = {scope:character ?= root} ##vanilla
+	# NOT = {has_game_rule = hide_traits} ## vanilla
+	# 核心逻辑：要么没开隐藏规则，要么开了规则但满足豁免条件
+        OR = {
+            # 情况 A: 根本没开启隐藏特质的规则，直接通过（原有逻辑）
+            NOT = { has_game_rule = hide_traits }
 
-	NOT = {scope:character ?= root}
-	NOT = {has_game_rule = hide_traits}
-	scope:character ?= {
-	OR = {
-	is_spouse_of_even_if_dead = root
-	obf_has_close_or_intimate_relation = yes
-	has_character_flag = has_been_spied
-	has_character_flag = had_high_level_report
-		
-		AND = {revelation_score >= 37.5
-		OR = {
-			obf_is_fellow_vassal_or_liege_councillor = yes
-			obf_has_high_level_knowledge_flags = yes
-			obf_has_guardian_or_ward_relation = yes
-			obf_has_important_court_position = yes
-			obf_has_near_intimate_or_close_relation	= yes}}
-			
-	
-	AND = {OR = {has_character_flag = emissary_sent
-				has_character_flag = had_medium_level_report
-				has_character_flag = partially_spied_2}
-			revelation_score >= 75}
-				
+            # # 情况 B: 即使开启了隐藏规则，如果是自己（ROOT），也要显示
+            # scope:character = { 
+            #     save_temporary_scope_as = target ##ljl added
+            # }
+            # root = { is_same_value = scope:target } ##ljl added
+			# ## scope:character ?= root ##ljl added
+
+            # 情况 C: 开启了规则，但满足特定的情报/关系门槛
+			scope:character ?= {
+				OR = {
+					is_same_value = root ##ljl added, fix bug: When I hide personality in the settings, my personality is also hidden.
+					is_spouse_of_even_if_dead = root
+					obf_has_close_or_intimate_relation = yes
+					has_character_flag = has_been_spied
+					has_character_flag = had_high_level_report			
+					AND = {
+						revelation_score >= 37.5
+						OR = {
+							obf_is_fellow_vassal_or_liege_councillor = yes
+							obf_has_high_level_knowledge_flags = yes
+							obf_has_guardian_or_ward_relation = yes
+							obf_has_important_court_position = yes
+							obf_has_near_intimate_or_close_relation	= yes
+						}
+					}			
+					AND = {
+						OR = {
+							has_character_flag = emissary_sent
+							has_character_flag = had_medium_level_report
+							has_character_flag = partially_spied_2
+						}
+						revelation_score >= 75
+					}
 				}
 			}
+        }
+
+
 	}
 }
 gui_show_education_traits = {
