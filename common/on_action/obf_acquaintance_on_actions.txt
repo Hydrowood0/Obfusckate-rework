@@ -5433,13 +5433,45 @@ scope:target = {NOT = {has_relation_to = scope:owner} }}
 	}
 }
 
+# seduce_success = { ##old obfus' cause bug
+# 	on_actions ={
+# 		delay = {
+# 			days = 1
+# 		}
+# 		obf_new_acquaintance_seduction_outcome
+# 	}
+# }
+# T's solution: make our seduce_success the following:
 seduce_success = {
-	on_actions ={
-		delay = {
-			days = 1
-		}
-		obf_new_acquaintance_seduction_outcome
-	}
+    effect = {
+        # base game effect, since we're overwriting the effect block here
+        root = {
+            add_achievement_variable_effect = {
+                VARIABLE = achievement_seductive_variable
+                VALUE = 1
+            }
+        }
+
+        if = {
+            limit = {
+                # === 1.184 ljl修复：无地冒险者不触发此 Mod 事件，防止脚本错误导致原版事件无法弹出 ===
+                scope:owner = { is_landless_adventurer = no }
+                scope:target = { is_landless_adventurer = no }
+                # ===================================================================
+                OR = {
+                    scope:owner = {
+                        is_ai = no
+                        is_alive = yes
+                    }
+                    scope:target = {
+                        is_ai = no
+                        is_alive = yes
+                    }
+                }
+            }
+            trigger_event = acquaintance.2004
+        }
+    }
 }
 seduce_generic_success = {
 	on_actions ={

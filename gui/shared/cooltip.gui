@@ -107,10 +107,13 @@ template character_opinion_tooltip {
 					{
 
 						#Changed by ObfusCKate: Start
-						raw_text = " "
+						## raw_text = " " ##need ljl change
+						#text = "OpinionText(GetPlayer)"
 						margin = {40 0}
 						max_width = 150
-						# text = "[OpinionText(GetPlayer)|=]"
+						text = "[OpinionText(GetPlayer)|=]"
+						# text = "[OpinionTextShort(GetPlayer)|=]"
+						
 						# text = "[Character.GetOpinionOf( GetPlayer )|=]"
 						# fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
 						#Changed by ObfusCKate: End
