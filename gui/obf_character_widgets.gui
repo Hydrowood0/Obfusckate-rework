@@ -48,7 +48,7 @@
 			text = "MILITARY_STRENGHT_OB"
 			#tooltip = "ASK_MILITARY_ADVICE_OB_TT"
 		}
-		using = tooltip_sw
+		using = tooltip_ne ##changed by ljl 1920x1080下 using = tooltip_sw会覆盖按钮
 	}
 
 	type obf_highlight_player_blinded = highlight_icon {

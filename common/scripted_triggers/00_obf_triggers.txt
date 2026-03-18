@@ -845,45 +845,98 @@ OR = {
 		any_consort = {
 		is_physically_able_ai_adult = yes
 		obf_has_rival_or_negative_relation = no
-			OR = { 
-			is_child_of = root
-			is_parent_of = root
-			is_sibling_of = root
-			has_relation_lover = root
-			has_relation_friend = root}
+				OR = {
+					is_consort_of = root
+					is_child_of = root
+					is_parent_of = root
+					is_sibling_of = root
+					has_relation_lover = root
+					has_relation_friend = root
+					has_relation_best_friend = root
+					has_relation_blood_brother = root
+					has_relation_soldier_friend = root
+					
+					has_relation_soulmate = root
+
+					has_relation_elder = root
+					has_relation_disciple = root
+					has_relation_ward = root
+					has_relation_guardian = root
+					has_relation_mentor = root
+					has_relation_student = root
+				}
 			}
 		any_child = {
 		is_physically_able_ai_adult = yes
 		obf_has_rival_or_negative_relation = no
-			OR = { 
-			is_child_of = root
-			is_consort_of = root
-			is_parent_of = root
-			is_sibling_of = root
-			has_relation_lover = root
-			has_relation_friend = root}
+				OR = {
+					is_consort_of = root
+					is_child_of = root
+					is_parent_of = root
+					is_sibling_of = root
+					has_relation_lover = root
+					has_relation_friend = root
+					has_relation_best_friend = root
+					has_relation_blood_brother = root
+					has_relation_soldier_friend = root
+					
+					has_relation_soulmate = root
+
+					has_relation_elder = root
+					has_relation_disciple = root
+					has_relation_ward = root
+					has_relation_guardian = root
+					has_relation_mentor = root
+					has_relation_student = root
+				}
 			}
 		any_parent = {
 		is_physically_able_ai_adult = yes
 		obf_has_rival_or_negative_relation = no
-			OR = { 
-			is_child_of = root
-			is_consort_of = root
-			is_parent_of = root
-			is_sibling_of = root
-			has_relation_lover = root
-			has_relation_friend = root}
+				OR = {
+					is_consort_of = root
+					is_child_of = root
+					is_parent_of = root
+					is_sibling_of = root
+					has_relation_lover = root
+					has_relation_friend = root
+					has_relation_best_friend = root
+					has_relation_blood_brother = root
+					has_relation_soldier_friend = root
+					
+					has_relation_soulmate = root
+
+					has_relation_elder = root
+					has_relation_disciple = root
+					has_relation_ward = root
+					has_relation_guardian = root
+					has_relation_mentor = root
+					has_relation_student = root
+				}
 			}
 		any_sibling = {
 		is_physically_able_ai_adult = yes
 		obf_has_rival_or_negative_relation = no
-			OR = { 
-			is_child_of = root
-			is_consort_of = root
-			is_parent_of = root
-			is_sibling_of = root
-			has_relation_lover = root
-			has_relation_friend = root}
+				OR = {
+					is_consort_of = root
+					is_child_of = root
+					is_parent_of = root
+					is_sibling_of = root
+					has_relation_lover = root
+					has_relation_friend = root
+					has_relation_best_friend = root
+					has_relation_blood_brother = root
+					has_relation_soldier_friend = root
+					
+					has_relation_soulmate = root
+
+					has_relation_elder = root
+					has_relation_disciple = root
+					has_relation_ward = root
+					has_relation_guardian = root
+					has_relation_mentor = root
+					has_relation_student = root
+				}
 			}
 			any_relation = {
 				type = lover
@@ -896,7 +949,20 @@ OR = {
 					is_parent_of = root
 					is_sibling_of = root
 					has_relation_lover = root
-					has_relation_friend = root}
+					has_relation_friend = root
+					has_relation_best_friend = root
+					has_relation_blood_brother = root
+					has_relation_soldier_friend = root
+					
+					has_relation_soulmate = root
+
+					has_relation_elder = root
+					has_relation_disciple = root
+					has_relation_ward = root
+					has_relation_guardian = root
+					has_relation_mentor = root
+					has_relation_student = root
+				}
 			}
 			any_relation = {
 			type = friend
@@ -904,65 +970,221 @@ OR = {
 			is_physically_able_ai_adult = yes
 			obf_has_rival_or_negative_relation = no
 				OR = {
-				is_consort_of = root
-				is_child_of = root
-				is_parent_of = root
-				is_sibling_of = root
-				has_relation_lover = root
-				has_relation_friend = root}
+					is_consort_of = root
+					is_child_of = root
+					is_parent_of = root
+					is_sibling_of = root
+					has_relation_lover = root
+					has_relation_friend = root
+					has_relation_best_friend = root
+					has_relation_blood_brother = root
+					has_relation_soldier_friend = root
+					
+					has_relation_soulmate = root
+
+					has_relation_elder = root
+					has_relation_disciple = root
+					has_relation_ward = root
+					has_relation_guardian = root
+					has_relation_mentor = root
+					has_relation_student = root
+				}
 			}
 			any_relation = {
-			type = disciple
-			#NOT = {has_secret_relation_disciple = prev}
+			type = soulmate
+			NOT = {	has_secret_relation_friend = prev}
 			is_physically_able_ai_adult = yes
 			obf_has_rival_or_negative_relation = no
-			OR = {
-			is_consort_of = root
-			is_child_of = root
-			is_parent_of = root
-			is_sibling_of = root
-			has_relation_lover = root
-			has_relation_friend = root}
+				OR = {
+					is_consort_of = root
+					is_child_of = root
+					is_parent_of = root
+					is_sibling_of = root
+					has_relation_lover = root
+					has_relation_friend = root
+					has_relation_best_friend = root
+					has_relation_blood_brother = root
+					has_relation_soldier_friend = root
+					
+					has_relation_soulmate = root
+
+					has_relation_elder = root
+					has_relation_disciple = root
+					has_relation_ward = root
+					has_relation_guardian = root
+					has_relation_mentor = root
+					has_relation_student = root
+				}
+			}
+			any_relation = {
+				type = disciple
+				#NOT = {has_secret_relation_disciple = prev}
+				is_physically_able_ai_adult = yes
+				obf_has_rival_or_negative_relation = no
+				OR = {
+					is_consort_of = root
+					is_child_of = root
+					is_parent_of = root
+					is_sibling_of = root
+					has_relation_lover = root
+					has_relation_friend = root
+					has_relation_best_friend = root
+					has_relation_blood_brother = root
+					has_relation_soldier_friend = root
+					
+					has_relation_soulmate = root
+
+					has_relation_elder = root
+					has_relation_disciple = root
+					has_relation_ward = root
+					has_relation_guardian = root
+					has_relation_mentor = root
+					has_relation_student = root
+				}
 			}
 			any_relation = {
 			type = elder
 			#NOT = {has_secret_relation_elder = prev}
 			is_physically_able_ai_adult = yes
 			obf_has_rival_or_negative_relation = no
-			OR = {
-			is_consort_of = root
-			is_child_of = root
-			is_parent_of = root
-			is_sibling_of = root
-			has_relation_lover = root
-			has_relation_friend = root}
+				OR = {
+					is_consort_of = root
+					is_child_of = root
+					is_parent_of = root
+					is_sibling_of = root
+					has_relation_lover = root
+					has_relation_friend = root
+					has_relation_best_friend = root
+					has_relation_blood_brother = root
+					has_relation_soldier_friend = root
+					
+					has_relation_soulmate = root
+
+					has_relation_elder = root
+					has_relation_disciple = root
+					has_relation_ward = root
+					has_relation_guardian = root
+					has_relation_mentor = root
+					has_relation_student = root
+				}
 			}
 			any_relation = {
-			type = rival
+			type = guardian
 			NOT = {has_secret_relation_rival = prev}
 			is_physically_able_ai_adult = yes
 			obf_has_rival_or_negative_relation = no
-			OR = {
-			is_consort_of = root
-			is_child_of = root
-			is_parent_of = root
-			is_sibling_of = root
-			has_relation_lover = root
-			has_relation_friend = root}
+				OR = {
+					is_consort_of = root
+					is_child_of = root
+					is_parent_of = root
+					is_sibling_of = root
+					has_relation_lover = root
+					has_relation_friend = root
+					has_relation_best_friend = root
+					has_relation_blood_brother = root
+					has_relation_soldier_friend = root
+					
+					has_relation_soulmate = root
+
+					has_relation_elder = root
+					has_relation_disciple = root
+					has_relation_ward = root
+					has_relation_guardian = root
+					has_relation_mentor = root
+					has_relation_student = root
+				}
+			}
+			any_relation = {
+			type = ward
+			NOT = {has_secret_relation_rival = prev}
+			is_physically_able_ai_adult = yes
+			obf_has_rival_or_negative_relation = no
+				OR = {
+					is_consort_of = root
+					is_child_of = root
+					is_parent_of = root
+					is_sibling_of = root
+					has_relation_lover = root
+					has_relation_friend = root
+					has_relation_best_friend = root
+					has_relation_blood_brother = root
+					has_relation_soldier_friend = root
+					
+					has_relation_soulmate = root
+
+					has_relation_elder = root
+					has_relation_disciple = root
+					has_relation_ward = root
+					has_relation_guardian = root
+					has_relation_mentor = root
+					has_relation_student = root
+				}
+			}
+			any_relation = {
+			type = mentor
+			NOT = {has_secret_relation_rival = prev}
+			is_physically_able_ai_adult = yes
+			obf_has_rival_or_negative_relation = no
+				OR = {
+					is_consort_of = root
+					is_child_of = root
+					is_parent_of = root
+					is_sibling_of = root
+					has_relation_lover = root
+					has_relation_friend = root
+					has_relation_best_friend = root
+					has_relation_blood_brother = root
+					has_relation_soldier_friend = root
+					
+					has_relation_soulmate = root
+
+					has_relation_elder = root
+					has_relation_disciple = root
+					has_relation_ward = root
+					has_relation_guardian = root
+					has_relation_mentor = root
+					has_relation_student = root
+				}
+			}
+			any_relation = {
+			type = student
+			NOT = {has_secret_relation_rival = prev}
+			is_physically_able_ai_adult = yes
+			obf_has_rival_or_negative_relation = no
+				OR = {
+					is_consort_of = root
+					is_child_of = root
+					is_parent_of = root
+					is_sibling_of = root
+					has_relation_lover = root
+					has_relation_friend = root
+					has_relation_best_friend = root
+					has_relation_blood_brother = root
+					has_relation_soldier_friend = root
+					
+					has_relation_soulmate = root
+
+					has_relation_elder = root
+					has_relation_disciple = root
+					has_relation_ward = root
+					has_relation_guardian = root
+					has_relation_mentor = root
+					has_relation_student = root
+				}
 			}
 		}
 }
-obf_has_high_level_knowledge_flags = {
-OR = {
-	has_character_flag = humble_character
-	has_character_flag = illusory_diplomat
-	has_character_flag = illusory_administrator
-	has_character_flag = illusory_intriguer
-	has_character_flag = illusory_scholar
-	has_character_flag = illusory_warrior
-	has_character_flag = partially_spied_3
-	}
 
+obf_has_high_level_knowledge_flags = {
+	OR = {
+		has_character_flag = humble_character
+		has_character_flag = illusory_diplomat
+		has_character_flag = illusory_administrator
+		has_character_flag = illusory_intriguer
+		has_character_flag = illusory_scholar
+		has_character_flag = illusory_warrior
+		has_character_flag = partially_spied_3
+	}
 }
 
 # Scripted trigger for close or intimate relations
