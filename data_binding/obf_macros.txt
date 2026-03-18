@@ -21,15 +21,19 @@ macro = {
 }
 
 macro = {
-	description = "Personality traits are visible condition"
+    description = "Personality traits are visible condition"
 	definition = "PersonalityTraitsVisible"
-	replace_with = "Not(GetGameRules.HasRuleWithFlag('hide_traits'))"
+    # 将原本的判断改为：或者是玩家自己，或者没开规则 changed by ljl，使得隐藏所有人的性格只显示自己的生效
+    # replace_with = "Not(GetGameRules.HasRuleWithFlag('hide_traits'))"
+	replace_with = "Or(Character.IsLocalPlayer, Not(GetGameRules.HasRuleWithFlag('hide_traits')) )"
 }
 
 macro = {
 	description = "Personality traits are visible for children"
 	definition = "PersonalityTraitsVisibleForChildren"
-	replace_with = "And(Not(Character.IsAdult), Not(GetGameRules.HasRuleWithFlag('hide_children_traits')))"
+	# 将原本的判断改为：或者是玩家自己，或者没开规则 changed by ljl，使得隐藏所有人的性格只显示自己的生效
+	# replace_with = "And(Not(Character.IsAdult), Not(GetGameRules.HasRuleWithFlag('hide_children_traits')))"
+	replace_with = "Or(Character.IsLocalPlayer, And(Not(Character.IsAdult), Not(GetGameRules.HasRuleWithFlag('hide_children_traits'))))"
 }
 
 macro = {

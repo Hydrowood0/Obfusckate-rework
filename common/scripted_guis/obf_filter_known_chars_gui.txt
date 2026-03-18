@@ -20,11 +20,11 @@
 	every_living_character = {
 		limit = {
 			NOT = {this = root}
-			OR = {
+			OR = {  ##need ljl review
 			obf_has_high_level_knowledge_flags = yes
-			has_character_flag = partially_spied_2
-			has_character_flag = partially_spied
-			has_character_flag = has_been_spied
+			has_character_flag = partially_spied_2 ##jp78 comment it
+			has_character_flag = partially_spied ##jp78 comment it
+			has_character_flag = has_been_spied ##jp78 comment it
 			# # has_character_flag = emissary_sent
 			# # has_character_flag = partially_spied_2
 			# obf_has_relation_that_would_talk_about_him = yes
