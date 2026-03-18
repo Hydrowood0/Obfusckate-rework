@@ -1,0 +1,19 @@
+﻿l_simp_chinese:
+
+  game_concept_intel_network_level:0 "情报网络等级"
+  game_concept_intel_network_level_desc:0 "此数值反映你在该地产的情报网络覆盖程度。"
+
+  game_concept_intel_network_development:0 "情报网络发展度"
+  game_concept_obf_development:0 "发展度"
+  game_concept_intel_network_development_desc:0 "发展度反映你的[intel_network|E]的多寡，[spymaster|E]的[councillor_task|E]进度条反应当前发展度与其最大潜力#high （100%）#!的差距。\n\n你可以通过指派间谍总管进行[task_expand_intel_network|E]来提升发展度，与此同时需要有足够的预算划拨来维持网络的发展和平衡。"
+
+  game_concept_intel_network_coverage:0 "情报网络覆盖度"
+  game_concept_obf_coverage:0 "覆盖度"
+  game_concept_intel_network_coverage_desc:0 "你对其他[characters|E]的[intel_network|E]的覆盖程度受到许多因素的影响，包括：\n$BULLET_WITH_TAB$你的[intel_network_development|E]\n$BULLET_WITH_TAB$其他[character]的[title|E]\n$BULLET_WITH_TAB$不同的[top_liege|E]\n$BULLET_WITH_TAB$和其他角色、其[liege|E]和[top_liege|E]的[war|E]"
+
+
+  MODIFIER_DEFINITION_VALUE_PER_INTEL_NETWORK:0 "\t#weak 随着[intel_network_development|E]提高而增长#!"
+  MODIFIER_DEFINITION_MAIN_DESC_INTEL_NETWORK:0 "该修正随着[intel_network|E]的[obf_development|E]增长而增长（#bold $MULTIPLIER|+=0$#!）"
+
+  game_concept_task_expand_intel_network:0 "网络扩张"
+  game_concept_task_expand_intel_network_desc:0 "一种新的[councillor_task|E]，可以提高你的[intel_network_development|E]。"

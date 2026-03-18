@@ -310,6 +310,7 @@ known_character_list_shortcut = {
 	default = show_on_character_screen
 
 	only_bottom_bar = {
+		flag = GG_can_change_rule
 	}
 	
 	show_on_character_screen = {

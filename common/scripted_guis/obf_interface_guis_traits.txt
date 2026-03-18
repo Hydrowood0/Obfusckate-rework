@@ -1,0 +1,432 @@
+﻿#### PORTRAITS
+gui_portrait_shown = {
+    saved_scopes = { character }
+    is_valid = {
+        exists = scope:character
+        exists = root
+        OR = {
+            any_consort = { this ?= scope:character even_if_dead = yes }
+            any_child = { this ?= scope:character even_if_dead = yes }
+            any_parent = { this ?= scope:character even_if_dead = yes }
+            any_sibling = { this ?= scope:character even_if_dead = yes }
+            any_relation = { type = friend this ?= scope:character even_if_dead = yes } #not include potential_friend?
+            any_relation = { type = lover this ?= scope:character even_if_dead = yes } #not include potential_lover?
+
+            any_relation = { type = rival this ?= scope:character even_if_dead = yes } #not include potential_rival?
+            any_relation = { type = grudge this ?= scope:character even_if_dead = yes }
+
+            any_relation = { type = nemesis this ?= scope:character even_if_dead = yes }
+            any_relation = { type = soulmate this ?= scope:character even_if_dead = yes }
+            any_relation = { type = best_friend this ?= scope:character even_if_dead = yes }
+            any_relation = { type = blood_brother this ?= scope:character even_if_dead = yes }
+            any_relation = { type = soldier_friend this ?= scope:character even_if_dead = yes }
+
+            any_relation = { type = elder this ?= scope:character even_if_dead = yes }
+            any_relation = { type = disciple this ?= scope:character even_if_dead = yes }
+            any_relation = { type = guardian this ?= scope:character even_if_dead = yes }
+            any_relation = { type = ward this ?= scope:character even_if_dead = yes }
+            any_relation = { type = mentor this ?= scope:character even_if_dead = yes }
+            any_relation = { type = student this ?= scope:character even_if_dead = yes }
+
+            any_relation = { type = bully this ?= scope:character even_if_dead = yes } #not include victim
+            any_relation = { type = crush this ?= scope:character even_if_dead = yes } 
+            # any_relation = { type = favourite_child this ?= scope:character even_if_dead = yes } #not include victim
+            # any_relation = { type = wet_nurse this ?= scope:character even_if_dead = yes } #not include intrigue_mentor
+            
+            AND = {
+                scope:character ?= { is_pool_character = yes }
+                root ?= { OR = { is_travelling = yes has_character_flag = searching_for_physician has_variable = ep3_laamp_decision_1000_is_visiting } }
+            }
+            any_scheme = {
+                OR = { scheme_type = seduce scheme_type = courting scheme_type = befriend scheme_type = convert_to_witchcraft }
+                scheme_target_character = scope:character
+            }
+            scope:character ?= {
+                OR = {
+                    this ?= root
+                    any_scheme = { OR = { scheme_type = seduce scheme_type = courting scheme_type = befriend scheme_type = convert_to_witchcraft } scheme_target_character = root }
+                    is_at_same_location = root
+                    is_spouse_of_even_if_dead = root
+                    obf_is_fellow_vassal_or_liege_councillor = yes
+                    obf_has_high_level_knowledge_flags = yes
+                    obf_has_close_or_intimate_relation = yes
+                    obf_has_near_intimate_or_close_relation = yes
+                    is_close_or_extended_family_of = root
+                    obf_has_important_court_position = yes
+                    obf_is_courtier_or_guest = yes
+                    is_courtier_of = root
+                    obf_has_guardian_or_ward_relation = yes
+                    is_imprisoned_by = root
+                    AND = { exists = root.liege this ?= root.liege }
+                    is_contact_of = root
+                    is_vassal_of = root
+                    is_tributary_of = root
+                    obf_works_in_same_court = yes
+                    obf_has_rival_or_negative_relation = yes
+                    has_character_flag = partially_spied
+                    has_character_flag = partially_spied_2
+                }
+            }
+        }
+    }
+}
+
+gui_portrait_not_shown = {
+    saved_scopes = { character }
+    is_valid = {
+        exists = scope:character
+        exists = root
+        NOR = {
+            any_consort = { this ?= scope:character even_if_dead = yes }
+            any_child = { this ?= scope:character even_if_dead = yes }
+            any_parent = { this ?= scope:character even_if_dead = yes }
+            any_sibling = { this ?= scope:character even_if_dead = yes }
+            any_relation = { type = friend this ?= scope:character even_if_dead = yes } #not include potential_friend?
+            any_relation = { type = lover this ?= scope:character even_if_dead = yes } #not include potential_lover?
+            any_relation = { type = rival this ?= scope:character even_if_dead = yes } #not include potential_rival?
+            any_relation = { type = grudge this ?= scope:character even_if_dead = yes }
+            any_relation = { type = nemesis this ?= scope:character even_if_dead = yes }
+            any_relation = { type = soulmate this ?= scope:character even_if_dead = yes }
+            any_relation = { type = best_friend this ?= scope:character even_if_dead = yes }
+            any_relation = { type = blood_brother this ?= scope:character even_if_dead = yes }
+            any_relation = { type = soldier_friend this ?= scope:character even_if_dead = yes }
+
+            any_relation = { type = elder this ?= scope:character even_if_dead = yes }
+            any_relation = { type = disciple this ?= scope:character even_if_dead = yes }
+            any_relation = { type = guardian this ?= scope:character even_if_dead = yes }
+            any_relation = { type = ward this ?= scope:character even_if_dead = yes }
+            any_relation = { type = mentor this ?= scope:character even_if_dead = yes }
+            any_relation = { type = student this ?= scope:character even_if_dead = yes }
+
+            any_relation = { type = bully this ?= scope:character even_if_dead = yes } #not include victim
+            any_relation = { type = crush this ?= scope:character even_if_dead = yes } 
+            # any_relation = { type = favourite_child this ?= scope:character even_if_dead = yes } #not include victim
+            # any_relation = { type = wet_nurse this ?= scope:character even_if_dead = yes } #not include intrigue_mentor
+            AND = {
+                exists = scope:character.liege
+                exists = root.liege
+                root.liege ?= scope:character.liege
+                OR = { is_councillor_of = root.liege scope:character ?= { is_ruler = yes } }
+            }
+            # 在这里增加死者豁免
+            scope:character ?= {
+                AND = {
+                    is_alive = no
+                    OR = {
+                        is_spouse_of_even_if_dead = root
+                        is_close_or_extended_family_of = root
+                        # 只要有任何已知的 obf 关系标志，就不隐藏
+                        obf_has_high_level_knowledge_flags = yes
+                        obf_has_close_or_intimate_relation = yes
+                        has_character_flag = has_been_spied
+                    }
+                }
+            }
+            scope:character ?= {
+                OR = {
+                    this ?= root
+                    is_at_same_location = root
+                    has_character_flag = has_been_spied
+                    has_character_flag = emissary_sent
+                    obf_has_high_level_knowledge_flags = yes
+                    has_character_flag = partially_spied
+                    has_character_flag = partially_spied_2
+                }
+            }
+        }
+    }
+}
+
+#### OPINIONS
+gui_opinion_shown = {
+    saved_scopes = { character }
+    is_valid = {
+        exists = scope:character
+        exists = root
+        NOT = { has_game_rule = opinions_disabled }
+        NOT = { scope:character ?= root }
+        scope:character ?= {
+            is_alive = yes
+            age >= 6
+            is_incapable = no
+            OR = {
+                obf_is_fellow_vassal_or_liege_councillor = yes
+                AND = {
+                    OR = { has_character_flag = had_high_level_report has_character_flag = has_been_spied }
+                    is_vassal_or_below_of = root
+                    is_tributary_of = root
+                }
+                obf_has_high_level_knowledge_flags = yes
+                obf_has_close_or_intimate_relation = yes
+                obf_has_near_intimate_or_close_relation = yes
+                AND = {
+                    OR = { has_character_flag = emissary_sent has_character_flag = partially_spied_2 }
+                    revelation_score >= 65
+                }
+            }
+        }
+    }
+}
+
+gui_portrait_status_icons_shown = {
+    saved_scopes = { character }
+    is_valid = {
+        exists = scope:character
+        exists = root
+        scope:character ?= {
+            is_alive = yes
+            OR = {
+                is_at_same_location = root
+                has_character_flag = has_been_spied
+                has_character_flag = had_high_level_report
+                obf_is_fellow_vassal_or_liege_councillor = yes
+                obf_has_high_level_knowledge_flags = yes
+                has_character_flag = partially_spied
+                has_character_flag = partially_spied_2
+                has_character_flag = had_medium_level_report
+            }
+        }
+    }
+}
+
+gui_illusory_warrior_known = {
+    is_valid = {
+        is_ai = yes
+        has_character_flag = illusory_warrior
+        has_character_flag = partially_spied_3
+        revelation_score >= 30
+        is_alive = yes
+    }
+}
+
+#### COUNTY STATS
+gui_county_or_holding_stats_shown = {
+    saved_scopes = { character }
+    is_valid = {
+        exists = scope:character
+        exists = root
+        OR = {
+            root ?= { OR = { is_diarch_of_target = scope:character AND = { exists = scope:character.liege is_diarch_of_target = scope:character.liege } } }
+            AND = { exists = scope:character.cp:councillor_marshal scope:character.cp:councillor_marshal = root }
+            AND = { exists = scope:character.liege exists = root.liege exists = root.liege.cp:councillor_marshal scope:character.liege ?= { is_vassal_or_below_of = root.liege } root.liege.cp:councillor_marshal = root }
+            AND = { exists = scope:character.liege exists = root.liege exists = scope:character.liege.cp:councillor_marshal root.liege ?= scope:character.liege scope:character.liege.cp:councillor_marshal = root }
+            AND = { exists = scope:character.top_liege exists = scope:character.top_liege.cp:councillor_marshal exists = root.top_liege root.top_liege ?= scope:character.top_liege scope:character.top_liege.cp:councillor_marshal = root }
+            AND = { exists = scope:character.cp:councillor_steward scope:character.cp:councillor_steward = root }
+            AND = { exists = scope:character.liege exists = root.liege exists = root.liege.cp:councillor_steward scope:character.liege ?= { is_vassal_or_below_of = root.liege } root.liege.cp:councillor_steward = root }
+            AND = { exists = scope:character.liege exists = root.liege exists = scope:character.liege.cp:councillor_steward root.liege ?= scope:character.liege scope:character.liege.cp:councillor_steward = root }
+            AND = { exists = scope:character.top_liege exists = scope:character.top_liege.cp:councillor_steward exists = root.top_liege root.top_liege ?= scope:character.top_liege scope:character.top_liege.cp:councillor_steward = root }
+            AND = { is_landless_adventurer = yes is_target_in_variable_list = { name = laamp_visited_settlements_list target = scope:character.location } }
+        }
+        scope:character ?= {
+            OR = {
+                this ?= root
+                has_character_flag = requested_military_info
+                has_character_flag = has_been_spied
+                has_character_flag = had_high_level_report
+                is_vassal_or_below_of = root
+                is_tributary_of_suzerain_or_above = root
+                is_allied_to = root
+            }
+        }
+    }
+}
+
+#### OPINION BREAKDOWN
+gui_opinion_breakdown_shown = {
+    saved_scopes = { character }
+    is_valid = {
+        root ?= { is_incapable = no age >= 12 }
+        exists = scope:character
+        exists = root
+        NOT = { has_game_rule = opinion_breakdown_disabled }
+        NOT = { scope:character ?= root }
+        scope:character ?= { is_alive = yes age >= 6 is_incapable = no }
+        scope:character ?= {
+            OR = {
+                AND = { revelation_score >= 10 OR = { obf_has_high_level_knowledge_flags = yes obf_is_fellow_vassal_or_liege_councillor = yes obf_has_close_or_intimate_relation = yes } }
+                AND = { OR = { has_character_flag = had_high_level_report has_character_flag = has_been_spied } revelation_score >= 25 is_vassal_or_below_of = root is_tributary_of_suzerain_or_above = root }
+            }
+        }
+    }
+}
+
+# #### TRAITS
+# gui_show_personality_traits = {
+#     saved_scopes = { character }
+#     is_valid = {
+#         exists = scope:character
+#         exists = root
+#         root ?= { is_incapable = no age >= 6 }
+#         NOT = { scope:character ?= root }
+#         NOT = { has_game_rule = hide_traits }
+#         # --- 修改部分开始 ---
+#         # OR = {
+#             # scope:character ?= root
+#             # NOT = { has_game_rule = hide_traits }
+#         # }
+#         # --- 修改部分结束 ---
+#         scope:character ?= {
+#             OR = {
+#                 is_spouse_of_even_if_dead = root
+#                 obf_has_close_or_intimate_relation = yes
+#                 has_character_flag = has_been_spied
+#                 has_character_flag = had_high_level_report
+#                 AND = { revelation_score >= 37.5 OR = { obf_is_fellow_vassal_or_liege_councillor = yes obf_has_high_level_knowledge_flags = yes obf_has_guardian_or_ward_relation = yes obf_has_important_court_position = yes obf_has_near_intimate_or_close_relation = yes } }
+#                 AND = { OR = { has_character_flag = emissary_sent has_character_flag = had_medium_level_report has_character_flag = partially_spied_2 } revelation_score >= 75 }
+#             }
+#         }
+#     }
+# }
+
+gui_show_personality_traits = { ##没问题, bug出在 PersonalityTraitsVisible
+    saved_scopes = {
+        character
+    }
+    is_valid = {
+        exists = scope:character
+        exists = root
+        
+        root = {
+            is_incapable = no  
+            age >= 6
+        }
+
+        # 核心逻辑修改：
+        # 要么是本人（ROOT），要么在满足“没有隐藏规则”的前提下通过关系判定
+        OR = {
+            # 1. 如果是本人，直接显示，无视规则
+            scope:character = root
+
+            # 2. 如果不是本人，则必须满足：规则未开启 + 复杂的关系判定
+            AND = {
+                NOT = { has_game_rule = hide_traits }
+                scope:character = {
+                    OR = {
+                        is_spouse_of_even_if_dead = root
+                        obf_has_close_or_intimate_relation = yes
+                        has_character_flag = has_been_spied
+                        has_character_flag = had_high_level_report
+                        
+                        AND = {
+                            revelation_score >= 37.5
+                            OR = {
+                                obf_is_fellow_vassal_or_liege_councillor = yes
+                                obf_has_high_level_knowledge_flags = yes
+                                obf_has_guardian_or_ward_relation = yes
+                                obf_has_important_court_position = yes
+                                obf_has_near_intimate_or_close_relation = yes
+                            }
+                        }
+                        
+                        AND = {
+                            OR = {
+                                has_character_flag = emissary_sent
+                                has_character_flag = had_medium_level_report
+                                has_character_flag = partially_spied_2
+                            }
+                            revelation_score >= 75
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+gui_show_education_traits = {
+    saved_scopes = { character }
+    is_valid = {
+        exists = scope:character
+        exists = root
+        root ?= { is_incapable = no age >= 6 }
+        NOT = { scope:character ?= root }
+        NOT = { has_game_rule = hide_traits }
+        scope:character ?= {
+            OR = {
+                AND = {
+                    OR = { is_courtier_of = root is_pool_guest_of = root }
+                    OR = { has_trait = education_diplomacy_3 has_trait = education_martial_3 has_trait = education_stewardship_3 has_trait = education_intrigue_3 has_trait = education_learning_3 has_trait = education_diplomacy_4 has_trait = education_martial_4 has_trait = education_stewardship_4 has_trait = education_intrigue_4 has_trait = education_learning_4 }
+                    has_character_flag = has_been_spied
+                    has_character_flag = had_high_level_report
+                    has_character_flag = had_medium_level_report
+                }
+            }
+        }
+    }
+}
+
+gui_show_other_traits = {
+    saved_scopes = { character }
+    is_valid = {
+        exists = scope:character
+        exists = root
+        root ?= { is_incapable = no age >= 6 }
+        NOT = { scope:character ?= root }
+        scope:character ?= {
+            OR = {
+                AND = { exists = root.var:laamp_first_recruit_var this ?= root.var:laamp_first_recruit_var }
+                AND = { exists = root.var:laamp_second_recruit_var this ?= root.var:laamp_second_recruit_var }
+                AND = { exists = root.var:laamp_third_recruit_var this ?= root.var:laamp_third_recruit_var }
+                AND = { exists = root.var:laamp_generic_jane_var this ?= root.var:laamp_generic_jane_var }
+                AND = { exists = root.var:laamp_spouse_material_var this ?= root.var:laamp_spouse_material_var }
+                AND = { exists = root.var:laamp_hooded_figure_var this ?= root.var:laamp_hooded_figure_var }
+                is_spouse_of_even_if_dead = root
+                AND = { scope:character ?= { is_pool_character = yes } root ?= { has_character_flag = searching_for_physician } }
+                prestige_level >= 4
+                highest_held_title_tier >= tier_empire
+                AND = { in_diplomatic_range = root OR = { prestige_level >= 3 highest_held_title_tier >= tier_kingdom } }
+                obf_is_fellow_vassal_or_liege_councillor = yes
+                obf_has_high_level_knowledge_flags = yes
+                obf_has_close_or_intimate_relation = yes
+                obf_has_guardian_or_ward_relation = yes
+                obf_has_important_court_position = yes
+                obf_has_near_intimate_or_close_relation = yes
+                has_character_flag = has_been_spied
+                has_character_flag = emissary_sent
+                has_character_flag = had_high_level_report
+                has_character_flag = had_medium_level_report
+                has_character_flag = partially_spied_2
+                obf_can_be_hired_as_mercenary = yes
+            }
+        }
+    }
+}
+
+gui_show_physical_traits = {
+    saved_scopes = { character }
+    is_valid = {
+        NOT = { has_trait = blind }
+        exists = scope:character
+        exists = root
+        NOT = { scope:character ?= root }
+        scope:character ?= {
+            OR = {
+                this ?= root.var:laamp_first_recruit_var
+                this ?= root.var:laamp_second_recruit_var
+                this ?= root.var:laamp_third_recruit_var
+                this ?= root.var:laamp_generic_jane_var
+                this ?= root.var:laamp_spouse_material_var
+                this ?= root.var:laamp_hooded_figure_var
+                AND = { is_pool_character = yes root ?= { is_travelling = yes } }
+                is_spouse_of_even_if_dead = root
+                prestige_level >= 4
+                highest_held_title_tier >= tier_empire
+                AND = { in_diplomatic_range = root OR = { prestige_level >= 3 highest_held_title_tier >= tier_kingdom } }
+                is_at_same_location = root
+                obf_is_fellow_vassal_or_liege_councillor = yes
+                obf_has_high_level_knowledge_flags = yes
+                obf_has_close_or_intimate_relation = yes
+                obf_has_guardian_or_ward_relation = yes
+                obf_has_important_court_position = yes
+                obf_has_near_intimate_or_close_relation = yes
+                has_character_flag = has_been_spied
+                has_character_flag = emissary_sent
+                has_character_flag = partially_spied_2
+                has_character_flag = partially_spied
+                has_character_flag = had_high_level_report
+                has_character_flag = had_low_level_report
+                has_character_flag = had_medium_level_report
+            }
+        }
+    }
+}

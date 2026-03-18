@@ -4629,10 +4629,10 @@ quarterly_playable_pulse = {
 		}
 		obf_check_rebellious_faction #### THIS CHECKS FOR REBELLIOUS FACTIONS
 		obf_spy_network_on_action
-		delay = { months = 1 }
+		delay = { months = 2 }
 		obf_spy_network_on_action
-		delay = { months = 1 }
-		obf_spy_network_on_action
+		#delay = { months = 1 }
+		#obf_spy_network_on_action
 
 	}
 }
@@ -6136,11 +6136,11 @@ obf_set_up_spy_network_on_start_on_action = { ###Set Network on start
 				scope:player_character = {
 					set_variable = {
 						name = spy_network
-						value = spy_network_value_on_start
+						value = spy_network_value_on_start # 0
 					}
 					set_variable = {
 						name = spy_network_budget
-						value = 200
+						value = 0 # 200
 					}
 				}
 			}

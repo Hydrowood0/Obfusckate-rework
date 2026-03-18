@@ -1,0 +1,233 @@
+﻿
+# Family, relations, courtiers, vassals tabs
+gui_tab_count_known = {
+    saved_scopes = { character }
+    is_valid = {
+        root ?= { is_incapable = no age >= 6 }
+        exists = scope:character
+        exists = root
+        scope:character ?= {
+            OR = {
+                this ?= root
+                has_character_flag = has_been_spied
+                has_character_flag = had_high_level_report
+                obf_has_high_level_knowledge_flags = yes
+                obf_is_fellow_vassal_or_liege_councillor = yes
+                obf_works_in_same_court = yes
+                has_character_flag = had_medium_level_report
+            }
+        }
+    }
+}
+
+gui_tab_count_estimate_known = {
+    saved_scopes = { character }
+    is_valid = {
+        root ?= { is_incapable = no age >= 6 }
+        exists = scope:character
+        exists = root
+        NOT = { scope:character ?= root }
+        scope:character ?= {
+            OR = {
+                prestige_level >= 4
+                highest_held_title_tier >= tier_empire
+                AND = {
+                    in_diplomatic_range = root
+                    OR = { prestige_level >= 3 highest_held_title_tier >= tier_kingdom }
+                }
+                has_character_flag = partially_spied_2
+                has_character_flag = emissary_sent
+                has_character_flag = has_been_spied
+                has_character_flag = had_high_level_report
+                obf_has_relation_that_would_talk_about_him = yes
+                has_character_flag = had_low_level_report
+            }
+        }
+    }
+}
+
+# Family tab
+gui_show_family_tab = {
+    saved_scopes = { character }
+    is_valid = {
+        exists = scope:character
+        exists = root
+        scope:character ?= {
+            OR = {
+                this ?= root
+                prestige_level >= 4
+                highest_held_title_tier >= tier_empire
+                AND = { in_diplomatic_range = root OR = { prestige_level >= 3 highest_held_title_tier >= tier_kingdom } }
+                has_character_flag = has_been_spied
+                has_character_flag = emissary_sent
+                obf_has_high_level_knowledge_flags = yes
+                obf_has_close_or_intimate_relation = yes
+                obf_has_near_intimate_or_close_relation = yes
+                obf_is_fellow_vassal_or_liege_councillor = yes
+                obf_works_in_same_court = yes
+                obf_is_ally_or_neighbor = yes
+                is_close_or_extended_family_of = root
+                obf_has_relation_that_would_talk_about_him = yes
+                has_character_flag = had_high_level_report
+                has_character_flag = had_medium_level_report
+                has_character_flag = partially_spied_2
+                any_close_family_member = {
+                    OR = {
+                        has_character_flag = has_been_spied
+                        has_character_flag = had_high_level_report
+                        has_character_flag = emissary_sent
+                        obf_has_high_level_knowledge_flags = yes
+                        has_character_flag = partially_spied_2
+                        has_character_flag = had_medium_level_report
+                    }
+                }
+            }
+        }
+    }
+}
+
+# Relations tab
+gui_show_relations_tab = {
+    saved_scopes = { character }
+    is_valid = {
+        exists = scope:character
+        exists = root
+        scope:character ?= {
+            OR = {
+                this ?= root
+                prestige_level >= 4
+                highest_held_title_tier >= tier_empire
+                AND = { in_diplomatic_range = root OR = { prestige_level >= 3 highest_held_title_tier >= tier_kingdom } }
+                has_character_flag = has_been_spied
+                obf_has_high_level_knowledge_flags = yes
+                obf_is_fellow_vassal_or_liege_councillor = yes
+                obf_has_near_intimate_or_close_relation = yes
+                obf_has_close_or_intimate_relation = yes
+                obf_has_relation_that_would_talk_about_him = yes
+                has_character_flag = partially_spied_2
+                has_character_flag = had_high_level_report
+                has_character_flag = had_medium_level_report
+                any_relation = {
+                    type = lover
+                    NOT = { has_secret_relation_lover = scope:character }
+                    is_alive = yes
+                    OR = { has_character_flag = has_been_spied has_character_flag = emissary_sent obf_has_high_level_knowledge_flags = yes has_character_flag = partially_spied_2 has_character_flag = had_high_level_report has_character_flag = had_medium_level_report }
+                }
+                any_relation = {
+                    type = friend
+                    NOT = { has_secret_relation_friend = scope:character }
+                    is_alive = yes
+                    OR = { has_character_flag = has_been_spied has_character_flag = emissary_sent obf_has_high_level_knowledge_flags = yes has_character_flag = partially_spied_2 has_character_flag = had_high_level_report has_character_flag = had_medium_level_report }
+                }
+                any_relation = {
+                    type = rival
+                    NOT = { has_secret_relation_rival = scope:character }
+                    is_alive = yes
+                    OR = { has_character_flag = has_been_spied has_character_flag = emissary_sent obf_has_high_level_knowledge_flags = yes has_character_flag = partially_spied_2 has_character_flag = had_high_level_report has_character_flag = had_medium_level_report }
+                }
+                any_secret = { secret_type = secret_lover is_known_by = root }
+            }
+        }
+    }
+}
+
+# Intimate relations
+gui_show_intimate_relations = {
+    saved_scopes = { character }
+    is_valid = {
+        root.age >= 6
+        exists = scope:character
+        exists = root
+        scope:character ?= {
+            OR = {
+                this ?= root
+                prestige_level >= 4
+                highest_held_title_tier >= tier_empire
+                AND = { in_diplomatic_range = root OR = { prestige_level >= 3 highest_held_title_tier >= tier_kingdom } }
+                has_character_flag = has_been_spied
+                has_character_flag = had_high_level_report
+                obf_has_close_or_intimate_relation = yes
+                obf_has_relation_that_would_talk_about_him = yes
+                AND = { revelation_score >= 30 OR = { obf_has_high_level_knowledge_flags = yes obf_has_near_intimate_or_close_relation = yes } }
+                AND = { has_character_flag = partially_spied_2 revelation_score > 70 root ?= { NOT = { has_trait = dull } } }
+                any_relation = {
+                    type = lover
+                    NOT = { has_secret_relation_lover = scope:character }
+                    is_alive = yes
+                    OR = { has_character_flag = has_been_spied has_character_flag = had_high_level_report has_character_flag = emissary_sent obf_has_high_level_knowledge_flags = yes has_character_flag = partially_spied_2 }
+                }
+                any_secret = { secret_type = secret_lover is_known_by = root }
+            }
+        }
+    }
+}
+
+# Courtiers tab
+gui_show_courtiers_tab = {
+    saved_scopes = { character }
+    is_valid = {
+        exists = scope:character
+        exists = root
+        scope:character ?= {
+            OR = {
+                this ?= root
+                prestige_level >= 4
+                highest_held_title_tier >= tier_empire
+                AND = { in_diplomatic_range = root OR = { prestige_level >= 3 highest_held_title_tier >= tier_kingdom } }
+                has_character_flag = has_been_spied
+                has_character_flag = had_low_level_report
+                has_character_flag = had_medium_level_report
+                has_character_flag = had_high_level_report
+                has_character_flag = emissary_sent
+                obf_has_high_level_knowledge_flags = yes
+                obf_has_close_or_intimate_relation = yes
+                obf_has_near_intimate_or_close_relation = yes
+                obf_has_relation_that_would_talk_about_him = yes
+                has_character_flag = partially_spied_2
+                any_courtier_or_guest = {
+                    is_alive = yes
+                    OR = { 
+                        has_character_flag = has_been_spied 
+                        has_character_flag = emissary_sent 
+                        obf_has_high_level_knowledge_flags = yes 
+                        has_character_flag = had_low_level_report 
+                        has_character_flag = had_medium_level_report 
+                        has_character_flag = had_high_level_report 
+                        has_character_flag = partially_spied_2 
+                    }
+                }
+            }
+        }
+    }
+}
+
+# Vassals tab
+gui_show_vassals_tab = {
+    saved_scopes = { character }
+    is_valid = {
+        exists = scope:character
+        exists = root
+        scope:character ?= {
+            OR = {
+                this ?= root
+                prestige_level >= 4
+                highest_held_title_tier >= tier_empire
+                AND = { in_diplomatic_range = root OR = { prestige_level >= 3 highest_held_title_tier >= tier_kingdom } }
+                has_character_flag = has_been_spied
+                has_character_flag = emissary_sent
+                obf_has_high_level_knowledge_flags = yes
+                obf_has_close_or_intimate_relation = yes
+                obf_has_near_intimate_or_close_relation = yes
+                obf_has_relation_that_would_talk_about_him = yes
+                has_character_flag = partially_spied_2
+                has_character_flag = had_medium_level_report
+                has_character_flag = had_high_level_report
+                any_vassal = {
+                    is_alive = yes
+                    OR = { has_character_flag = has_been_spied has_character_flag = emissary_sent obf_has_high_level_knowledge_flags = yes has_character_flag = had_high_level_report has_character_flag = had_medium_level_report has_character_flag = partially_spied_2 }
+                }
+            }
+        }
+    }
+}
+
