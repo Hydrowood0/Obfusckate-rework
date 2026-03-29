@@ -1,5 +1,4 @@
-﻿
-#Spy Scheme Discovery
+﻿#Spy Scheme Discovery
 spied_on_family_member_opinion = {
 	opinion = -25
 	years = 3

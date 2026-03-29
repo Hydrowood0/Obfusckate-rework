@@ -1,19 +1,15 @@
 ﻿task_disrupt_schemes = {
 	position = councillor_spymaster
 	default_task = yes
-
 	task_type = task_type_general
 	task_progress = task_progress_infinite
-
 	asset = {
 		icon = "gfx/interface/icons/council_task_types/task_disrupt_schemes.dds"
 		background = "gfx/interface/buttons/button_round_bg.dds"
 		frame = "gfx/interface/buttons/button_round_frame.dds"
 		glow = "gfx/particles/halo.dds"
 	}
-
 	effect_desc = {
-
 		# SAS Change
 		triggered_desc = {
 			trigger = {
@@ -27,7 +23,11 @@
 		#Hostile Scheme Resistance Descs
 		desc = task_disrupt_schemes_hostile_scheme_resistance_base
 		triggered_desc = {
-			trigger = { scope:councillor_liege = { has_perk = court_of_shadows_perk } }
+			trigger = {
+				scope:councillor_liege = {
+					has_perk = court_of_shadows_perk
+				}
+			}
 			desc = task_disrupt_schemes_hostile_scheme_resistance_perk_bonus
 		}
 		triggered_desc = {
@@ -50,14 +50,20 @@
 		}
 		triggered_desc = {
 			trigger = {
-				scope:councillor_liege.house = { has_house_power_parameter = determination_spymaster_task_disrupt_schemes_efficiency }
+				scope:councillor_liege.house = {
+					has_house_power_parameter = determination_spymaster_task_disrupt_schemes_efficiency
+				}
 			}
 			desc = determination_spymaster_hostile_scheme_resistance_task_disrupt_schemes
 		}
 		#Discovery Chance Descs
 		desc = task_disrupt_schemes_discovery_chance_base
 		triggered_desc = {
-			trigger = { scope:councillor_liege = { has_perk = court_of_shadows_perk } }
+			trigger = {
+				scope:councillor_liege = {
+					has_perk = court_of_shadows_perk
+				}
+			}
 			desc = task_disrupt_schemes_discovery_chance_perk_bonus
 		}
 		triggered_desc = {
@@ -80,7 +86,9 @@
 		}
 		triggered_desc = {
 			trigger = {
-				scope:councillor_liege.house = { has_house_power_parameter = determination_spymaster_task_disrupt_schemes_efficiency }
+				scope:councillor_liege.house = {
+					has_house_power_parameter = determination_spymaster_task_disrupt_schemes_efficiency
+				}
 			}
 			desc = determination_spymaster_discovery_task_disrupt_schemes
 		}
@@ -110,65 +118,69 @@
 			}
 		}
 	}
-
 	council_owner_modifier = {
 		name = task_disrupt_schemes_modifier
 		enemy_hostile_scheme_phase_duration_add = 1
 		scale = scope:councillor.spymaster_disrupt_schemes_modifier_base_scale
 	}
-
 	council_owner_modifier = {
-		name = task_disrupt_schemes_court_of_shadows_modifier #NOT USED?
+		name = task_disrupt_schemes_court_of_shadows_modifier		#NOT USED?
 		enemy_hostile_scheme_phase_duration_add = 1
 		scale = scope:councillor.spymaster_disrupt_schemes_court_of_shadows_modifier_scale
 	}
-
 	council_owner_modifier = {
 		name = task_disrupt_schemes_erudition_legacy_5_modifier
 		enemy_hostile_scheme_phase_duration_add = 1
 		scale = scope:councillor.spymaster_disrupt_schemes_erudition_legacy_5_modifier_scale
 	}
-
 	council_owner_modifier = {
-		name = task_disrupt_schemes_erudition_legacy_5_modifier #TO EDIT?
+		name = task_disrupt_schemes_erudition_legacy_5_modifier		#TO EDIT?
 		enemy_hostile_scheme_phase_duration_add = 1
 		scale = scope:councillor.spymaster_disrupt_schemes_family_business_modifier_scale
 	}
-
 	council_owner_modifier = {
 		name = task_disrupt_schemes_modifier
-		scheme_discovery_chance_mult = 1.0
-		scale = { value = scope:councillor.spymaster_disrupt_schemes_scheme_discovery_modifier divide = 200 }
+		scheme_discovery_chance_mult = 1
+		scale = {
+			value = scope:councillor.spymaster_disrupt_schemes_scheme_discovery_modifier
+			divide = 200
+		}
 	}
-
 	council_owner_modifier = {
 		name = task_disrupt_schemes_court_of_shadows_modifier
-		scheme_discovery_chance_mult = 1.0
-		scale = { value = scope:councillor.spymaster_disrupt_schemes_court_of_shadows_scheme_discovery_modifier_scale divide = 200 }
+		scheme_discovery_chance_mult = 1
+		scale = {
+			value = scope:councillor.spymaster_disrupt_schemes_court_of_shadows_scheme_discovery_modifier_scale
+			divide = 200
+		}
 	}
-
 	council_owner_modifier = {
-		name = task_disrupt_schemes_erudition_legacy_5_modifier #NOT USED?
-		scheme_discovery_chance_mult = 1.0
-		scale = { value = scope:councillor.spymaster_disrupt_schemes_erudition_legacy_5_discovery_modifier_scale divide = 200 }
+		name = task_disrupt_schemes_erudition_legacy_5_modifier		#NOT USED?
+		scheme_discovery_chance_mult = 1
+		scale = {
+			value = scope:councillor.spymaster_disrupt_schemes_erudition_legacy_5_discovery_modifier_scale
+			divide = 200
+		}
 	}
-
 	council_owner_modifier = {
-		name = task_disrupt_schemes_erudition_legacy_5_modifier #TO EDIT
-		scheme_discovery_chance_mult = 1.0
-		scale = { value = scope:councillor.spymaster_disrupt_schemes_family_business_discovery_modifier_scale divide = 200 }
+		name = task_disrupt_schemes_erudition_legacy_5_modifier		#TO EDIT
+		scheme_discovery_chance_mult = 1
+		scale = {
+			value = scope:councillor.spymaster_disrupt_schemes_family_business_discovery_modifier_scale
+			divide = 200
+		}
 	}
-
 	council_owner_modifier = {
 		name = determination_spymaster_task_disrupt_schemes_modifier
-		scheme_discovery_chance_mult = 1.0
-		scale = { value = scope:councillor.spymaster_disrupt_schemes_determination_discovery_modifier_scale divide = 200 }
+		scheme_discovery_chance_mult = 1
+		scale = {
+			value = scope:councillor.spymaster_disrupt_schemes_determination_discovery_modifier_scale
+			divide = 200
+		}
 	}
-
 	monthly_on_action = task_disrupt_schemes_side_effects
-
 	ai_will_do = {
-		value = 1 # Always a good backup
+		value = 1		# Always a good backup
 		if = {
 			limit = {
 				has_trait = paranoid
@@ -184,7 +196,8 @@
 			}
 			add = 1000
 		}
-		if = { # Somewhat rational AI's want to protect themselves from people who might murder them
+		if = {
+			# Somewhat rational AI's want to protect themselves from people who might murder them
 			limit = {
 				ai_rationality > 0
 				OR = {
@@ -215,17 +228,14 @@
 
 task_support_schemes = {
 	position = councillor_spymaster
-
 	task_type = task_type_general
 	task_progress = task_progress_infinite
-
 	asset = {
 		icon = "gfx/interface/icons/council_task_types/task_support_schemes.dds"
 		background = "gfx/interface/buttons/button_round_bg.dds"
 		frame = "gfx/interface/buttons/button_round_frame.dds"
 		glow = "gfx/particles/halo.dds"
 	}
-
 	effect_desc = {
 		desc = task_support_schemes_base_desc
 		triggered_desc = {
@@ -261,7 +271,9 @@ task_support_schemes = {
 		# Determination House Aspiration - Hostile Scheme Phase Length
 		triggered_desc = {
 			trigger = {
-				scope:councillor_liege.house = { has_house_power_parameter = determination_spymaster_task_support_schemes_efficiency }
+				scope:councillor_liege.house = {
+					has_house_power_parameter = determination_spymaster_task_support_schemes_efficiency
+				}
 			}
 			desc = determination_spymaster_task_support_schemes_bonus
 		}
@@ -293,7 +305,9 @@ task_support_schemes = {
 		# Determination House Aspiration - Hostile Scheme Success Chance
 		triggered_desc = {
 			trigger = {
-				scope:councillor_liege.house = { has_house_power_parameter = determination_spymaster_task_support_schemes_efficiency }
+				scope:councillor_liege.house = {
+					has_house_power_parameter = determination_spymaster_task_support_schemes_efficiency
+				}
 			}
 			desc = determination_spymaster_task_support_schemes_success_chance_bonus
 		}
@@ -325,33 +339,28 @@ task_support_schemes = {
 			}
 		}
 	}
-
 	council_owner_modifier = {
 		name = task_support_schemes_modifier
 		hostile_scheme_phase_duration_add = 1
 		scale = spymaster_espionage_modifier_final_scale
 	}
-
 	council_owner_modifier = {
 		name = task_support_schemes_modifier
-		owned_hostile_scheme_success_chance_add = 1.0
+		owned_hostile_scheme_success_chance_add = 1
 		scale = spymaster_espionage_success_chance_total
 	}
-
 	# SAS Change + obfus ? ljl changed? bug?
 	#monthly_on_action = task_support_schemes_side_effects
 	monthly_on_action = choose_appropriate_support_schemes_action
 	# SAS Change End
-
 	ai_will_do = {
 		value = 0
-
 		scope:councillor_liege = {
 			every_scheme = {
 				limit = {
 					OR = {
 						scheme_type = murder
-	 					scheme_type = abduct
+						scheme_type = abduct
 					}
 				}
 				add = 300
@@ -360,21 +369,18 @@ task_support_schemes = {
 	}
 }
 
-
-task_find_secrets = { #FIND SECRETS TASK
+task_find_secrets = {
+	#FIND SECRETS TASK
 	position = councillor_spymaster
-
 	task_type = task_type_court
 	task_progress = task_progress_percentage
 	restart_on_finish = yes
-
 	asset = {
 		icon = "gfx/interface/icons/council_task_types/task_find_secrets.dds"
 		background = "gfx/interface/buttons/button_round_bg.dds"
 		frame = "gfx/interface/buttons/button_round_frame.dds"
 		glow = "gfx/particles/halo.dds"
 	}
-
 	effect_desc = {
 		# SAS Change
 		triggered_desc = {
@@ -396,7 +402,7 @@ task_find_secrets = { #FIND SECRETS TASK
 					scope:target_character = {
 						OR = {
 							is_vassal_of = scope:councillor_liege
-							is_tributary_of_suzerain_or_above = scope:councillor_liege ##added by ljl
+							is_tributary_of_suzerain_or_above = scope:councillor_liege							##added by ljl
 						}
 					}
 				}
@@ -404,8 +410,8 @@ task_find_secrets = { #FIND SECRETS TASK
 			}
 		}
 	}
-
-	progress = { #PROGRESS CHANCE
+	progress = {
+		#PROGRESS CHANCE
 		value = 0
 		add = {
 			value = spymaster_find_secrets_base
@@ -420,11 +426,14 @@ task_find_secrets = { #FIND SECRETS TASK
 			limit = {
 				exists = scope:councillor_liege
 			}
-			if = { # Friend
+			if = {
+				# Friend
 				limit = {
 					scope:councillor_liege = {
 						has_relation_friend = scope:councillor
-						NOT = { has_relation_best_friend = scope:councillor }
+						NOT = {
+							has_relation_best_friend = scope:councillor
+						}
 					}
 				}
 				add = {
@@ -432,7 +441,8 @@ task_find_secrets = { #FIND SECRETS TASK
 					desc = COUNCILLOR_IS_YOUR_FRIEND
 				}
 			}
-			if = { # Best Friend
+			if = {
+				# Best Friend
 				limit = {
 					scope:councillor_liege = {
 						has_relation_best_friend = scope:councillor
@@ -443,11 +453,14 @@ task_find_secrets = { #FIND SECRETS TASK
 					desc = COUNCILLOR_IS_YOUR_BEST_FRIEND
 				}
 			}
-			if = { # Rival
+			if = {
+				# Rival
 				limit = {
 					scope:councillor_liege = {
 						has_relation_rival = scope:councillor
-						NOT = { has_relation_nemesis = scope:councillor }
+						NOT = {
+							has_relation_nemesis = scope:councillor
+						}
 					}
 				}
 				add = {
@@ -455,7 +468,8 @@ task_find_secrets = { #FIND SECRETS TASK
 					desc = COUNCILLOR_IS_YOUR_RIVAL
 				}
 			}
-			if = { # Nemesis
+			if = {
+				# Nemesis
 				limit = {
 					scope:councillor_liege = {
 						has_relation_nemesis = scope:councillor
@@ -468,7 +482,9 @@ task_find_secrets = { #FIND SECRETS TASK
 			}
 			if = {
 				limit = {
-					scope:councillor_liege = { has_perk = digging_for_dirt_perk }
+					scope:councillor_liege = {
+						has_perk = digging_for_dirt_perk
+					}
 				}
 				add = {
 					value = scope:councillor.spymaster_find_secrets_perk_monthly_increase
@@ -506,7 +522,9 @@ task_find_secrets = { #FIND SECRETS TASK
 		#Events
 		if = {
 			limit = {
-				scope:councillor_liege = { has_character_flag = court_of_no_secrets }
+				scope:councillor_liege = {
+					has_character_flag = court_of_no_secrets
+				}
 			}
 			add = {
 				value = spymaster_court_of_no_secrets_event_increase
@@ -515,7 +533,9 @@ task_find_secrets = { #FIND SECRETS TASK
 		}
 		if = {
 			limit = {
-				scope:councillor_liege = { has_character_modifier = court_without_secrets_modifier }
+				scope:councillor_liege = {
+					has_character_modifier = court_without_secrets_modifier
+				}
 			}
 			add = {
 				value = spymaster_court_of_no_secrets_event_increase
@@ -528,7 +548,7 @@ task_find_secrets = { #FIND SECRETS TASK
 				scope:target_character.cp:councillor_spymaster != scope:councillor_liege
 				scope:target_character.cp:councillor_spymaster = {
 					is_performing_council_task = task_disrupt_schemes
-				}	
+				}
 			}
 			multiply = {
 				value = scope:target_character.cp:councillor_spymaster.spymaster_find_secrets_disrupt_schemes_modifier_factor
@@ -550,7 +570,7 @@ task_find_secrets = { #FIND SECRETS TASK
 				exists = scope:target_character
 				OR = {
 					target_is_vassal_or_below = scope:target_character
-					is_tributary_of_suzerain_or_above = scope:target_character ##added by ljl
+					is_tributary_of_suzerain_or_above = scope:target_character					##added by ljl
 				}
 				has_character_modifier = servant_informants_modifier
 			}
@@ -563,7 +583,9 @@ task_find_secrets = { #FIND SECRETS TASK
 			limit = {
 				scope:councillor_liege = {
 					has_title = title:c_byzantion
-					title:c_byzantion = { has_county_modifier = pandidakterion_university_modifier }
+					title:c_byzantion = {
+						has_county_modifier = pandidakterion_university_modifier
+					}
 				}
 			}
 			multiply = {
@@ -574,10 +596,12 @@ task_find_secrets = { #FIND SECRETS TASK
 		# Lady in Waiting
 		if = {
 			limit = {
-				scope:councillor_liege = { has_character_modifier = employer_booner_lady_in_waiting_2_modifier }
+				scope:councillor_liege = {
+					has_character_modifier = employer_booner_lady_in_waiting_2_modifier
+				}
 				OR = {
 					target_is_vassal_or_below = scope:target_character
-					is_tributary_of_suzerain_or_above = scope:target_character ##added by ljl
+					is_tributary_of_suzerain_or_above = scope:target_character					##added by ljl
 					this = scope:target_character
 				}
 			}
@@ -588,10 +612,12 @@ task_find_secrets = { #FIND SECRETS TASK
 		}
 		else_if = {
 			limit = {
-				scope:councillor_liege = { has_character_modifier = employer_booner_lady_in_waiting_3_modifier }
+				scope:councillor_liege = {
+					has_character_modifier = employer_booner_lady_in_waiting_3_modifier
+				}
 				OR = {
 					target_is_vassal_or_below = scope:target_character
-					is_tributary_of_suzerain_or_above = scope:target_character ##added by ljl
+					is_tributary_of_suzerain_or_above = scope:target_character					##added by ljl
 					this = scope:target_character
 				}
 			}
@@ -603,7 +629,9 @@ task_find_secrets = { #FIND SECRETS TASK
 		# Determination House Aspiration
 		if = {
 			limit = {
-				scope:councillor_liege.house ?= { has_house_power_parameter = determination_spymaster_task_find_secrets_efficiency }
+				scope:councillor_liege.house ?= {
+					has_house_power_parameter = determination_spymaster_task_find_secrets_efficiency
+				}
 			}
 			add = {
 				value = spymaster_determination_house_aspiration_find_secrets_total
@@ -611,7 +639,6 @@ task_find_secrets = { #FIND SECRETS TASK
 			}
 		}
 	}
-	
 	is_shown = {
 		scope:councillor_liege = {
 			trigger_if = {
@@ -627,7 +654,6 @@ task_find_secrets = { #FIND SECRETS TASK
 			}
 		}
 	}
-
 	valid_target_court = {
 		scope:councillor_liege = {
 			trigger_if = {
@@ -661,8 +687,8 @@ task_find_secrets = { #FIND SECRETS TASK
 			}
 		}
 	}
-
-	potential_target_court = { #POTENTIAL TARGETS AS LONG AS THEY ARE VALID
+	potential_target_court = {
+		#POTENTIAL TARGETS AS LONG AS THEY ARE VALID
 		scope:target_character = {
 			is_alive = yes
 			is_landed = yes
@@ -672,20 +698,25 @@ task_find_secrets = { #FIND SECRETS TASK
 			}
 		}
 	}
-
-	on_start_task_court = { # WHAT HAPPENS WHEN THE TASK STARTS
+	on_start_task_court = {
+		# WHAT HAPPENS WHEN THE TASK STARTS
 		#spawn a task contract to help finding secrets
 		## Obfusckate: start
 		if = {
 			limit = {
-			scope:councillor_liege = {is_ai = no}
-			NOT = {scope:target_character = scope:councillor_liege}}
+				scope:councillor_liege = {
+					is_ai = no
+				}
+				NOT = {
+					scope:target_character = scope:councillor_liege
+				}
+			}
 			scope:target_character = {
-			low_level_report_effect = yes
-			add_character_flag = {
-				flag = spymaster_is_in_the_court
+				low_level_report_effect = yes
+				add_character_flag = {
+					flag = spymaster_is_in_the_court
 					days = 35
-					}
+				}
 			}
 		}
 		## Obfusckate: end
@@ -693,11 +724,15 @@ task_find_secrets = { #FIND SECRETS TASK
 			limit = {
 				any_task_contract = {
 					task_contract_type = laamp_help_find_secrets_contract
-					NOT = {	task_contract_target = scope:councillor_liege }
+					NOT = {
+						task_contract_target = scope:councillor_liege
+					}
 				}
 				any_player = {
 					has_government = landless_adventurer_government
-					is_within_diplo_range = { CHARACTER = scope:councillor }
+					is_within_diplo_range = {
+						CHARACTER = scope:councillor
+					}
 					any_character_task_contract = {
 						task_contract_type = laamp_help_find_secrets_contract
 						count <= council_task_contracts_limit_value
@@ -721,7 +756,8 @@ task_find_secrets = { #FIND SECRETS TASK
 		}
 	}
 	## Obfusckate: start
-	on_finish_task_court = { #OUTCOME
+	on_finish_task_court = {
+		#OUTCOME
 		scope:councillor_liege = {
 			if = {
 				limit = {
@@ -736,7 +772,8 @@ task_find_secrets = { #FIND SECRETS TASK
 								has_character_flag = partially_spied
 								has_character_flag = had_low_level_report
 							}
-							OR = { is_consort_of = scope:target_character
+							OR = {
+								is_consort_of = scope:target_character
 								is_close_family_of = scope:target_character
 								is_heir_of = scope:target_character
 								is_councillor_of = scope:target_character
@@ -746,7 +783,7 @@ task_find_secrets = { #FIND SECRETS TASK
 					}
 				}
 			}
-	## Obfusckate: end
+			## Obfusckate: end
 			if = {
 				limit = {
 					scope:target_character = {
@@ -784,7 +821,9 @@ task_find_secrets = { #FIND SECRETS TASK
 			if = {
 				limit = {
 					has_perk = truth_is_relative_perk
-					NOT = { exists = scope:having_find_secrets_event }
+					NOT = {
+						exists = scope:having_find_secrets_event
+					}
 				}
 				random = {
 					chance = scope:councillor.spymaster_find_secrets_secret_discovery_chance
@@ -792,12 +831,14 @@ task_find_secrets = { #FIND SECRETS TASK
 						name = having_find_secrets_event
 						value = yes
 					}
-					trigger_event = spymaster_task.0381 # Fabricate a Hook (if you have Truth is Relative)
+					trigger_event = spymaster_task.0381					# Fabricate a Hook (if you have Truth is Relative)
 				}
 			}
 			if = {
 				limit = {
-					NOT = { exists = scope:having_find_secrets_event }
+					NOT = {
+						exists = scope:having_find_secrets_event
+					}
 				}
 				trigger_event = spymaster_task.0399
 			}
@@ -811,11 +852,12 @@ task_find_secrets = { #FIND SECRETS TASK
 		}
 	}
 	## Obfusckate: start
-	monthly_on_action = task_find_secrets_side_effects_obf 
+	monthly_on_action = task_find_secrets_side_effects_obf
 	## Obfusckate: end
 	ai_will_do = {
 		value = 2
-		if = { # Greedy AI's like spying on their subjects
+		if = {
+			# Greedy AI's like spying on their subjects
 			limit = {
 				scope:councillor_liege.ai_greed > 0
 			}
@@ -825,7 +867,8 @@ task_find_secrets = { #FIND SECRETS TASK
 			}
 		}
 		# SAS Change
-		if = { # AI's with Smugglers really like this
+		if = {
+			# AI's with Smugglers really like this
 			limit = {
 				scope:councillor_liege = {
 					exists = court_position:smuggler_court_position
@@ -834,7 +877,8 @@ task_find_secrets = { #FIND SECRETS TASK
 			add = 25
 		}
 		# SAS Change End
-		if = { # AI's with Golden Obligations really like this
+		if = {
+			# AI's with Golden Obligations really like this
 			limit = {
 				scope:councillor_liege = {
 					has_perk = golden_obligations_perk
@@ -842,7 +886,8 @@ task_find_secrets = { #FIND SECRETS TASK
 			}
 			add = 25
 		}
-		if = { # AI's with certain focuses enjoy this
+		if = {
+			# AI's with certain focuses enjoy this
 			limit = {
 				scope:councillor_liege = {
 					OR = {
@@ -854,7 +899,8 @@ task_find_secrets = { #FIND SECRETS TASK
 			}
 			add = 50
 		}
-		if = { # Honorable AI's dislike spying on their subjects
+		if = {
+			# Honorable AI's dislike spying on their subjects
 			limit = {
 				scope:councillor_liege.ai_honor > 0
 			}
@@ -863,7 +909,8 @@ task_find_secrets = { #FIND SECRETS TASK
 				multiply = -1
 			}
 		}
-		if = { # Compassionate AI's dislike spying on their subjects
+		if = {
+			# Compassionate AI's dislike spying on their subjects
 			limit = {
 				scope:councillor_liege.ai_compassion > 0
 			}
@@ -887,7 +934,9 @@ task_find_secrets = { #FIND SECRETS TASK
 		if = {
 			# Don't do this too often
 			limit = {
-				scope:councillor_liege = { has_character_flag = no_ai_find_secrets }
+				scope:councillor_liege = {
+					has_character_flag = no_ai_find_secrets
+				}
 			}
 			multiply = 0
 		}

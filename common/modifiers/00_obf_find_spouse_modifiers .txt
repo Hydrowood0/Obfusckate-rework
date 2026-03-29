@@ -1,5 +1,4 @@
 ﻿### rumours modifiers
-
 obf_lingering_solitude_modifier = {
 	icon = bed_negative
 	attraction_opinion = -20

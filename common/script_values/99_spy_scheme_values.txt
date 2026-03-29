@@ -1,10 +1,11 @@
 ﻿##### Values USED ON FIND SECRETS TASK
-
 gift_value_for_bribe = {
 	value = 20
 	if = {
 		limit = {
-			scope:agent = { is_playable_character = yes }
+			scope:agent = {
+				is_playable_character = yes
+			}
 			scope:agent.primary_title.tier < tier_duchy
 		}
 		multiply = 2
@@ -17,17 +18,20 @@ gift_value_for_bribe = {
 	}
 	if = {
 		limit = {
-			scope:agent = { is_close_family_of = scope:target_character}
+			scope:agent = {
+				is_close_family_of = scope:target_character
+			}
 		}
 		multiply = 4
 	}
 	if = {
 		limit = {
-			scope:agent = { is_consort_of = scope:target_character}
+			scope:agent = {
+				is_consort_of = scope:target_character
+			}
 		}
 		multiply = 5
 	}
-
 	if = {
 		limit = {
 			scope:agent = {
@@ -48,7 +52,6 @@ gift_value_for_bribe = {
 		}
 		multiply = 3
 	}
-
 	if = {
 		limit = {
 			scope:agent = {
@@ -79,11 +82,10 @@ gift_value_for_bribe = {
 	}
 }
 
-
 spy_scheme_bribe_gold_value = {
 	value = scope:agent.monthly_character_income
-add = gift_value_for_bribe
-	multiply = 12 #multiplied by 12 which is the skill of at least a competent Spymaster. The higher the spymaster skill is, the smaller the bribe
+	add = gift_value_for_bribe
+	multiply = 12	#multiplied by 12 which is the skill of at least a competent Spymaster. The higher the spymaster skill is, the smaller the bribe
 	divide = cp:councillor_spymaster.intrigue
 	min = 5
 	max = 100
@@ -91,9 +93,9 @@ add = gift_value_for_bribe
 
 spy_scheme_bribe_gold_value_close_chars = {
 	value = scope:agent.monthly_character_income
-add = gift_value_for_bribe
 	add = gift_value_for_bribe
-	multiply = 12 #multiplied by 12 which is the skill of at least a competent Spymaster. The higher the spymaster skill is, the smaller the bribe
+	add = gift_value_for_bribe
+	multiply = 12	#multiplied by 12 which is the skill of at least a competent Spymaster. The higher the spymaster skill is, the smaller the bribe
 	divide = cp:councillor_spymaster.intrigue
 	min = 10
 	max = 150
@@ -101,10 +103,10 @@ add = gift_value_for_bribe
 
 spy_scheme_bribe_gold_value_close_marshal = {
 	value = scope:agent.monthly_character_income
-add = gift_value_for_bribe
 	add = gift_value_for_bribe
 	add = gift_value_for_bribe
-	multiply = 12 #multiplied by 12 which is the skill of at least a competent Spymaster. The higher the spymaster skill is, the smaller the bribe
+	add = gift_value_for_bribe
+	multiply = 12	#multiplied by 12 which is the skill of at least a competent Spymaster. The higher the spymaster skill is, the smaller the bribe
 	divide = cp:councillor_spymaster.intrigue
 	min = 15
 	max = 250
@@ -125,8 +127,6 @@ fifty_percent_player_wealth_value = {
 	divide = 2
 }
 
-
-
 slander_gold_scale = {
 	add = intrigue
 	add = diplomacy
@@ -145,11 +145,9 @@ honor_greed_compassion_scale = {
 	add = ai_honor
 	add = ai_compassion
 	divide = 20
-	
 }
 
 ####### VALUES FOR SPY NETWORK
-
 low_network_coverage_value = {
 	value = 0
 	if = {
@@ -157,37 +155,49 @@ low_network_coverage_value = {
 			exists = scope:actor.var:spy_network
 			scope:actor.var:spy_network > 0
 		}
-	add = scope:actor.var:spy_network
-	multiply = 37500
+		add = scope:actor.var:spy_network
+		multiply = 37500
 	}
 	if = {
 		limit = {
 			scope:actor.highest_held_title_tier <= tier_duchy
 		}
-	divide = 4
+		divide = 4
 	}
 	if = {
 		limit = {
 			scope:actor.highest_held_title_tier <= tier_county
 		}
-	divide = 2
+		divide = 2
 	}
 	if = {
 		limit = {
-			NOT = {scope:actor.top_liege = scope:recipient.top_liege}
+			NOT = {
+				scope:actor.top_liege = scope:recipient.top_liege
+			}
 		}
-	multiply = 0.6
+		multiply = 0.6
 	}
 	if = {
 		limit = {
-			OR = {scope:actor = {OR = {is_at_war_with = scope:recipient
-								is_at_war_with = scope:recipient.top_liege
-								is_at_war_with = scope:recipient.liege}}				
-				scope:actor.liege = {OR = {is_at_war_with = scope:recipient
-								is_at_war_with = scope:recipient.top_liege
-								is_at_war_with = scope:recipient.liege}}}
+			OR = {
+				scope:actor = {
+					OR = {
+						is_at_war_with = scope:recipient
+						is_at_war_with = scope:recipient.top_liege
+						is_at_war_with = scope:recipient.liege
+					}
+				}
+				scope:actor.liege = {
+					OR = {
+						is_at_war_with = scope:recipient
+						is_at_war_with = scope:recipient.top_liege
+						is_at_war_with = scope:recipient.liege
+					}
+				}
+			}
 		}
-	multiply = 0.5
+		multiply = 0.5
 	}
 	min = 0
 	max = 2000000
@@ -200,37 +210,49 @@ medium_network_coverage_value = {
 			exists = scope:actor.var:spy_network
 			scope:actor.var:spy_network > 0
 		}
-	add = scope:actor.var:spy_network
-	multiply = 25000
+		add = scope:actor.var:spy_network
+		multiply = 25000
 	}
 	if = {
 		limit = {
 			scope:actor.highest_held_title_tier <= tier_duchy
 		}
-	divide = 4
+		divide = 4
 	}
 	if = {
 		limit = {
 			scope:actor.highest_held_title_tier <= tier_county
 		}
-	divide = 2
+		divide = 2
 	}
 	if = {
 		limit = {
-			NOT = {scope:actor.top_liege = scope:recipient.top_liege}
+			NOT = {
+				scope:actor.top_liege = scope:recipient.top_liege
+			}
 		}
-	multiply = 0.6
+		multiply = 0.6
 	}
 	if = {
 		limit = {
-			OR = {scope:actor = {OR = {is_at_war_with = scope:recipient
-								is_at_war_with = scope:recipient.top_liege
-								is_at_war_with = scope:recipient.liege}}				
-				scope:actor.liege = {OR = {is_at_war_with = scope:recipient
-								is_at_war_with = scope:recipient.top_liege
-								is_at_war_with = scope:recipient.liege}}}
+			OR = {
+				scope:actor = {
+					OR = {
+						is_at_war_with = scope:recipient
+						is_at_war_with = scope:recipient.top_liege
+						is_at_war_with = scope:recipient.liege
+					}
+				}
+				scope:actor.liege = {
+					OR = {
+						is_at_war_with = scope:recipient
+						is_at_war_with = scope:recipient.top_liege
+						is_at_war_with = scope:recipient.liege
+					}
+				}
+			}
 		}
-	multiply = 0.5
+		multiply = 0.5
 	}
 	min = 0
 	max = 1200000
@@ -243,39 +265,50 @@ high_network_coverage_value = {
 			exists = scope:actor.var:spy_network
 			scope:actor.var:spy_network > 0
 		}
-	add = scope:actor.var:spy_network
-	multiply = 10000
+		add = scope:actor.var:spy_network
+		multiply = 10000
 	}
 	if = {
 		limit = {
 			scope:actor.highest_held_title_tier <= tier_duchy
 		}
-	divide = 4
+		divide = 4
 	}
 	if = {
 		limit = {
 			scope:actor.highest_held_title_tier <= tier_county
 		}
-	divide = 2
+		divide = 2
 	}
 	if = {
 		limit = {
-			NOT = {scope:actor.top_liege = scope:recipient.top_liege}
+			NOT = {
+				scope:actor.top_liege = scope:recipient.top_liege
+			}
 		}
-	multiply = 0.6
+		multiply = 0.6
 	}
 	if = {
 		limit = {
-			OR = {scope:actor = {OR = {is_at_war_with = scope:recipient
-								is_at_war_with = scope:recipient.top_liege
-								is_at_war_with = scope:recipient.liege}}				
-				scope:actor.liege = {OR = {is_at_war_with = scope:recipient
-								is_at_war_with = scope:recipient.top_liege
-								is_at_war_with = scope:recipient.liege}}}
+			OR = {
+				scope:actor = {
+					OR = {
+						is_at_war_with = scope:recipient
+						is_at_war_with = scope:recipient.top_liege
+						is_at_war_with = scope:recipient.liege
+					}
+				}
+				scope:actor.liege = {
+					OR = {
+						is_at_war_with = scope:recipient
+						is_at_war_with = scope:recipient.top_liege
+						is_at_war_with = scope:recipient.liege
+					}
+				}
+			}
 		}
-	multiply = 0.5
+		multiply = 0.5
 	}
-
 	min = 0
 	max = 600000
 }
@@ -293,7 +326,6 @@ high_network_coverage_value = {
 # 					var:spy_network < var:spy_network_budget}}}
 # 	if = {
 # 		limit = {is_imprisoned = no}
-	
 # 	if = {
 # 			limit = {exists = liege
 # 					this = liege.cp:councillor_spymaster}
@@ -364,7 +396,6 @@ high_network_coverage_value = {
 # 			}
 # 		if = {
 # 			limit = {cp:councillor_spymaster = {has_trait = education_intrigue}}
-
 # 				if = {
 # 				limit = {cp:councillor_spymaster = {has_trait = education_intrigue_2}}
 # 				add = 0.05
@@ -411,8 +442,7 @@ high_network_coverage_value = {
 # 	max = 2
 # }
 spy_network_value = {
-	value = 0.01  # 0
-
+	value = 0.01	# 0
 	# === 修复 1：玩家个人加成（独立计算） ===
 	# 无论有无间谍总管，玩家自己都应产生点数
 	# 只要玩家存活、成年、有能力、未入狱，并且低于预算
@@ -422,133 +452,192 @@ spy_network_value = {
 			is_adult = yes
 			is_incapable = no
 			is_imprisoned = no
-			OR = { 
-				NOT = { exists = var:spy_network_budget }
+			OR = {
+				NOT = {
+					exists = var:spy_network_budget
+				}
 				var:spy_network < var:spy_network_budget
 			}
 		}
-		
 		# (这是原版中被错误嵌套的“玩家加成”部分)
 		if = {
-				limit = {exists = liege
-								this = liege.cp:councillor_spymaster}
-				add = 0.25
-				}
+			limit = {
+				exists = liege
+				this = liege.cp:councillor_spymaster
+			}
+			add = 0.25
+		}
 		if = {
-				limit = {has_lifestyle = intrigue_lifestyle}
-				add = 0.1
-				}
+			limit = {
+				has_lifestyle = intrigue_lifestyle
+			}
+			add = 0.1
+		}
 		if = {
-				limit = {has_focus = intrigue_skulduggery_focus}
-				add = 0.1
-				}
+			limit = {
+				has_focus = intrigue_skulduggery_focus
+			}
+			add = 0.1
+		}
 		if = {
-				limit = {intrigue >= 9}
-				add = {
+			limit = {
+				intrigue >= 9
+			}
+			add = {
 				value = intrigue
 				multiply = 0.015
-					}
-				}
+			}
+		}
 		if = {
-			limit = {has_trait = education_intrigue}
-			if = {
-				limit = {has_trait = education_intrigue_3}
-				add = 0.05
-				}
-			if = {
-				limit = {has_trait = education_intrigue_4}
-				add = 0.1
-				}
-			if = {
-				limit = {has_trait = education_intrigue_5}
-				add = 0.15
-				}
+			limit = {
+				has_trait = education_intrigue
 			}
 			if = {
-				limit = {is_healthy = no}
-				divide = 2
+				limit = {
+					has_trait = education_intrigue_3
 				}
+				add = 0.05
+			}
 			if = {
-				limit = {is_at_war = yes}
-				divide = 2
+				limit = {
+					has_trait = education_intrigue_4
 				}
+				add = 0.1
+			}
+			if = {
+				limit = {
+					has_trait = education_intrigue_5
+				}
+				add = 0.15
+			}
+		}
+		if = {
+			limit = {
+				is_healthy = no
+			}
+			divide = 2
+		}
+		if = {
+			limit = {
+				is_at_war = yes
+			}
+			divide = 2
+		}
 	}
-
 	# === 修复 2：间谍总管加成（额外加成） ===
 	# 只有存在间谍总管时，才添加这部分额外奖励
-	if = { 
+	if = {
 		limit = {
 			is_alive = yes
 			is_adult = yes
 			is_incapable = no
-			exists = cp:councillor_spymaster # 必须有间谍总管
+			exists = cp:councillor_spymaster			# 必须有间谍总管
 			cp:councillor_spymaster.intrigue >= 0
-			OR = { # 必须低于预算
-				NOT = {exists = var:spy_network_budget}
+			OR = {
+				# 必须低于预算
+				NOT = {
+					exists = var:spy_network_budget
+				}
 				var:spy_network < var:spy_network_budget
 			}
 		}
-		
 		# (这是原版的“间谍总管加成”部分)
 		add = {
-		value = cp:councillor_spymaster.ai_sociability
-		multiply = 0.005
-		min = 0
-			}
+			value = cp:councillor_spymaster.ai_sociability
+			multiply = 0.005
+			min = 0
+		}
 		add = {
-		value = cp:councillor_spymaster.ai_energy
-		multiply = 0.005
-		min = 0
-			}
+			value = cp:councillor_spymaster.ai_energy
+			multiply = 0.005
+			min = 0
+		}
 		add = {
-		value = cp:councillor_spymaster.num_of_known_languages
-		multiply = 0.20
-		subtract = 0.20
+			value = cp:councillor_spymaster.num_of_known_languages
+			multiply = 0.2
+			subtract = 0.2
 		}
 		if = {
-		limit = {cp:councillor_spymaster.intrigue >= 9}
-		add = {
-		value = cp:councillor_spymaster.intrigue
-		multiply = 0.03
+			limit = {
+				cp:councillor_spymaster.intrigue >= 9
+			}
+			add = {
+				value = cp:councillor_spymaster.intrigue
+				multiply = 0.03
 			}
 		}
 		if = {
-			limit = {cp:councillor_spymaster = {has_trait = education_intrigue}}
-			if = {
-			limit = {cp:councillor_spymaster = {has_trait = education_intrigue_2}}
-			add = 0.05
-			}
-			if = {
-			limit = {cp:councillor_spymaster = {has_trait = education_intrigue_3}}
-			add = 0.1
+			limit = {
+				cp:councillor_spymaster = {
+					has_trait = education_intrigue
 				}
-			if = {
-			limit = {cp:councillor_spymaster = {has_trait = education_intrigue_4}}
-			add = 0.2
 			}
 			if = {
-			limit = {cp:councillor_spymaster = {has_trait = education_intrigue_5}}
-			add = 0.3
+				limit = {
+					cp:councillor_spymaster = {
+						has_trait = education_intrigue_2
+					}
+				}
+				add = 0.05
+			}
+			if = {
+				limit = {
+					cp:councillor_spymaster = {
+						has_trait = education_intrigue_3
+					}
+				}
+				add = 0.1
+			}
+			if = {
+				limit = {
+					cp:councillor_spymaster = {
+						has_trait = education_intrigue_4
+					}
+				}
+				add = 0.2
+			}
+			if = {
+				limit = {
+					cp:councillor_spymaster = {
+						has_trait = education_intrigue_5
+					}
+				}
+				add = 0.3
 			}
 		}
 		if = {
-			limit = {cp:councillor_spymaster = {has_focus = intrigue_skulduggery_focus}}
+			limit = {
+				cp:councillor_spymaster = {
+					has_focus = intrigue_skulduggery_focus
+				}
+			}
 			add = 0.2
 		}
 		if = {
-			limit = {cp:councillor_spymaster = {has_lifestyle = intrigue_lifestyle}}
+			limit = {
+				cp:councillor_spymaster = {
+					has_lifestyle = intrigue_lifestyle
+				}
+			}
 			add = 0.2
 		}
 		if = {
-			limit = {cp:councillor_spymaster = {is_healthy = no}}
+			limit = {
+				cp:councillor_spymaster = {
+					is_healthy = no
+				}
+			}
 			divide = 2
 		}
 		if = {
-			limit = {cp:councillor_spymaster = {is_performing_council_task = task_find_secrets}}
+			limit = {
+				cp:councillor_spymaster = {
+					is_performing_council_task = task_find_secrets
+				}
+			}
 			divide = 2
 		}
 	}
-
 	# === 修复 3：惩罚 ===
 	# 只有当你是“有地统治者”(is_ruler) 但“没有”间谍总管时，才施加惩罚
 	if = {
@@ -556,19 +645,20 @@ spy_network_value = {
 			is_alive = yes
 			is_adult = yes
 			is_incapable = no
-			is_ruler = yes # 关键：你必须是个统治者
-			NOT = { exists = cp:councillor_spymaster } # 却没有任命间谍总管
+			is_ruler = yes			# 关键：你必须是个统治者
+			NOT = {
+				exists = cp:councillor_spymaster
+			}			# 却没有任命间谍总管
 		}
-		subtract = 1 #5
+		subtract = 1		#5
 	}
-	
 	# 因入狱或超预算而导致的衰减
 	if = {
 		limit = {
 			is_alive = yes
 			is_adult = yes
 			is_incapable = no
-			is_imprisoned = yes # 在监狱里
+			is_imprisoned = yes			# 在监狱里
 		}
 		subtract = 1.5
 	}
@@ -577,24 +667,29 @@ spy_network_value = {
 			is_alive = yes
 			is_adult = yes
 			is_incapable = no
-			NOT = { # 超过预算
+			NOT = {
+				# 超过预算
 				OR = {
-					NOT = { exists = var:spy_network_budget }
+					NOT = {
+						exists = var:spy_network_budget
+					}
 					var:spy_network < var:spy_network_budget
 				}
 			}
 			# 并且你不是一个因为没有间谍总管而受到-5惩罚的统治者（避免双重惩罚）
 			NOR = {
 				is_ruler = yes
-				NOT = { exists = cp:councillor_spymaster }
+				NOT = {
+					exists = cp:councillor_spymaster
+				}
 			}
 		}
-		subtract = 1.5 # 超过预算时，点数衰减
+		subtract = 1.5		# 超过预算时，点数衰减
 	}
-	
 	min = -5
-	max = 5 #2
+	max = 5	#2
 }
+
 # spy_network_value_on_start = {
 # value = 0
 # add = age
@@ -608,314 +703,426 @@ spy_network_value = {
 # min = 8
 # max = 100
 # }
-
 spy_network_value_on_start = {
-    value = 1 #0
-    add = age
-    subtract = 16
-    multiply = 4
-    # multiply = spy_network_value #ljl 0?
-    
-    # ================== 修改后的代码块 开始 ==================
-    if = {
-        limit = {
+	value = 1	#0
+	add = age
+	subtract = 16
+	multiply = 4
+	# multiply = spy_network_value #ljl 0?
+	# ================== 修改后的代码块 开始 ==================
+	if = {
+		limit = {
 			OR = {
 				# 规则一：原版规则，对所有政府都有效
-				short_term_gold <= 300 
-
+				short_term_gold <= 300
 				# 规则二：为天朝制增加的额外检查
 				AND = {
 					government_has_flag = government_is_celestial
 					treasury <= 300
 				}
 			}
-        }
-        multiply = 0.5
-    }
-    # ================== 修改后的代码块 结束 ==================
-    
-    min = 8
-    max = 100
+		}
+		multiply = 0.5
+	}
+	# ================== 修改后的代码块 结束 ==================
+	min = 8
+	max = 100
 }
 
 spy_network_when_spymaster_leaves = {
-value = var:spy_network
-divide = 3
-min = 0
+	value = var:spy_network
+	divide = 3
+	min = 0
 }
 
 low_level_report_eta = {
-value = "scope:recipient.location.squared_distance(scope:actor.capital_province)"
-multiply = 0.0001
-multiply = 1.25
-if = {
-		limit = {NOT = {scope:recipient.top_liege = scope:actor.top_liege}}
-		multiply = 1.25
+	value = "scope:recipient.location.squared_distance(scope:actor.capital_province)"
+	multiply = 0.0001
+	multiply = 1.25
+	if = {
+		limit = {
+			NOT = {
+				scope:recipient.top_liege = scope:actor.top_liege
+			}
 		}
-ceiling = yes
-min = 15
-max = 90
+		multiply = 1.25
+	}
+	ceiling = yes
+	min = 15
+	max = 90
 }
 
 medium_level_report_eta = {
-value = low_level_report_eta
-multiply = 2
-ceiling = yes
-min = 30
-max = 180
+	value = low_level_report_eta
+	multiply = 2
+	ceiling = yes
+	min = 30
+	max = 180
 }
 
 high_level_report_eta = {
-value = medium_level_report_eta
-multiply = 2
-if = {
-		limit = {scope:recipient.revelation_score_not_known < 22.5}
+	value = medium_level_report_eta
+	multiply = 2
+	if = {
+		limit = {
+			scope:recipient.revelation_score_not_known < 22.5
+		}
 		multiply = 1.3
+	}
+	if = {
+		limit = {
+			scope:recipient.revelation_score_not_known >= 65
 		}
-		if = {
-		limit = {scope:recipient.revelation_score_not_known >= 65}
 		multiply = 0.75
+	}
+	ceiling = yes
+	min = {
+		value = 90
+		if = {
+			limit = {
+				scope:recipient.revelation_score_not_known < 22.5
+			}
+			add = 30
 		}
-ceiling = yes
-min = {
-value = 90
-if = {
-		limit = {scope:recipient.revelation_score_not_known < 22.5}
-		add = 30
-		}
-}
-max = 365
+	}
+	max = 365
 }
 
 low_level_report_cost = {
-value = "scope:recipient.location.squared_distance(scope:actor.capital_province)"
-multiply = 0.00001
-add = 4
-divide = 2
-
-		if = {
-		limit = {NOT = {scope:recipient.top_liege = scope:actor.top_liege}}
+	value = "scope:recipient.location.squared_distance(scope:actor.capital_province)"
+	multiply = 0.00001
+	add = 4
+	divide = 2
+	if = {
+		limit = {
+			NOT = {
+				scope:recipient.top_liege = scope:actor.top_liege
+			}
+		}
 		multiply = 1.5
+	}
+	if = {
+		limit = {
+			scope:actor = {
+				is_liege_or_above_of = scope:recipient
+			}
 		}
-		if = {
-		limit = {scope:actor = {is_liege_or_above_of = scope:recipient}}
 		multiply = 0.5
-		}
-		if = {
+	}
+	if = {
 		limit = {
 			stewardship < 9
 		}
-		multiply = 1.25 ### + 25%
-		}
-		if = {
+		multiply = 1.25		### + 25%
+	}
+	if = {
 		limit = {
 			stewardship > 24
 		}
-		multiply = 0.75 #### - 25 %
-		}
-		if = {
+		multiply = 0.75		#### - 25 %
+	}
+	if = {
 		limit = {
-			OR = {scope:actor = {OR = {is_at_war_with = scope:recipient
-								is_at_war_with = scope:recipient.top_liege
-								is_at_war_with = scope:recipient.liege}}				
-				scope:actor.liege = {OR = {is_at_war_with = scope:recipient
-								is_at_war_with = scope:recipient.top_liege
-								is_at_war_with = scope:recipient.liege}}}
+			OR = {
+				scope:actor = {
+					OR = {
+						is_at_war_with = scope:recipient
+						is_at_war_with = scope:recipient.top_liege
+						is_at_war_with = scope:recipient.liege
+					}
+				}
+				scope:actor.liege = {
+					OR = {
+						is_at_war_with = scope:recipient
+						is_at_war_with = scope:recipient.top_liege
+						is_at_war_with = scope:recipient.liege
+					}
+				}
+			}
 		}
 		multiply = 3
 	}
-min = 1
+	min = 1
 }
 
 medium_level_report_cost = {
-value = low_level_report_cost
-add = 3
-multiply = 2
-if = {
-		limit = {scope:recipient = {
-		NOT = {has_character_flag = had_high_level_report}
-		OR = {has_character_flag = had_low_level_report
-		has_character_flag = had_medium_level_report}}}
+	value = low_level_report_cost
+	add = 3
+	multiply = 2
+	if = {
+		limit = {
+			scope:recipient = {
+				NOT = {
+					has_character_flag = had_high_level_report
+				}
+				OR = {
+					has_character_flag = had_low_level_report
+					has_character_flag = had_medium_level_report
+				}
+			}
+		}
 		multiply = 0.85
+	}
+	if = {
+		limit = {
+			scope:recipient = {
+				has_character_flag = had_high_level_report
+			}
 		}
-if = {
-		limit = {scope:recipient = {
-		has_character_flag = had_high_level_report}}
 		multiply = 0.5
-		}
-min = 5
-max = 25
+	}
+	min = 5
+	max = 25
 }
 
 high_level_report_cost = {
-value = medium_level_report_cost
-multiply = 2
-if = {
-		limit = {scope:recipient = {
-		NOT = {has_character_flag = had_high_level_report}
-		has_character_flag = had_medium_level_report}}
+	value = medium_level_report_cost
+	multiply = 2
+	if = {
+		limit = {
+			scope:recipient = {
+				NOT = {
+					has_character_flag = had_high_level_report
+				}
+				has_character_flag = had_medium_level_report
+			}
+		}
 		multiply = 0.9
+	}
+	if = {
+		limit = {
+			scope:recipient = {
+				has_character_flag = had_high_level_report
+			}
 		}
-if = {
-		limit = {scope:recipient = {
-		has_character_flag = had_high_level_report}}
 		multiply = 0.5
+	}
+	if = {
+		limit = {
+			scope:recipient = {
+				has_character_flag = had_high_level_report_twice
+			}
 		}
-if = {
-		limit = {scope:recipient = {
-		has_character_flag = had_high_level_report_twice}}
 		multiply = 0.5
+	}
+	if = {
+		limit = {
+			scope:actor = {
+				is_liege_or_above_of = scope:recipient
+			}
 		}
-if = {
-		limit = {scope:actor = {is_liege_or_above_of = scope:recipient}}
 		multiply = 0.6
+	}
+	min = {
+		value = 15
+		if = {
+			limit = {
+				scope:recipient = {
+					has_character_flag = had_high_level_report_twice
+				}
+			}
+			multiply = 0.5
 		}
-min = {
-value = 15
-if = {
-		limit = {scope:recipient = {
-		has_character_flag = had_high_level_report_twice}}
-		multiply = 0.5
-		}
-}
-max = 100
+	}
+	max = 100
 }
 
-reduction_value = { ### NOT USED
-value = 50
-if = {
-		limit = {scope:recipient = {
-		has_character_flag = had_high_level_report}}
-		multiply = 1.5
+reduction_value = {
+	### NOT USED
+	value = 50
+	if = {
+		limit = {
+			scope:recipient = {
+				has_character_flag = had_high_level_report
+			}
 		}
-if = {
-		limit = {scope:recipient = {
-		has_character_flag = had_high_level_report_twice}}
+		multiply = 1.5
+	}
+	if = {
+		limit = {
+			scope:recipient = {
+				has_character_flag = had_high_level_report_twice
+			}
+		}
 		multiply = 2
+	}
+	if = {
+		limit = {
+			scope:recipient.intrigue < 9
 		}
-if = {
-		limit = {scope:recipient.intrigue < 9}
 		multiply = 1.5
+	}
+	if = {
+		limit = {
+			scope:recipient = {
+				OR = {
+					has_trait = arrogant
+					has_trait = trusting
+					has_bad_traits_for_spying_trigger = yes
+				}
+			}
 		}
-if = {
-		limit = {scope:recipient = { 
-							OR = {has_trait = arrogant
-								has_trait = trusting
-								has_bad_traits_for_spying_trigger = yes}
-				}}
 		multiply = 1.5
+	}
+	if = {
+		limit = {
+			scope:recipient = {
+				probably_unintelligent_trigger = yes
+			}
 		}
-if = {
-		limit = {scope:recipient = { 
-					probably_unintelligent_trigger = yes
-				}}
 		multiply = 1.2
+	}
+	if = {
+		limit = {
+			scope:recipient = {
+				probably_intelligent_trigger = yes
+			}
 		}
-if = {
-		limit = {scope:recipient = {
-								probably_intelligent_trigger = yes
-						}}
 		multiply = 0.9
+	}
+	if = {
+		limit = {
+			scope:recipient = {
+				is_a_very_elusive_person_trigger = yes
+			}
 		}
-if = {
-		limit = {scope:recipient = {
-								is_a_very_elusive_person_trigger = yes
-						}}
 		multiply = 0.8
+	}
+	if = {
+		limit = {
+			scope:recipient = {
+				OR = {
+					has_trait = deceitful
+					has_trait = paranoid
+				}
+			}
 		}
-if = {
-		limit = {scope:recipient = {
-								OR = {has_trait = deceitful
-								has_trait = paranoid}
-						}}
 		multiply = 0.8
+	}
+	if = {
+		limit = {
+			scope:recipient = {
+				has_trait = schemer
+			}
 		}
-if = {
-		limit = {scope:recipient = {
-								has_trait = schemer}}
 		multiply = 0.8
+	}
+	if = {
+		limit = {
+			scope:recipient.intrigue > 16
 		}
-if = {
-		limit = {scope:recipient.intrigue > 16}
 		multiply = 0.8
+	}
+	if = {
+		limit = {
+			scope:recipient.intrigue > 24
 		}
-if = {
-		limit = {scope:recipient.intrigue > 24}
 		multiply = 0.8
-		}
-if = {
+	}
+	if = {
 		limit = {
 			exists = scope:recipient.host.cp:councillor_spymaster
-				NOT = { scope:recipient.host.cp:councillor_spymaster = scope:actor.cp:councillor_spymaster }
-				scope:recipient.host.cp:councillor_spymaster = {
-					is_performing_council_task = task_disrupt_schemes}}
+			NOT = {
+				scope:recipient.host.cp:councillor_spymaster = scope:actor.cp:councillor_spymaster
+			}
+			scope:recipient.host.cp:councillor_spymaster = {
+				is_performing_council_task = task_disrupt_schemes
+			}
+		}
 		multiply = scope:recipient.host.cp:councillor_spymaster.spymaster_find_secrets_disrupt_schemes_modifier_factor
 	}
-if = {
-		limit = { ##REDUCTION
-				scope:recipient.host = { 
-					has_character_modifier = servant_informants_modifier
-				}}
-			multiply = 0.8
+	if = {
+		limit = {
+			##REDUCTION
+			scope:recipient.host = {
+				has_character_modifier = servant_informants_modifier
+			}
+		}
+		multiply = 0.8
 	}
-if = {
-		limit = { ##REDUCTION
-				scope:recipient.host = { 
-					has_perk = court_of_shadows_perk
-				}}
-			multiply = 0.8
+	if = {
+		limit = {
+			##REDUCTION
+			scope:recipient.host = {
+				has_perk = court_of_shadows_perk
+			}
+		}
+		multiply = 0.8
 	}
-if = {
-		limit = { ##REDUCTION
-				scope:recipient.host = { 
-					has_character_modifier = employer_booner_lady_in_waiting_2_modifier
-				}}
-			multiply = 0.8
+	if = {
+		limit = {
+			##REDUCTION
+			scope:recipient.host = {
+				has_character_modifier = employer_booner_lady_in_waiting_2_modifier
+			}
+		}
+		multiply = 0.8
 	}
-if = {
-		limit = { ##REDUCTION
-				scope:recipient.host = { 
-					has_character_modifier = employer_booner_lady_in_waiting_3_modifier
-				}}
-			multiply = 0.8
+	if = {
+		limit = {
+			##REDUCTION
+			scope:recipient.host = {
+				has_character_modifier = employer_booner_lady_in_waiting_3_modifier
+			}
+		}
+		multiply = 0.8
 	}
-if = {
-		limit = { ##REDUCTION
-				scope:recipient.host = { 
-					has_focus = intrigue_intimidation_focus
-				}}
-			multiply = 0.8
+	if = {
+		limit = {
+			##REDUCTION
+			scope:recipient.host = {
+				has_focus = intrigue_intimidation_focus
+			}
+		}
+		multiply = 0.8
 	}
-if = {
-		limit = { ##REDUCTION
-				scope:recipient.host = { 
-					dread >= 20
-				}}
-			multiply = 0.8
+	if = {
+		limit = {
+			##REDUCTION
+			scope:recipient.host = {
+				dread >= 20
+			}
+		}
+		multiply = 0.8
 	}
-if = {
-		limit = { ##REDUCTION
-				OR = {scope:recipient.host = { 
-					has_focus = intrigue_skulduggery_focus}
-					scope:recipient = { 
-					has_focus = intrigue_skulduggery_focus}}}
-			multiply = 0.8
+	if = {
+		limit = {
+			##REDUCTION
+			OR = {
+				scope:recipient.host = {
+					has_focus = intrigue_skulduggery_focus
+				}
+				scope:recipient = {
+					has_focus = intrigue_skulduggery_focus
+				}
+			}
+		}
+		multiply = 0.8
 	}
-if = {
-		limit = { ##REDUCTION
-				OR = {scope:recipient.host = { 
-					has_lifestyle = intrigue_lifestyle}
-					scope:recipient = { 
-					has_lifestyle = intrigue_lifestyle}}}
-			multiply = 0.8
+	if = {
+		limit = {
+			##REDUCTION
+			OR = {
+				scope:recipient.host = {
+					has_lifestyle = intrigue_lifestyle
+				}
+				scope:recipient = {
+					has_lifestyle = intrigue_lifestyle
+				}
+			}
+		}
+		multiply = 0.8
 	}
-if = {
-		limit = { ##REDUCTION
-					scope:recipient = { 
+	if = {
+		limit = {
+			##REDUCTION
+			scope:recipient = {
 				OR = {
-					has_trait = education_intrigue 
-					intrigue > 16}}}
-			multiply = 0.8
+					has_trait = education_intrigue
+					intrigue > 16
+				}
+			}
+		}
+		multiply = 0.8
 	}
-
 }

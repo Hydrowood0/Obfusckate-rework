@@ -3,11 +3,10 @@
 ###### 			THIS IS SO THAT YOU CAN CTRL+F BOTH "{" AND "}", GET TOTAL COUNT OF BOTH, AND IF "TOTAL {s" DOES NOT EQUAL "TOTAL }s", THEN THERE'S MISSING BRACES!
 ######  NOTE: I ALSO PUT IN SOME "TODO:" TO SUGGEST SOME STUFF
 ######
-
 ###Game Start
 #On action triggered on game start to add flags to already related persons so they are not forgotten when divorcing, leaving court and etc
 on_game_start_after_lobby = {
-	on_actions ={
+	on_actions = {
 		obf_flag_characters_on_game_start
 		obf_set_up_spy_network_on_start_on_action
 		obf_on_game_start_after_lobby
@@ -24,11 +23,9 @@ obf_on_game_start_after_lobby = {
 }
 
 obf_flag_characters_on_game_start = {
-
 	effect = {
 		every_player = {
 			save_scope_as = player_character
-
 			#### children
 			every_child = {
 				add_to_temporary_list = natural_acquaintances
@@ -66,7 +63,8 @@ obf_flag_characters_on_game_start = {
 				}
 			}
 			###sibling
-			every_sibling = { ### brothers and sisters
+			every_sibling = {
+				### brothers and sisters
 				add_to_temporary_list = natural_acquaintances
 				every_consort = {
 					limit = {
@@ -81,11 +79,9 @@ obf_flag_characters_on_game_start = {
 					add_to_temporary_list = natural_acquaintances
 				}
 			}
-
 			###consort
 			every_consort = {
 				add_to_temporary_list = natural_acquaintances
-
 				every_parent = {
 					limit = {
 						top_liege = scope:player_character.top_liege
@@ -134,9 +130,9 @@ obf_flag_characters_on_game_start = {
 					add_to_temporary_list = natural_acquaintances
 				}
 			}
-
 			###Primary heir
-			every_heir = {  ###heir in same realm
+			every_heir = {
+				###heir in same realm
 				limit = {
 					top_liege = scope:player_character.top_liege
 					is_primary_heir_of = scope:player_character
@@ -152,9 +148,9 @@ obf_flag_characters_on_game_start = {
 					add_to_temporary_list = natural_acquaintances
 				}
 			}
-
 			### Remaining family members
-			every_close_or_extended_family_member = { ###extended family in same realm
+			every_close_or_extended_family_member = {
+				###extended family in same realm
 				limit = {
 					top_liege = scope:player_character.top_liege
 					NOR = {
@@ -165,7 +161,6 @@ obf_flag_characters_on_game_start = {
 				}
 				add_to_temporary_list = natural_acquaintances
 			}
-
 			### same house
 			house = {
 				every_house_member = {
@@ -191,7 +186,7 @@ obf_flag_characters_on_game_start = {
 					NOR = {
 						is_close_or_extended_family_of = scope:player_character
 						is_consort_of = scope:player_character
-						is_vassal_of = scope:player_character #added by ljl
+						is_vassal_of = scope:player_character						#added by ljl
 						is_tributary_of = scope:player_character
 					}
 				}
@@ -203,14 +198,15 @@ obf_flag_characters_on_game_start = {
 					NOR = {
 						is_close_or_extended_family_of = scope:player_character
 						is_vassal_of = scope:player_character
-						is_tributary_of = scope:player_character #added by ljl
+						is_tributary_of = scope:player_character						#added by ljl
 						is_councillor_of = scope:player_character
 					}
 				}
 				add_to_temporary_list = natural_acquaintances
 			}
 			###courtiers
-			every_courtier = { ####should put a timer for join court
+			every_courtier = {
+				####should put a timer for join court
 				limit = {
 					NOR = {
 						is_close_or_extended_family_of = scope:player_character
@@ -220,10 +216,10 @@ obf_flag_characters_on_game_start = {
 					}
 				}
 				add_to_temporary_list = natural_acquaintances
-
 			}
 			###court postions
-			every_court_position_holder = { ####should put a timer for join court
+			every_court_position_holder = {
+				####should put a timer for join court
 				limit = {
 					NOR = {
 						is_close_or_extended_family_of = scope:player_character
@@ -234,7 +230,6 @@ obf_flag_characters_on_game_start = {
 					}
 				}
 				add_to_temporary_list = natural_acquaintances
-
 			}
 			####ward and guardian
 			every_relation = {
@@ -245,7 +240,6 @@ obf_flag_characters_on_game_start = {
 				type = guardian
 				add_to_temporary_list = natural_acquaintances
 			}
-
 			### Best friends
 			every_relation = {
 				type = best_friend
@@ -310,7 +304,6 @@ obf_flag_characters_on_game_start = {
 				}
 				add_to_temporary_list = natural_acquaintances
 			}
-
 			### Other relations
 			every_relation = {
 				type = crush
@@ -344,7 +337,6 @@ obf_flag_characters_on_game_start = {
 				type = intrigue_student
 				add_to_temporary_list = natural_acquaintances
 			}
-
 			every_in_list = {
 				limit = {
 					is_alive = yes
@@ -366,11 +358,8 @@ obf_flag_characters_on_game_start = {
 					}
 				}
 			}
-
 			###############part_spied_2
-
 			###children
-
 			every_child = {
 				every_consort = {
 					limit = {
@@ -467,7 +456,6 @@ obf_flag_characters_on_game_start = {
 					add_to_temporary_list = mild_acquaintances
 				}
 			}
-
 			### parents
 			every_parent = {
 				every_consort = {
@@ -533,9 +521,9 @@ obf_flag_characters_on_game_start = {
 					add_to_temporary_list = mild_acquaintances
 				}
 			}
-
 			###sibling
-			every_sibling = { ### brothers and sisters
+			every_sibling = {
+				### brothers and sisters
 				every_consort = {
 					limit = {
 						NOR = {
@@ -700,7 +688,6 @@ obf_flag_characters_on_game_start = {
 					add_to_temporary_list = mild_acquaintances
 				}
 			}
-
 			## former spouse
 			every_former_spouse = {
 				limit = {
@@ -710,9 +697,9 @@ obf_flag_characters_on_game_start = {
 				}
 				add_to_temporary_list = mild_acquaintances
 			}
-
 			#remaining family members
-			every_close_or_extended_family_member = { ###extended family not in same realm
+			every_close_or_extended_family_member = {
+				###extended family not in same realm
 				limit = {
 					NOR = {
 						top_liege = scope:player_character.top_liege
@@ -751,7 +738,6 @@ obf_flag_characters_on_game_start = {
 					}
 					add_to_temporary_list = mild_acquaintances
 				}
-
 				every_relation = {
 					type = friend
 					limit = {
@@ -1105,7 +1091,6 @@ obf_flag_characters_on_game_start = {
 				}
 				add_to_temporary_list = mild_acquaintances
 			}
-
 			## same house or dynasty
 			house = {
 				every_house_member = {
@@ -1118,7 +1103,6 @@ obf_flag_characters_on_game_start = {
 					add_to_temporary_list = mild_acquaintances
 				}
 			}
-
 			dynasty = {
 				every_dynasty_member = {
 					limit = {
@@ -1130,7 +1114,6 @@ obf_flag_characters_on_game_start = {
 					add_to_temporary_list = mild_acquaintances
 				}
 			}
-
 			##allies
 			every_ally = {
 				limit = {
@@ -1141,7 +1124,6 @@ obf_flag_characters_on_game_start = {
 				}
 				add_to_temporary_list = mild_acquaintances
 			}
-
 			####prisoners
 			every_prisoner = {
 				limit = {
@@ -1188,7 +1170,6 @@ obf_flag_characters_on_game_start = {
 				}
 				add_to_temporary_list = mild_acquaintances
 			}
-
 			every_relation = {
 				type = grudge
 				limit = {
@@ -1206,7 +1187,6 @@ obf_flag_characters_on_game_start = {
 				}
 				add_to_temporary_list = mild_acquaintances
 			}
-
 			every_relation = {
 				type = potential_rival
 				limit = {
@@ -1216,7 +1196,6 @@ obf_flag_characters_on_game_start = {
 				}
 				add_to_temporary_list = mild_acquaintances
 			}
-
 			every_in_list = {
 				limit = {
 					is_alive = yes
@@ -1237,7 +1216,6 @@ obf_flag_characters_on_game_start = {
 					}
 				}
 			}
-
 			###############BASIC ACQUAINTANCES
 			####children
 			every_child = {
@@ -1377,7 +1355,8 @@ obf_flag_characters_on_game_start = {
 				}
 			}
 			###sibling
-			every_sibling = { ### brothers and sisters
+			every_sibling = {
+				### brothers and sisters
 				every_relation = {
 					type = friend
 					limit = {
@@ -1444,7 +1423,6 @@ obf_flag_characters_on_game_start = {
 					add_to_temporary_list = basic_acquaintances
 				}
 			}
-
 			###consort
 			every_consort = {
 				every_relation = {
@@ -1469,7 +1447,6 @@ obf_flag_characters_on_game_start = {
 					}
 					add_to_temporary_list = basic_acquaintances
 				}
-
 				every_relation = {
 					type = nemesis
 					limit = {
@@ -1505,8 +1482,6 @@ obf_flag_characters_on_game_start = {
 				}
 				add_to_temporary_list = basic_acquaintances
 			}
-
-
 			####best_friend
 			every_relation = {
 				type = best_friend
@@ -1519,7 +1494,6 @@ obf_flag_characters_on_game_start = {
 					}
 					add_to_temporary_list = basic_acquaintances
 				}
-
 				every_relation = {
 					type = friend
 					limit = {
@@ -1950,7 +1924,6 @@ obf_flag_characters_on_game_start = {
 			}
 			### liege
 			liege = {
-
 				every_consort = {
 					limit = {
 						NOR = {
@@ -1970,7 +1943,6 @@ obf_flag_characters_on_game_start = {
 					add_to_temporary_list = basic_acquaintances
 				}
 			}
-
 			###memories
 			every_memory = {
 				limit = {
@@ -1988,7 +1960,6 @@ obf_flag_characters_on_game_start = {
 					add_to_temporary_list = basic_acquaintances
 				}
 			}
-
 			every_patroned_holy_order = {
 				leader = {
 					if = {
@@ -1998,7 +1969,6 @@ obf_flag_characters_on_game_start = {
 								has_character_flag = partially_spied_3
 							}
 						}
-
 						add_to_temporary_list = basic_acquaintances
 					}
 				}
@@ -2027,7 +1997,6 @@ obf_flag_characters_on_game_start = {
 					add_to_temporary_list = basic_acquaintances
 				}
 			}
-
 			# every_in_list = @@@
 			# 	#if = @@@
 			# 	limit = @@@
@@ -2040,16 +2009,14 @@ obf_flag_characters_on_game_start = {
 			# 	character_met_effect = yes
 			# 	#!!!
 			# 	!!!
-
 			every_in_list = {
 				limit = {
 					is_alive = yes
-							this != scope:player_character
+					this != scope:player_character
 				}
 				list = basic_acquaintances
 				character_met_effect = yes
 			}
-
 			if = {
 				limit = {
 					OR = {
@@ -2088,9 +2055,7 @@ obf_flag_characters_on_game_start = {
 							add_to_temporary_list = position_acquaintances_low
 						}
 					}
-
 				}
-
 				every_in_list = {
 					limit = {
 						is_alive = yes
@@ -2111,7 +2076,6 @@ obf_flag_characters_on_game_start = {
 					list = position_acquaintances_low
 					character_met_effect = yes
 				}
-
 			}
 			if = {
 				limit = {
@@ -2149,9 +2113,7 @@ obf_flag_characters_on_game_start = {
 					every_prisoner = {
 						add_to_temporary_list = regency_acquaintances_low
 					}
-
 				}
-
 				every_in_list = {
 					limit = {
 						is_alive = yes
@@ -2191,7 +2153,7 @@ obf_flag_characters_on_game_start = {
 ###BIRTHDAY - FLAG CHARACTERS #TESTED AN WORKING
 #On action triggered every birthday on player character to add flags to already related persons so they are not forgotten when divorcing, leaving court and etc
 on_birthday = {
-	on_actions ={
+	on_actions = {
 		obf_make_acquaintances_from_knowledge
 		obf_make_acquaintances_from_position_knowledge
 		obf_make_acquaintances_from_regency_knowledge
@@ -2245,7 +2207,8 @@ obf_make_acquaintances_from_knowledge = {
 			}
 		}
 		###sibling
-		every_sibling = { ### brothers and sisters
+		every_sibling = {
+			### brothers and sisters
 			add_to_temporary_list = natural_acquaintances
 			every_consort = {
 				limit = {
@@ -2260,11 +2223,9 @@ obf_make_acquaintances_from_knowledge = {
 				add_to_temporary_list = natural_acquaintances
 			}
 		}
-
 		###consort
 		every_consort = {
 			add_to_temporary_list = natural_acquaintances
-
 			every_parent = {
 				limit = {
 					top_liege = scope:player_character.top_liege
@@ -2313,9 +2274,9 @@ obf_make_acquaintances_from_knowledge = {
 				add_to_temporary_list = natural_acquaintances
 			}
 		}
-
 		###Primary heir
-		every_heir = {  ###heir in same realm
+		every_heir = {
+			###heir in same realm
 			limit = {
 				top_liege = scope:player_character.top_liege
 				is_primary_heir_of = scope:player_character
@@ -2331,9 +2292,9 @@ obf_make_acquaintances_from_knowledge = {
 				add_to_temporary_list = natural_acquaintances
 			}
 		}
-
 		### Remaining family members
-		every_close_or_extended_family_member = { ###extended family in same realm
+		every_close_or_extended_family_member = {
+			###extended family in same realm
 			limit = {
 				top_liege = scope:player_character.top_liege
 				NOR = {
@@ -2344,7 +2305,6 @@ obf_make_acquaintances_from_knowledge = {
 			}
 			add_to_temporary_list = natural_acquaintances
 		}
-
 		### same house
 		house = {
 			every_house_member = {
@@ -2370,7 +2330,7 @@ obf_make_acquaintances_from_knowledge = {
 				NOR = {
 					is_close_or_extended_family_of = scope:player_character
 					is_consort_of = scope:player_character
-					is_vassal_of = scope:player_character #added by ljl
+					is_vassal_of = scope:player_character					#added by ljl
 					is_tributary_of = scope:player_character
 				}
 			}
@@ -2382,14 +2342,15 @@ obf_make_acquaintances_from_knowledge = {
 				NOR = {
 					is_close_or_extended_family_of = scope:player_character
 					is_vassal_of = scope:player_character
-					is_tributary_of = scope:player_character #added by ljl
+					is_tributary_of = scope:player_character					#added by ljl
 					is_councillor_of = scope:player_character
 				}
 			}
 			add_to_temporary_list = natural_acquaintances
 		}
 		###courtiers
-		every_courtier = { ####should put a timer for join court
+		every_courtier = {
+			####should put a timer for join court
 			limit = {
 				NOR = {
 					is_close_or_extended_family_of = scope:player_character
@@ -2403,10 +2364,10 @@ obf_make_acquaintances_from_knowledge = {
 				}
 			}
 			add_to_temporary_list = natural_acquaintances
-
 		}
 		###court postions
-		every_court_position_holder = { ####should put a timer for join court
+		every_court_position_holder = {
+			####should put a timer for join court
 			limit = {
 				NOR = {
 					is_close_or_extended_family_of = scope:player_character
@@ -2421,7 +2382,6 @@ obf_make_acquaintances_from_knowledge = {
 				}
 			}
 			add_to_temporary_list = natural_acquaintances
-
 		}
 		### guest
 		every_pool_guest = {
@@ -2445,7 +2405,6 @@ obf_make_acquaintances_from_knowledge = {
 			}
 			add_to_temporary_list = natural_acquaintances
 		}
-
 		####ward and guardian
 		every_relation = {
 			type = ward
@@ -2455,7 +2414,6 @@ obf_make_acquaintances_from_knowledge = {
 			type = guardian
 			add_to_temporary_list = natural_acquaintances
 		}
-
 		### Best friends
 		every_relation = {
 			type = best_friend
@@ -2520,7 +2478,6 @@ obf_make_acquaintances_from_knowledge = {
 			}
 			add_to_temporary_list = natural_acquaintances
 		}
-
 		### Other relations
 		every_relation = {
 			type = crush
@@ -2554,7 +2511,6 @@ obf_make_acquaintances_from_knowledge = {
 			type = intrigue_student
 			add_to_temporary_list = natural_acquaintances
 		}
-
 		every_in_list = {
 			limit = {
 				is_alive = yes
@@ -2566,9 +2522,7 @@ obf_make_acquaintances_from_knowledge = {
 			character_deception_effect = yes
 			character_known_effect = yes
 		}
-
 		###############part_spied_2
-
 		###children
 		every_child = {
 			every_consort = {
@@ -2666,7 +2620,6 @@ obf_make_acquaintances_from_knowledge = {
 				add_to_temporary_list = mild_acquaintances
 			}
 		}
-
 		### parents
 		every_parent = {
 			every_consort = {
@@ -2732,9 +2685,9 @@ obf_make_acquaintances_from_knowledge = {
 				add_to_temporary_list = mild_acquaintances
 			}
 		}
-
 		###sibling
-		every_sibling = { ### brothers and sisters
+		every_sibling = {
+			### brothers and sisters
 			every_consort = {
 				limit = {
 					NOR = {
@@ -2807,7 +2760,6 @@ obf_make_acquaintances_from_knowledge = {
 				add_to_temporary_list = mild_acquaintances
 			}
 		}
-
 		###consort
 		every_consort = {
 			every_parent = {
@@ -2900,7 +2852,6 @@ obf_make_acquaintances_from_knowledge = {
 				add_to_temporary_list = mild_acquaintances
 			}
 		}
-
 		## former spouse
 		every_former_spouse = {
 			limit = {
@@ -2911,9 +2862,9 @@ obf_make_acquaintances_from_knowledge = {
 			}
 			add_to_temporary_list = mild_acquaintances
 		}
-
 		#remaining family members
-		every_close_or_extended_family_member = { ###extended family not in same realm
+		every_close_or_extended_family_member = {
+			###extended family not in same realm
 			limit = {
 				NOR = {
 					top_liege = scope:player_character.top_liege
@@ -2923,7 +2874,6 @@ obf_make_acquaintances_from_knowledge = {
 			add_to_temporary_list = mild_acquaintances
 		}
 		### Best friends
-
 		every_relation = {
 			type = best_friend
 			every_consort = {
@@ -2953,7 +2903,6 @@ obf_make_acquaintances_from_knowledge = {
 				}
 				add_to_temporary_list = mild_acquaintances
 			}
-
 			every_relation = {
 				type = friend
 				limit = {
@@ -3307,7 +3256,6 @@ obf_make_acquaintances_from_knowledge = {
 			}
 			add_to_temporary_list = mild_acquaintances
 		}
-
 		## same house or dynasty
 		house = {
 			every_house_member = {
@@ -3320,7 +3268,6 @@ obf_make_acquaintances_from_knowledge = {
 				add_to_temporary_list = mild_acquaintances
 			}
 		}
-
 		dynasty = {
 			every_dynasty_member = {
 				limit = {
@@ -3332,7 +3279,6 @@ obf_make_acquaintances_from_knowledge = {
 				add_to_temporary_list = mild_acquaintances
 			}
 		}
-
 		##allies
 		every_ally = {
 			limit = {
@@ -3343,7 +3289,6 @@ obf_make_acquaintances_from_knowledge = {
 			}
 			add_to_temporary_list = mild_acquaintances
 		}
-
 		####prisoners
 		every_prisoner = {
 			limit = {
@@ -3354,7 +3299,8 @@ obf_make_acquaintances_from_knowledge = {
 			add_to_temporary_list = mild_acquaintances
 		}
 		###courtiers
-		every_courtier = { ####should put a timer for join court
+		every_courtier = {
+			####should put a timer for join court
 			limit = {
 				NOR = {
 					is_close_or_extended_family_of = scope:player_character
@@ -3365,10 +3311,10 @@ obf_make_acquaintances_from_knowledge = {
 				}
 			}
 			add_to_temporary_list = mild_acquaintances
-
 		}
 		###court postions
-		every_court_position_holder = { ####should put a timer for join court
+		every_court_position_holder = {
+			####should put a timer for join court
 			limit = {
 				NOR = {
 					is_close_or_extended_family_of = scope:player_character
@@ -3380,7 +3326,6 @@ obf_make_acquaintances_from_knowledge = {
 				}
 			}
 			add_to_temporary_list = mild_acquaintances
-
 		}
 		### guest
 		every_pool_guest = {
@@ -3419,7 +3364,6 @@ obf_make_acquaintances_from_knowledge = {
 			}
 			add_to_temporary_list = mild_acquaintances
 		}
-
 		every_relation = {
 			type = grudge
 			limit = {
@@ -3437,7 +3381,6 @@ obf_make_acquaintances_from_knowledge = {
 			}
 			add_to_temporary_list = mild_acquaintances
 		}
-
 		every_relation = {
 			type = potential_rival
 			limit = {
@@ -3447,7 +3390,6 @@ obf_make_acquaintances_from_knowledge = {
 			}
 			add_to_temporary_list = mild_acquaintances
 		}
-
 		every_in_list = {
 			limit = {
 				is_alive = yes
@@ -3458,7 +3400,6 @@ obf_make_acquaintances_from_knowledge = {
 			list = mild_acquaintances
 			character_barely_known_effect = yes
 		}
-
 		###############BASIC ACQUAINTANCES
 		####children
 		every_child = {
@@ -3598,7 +3539,8 @@ obf_make_acquaintances_from_knowledge = {
 			}
 		}
 		###sibling
-		every_sibling = { ### brothers and sisters
+		every_sibling = {
+			### brothers and sisters
 			every_relation = {
 				type = friend
 				limit = {
@@ -3665,7 +3607,6 @@ obf_make_acquaintances_from_knowledge = {
 				add_to_temporary_list = basic_acquaintances
 			}
 		}
-
 		###consort
 		every_consort = {
 			every_relation = {
@@ -3690,7 +3631,6 @@ obf_make_acquaintances_from_knowledge = {
 				}
 				add_to_temporary_list = basic_acquaintances
 			}
-
 			every_relation = {
 				type = nemesis
 				limit = {
@@ -3714,7 +3654,6 @@ obf_make_acquaintances_from_knowledge = {
 				add_to_temporary_list = basic_acquaintances
 			}
 		}
-
 		## former spouse
 		every_former_spouse = {
 			limit = {
@@ -3726,7 +3665,6 @@ obf_make_acquaintances_from_knowledge = {
 			}
 			add_to_temporary_list = basic_acquaintances
 		}
-
 		#### Heir
 		every_heir = {
 			limit = {
@@ -3739,8 +3677,6 @@ obf_make_acquaintances_from_knowledge = {
 			}
 			add_to_temporary_list = basic_acquaintances
 		}
-
-
 		####best_friend
 		every_relation = {
 			type = best_friend
@@ -3753,7 +3689,6 @@ obf_make_acquaintances_from_knowledge = {
 				}
 				add_to_temporary_list = basic_acquaintances
 			}
-
 			every_relation = {
 				type = friend
 				limit = {
@@ -4184,7 +4119,6 @@ obf_make_acquaintances_from_knowledge = {
 		}
 		### liege
 		liege = {
-
 			every_consort = {
 				limit = {
 					NOR = {
@@ -4204,7 +4138,6 @@ obf_make_acquaintances_from_knowledge = {
 				add_to_temporary_list = basic_acquaintances
 			}
 		}
-
 		###memories
 		every_memory = {
 			limit = {
@@ -4222,7 +4155,6 @@ obf_make_acquaintances_from_knowledge = {
 				add_to_temporary_list = basic_acquaintances
 			}
 		}
-
 		every_patroned_holy_order = {
 			leader = {
 				if = {
@@ -4260,7 +4192,6 @@ obf_make_acquaintances_from_knowledge = {
 				add_to_temporary_list = basic_acquaintances
 			}
 		}
-
 		# every_in_list = @@@
 		# 	#if = @@@
 		# 	limit = @@@
@@ -4270,21 +4201,20 @@ obf_make_acquaintances_from_knowledge = {
 		every_in_list = {
 			limit = {
 				is_alive = yes
-						this != scope:player_character
+				this != scope:player_character
 			}
 			list = basic_acquaintances
 			character_met_effect = yes
 		}
 	}
 }
+
 # 	list = basic_acquaintances
 # 	character_met_effect = yes
 # 	#!!!
 # 	!!!
-
 #!!!
 #!!!
-
 obf_make_acquaintances_from_position_knowledge = {
 	#TESTED AN WORKING
 	trigger = {
@@ -4324,9 +4254,7 @@ obf_make_acquaintances_from_position_knowledge = {
 				}
 				add_to_temporary_list = position_acquaintances_low
 			}
-
 		}
-
 		every_in_list = {
 			limit = {
 				is_alive = yes
@@ -4347,7 +4275,6 @@ obf_make_acquaintances_from_position_knowledge = {
 			list = position_acquaintances_low
 			character_met_effect = yes
 		}
-
 	}
 }
 
@@ -4396,9 +4323,7 @@ obf_make_acquaintances_from_regency_knowledge = {
 			every_prisoner = {
 				add_to_temporary_list = regency_acquaintances_low
 			}
-
 		}
-
 		every_in_list = {
 			limit = {
 				is_alive = yes
@@ -4430,15 +4355,14 @@ obf_make_acquaintances_from_regency_knowledge = {
 			list = regency_acquaintances_low
 			character_met_effect = yes
 		}
-
 	}
 }
+
 #trigger flags when becoming regent #TESTED AN WORKING
 on_entered_diarchy = {
-	on_actions ={
+	on_actions = {
 		obf_make_acquaintances_from_entering_regency
 	}
-
 }
 
 obf_make_acquaintances_from_entering_regency = {
@@ -4486,9 +4410,7 @@ obf_make_acquaintances_from_entering_regency = {
 			every_prisoner = {
 				add_to_temporary_list = regency_acquaintances_low
 			}
-
 		}
-
 		every_in_list = {
 			limit = {
 				is_alive = yes
@@ -4520,22 +4442,21 @@ obf_make_acquaintances_from_entering_regency = {
 			list = regency_acquaintances_low
 			character_met_effect = yes
 		}
-
 	}
 }
 
 ####DEATH - CHARACTER DIES AND MUST RENEW FLAGS#TESTED AN WORKING
 #Character dies so heir only retains basic info about characters the previous heir met
 on_death = {
-	on_actions ={
+	on_actions = {
 		obf_remove_flags
 		obf_new_flags
 		obf_set_up_spy_network_on_death_on_action
 	}
-
 }
 
-obf_new_flags = { #add flags to new heir relations
+obf_new_flags = {
+	#add flags to new heir relations
 	trigger = {
 		is_ai = no
 	}
@@ -4544,7 +4465,8 @@ obf_new_flags = { #add flags to new heir relations
 	}
 }
 
-obf_remove_flags = { #remove flags from previous ruler relations
+obf_remove_flags = {
+	#remove flags from previous ruler relations
 	trigger = {
 		is_ai = no
 	}
@@ -4600,7 +4522,6 @@ obf_remove_flags = { #remove flags from previous ruler relations
 					has_character_flag = partially_spied_3
 				}
 			}
-
 			add_to_temporary_list = flags_to_remove_but_mantain_basic
 		}
 		every_in_list = {
@@ -4622,22 +4543,24 @@ obf_remove_flags = { #remove flags from previous ruler relations
 
 ###RUMOURS
 quarterly_playable_pulse = {
-	on_actions ={
+	on_actions = {
 		obf_heard_rumours_on_action
 		delay = {
 			days = 1
 		}
-		obf_check_rebellious_faction #### THIS CHECKS FOR REBELLIOUS FACTIONS
+		obf_check_rebellious_faction		#### THIS CHECKS FOR REBELLIOUS FACTIONS
 		obf_spy_network_on_action
-		delay = { months = 2 }
+		delay = {
+			months = 2
+		}
 		obf_spy_network_on_action
 		#delay = { months = 1 }
 		#obf_spy_network_on_action
-
 	}
 }
 
-obf_heard_rumours_on_action = { ###For common rumours
+obf_heard_rumours_on_action = {
+	###For common rumours
 	trigger = {
 		is_ai = no
 		is_alive = yes
@@ -4653,10 +4576,9 @@ obf_heard_rumours_on_action = { ###For common rumours
 }
 
 ####Discover a deceiving councillor
-random_yearly_playable_pulse  = {
-	on_actions ={
+random_yearly_playable_pulse = {
+	on_actions = {
 		obf_discover_liar
-
 	}
 }
 
@@ -4674,75 +4596,80 @@ obf_discover_liar = {
 	}
 }
 
-
-
 ##NEW RELATIONS - ADD FLAGS
 ### Add Flags when relations are set
 on_set_relation_lover = {
 	# trigger = !!! ##added by ljl
 	#	is_ai = no
 	# @@@
-	on_actions ={
+	on_actions = {
 		obf_make_acquaintances_from_relation
 		obf_make_acquaintances_from_relations_of_relation
 	}
 }
 
 on_set_relation_grudge = {
-	on_actions ={
+	on_actions = {
 		obf_make_acquaintances_from_relation
 		obf_make_acquaintances_from_relations_of_relation
 	}
 }
 
 on_set_relation_soulmate = {
-	on_actions ={
+	on_actions = {
 		obf_make_acquaintances_from_relation
 		obf_make_acquaintances_from_relations_of_relation
 	}
 }
+
 on_set_relation_friend = {
-	on_actions ={
+	on_actions = {
 		obf_make_acquaintances_from_relation
 		obf_make_acquaintances_from_relations_of_relation
 	}
 }
+
 on_set_relation_best_friend = {
-	on_actions ={
+	on_actions = {
 		obf_make_acquaintances_from_relation
 		obf_make_acquaintances_from_relations_of_relation
 	}
 }
+
 on_set_relation_rival = {
-	on_actions ={
+	on_actions = {
 		obf_make_acquaintances_from_relation
 	}
 }
+
 on_set_relation_nemesis = {
-	on_actions ={
+	on_actions = {
 		obf_make_acquaintances_from_relation
 	}
 }
 
 on_set_relation_guardian = {
-	on_actions ={
+	on_actions = {
 		obf_make_acquaintances_from_relation
 		obf_make_acquaintances_for_liege_of_ward
 	}
 }
+
 on_set_relation_blood_brother = {
-	on_actions ={
+	on_actions = {
 		obf_make_acquaintances_from_relation
 		obf_make_acquaintances_from_relations_of_relation
 	}
 }
+
 on_set_relation_disciple = {
-	on_actions ={
+	on_actions = {
 		obf_make_acquaintances_from_relation
 	}
 }
+
 on_set_relation_elder = {
-	on_actions ={
+	on_actions = {
 		obf_make_acquaintances_from_relation
 	}
 }
@@ -4952,7 +4879,7 @@ obf_make_acquaintances_for_liege_of_ward = {
 
 ###ADD FLAG TO ALLY
 on_alliance_added = {
-	on_actions ={
+	on_actions = {
 		obf_make_acquaintances_from_alliance
 	}
 }
@@ -5000,7 +4927,7 @@ obf_make_acquaintances_from_alliance = {
 
 ### ADD FLAGS TO SPOUSE
 on_marriage = {
-	on_actions ={
+	on_actions = {
 		obf_make_acquaintances_from_marriage
 		obf_make_acquaintances_from_relations_of_spouse
 	}
@@ -5122,7 +5049,7 @@ obf_make_acquaintances_from_relations_of_spouse = {
 
 ### ADD FLAGS TO CONCUBINE
 on_concubinage = {
-	on_actions ={
+	on_actions = {
 		obf_make_acquaintances_from_concubinage
 	}
 }
@@ -5152,7 +5079,7 @@ obf_make_acquaintances_from_concubinage = {
 
 #ADD FLAG TO PRISONER
 on_imprison = {
-	on_actions ={
+	on_actions = {
 		obf_make_acquaintances_from_prisoners
 	}
 }
@@ -5177,9 +5104,10 @@ obf_make_acquaintances_from_prisoners = {
 		}
 	}
 }
+
 #ADD FLAG TO HOSTAGE
 on_hostage_taken = {
-	on_actions ={
+	on_actions = {
 		obf_make_acquaintances_from_hostages
 	}
 }
@@ -5208,17 +5136,18 @@ obf_make_acquaintances_from_hostages = {
 ###SWAY
 #Flags characters through sway
 sway_ongoing = {
-	on_actions ={
+	on_actions = {
 		obf_new_acquaintance_sway_ongoing
 	}
 }
+
 sway_success = {
-	on_actions ={
+	on_actions = {
 		obf_new_acquaintance_sway
 	}
 }
-sway_failure = {
 
+sway_failure = {
 	on_actions = {
 		obf_new_acquaintance_sway
 	}
@@ -5243,10 +5172,10 @@ obf_new_acquaintance_sway = {
 			days = 5
 		}
 		acquaintance.1001
-
 	}
 }
-obf_new_acquaintance_sway_ongoing  = {
+
+obf_new_acquaintance_sway_ongoing = {
 	trigger = {
 		OR = {
 			scope:owner = {
@@ -5262,20 +5191,18 @@ obf_new_acquaintance_sway_ongoing  = {
 	events = {
 		acquaintance.1003
 		acquaintance.1002
-
 	}
 }
 
 #####BEFRIEND acquaintances
-
 befriend_ongoing = {
-	on_actions ={
+	on_actions = {
 		obf_new_acquaintance_befriend
 	}
 }
 
 befriend_dislike_ongoing = {
-	on_actions ={
+	on_actions = {
 		obf_new_acquaintance_befriend_dislike
 	}
 }
@@ -5293,15 +5220,14 @@ obf_new_acquaintance_befriend = {
 			}
 		}
 	}
-
 	events = {
 		delay = {
 			days = 2
 		}
 		acquaintance.2001
-
 	}
 }
+
 obf_new_acquaintance_befriend_dislike = {
 	trigger = {
 		OR = {
@@ -5315,7 +5241,6 @@ obf_new_acquaintance_befriend_dislike = {
 			}
 		}
 	}
-
 	events = {
 		delay = {
 			days = 2
@@ -5325,25 +5250,29 @@ obf_new_acquaintance_befriend_dislike = {
 }
 
 befriend_critical_success = {
-	on_actions ={
+	on_actions = {
 		obf_new_acquaintance_befriend_outcome
 	}
 }
+
 befriend_success = {
-	on_actions ={
+	on_actions = {
 		obf_new_acquaintance_befriend_outcome
 	}
 }
+
 befriend_failure = {
-	on_actions ={
+	on_actions = {
 		obf_new_acquaintance_befriend_outcome
 	}
 }
+
 befriend_critical_failure = {
-	on_actions ={
+	on_actions = {
 		obf_new_acquaintance_befriend_outcome
 	}
 }
+
 obf_new_acquaintance_befriend_outcome = {
 	trigger = {
 		OR = {
@@ -5358,9 +5287,10 @@ obf_new_acquaintance_befriend_outcome = {
 		}
 	}
 	events = {
-		acquaintance.2002 ### TODO: you should also go rename this to obf_acquaintance.xxxx for them all, as good practice
+		acquaintance.2002		### TODO: you should also go rename this to obf_acquaintance.xxxx for them all, as good practice
 	}
 }
+
 #####				#####SEDUCTION acquaintances
 #####				###Included on scheme
 #####				#seduce_ongoing_milestone_1 = @@@
@@ -5396,40 +5326,48 @@ obf_new_acquaintance_befriend_outcome = {
 #####				#	acquaintance.2003
 #####				#	!!!
 #####				#!!!
-
 ####SEDUCTION acquaintances
 ##Included on scheme
 seduce_ongoing_milestone_1 = {
-	on_actions ={
-	new_acquaintance_seduction
-		}
+	on_actions = {
+		new_acquaintance_seduction
+	}
 }
 
 seduce_ongoing_milestone_2 = {
-	on_actions ={
-	new_acquaintance_seduction
-		}
+	on_actions = {
+		new_acquaintance_seduction
+	}
 }
 
 new_acquaintance_seduction = {
-trigger = {
-	# === 1.184 ljl修复：无地冒险者不触发此 Mod 事件，防止脚本错误导致原版事件无法弹出 ===
-	scope:owner = { is_landless_adventurer = no }
-	scope:target = { is_landless_adventurer = no }
-	# ===================================================================
-OR = {
-	scope:owner = {
-		is_ai = no
-		is_alive = yes
+	trigger = {
+		# === 1.184 ljl修复：无地冒险者不触发此 Mod 事件，防止脚本错误导致原版事件无法弹出 ===
+		scope:owner = {
+			is_landless_adventurer = no
+		}
+		scope:target = {
+			is_landless_adventurer = no
+		}
+		# ===================================================================
+		OR = {
+			scope:owner = {
+				is_ai = no
+				is_alive = yes
+			}
+			scope:target = {
+				is_ai = no
+				is_alive = yes
+			}
+		}
+		scope:target = {
+			NOT = {
+				has_relation_to = scope:owner
+			}
+		}
 	}
-	scope:target = {
-		is_ai = no
-		is_alive = yes
-	}							
-}
-scope:target = {NOT = {has_relation_to = scope:owner} }}	
 	events = {
-	acquaintance.2003
+		acquaintance.2003
 	}
 }
 
@@ -5443,57 +5381,67 @@ scope:target = {NOT = {has_relation_to = scope:owner} }}
 # }
 # T's solution: make our seduce_success the following:
 seduce_success = {
-    effect = {
-        # base game effect, since we're overwriting the effect block here
-        root = {
-            add_achievement_variable_effect = {
-                VARIABLE = achievement_seductive_variable
-                VALUE = 1
-            }
-        }
+	effect = {
+		# base game effect, since we're overwriting the effect block here
+		root = {
+			add_achievement_variable_effect = {
+				VARIABLE = achievement_seductive_variable
+				VALUE = 1
+			}
+		}
+		if = {
+			limit = {
+				# === 1.184 ljl修复：无地冒险者不触发此 Mod 事件，防止脚本错误导致原版事件无法弹出 ===
+				scope:owner = {
+					is_landless_adventurer = no
+				}
+				scope:target = {
+					is_landless_adventurer = no
+				}
+				# ===================================================================
+				OR = {
+					scope:owner = {
+						is_ai = no
+						is_alive = yes
+					}
+					scope:target = {
+						is_ai = no
+						is_alive = yes
+					}
+				}
+			}
+			trigger_event = acquaintance.2004
+		}
+	}
+}
 
-        if = {
-            limit = {
-                # === 1.184 ljl修复：无地冒险者不触发此 Mod 事件，防止脚本错误导致原版事件无法弹出 ===
-                scope:owner = { is_landless_adventurer = no }
-                scope:target = { is_landless_adventurer = no }
-                # ===================================================================
-                OR = {
-                    scope:owner = {
-                        is_ai = no
-                        is_alive = yes
-                    }
-                    scope:target = {
-                        is_ai = no
-                        is_alive = yes
-                    }
-                }
-            }
-            trigger_event = acquaintance.2004
-        }
-    }
-}
 seduce_generic_success = {
-	on_actions ={
+	on_actions = {
 		delay = {
 			days = 1
 		}
 		obf_new_acquaintance_seduction_outcome
 	}
 }
+
 seduce_failure = {
-	on_actions ={
+	on_actions = {
 		delay = {
 			days = 1
 		}
 		obf_new_acquaintance_seduction_outcome
 	}
 }
+
 obf_new_acquaintance_seduction_outcome = {
 	trigger = {
 		# === 1.184 ljl修复：无地冒险者不触发此 Mod 事件，防止脚本错误导致原版事件无法弹出 ===
-		scope:owner = { is_landless_adventurer = no }
-		scope:target = { is_landless_adventurer = no }
+		scope:owner = {
+			is_landless_adventurer = no
+		}
+		scope:target = {
+			is_landless_adventurer = no
+		}
 		# ===================================================================
 		OR = {
 			scope:owner = {
@@ -5514,7 +5462,7 @@ obf_new_acquaintance_seduction_outcome = {
 #####ROMANCE
 #
 court_ongoing = {
-	on_actions ={
+	on_actions = {
 		obf_new_acquaintance_courting
 	}
 }
@@ -5532,15 +5480,13 @@ obf_new_acquaintance_courting = {
 			}
 		}
 	}
-
 	events = {
 		acquaintance.2005
-
 	}
 }
 
 court_outcome = {
-	on_actions ={
+	on_actions = {
 		obf_new_acquaintance_courting_outcome
 	}
 }
@@ -5565,7 +5511,7 @@ obf_new_acquaintance_courting_outcome = {
 
 ###CONVERT TO WITCH
 convert_to_witchcraft_failure_outcome = {
-	on_actions ={
+	on_actions = {
 		obf_new_acquaintance_witch_outcome
 	}
 }
@@ -5588,37 +5534,34 @@ obf_new_acquaintance_witch_outcome = {
 	}
 }
 
-
 ####ACTIVITIES
 #####Feast acquaintances
-
 adult_education_arrival_events = {
-	on_actions ={
+	on_actions = {
 		obf_new_acquaintance_activity_participants
 	}
 }
 
 adult_education_destination_events = {
-	on_actions ={
+	on_actions = {
 		obf_new_acquaintance_adult_education
 	}
 }
 
 hunt_random_pulse = {
-	on_actions ={
+	on_actions = {
 		obf_new_acquaintance_activity_participants
 	}
 }
 
 playdate_event_selection = {
-	on_actions ={
+	on_actions = {
 		obf_new_acquaintance_activity_participants
 	}
 }
 
 obf_new_acquaintance_activity_participants = {
 	trigger = {
-
 		is_ai = no
 		is_alive = yes
 	}
@@ -5628,7 +5571,7 @@ obf_new_acquaintance_activity_participants = {
 }
 
 feast_main_event_selection = {
-	on_actions ={
+	on_actions = {
 		obf_new_acquaintance_activity_participants
 		obf_new_acquaintance_feast_host
 		delay = {
@@ -5639,7 +5582,7 @@ feast_main_event_selection = {
 }
 
 feast_default_host_event_selection = {
-	on_actions ={
+	on_actions = {
 		obf_new_acquaintance_activity_participants
 		obf_new_acquaintance_feast_host
 		delay = {
@@ -5648,8 +5591,9 @@ feast_default_host_event_selection = {
 		obf_new_acquaintance_feast
 	}
 }
+
 feast_default_event_selection = {
-	on_actions ={
+	on_actions = {
 		obf_new_acquaintance_activity_participants
 		obf_new_acquaintance_feast_host
 		delay = {
@@ -5671,10 +5615,8 @@ obf_new_acquaintance_feast_host = {
 	}
 }
 
-
 obf_new_acquaintance_feast = {
 	trigger = {
-
 		is_ai = no
 		is_alive = yes
 		is_incapable = no
@@ -5686,7 +5628,7 @@ obf_new_acquaintance_feast = {
 
 #wedding
 wedding_ceremony_ongoing_event_pulse = {
-	on_actions ={
+	on_actions = {
 		delay = {
 			days = 2
 		}
@@ -5695,7 +5637,7 @@ wedding_ceremony_ongoing_event_pulse = {
 }
 
 wedding_banquet_ongoing_event_pulse = {
-	on_actions ={
+	on_actions = {
 		delay = {
 			days = 2
 		}
@@ -5732,7 +5674,7 @@ obf_new_acquaintance_adult_education = {
 }
 
 playdate_event_selection = {
-	on_actions ={
+	on_actions = {
 		delay = {
 			days = 2
 		}
@@ -5751,7 +5693,7 @@ obf_new_acquaintance_playdate = {
 }
 
 on_tour_grounds_liege = {
-	on_actions ={
+	on_actions = {
 		delay = {
 			days = 1
 		}
@@ -5760,7 +5702,7 @@ on_tour_grounds_liege = {
 }
 
 on_tour_grounds_vassal = {
-	on_actions ={
+	on_actions = {
 		delay = {
 			days = 1
 		}
@@ -5769,7 +5711,7 @@ on_tour_grounds_vassal = {
 }
 
 on_tour_dinner_liege = {
-	on_actions ={
+	on_actions = {
 		delay = {
 			days = 1
 		}
@@ -5778,7 +5720,7 @@ on_tour_dinner_liege = {
 }
 
 on_tour_dinner_vassal = {
-	on_actions ={
+	on_actions = {
 		delay = {
 			days = 1
 		}
@@ -5787,7 +5729,7 @@ on_tour_dinner_vassal = {
 }
 
 on_tour_festival_liege = {
-	on_actions ={
+	on_actions = {
 		delay = {
 			days = 1
 		}
@@ -5796,7 +5738,7 @@ on_tour_festival_liege = {
 }
 
 on_tour_festival_vassal = {
-	on_actions ={
+	on_actions = {
 		delay = {
 			days = 1
 		}
@@ -5815,14 +5757,14 @@ obf_new_acquaintance_tour = {
 	}
 }
 
-
 ####GUESTS ARRIVE AT COURT
 on_guest_arrived_from_pool = {
-	on_actions ={
+	on_actions = {
 		obf_ask_info_guest_notification
 		obf_make_acquaintances_from_guests
 	}
 }
+
 obf_make_acquaintances_from_guests = {
 	trigger = {
 		scope:host = {
@@ -5844,7 +5786,7 @@ obf_ask_info_guest_notification = {
 			is_ai = no
 			is_alive = yes
 			is_adult = yes
-			is_landless_adventurer = no #commented by ljl
+			is_landless_adventurer = no			#commented by ljl
 			is_incapable = no
 		}
 		scope:guest = {
@@ -5864,7 +5806,6 @@ obf_ask_info_guest_notification = {
 		}
 	}
 	effect = {
-
 		scope:guest = {
 			add_character_flag = {
 				flag = can_ask_information
@@ -5907,7 +5848,7 @@ obf_ask_info_courtier_notification = {
 			is_ai = no
 			is_alive = yes
 			is_adult = yes
-			is_landless_adventurer = no #commented by ljl
+			is_landless_adventurer = no			#commented by ljl
 			is_incapable = no
 		}
 		root = {
@@ -5933,7 +5874,6 @@ obf_ask_info_courtier_notification = {
 		}
 	}
 	effect = {
-
 		root = {
 			add_character_flag = {
 				flag = can_ask_information
@@ -5953,7 +5893,7 @@ obf_ask_info_courtier_notification = {
 
 #MAKE LAAMP EMPLOYERS KNOWN
 laamp_base_contract_scheme_on_going_events = {
-	on_actions ={
+	on_actions = {
 		obf_make_acquaintances_from_employers
 	}
 }
@@ -5978,14 +5918,16 @@ obf_make_acquaintances_from_employers = {
 
 ####Holy order hired
 on_holy_order_hired = {
-	on_actions ={
+	on_actions = {
 		obf_make_acquaintances_from_holy_order
 	}
 }
 
 obf_make_acquaintances_from_holy_order = {
 	trigger = {
-		NOT = { scope:patron = scope:actor }
+		NOT = {
+			scope:patron = scope:actor
+		}
 		scope:actor = {
 			is_ai = no
 			is_alive = yes
@@ -6001,7 +5943,7 @@ obf_make_acquaintances_from_holy_order = {
 
 ####Holy order hired
 on_join_war_as_secondary = {
-	on_actions ={
+	on_actions = {
 		obf_make_acquaintances_from_landless_joining_war
 	}
 }
@@ -6023,7 +5965,8 @@ obf_make_acquaintances_from_landless_joining_war = {
 	}
 }
 
-obf_check_rebellious_faction = { ###For rebelllious factions
+obf_check_rebellious_faction = {
+	###For rebelllious factions
 	trigger = {
 		is_ai = no
 		is_alive = yes
@@ -6067,28 +6010,29 @@ obf_check_rebellious_faction = { ###For rebelllious factions
 	}
 }
 
-obf_spy_network_on_action = { ###Spy network cycle
+obf_spy_network_on_action = {
+	###Spy network cycle
 	trigger = {
 		is_ai = no
 		is_alive = yes
 		is_adult = yes
 		is_incapable = no
-		is_landless_adventurer = no #commented by ljl
+		is_landless_adventurer = no		#commented by ljl
 		has_variable = spy_network
 		# OR = @@@
 		# 	NOT = @@@
 		exists = cp:councillor_spymaster
 		#	!!! 
 		# 	NOT = @@@
-		NOT = { has_variable = pause_spy_network }   ### TODO: I MODIFIED THIS LINE, CHECK IT'S THE RIGHT LOGIC
+		NOT = {
+			has_variable = pause_spy_network
+		}		### TODO: I MODIFIED THIS LINE, CHECK IT'S THE RIGHT LOGIC
 	}
 	# 	has_variable = spy_network
 	# 	var:spy_network > var:spy_network_budget
 	# !!!
 	# !!!
-
 	effect = {
-
 		if = {
 			limit = {
 				has_variable = spy_network
@@ -6118,8 +6062,8 @@ obf_spy_network_on_action = { ###Spy network cycle
 	}
 }
 
-obf_set_up_spy_network_on_start_on_action = { ###Set Network on start
-
+obf_set_up_spy_network_on_start_on_action = {
+	###Set Network on start
 	effect = {
 		every_player = {
 			save_scope_as = player_character
@@ -6127,7 +6071,7 @@ obf_set_up_spy_network_on_start_on_action = { ###Set Network on start
 				limit = {
 					scope:player_character = {
 						is_ai = no
-						is_landless_adventurer = no #commented by ljl
+						is_landless_adventurer = no						#commented by ljl
 						is_alive = yes
 						is_adult = yes
 						is_incapable = no
@@ -6136,11 +6080,11 @@ obf_set_up_spy_network_on_start_on_action = { ###Set Network on start
 				scope:player_character = {
 					set_variable = {
 						name = spy_network
-						value = spy_network_value_on_start # 0
+						value = spy_network_value_on_start						# 0
 					}
 					set_variable = {
 						name = spy_network_budget
-						value = 0 # 200
+						value = 0						# 200
 					}
 				}
 			}
@@ -6149,20 +6093,20 @@ obf_set_up_spy_network_on_start_on_action = { ###Set Network on start
 	}
 }
 
-obf_set_up_spy_network_on_death_on_action = { ###Set Network on death if heir is adult
+obf_set_up_spy_network_on_death_on_action = {
+	###Set Network on death if heir is adult
 	trigger = {
 		root = {
 			is_ai = no
 		}
 	}
-
 	effect = {
 		primary_heir = {
 			save_scope_as = player_character
 			if = {
 				limit = {
 					scope:player_character = {
-						is_landless_adventurer = no #commented by ljl
+						is_landless_adventurer = no						#commented by ljl
 						is_alive = yes
 						is_adult = yes
 						is_incapable = no
@@ -6171,7 +6115,7 @@ obf_set_up_spy_network_on_death_on_action = { ###Set Network on death if heir is
 				scope:player_character = {
 					set_variable = {
 						name = spy_network
-						value = scope:player_character.spy_network_value_on_start # TODO: `spy_network_value_on_start` expects scope:recipient to be set (for low_level_report_cost) ck3tiger(reasonable strict-scopes)
+						value = scope:player_character.spy_network_value_on_start						# TODO: `spy_network_value_on_start` expects scope:recipient to be set (for low_level_report_cost) ck3tiger(reasonable strict-scopes)
 					}
 					set_variable = {
 						name = spy_network_budget
@@ -6184,19 +6128,20 @@ obf_set_up_spy_network_on_death_on_action = { ###Set Network on death if heir is
 	}
 }
 
-
 on_leave_council = {
-	on_actions ={
-		obf_reduce_spy_network_significantly
-	}
-}
-on_fired_from_council = {
-	on_actions ={
+	on_actions = {
 		obf_reduce_spy_network_significantly
 	}
 }
 
-obf_reduce_spy_network_significantly = { ###Set Network on councillor left
+on_fired_from_council = {
+	on_actions = {
+		obf_reduce_spy_network_significantly
+	}
+}
+
+obf_reduce_spy_network_significantly = {
+	###Set Network on councillor left
 	trigger = {
 		root = {
 			is_ai = no
@@ -6208,7 +6153,6 @@ obf_reduce_spy_network_significantly = { ###Set Network on councillor left
 		}
 	}
 	effect = {
-
 		root = {
 			set_variable = {
 				name = spy_network
@@ -6219,7 +6163,6 @@ obf_reduce_spy_network_significantly = { ###Set Network on councillor left
 				months = 6
 			}
 			add_spy_network_modifiers = yes
-
 		}
 	}
 }

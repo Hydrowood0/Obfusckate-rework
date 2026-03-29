@@ -1,20 +1,22 @@
-﻿
-request_military_information_interaction = {
+﻿request_military_information_interaction = {
 	category = interaction_category_diplomacy
 	icon = march_icon
 	common_interaction = yes
 	interface_priority = 150
 	desc = request_military_information_interaction_desc
-	is_highlighted = { scope:recipient = { is_imprisoned_by = scope:actor } }
+	is_highlighted = {
+		scope:recipient = {
+			is_imprisoned_by = scope:actor
+		}
+	}
 	greeting = positive
 	notification_text = propose_request_military_information
 	use_diplomatic_range = no
-	
 	is_shown = {
 		NOR = {
 			scope:recipient = scope:actor
-			scope:recipient = {	
-				OR={
+			scope:recipient = {
+				OR = {
 					is_vassal_or_below_of = scope:actor
 					is_tributary_of_suzerain_or_above = scope:actor
 					## this.GetConfederation = scope:actor.GetConfederation ##added by ljl v1.17
@@ -22,63 +24,70 @@ request_military_information_interaction = {
 				}
 			}
 		}
-		
 		scope:actor = {
-		is_ai = no
-		is_imprisoned = no}
-		
+			is_ai = no
+			is_imprisoned = no
+		}
 		scope:recipient = {
 			is_ruler = yes
-			NOT = {has_character_flag = requested_military_info}
-			NAND = {	has_opinion_modifier = {
-							modifier = tortured_me
-							target = scope:actor
-							}
-					has_character_modifier = recently_tortured}
-			NOT = { has_character_flag = is_being_tortured }
-
+			NOT = {
+				has_character_flag = requested_military_info
+			}
+			NAND = {
+				has_opinion_modifier = {
+					modifier = tortured_me
+					target = scope:actor
+				}
+				has_character_modifier = recently_tortured
+			}
+			NOT = {
+				has_character_flag = is_being_tortured
 			}
 		}
+	}
 	is_valid_showing_failures_only = {
-	
-	NOT = {
+		NOT = {
 			scope:recipient = scope:actor
 		}
-		
 		scope:actor = {
-		is_ai = no
-		is_adult = yes 
-		is_imprisoned = no
-		is_incapable = no}
-		
+			is_ai = no
+			is_adult = yes
+			is_imprisoned = no
+			is_incapable = no
+		}
 		scope:recipient = {
 			is_ruler = yes
 			is_adult = yes
-			in_diplomatic_range = scope:actor 
-			NOT = {has_character_flag = requested_military_info}
-			NAND = {	has_opinion_modifier = {
-							modifier = tortured_me
-							target = scope:actor
-							}
-					has_character_modifier = recently_tortured}
-			NOT = { has_character_flag = is_being_tortured }
-
+			in_diplomatic_range = scope:actor
+			NOT = {
+				has_character_flag = requested_military_info
 			}
-	
+			NAND = {
+				has_opinion_modifier = {
+					modifier = tortured_me
+					target = scope:actor
+				}
+				has_character_modifier = recently_tortured
+			}
+			NOT = {
+				has_character_flag = is_being_tortured
+			}
+		}
 	}
-	
-	cooldown_against_recipient = { years = 1 }
-
+	cooldown_against_recipient = {
+		years = 1
+	}
 	on_accept = {
 		scope:actor = {
 			if = {
 				limit = {
-					scope:recipient = { is_imprisoned_by = scope:actor }
+					scope:recipient = {
+						is_imprisoned_by = scope:actor
+					}
 				}
 				add_dread = 10
 				trigger_event = obf_interaction.0002
 			}
-			
 			else_if = {
 				limit = {
 					scope:actor.highest_held_title_tier = tier_county
@@ -87,7 +96,6 @@ request_military_information_interaction = {
 				add_dread = 5
 				trigger_event = obf_interaction.0001
 			}
-
 			else_if = {
 				limit = {
 					scope:actor.highest_held_title_tier = tier_duchy
@@ -95,8 +103,7 @@ request_military_information_interaction = {
 				add_prestige = -75
 				add_dread = 5
 				trigger_event = obf_interaction.0001
-			}					
-				
+			}
 			else_if = {
 				limit = {
 					scope:actor.highest_held_title_tier = tier_kingdom
@@ -105,7 +112,6 @@ request_military_information_interaction = {
 				add_dread = 5
 				trigger_event = obf_interaction.0001
 			}
-
 			else_if = {
 				limit = {
 					scope:actor.highest_held_title_tier = tier_empire
@@ -115,130 +121,146 @@ request_military_information_interaction = {
 				trigger_event = obf_interaction.0001
 			}
 			if = {
-				limit = {scope:recipient = { NOT = {is_imprisoned_by = scope:actor }}}
-			custom_tooltip = { 
-				text = "request_military_effect"
+				limit = {
+					scope:recipient = {
+						NOT = {
+							is_imprisoned_by = scope:actor
+						}
 					}
+				}
+				custom_tooltip = {
+					text = "request_military_effect"
+				}
 			}
 			else_if = {
-				limit = {scope:recipient = { is_imprisoned_by = scope:actor }}
-			custom_tooltip = { 
-				text = "torture_request_military_effect"
+				limit = {
+					scope:recipient = {
+						is_imprisoned_by = scope:actor
 					}
+				}
+				custom_tooltip = {
+					text = "torture_request_military_effect"
+				}
 			}
 		}
 	}
-
-	ai_accept =	{
+	ai_accept = {
 		base = -120
-		
 		modifier = {
 			add = 1000
-			scope:recipient = {	
-				OR={
+			scope:recipient = {
+				OR = {
 					is_vassal_or_below_of = scope:actor
 					is_tributary_of_suzerain_or_above = scope:actor
 				}
 			}
-		desc = YOU_ARE_THE_LIEGE			
+			desc = YOU_ARE_THE_LIEGE
 		}
-		
 		modifier = {
 			add = 10
-			scope:recipient = {	has_trait = trusting }
-		desc = TAKE_THE_VOWS_TRUSTING			
+			scope:recipient = {
+				has_trait = trusting
+			}
+			desc = TAKE_THE_VOWS_TRUSTING
 		}
-		
 		modifier = {
 			add = 25
-			scope:recipient = {	has_relation_friend = scope:actor }	
+			scope:recipient = {
+				has_relation_friend = scope:actor
+			}
 			desc = AI_YOUR_FRIEND
 		}
-
 		modifier = {
 			add = 50
-			scope:recipient = {	has_relation_best_friend = scope:actor }
+			scope:recipient = {
+				has_relation_best_friend = scope:actor
+			}
 			desc = AI_YOUR_FRIEND
 		}
-
 		modifier = {
 			add = 25
-			scope:recipient = {	has_relation_lover = scope:actor }
+			scope:recipient = {
+				has_relation_lover = scope:actor
+			}
 			desc = AI_YOUR_LOVER
 		}
-		
 		modifier = {
 			add = 25
-			scope:recipient = {	has_secret_relation_lover = scope:actor }
+			scope:recipient = {
+				has_secret_relation_lover = scope:actor
+			}
 			desc = AI_YOUR_LOVER
 		}
-
 		modifier = {
 			add = 50
-			scope:recipient = {	has_relation_soulmate = scope:actor }
+			scope:recipient = {
+				has_relation_soulmate = scope:actor
+			}
 			desc = AI_YOUR_LOVER
 		}
-		
 		modifier = {
 			add = 50
-			scope:recipient = {	has_secret_relation_soulmate = scope:actor }
+			scope:recipient = {
+				has_secret_relation_soulmate = scope:actor
+			}
 			desc = AI_YOUR_LOVER
 		}
-
 		modifier = {
 			add = 40
-			scope:recipient = {	is_consort_of = scope:actor }
+			scope:recipient = {
+				is_consort_of = scope:actor
+			}
 			desc = AI_YOUR_SPOUSE
 		}
 		modifier = {
-			scope:actor = {is_landless_adventurer = yes}
-			scope:recipient = {is_contact_of = scope:actor}
+			scope:actor = {
+				is_landless_adventurer = yes
+			}
+			scope:recipient = {
+				is_contact_of = scope:actor
+			}
 			add = 30
 			desc = SEND_EMISSARY_PATRON
 		}
-	
 		# Modifier for Allies
 		modifier = {
 			add = 100
-			scope:recipient = {	
-			is_allied_to = scope:actor }
+			scope:recipient = {
+				is_allied_to = scope:actor
+			}
 			desc = AI_YOUR_ALLY
 		}
-
 		# # Modifier for confederates # added by ljl
 		# modifier = {
 		# 	add = 100
 		# 	scope:recipient = {	
 		# 	# 1. 确保 recipient（THIS）在一个有效的邦联中
 		# 	this.GetConfederation.IsValid = yes
-			
 		# 	# 2. 确保 actor 也在一个有效的邦联中
 		# 	scope:actor.GetConfederation.IsValid = yes
-			
 		# 	# 3. 比较 recipient 的邦联对象 (THIS.GetConfederation)
 		# 	#    是否与 actor 的邦联对象 (scope:actor.GetConfederation) 完全相同
 		# 	this.GetConfederation = scope:actor.GetConfederation
-
 		# 	### confederation = { any_confederation_member = { this ?=  scope:actor } }
 		# 	# obf_is_in_same_confederation_as_root = yes  #added by ljl,need test
 		# 	desc = AI_YOUR_Confederate
 		# 	}
 		# }
-		
 		modifier = {
 			add = 500
-			scope:recipient = { is_imprisoned_by = scope:actor }
+			scope:recipient = {
+				is_imprisoned_by = scope:actor
+			}
 		}
-		
 		# General Opinion Modifier
 		opinion_modifier = {
 			who = scope:recipient
 			opinion_target = scope:actor
-			multiplier = 1.0
+			multiplier = 1
 			desc = AI_OPINION_REASON
 		}
 	}
 	ai_will_do = {
 		base = 0
-		}
+	}
 }

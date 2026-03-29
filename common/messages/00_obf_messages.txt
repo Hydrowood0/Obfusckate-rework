@@ -1,5 +1,4 @@
-﻿
-msg_intel_reports = {
+﻿msg_intel_reports = {
 	icon = "spy_master"
 	title = event_message_title
 	desc = event_message_effect
