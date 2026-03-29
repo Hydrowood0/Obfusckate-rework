@@ -1,20 +1,23 @@
-- This mod has made [b][i][u][url=https://steamcommunity.com/workshop/filedetails/discussion/3508469370/842866343519756030/]massive fixes[/url][/u][/i][/b] based on [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2874007571]Obfusckate[/url] (Aim to hide info that you should not know) and tries to catch up with vanilla updates. 1.16&1.18-related functions are still under development. If you encounter any bugs when using only the following mods in the order list, please don't hesitate to tell me immediately.
+- This mod has made [b][i][u][url=https://steamcommunity.com/workshop/filedetails/discussion/3508469370/842866343519756030/]massive fixes[/url](More recent details are in the [url=https://steamcommunity.com/sharedfiles/filedetails/changelog/3508469370]
+Change Notes[/url])[/u][/i][/b] based on [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2874007571]Obfusckate[/url] (Aim to hide info that you should not know) and tries to catch up with vanilla updates. 1.16&1.18-related functions are still under development. If you encounter any bugs when using only the following mods in the order list, please don't hesitate to tell me immediately.
 [h3]- [b][u]Unsubscribe and exit steam, then resubscribe[/u][/b] to this mod to prevent lagging and invalidation ([u][b]to avoid some bugs(etc. seduce never done) in old versions of this mod[/b][/u]) after my update. (Many modders report that there is an issue with [i][u]Steam sometimes redistributing the old version of the mod [/u][/i]. I've contacted Steam, but they won't do anything to fix this issue.)[/h3]
 - All credit is attributed to  [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2874007571]Obfusckate[/url]'s author JP78 & [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3239002020]RUI: Character Unofficial[/url]'s author Saltfish; But don't use this mod with JP78's or my other submod, neither; Instead, use this mod ONLY, because this one is the newest.
 
-[h3]todo：[/h3]
+[h3]TODO：[/h3]
 0. [url=https://store.steampowered.com/news/app/1158310/view/509590093865943751] Waiting for the official implementation of this mod function Development Log #182 《 Terra Obscura 》[/url]
-1. make a version with just the congenital traits hidden.
-2. add the possiblity of being able to see the portrait of those who died and you already knew what they looked like.
-
+1. Make a version with just the congenital traits hidden.
+2. Add the possibility of being able to see the portrait of those who died, and you already knew what they looked like.
+3. [u][b]The "Network Development" mechanic hasn't worked properly ever since I first took over this mod. Someone told me a rough fix, and I will let AI tell me how to implement it specifically.[/b][/u]
+4. Fix "When you hide all other people's personality traits in the rule settings, you also hide yourself."
 
 [h3]"bugs" will not be fixed:[/h3]
 1. "Seems there is a graphical bug w/e entering the culture view, the culture head portrait/placeholder flashes constantly; I'm getting flickering. Unknown character portraits flicker with a white box when moving the mouse. " [url=https://forum.paradoxplaza.com/forum/threads/gui-and-hud-flickering.1867948] It looks like a paradox bug. [/url] I also encountered it, I guess it is related to the system configuration (VRAM/GPU/RAM/CPU) & driver (DX11/Vulkan).
 2. "When I choose a task for the Kurultai (tribal council), the UI reveals the exact value of the relevant stat" - Sadly, this info cannot be hidden by modding, I tried. It is encapsulated by Paradox into a whole. The original Obfus mod has not modified this either; however, the non-nomadic text of the vanilla game does not contain stat values. the code is hard-coded into the following: COUNCIL_TASK_EFFECTS: "#S Effets#!\n[ActiveCouncilTask.GetTaskEffect]"
 [img]https://i.imgur.com/1RLfdY0.jpg[/img] [img]https://i.imgur.com/QPQXiJy.gif[/img]
-[h2]3.1Compatibility:[/h2]
-You will get mod compatibility issues with overhauls and certain mods("AGOT", "EK2", "Better Battle View", "More Family Relations", "Height of Crown", "Fallen Eagle", "CoA mod(Patrum Scuta, Happy Heraldry, etc.)", etc. )
+[h2]Compatibility:[/h2]
 [b][i][u]Just like the original Obfusckate mod. Since this is a UI overhaul mod, you can try to put it at the bottom of the list as much as possible to cover the modifications of other mods.  Adding this mod in the mid-campaign is OK, but removing it may cause a "crash to desktop", since there are too many "delay = { " of "pulse " in "on_action" files. [/u][/i][/b]
+You will get mod compatibility issues with overhauls and certain mods("AGOT", "EK2", "Better Battle View", "More Family Relations", "Height of Crown", "Fallen Eagle", "CoA mod(Patrum Scuta, Happy Heraldry, etc.)", etc. )
+
 
 [h3]- Tips: Use [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3588196638]CK3 Log Analyser [/url] to figure out which files are in conflict.[/h3]
 [h2]- Arrange the mods in this order：[/h2]
