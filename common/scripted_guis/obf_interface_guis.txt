@@ -2657,20 +2657,6 @@ gui_portrait_not_shown = { ### not in use!! HERE, JUST IN CASE BUT NOT UPDATED. 
                 root.liege ?= scope:character.liege
                 OR = { is_councillor_of = root.liege scope:character ?= { is_ruler = yes } }
             }
-            # 在这里增加死者豁免
-            scope:character ?= {
-                AND = {
-                    is_alive = no
-                    OR = {
-                        is_spouse_of_even_if_dead = root
-                        is_close_or_extended_family_of = root
-                        # 只要有任何已知的 obf 关系标志，就不隐藏
-                        obf_has_high_level_knowledge_flags = yes
-                        obf_has_close_or_intimate_relation = yes
-                        has_character_flag = has_been_spied
-                    }
-                }
-            }
             scope:character ?= {
                 OR = {
                     this ?= root
@@ -2981,58 +2967,60 @@ character
 
 gui_show_personality_traits = {
 	saved_scopes = {character}
-    is_valid = {
-        exists = scope:character
-        exists = root
-        
-        # 基础状态过滤：如果 root 昏迷或太小，可能啥也看不见（保留原样）
-        root ?= {
-            is_incapable = no  
-            age >= 6
-        }
-
-        # 核心修改：用一个大的 OR 包裹所有逻辑
+	is_valid = {
+	exists = scope:character
+	exists = root
+	root ?= {
+		is_incapable = no	
+		age >= 6
+	}
+	# NOT = {scope:character ?= root} ##vanilla
+	# NOT = {has_game_rule = hide_traits} ## vanilla
+	# 核心逻辑：要么没开隐藏规则，要么开了规则但满足豁免条件
         OR = {
-            # 只要是看自己，直接通过，无视任何 game_rule 或 flag
-            scope:character ?= root 
-            
-            # 否则，必须满足以下所有条件
-            AND = {
-                NOT = { has_game_rule = hide_traits } # 只有看别人时，才受此规则限制
-                
-                # 这里放入你原本复杂的“谁能看谁”的逻辑
-                scope:character ?= {
-                    OR = {
-                        ##is_same_value = root ##ljl added, fix bug: When I hide personality in the settings, my personality is also hidden.
-                        is_spouse_of_even_if_dead = root
-                        obf_has_close_or_intimate_relation = yes
-                        has_character_flag = has_been_spied
-                        has_character_flag = had_high_level_report			
-                        AND = {
-                            revelation_score >= 37.5
-                            OR = {
-                                obf_is_fellow_vassal_or_liege_councillor = yes
-                                obf_has_high_level_knowledge_flags = yes
-                                obf_has_guardian_or_ward_relation = yes
-                                obf_has_important_court_position = yes
-                                obf_has_near_intimate_or_close_relation	= yes
-                            }
-                        }			
-                        AND = {
-                            OR = {
-                                has_character_flag = emissary_sent
-                                has_character_flag = had_medium_level_report
-                                has_character_flag = partially_spied_2
-                            }
-                            revelation_score >= 75
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
+            # 情况 A: 根本没开启隐藏特质的规则，直接通过（原有逻辑）
+            NOT = { has_game_rule = hide_traits }
 
+            # # 情况 B: 即使开启了隐藏规则，如果是自己（ROOT），也要显示
+            # scope:character = { 
+            #     save_temporary_scope_as = target ##ljl added
+            # }
+            # root = { is_same_value = scope:target } ##ljl added
+			# ## scope:character ?= root ##ljl added
+
+            # 情况 C: 开启了规则，但满足特定的情报/关系门槛
+			scope:character ?= {
+				OR = {
+					is_same_value = root ##ljl added, fix bug: When I hide personality in the settings, my personality is also hidden.
+					is_spouse_of_even_if_dead = root
+					obf_has_close_or_intimate_relation = yes
+					has_character_flag = has_been_spied
+					has_character_flag = had_high_level_report			
+					AND = {
+						revelation_score >= 37.5
+						OR = {
+							obf_is_fellow_vassal_or_liege_councillor = yes
+							obf_has_high_level_knowledge_flags = yes
+							obf_has_guardian_or_ward_relation = yes
+							obf_has_important_court_position = yes
+							obf_has_near_intimate_or_close_relation	= yes
+						}
+					}			
+					AND = {
+						OR = {
+							has_character_flag = emissary_sent
+							has_character_flag = had_medium_level_report
+							has_character_flag = partially_spied_2
+						}
+						revelation_score >= 75
+					}
+				}
+			}
+        }
+
+
+	}
+}
 gui_show_education_traits = {
 saved_scopes = {
 character
