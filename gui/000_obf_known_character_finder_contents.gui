@@ -107,33 +107,38 @@ types Lists
 							}
 
 							# Skills
-			hbox_skills_grid = {}
+							### TOLUS changes start ###
+							## replaced skills grid with correct obfuscated grid
+							#hbox_skills_grid = {}
+							hbox_skills_grid_character_model = {}
+							### TOLUS changes end ###
+							
 							hbox = {
-		name = "hbox_skills_grid_character_model"
-		
-		widget = {
-			size = { 32 25 }
+								name = "hbox_skills_grid_character_model"
+								
+								widget = {
+									size = { 32 25 }
 
-			text_single = {
-				name = "value"
-				parentanchor = center
-				margin_bottom = 4
-				align = center
-				text = "SKILL_PROWESS_VALUES_KNOWN_CHARACTER"
-				default_format = "#true_white"
-				visible = "[ShowProwess]"
-				tooltip = "prowess_concept"
-			}
+									text_single = {
+										name = "value"
+										parentanchor = center
+										margin_bottom = 4
+										align = center
+										text = "SKILL_PROWESS_VALUES_KNOWN_CHARACTER"
+										default_format = "#true_white"
+										visible = "[ShowProwess]"
+										tooltip = "prowess_concept"
+									}
 
-			background = {
-				name = "skill_icon_bg"
-				framesize = { 70 26 }
-				margin = { 5 0 }
+									background = {
+										name = "skill_icon_bg"
+										framesize = { 70 26 }
+										margin = { 5 0 }
 
-				frame = 5
-			}
-		}
-	}
+										frame = 5
+									}
+								}
+							}
 						}
 
 						### BOTTOM ROW ###
