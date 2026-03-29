@@ -1,29 +1,31 @@
 ﻿# 脚本化触发器：character_has_any_memory
 # 功能：当作用域内的角色拥有至少一个记忆时，返回 true。
-character_has_any_memory = { ##added by ljl
-    any_memory = {
+character_has_any_memory = {
+	##added by ljl
+	any_memory = {
 		always = yes
-        # limit = { always = yes }
-    }
+		# limit = { always = yes }
+	}
 }
 
-
 #Sway_triggers
-
 sway_target_of_interest_trigger = {
-	NOT = { this = $CHARACTER$ }
+	NOT = {
+		this = $CHARACTER$
+	}
 	in_diplomatic_range = $CHARACTER$
 	is_capable_adult = yes
 	OR = {
 		# === 1.184 ljl 修复：无地冒险者直接允许拉拢，跳过后续的首都检查 ===
 		is_landless_adventurer = yes
-		$CHARACTER$ = { is_landless_adventurer = yes }
+		$CHARACTER$ = {
+			is_landless_adventurer = yes
+		}
 		# ===================================================
-
 		has_relation_to = $CHARACTER$
 		# We are their liege
 		is_vassal_or_below_of = $CHARACTER$
-		is_tributary_of_suzerain_or_above = $CHARACTER$ ## added by ljl
+		is_tributary_of_suzerain_or_above = $CHARACTER$		## added by ljl
 		dynasty = $CHARACTER$.dynasty
 		#House Head
 		trigger_if = {
@@ -37,32 +39,38 @@ sway_target_of_interest_trigger = {
 			this = $CHARACTER$.liege
 		}
 		AND = {
-			$CHARACTER$ = { target_is_liege_or_above = prev }
-			NOT = { this = $CHARACTER$.liege }
+			$CHARACTER$ = {
+				target_is_liege_or_above = prev
+			}
+			NOT = {
+				this = $CHARACTER$.liege
+			}
 		}
-		
 		trigger_if = {
 			limit = {
 				exists = $CHARACTER$.liege
 			}
-			OR = {is_vassal_or_below_of = $CHARACTER$.liege
-				is_tributary_of_suzerain_or_above = $CHARACTER$.suzerain ## added by ljl
+			OR = {
+				is_vassal_or_below_of = $CHARACTER$.liege
+				is_tributary_of_suzerain_or_above = $CHARACTER$.suzerain				## added by ljl
 				is_heir_of = $CHARACTER$.liege
 				is_consort_of = $CHARACTER$.liege
 				is_child_of = $CHARACTER$.liege
-				is_councillor_of = $CHARACTER$.liege}	
+				is_councillor_of = $CHARACTER$.liege
+			}
 		}
 		trigger_if = {
 			limit = {
 				exists = $CHARACTER$.top_liege
 			}
-			OR = {is_vassal_or_below_of = $CHARACTER$.top_liege
-				is_tributary_of_suzerain_or_above = $CHARACTER$.top_suzerain ## added by ljl
+			OR = {
+				is_vassal_or_below_of = $CHARACTER$.top_liege
+				is_tributary_of_suzerain_or_above = $CHARACTER$.top_suzerain				## added by ljl
 				is_heir_of = $CHARACTER$.top_liege
 				is_consort_of = $CHARACTER$.top_liege
-				is_councillor_of = $CHARACTER$.top_liege}	
+				is_councillor_of = $CHARACTER$.top_liege
+			}
 		}
-		
 		#They are the head of our faith
 		AND = {
 			exists = $CHARACTER$.faith.religious_head
@@ -75,644 +83,928 @@ sway_target_of_interest_trigger = {
 		has_character_flag = partially_spied_3
 		has_character_flag = partially_spied_2
 		has_character_flag = partially_spied
-		AND = { 
-			OR = {is_a_faction_member = yes
-			is_a_faction_leader = yes}
-			OR = {is_liege_or_above_of = $CHARACTER$
-			is_vassal_or_below_of = $CHARACTER$
-			is_tributary_of_suzerain_or_above = $CHARACTER$## added by ljl
-			character_is_realm_neighbor = $CHARACTER$.liege
-			is_vassal_or_below_of = $CHARACTER$.liege
-			is_tributary_of_suzerain_or_above = $CHARACTER$.suzerain ## added by ljl
+		AND = {
+			OR = {
+				is_a_faction_member = yes
+				is_a_faction_leader = yes
+			}
+			OR = {
+				is_liege_or_above_of = $CHARACTER$
+				is_vassal_or_below_of = $CHARACTER$
+				is_tributary_of_suzerain_or_above = $CHARACTER$				## added by ljl
+				character_is_realm_neighbor = $CHARACTER$.liege
+				is_vassal_or_below_of = $CHARACTER$.liege
+				is_tributary_of_suzerain_or_above = $CHARACTER$.suzerain				## added by ljl
 			}
 		}
-		
 		#Any count or higher
 		highest_held_title_tier >= tier_county
-
 		#Councillors, Spouse and Heirs of Duke and above
 		trigger_if = {
-			limit = {exists = liege
-					liege = {NOT = {this = $CHARACTER$.liege}}
-					liege = {highest_held_title_tier >= tier_duchy }}
-					OR = {	#this = liege
-							is_councillor_of = liege
-							is_consort_of = liege
-							is_heir_of = liege}
+			limit = {
+				exists = liege
+				liege = {
+					NOT = {
+						this = $CHARACTER$.liege
+					}
 				}
+				liege = {
+					highest_held_title_tier >= tier_duchy
+				}
+			}
+			OR = {
+				#this = liege
+				is_councillor_of = liege
+				is_consort_of = liege
+				is_heir_of = liege
+			}
+		}
 		trigger_if = {
 			limit = {
 				is_ruler = yes
 			}
 			any_neighboring_top_liege_realm_owner = {
-						this = $CHARACTER$.top_liege
+				this = $CHARACTER$.top_liege
 			}
 		}
 		trigger_if = {
-			limit = {exists = liege
-					location = { squared_distance = { target = $CHARACTER$.capital_county value < squared_distance_medium}}}
-		OR = {
-		is_councillor_of = liege
-		is_heir_of = liege
+			limit = {
+				exists = liege
+				location = {
+					squared_distance = {
+						target = $CHARACTER$.capital_county
+						value < squared_distance_medium
+					}
+				}
+			}
+			OR = {
+				is_councillor_of = liege
+				is_heir_of = liege
 			}
 		}
-		
 		has_strong_claim_on = $CHARACTER$.primary_title
-		any_claim = {holder = $CHARACTER$} ## not hidden by ljl
-		any_claim = {exists = holder holder = { this = $CHARACTER$}}
-		any_claim = {exists = holder holder = {is_vassal_or_below_of = $CHARACTER$}}
-		any_claim = {exists = holder holder = {is_tributary_of_suzerain_or_above = $CHARACTER$}} ## added by ljl
-		any_claim = {exists = holder holder = {is_liege_or_above_of = $CHARACTER$}}
-		any_claim = {exists = holder holder = {exists = $CHARACTER$.suzerain this = $CHARACTER$.suzerain} }## added by ljl
+		any_claim = {
+			holder = $CHARACTER$
+		}		## not hidden by ljl
+		any_claim = {
+			exists = holder
+			holder = {
+				this = $CHARACTER$
+			}
+		}
+		any_claim = {
+			exists = holder
+			holder = {
+				is_vassal_or_below_of = $CHARACTER$
+			}
+		}
+		any_claim = {
+			exists = holder
+			holder = {
+				is_tributary_of_suzerain_or_above = $CHARACTER$
+			}
+		}		## added by ljl
+		any_claim = {
+			exists = holder
+			holder = {
+				is_liege_or_above_of = $CHARACTER$
+			}
+		}
+		any_claim = {
+			exists = holder
+			holder = {
+				exists = $CHARACTER$.suzerain
+				this = $CHARACTER$.suzerain
+			}
+		}		## added by ljl
 		AND = {
-				$CHARACTER$ = {highest_held_title_tier >= tier_kingdom}
+			$CHARACTER$ = {
+				highest_held_title_tier >= tier_kingdom
+			}
 			OR = {
-					any_claim = {exists = title_province title_province = { squared_distance = { target = $CHARACTER$.capital_province value <= squared_distance_huge }}}
-					any_claim = {exists = holder.capital_province holder.capital_province = { squared_distance = { target = $CHARACTER$.capital_province value <= squared_distance_huge }}}
+				any_claim = {
+					exists = title_province
+					title_province = {
+						squared_distance = {
+							target = $CHARACTER$.capital_province
+							value <= squared_distance_huge
+						}
+					}
+				}
+				any_claim = {
+					exists = holder.capital_province
+					holder.capital_province = {
+						squared_distance = {
+							target = $CHARACTER$.capital_province
+							value <= squared_distance_huge
+						}
+					}
 				}
 			}
+		}
 		AND = {
-				$CHARACTER$ = {highest_held_title_tier = tier_duchy}
+			$CHARACTER$ = {
+				highest_held_title_tier = tier_duchy
+			}
 			OR = {
-					any_claim = {exists = title_province title_province = { squared_distance = { target = $CHARACTER$.capital_province value <= squared_distance_large }}}
-					any_claim = {exists = holder.capital_province holder.capital_province = { squared_distance = { target = $CHARACTER$.capital_province value <= squared_distance_large }}}
+				any_claim = {
+					exists = title_province
+					title_province = {
+						squared_distance = {
+							target = $CHARACTER$.capital_province
+							value <= squared_distance_large
+						}
+					}
+				}
+				any_claim = {
+					exists = holder.capital_province
+					holder.capital_province = {
+						squared_distance = {
+							target = $CHARACTER$.capital_province
+							value <= squared_distance_large
+						}
+					}
 				}
 			}
+		}
 		AND = {
-				$CHARACTER$ = {highest_held_title_tier = tier_county}
+			$CHARACTER$ = {
+				highest_held_title_tier = tier_county
+			}
 			OR = {
-					any_claim = {exists = title_province title_province = { squared_distance = { target = $CHARACTER$.capital_province value <= squared_distance_medium }}}
-					any_claim = {exists = holder.capital_province holder.capital_province = { squared_distance = { target = $CHARACTER$.capital_province value <= squared_distance_medium }}}
+				any_claim = {
+					exists = title_province
+					title_province = {
+						squared_distance = {
+							target = $CHARACTER$.capital_province
+							value <= squared_distance_medium
+						}
+					}
+				}
+				any_claim = {
+					exists = holder.capital_province
+					holder.capital_province = {
+						squared_distance = {
+							target = $CHARACTER$.capital_province
+							value <= squared_distance_medium
+						}
+					}
 				}
 			}
+		}
 	}
 }
 
-
 #befriend triggers
 can_be_target_of_befriend_trigger = {
-		custom_tooltip = {
+	custom_tooltip = {
 		text = can_be_target_of_befriend_trigger_no
 		OR = {
-			target_knows_about_owner_trigger = yes 
+			target_knows_about_owner_trigger = yes
 			target_has_heard_or_has_been_introduced_to_owner = yes
 		}
 	}
 }
+
 target_at_distance_trigger = {
-		OR = {
-			# === 1.184 ljl 新增：无地冒险者直接通过 ===
-			scope:owner = { is_landless_adventurer = yes }
-			scope:target = { is_landless_adventurer = yes }
-			# ============================
-			is_vassal_of = scope:target
-			is_tributary_of = scope:target ## added by ljl
-			scope:target = {is_vassal_of = scope:owner}
-			scope:target = {is_tributary_of = scope:owner} ## added by ljl
-			is_at_same_location = scope:target
-			scope:target.location = { squared_distance = { target = scope:owner.capital_county value < 70000}}
-			target_knows_about_owner_trigger = yes
+	OR = {
+		# === 1.184 ljl 新增：无地冒险者直接通过 ===
+		scope:owner = {
+			is_landless_adventurer = yes
 		}
+		scope:target = {
+			is_landless_adventurer = yes
+		}
+		# ============================
+		is_vassal_of = scope:target
+		is_tributary_of = scope:target		## added by ljl
+		scope:target = {
+			is_vassal_of = scope:owner
+		}
+		scope:target = {
+			is_tributary_of = scope:owner
+		}		## added by ljl
+		is_at_same_location = scope:target
+		scope:target.location = {
+			squared_distance = {
+				target = scope:owner.capital_county
+				value < 70000
+			}
+		}
+		target_knows_about_owner_trigger = yes
 	}
+}
 
 distance_from_owner_to_target = {
-		scope:owner = {is_alive = yes}
-		scope:target = {is_alive = yes}
-		OR = {
+	scope:owner = {
+		is_alive = yes
+	}
+	scope:target = {
+		is_alive = yes
+	}
+	OR = {
 		# === 1.184 ljl 新增：无地冒险者直接视为距离满足（避免卡死） ===
-		scope:owner = { is_landless_adventurer = yes }
-		scope:target = { is_landless_adventurer = yes }
+		scope:owner = {
+			is_landless_adventurer = yes
+		}
+		scope:target = {
+			is_landless_adventurer = yes
+		}
 		# ===============================================
 		# # 1.184 ljl【修复】没有头衔首府的（例如雇佣兵团、无地头衔）直接通过
 		# NOT = { exists = scope:owner.primary_title.title_capital_county }
 		# # ===============================================
 		trigger_if = {
-			limit = {exists = scope:owner.primary_title.title_capital_county
-						scope:target = {
-								is_playable_character = yes
-								highest_held_title_tier >= tier_county}
-					exists = scope:target.primary_title.title_capital_county}
-				scope:target.primary_title.title_capital_county = { squared_distance = { target = scope:owner.primary_title.title_capital_county value < $DISTANCE$}}
+			limit = {
+				exists = scope:owner.primary_title.title_capital_county
+				scope:target = {
+					is_playable_character = yes
+					highest_held_title_tier >= tier_county
 				}
-		trigger_if = {
-			limit = {exists = scope:owner.primary_title.title_capital_county
-						scope:target = {
-								is_playable_character = yes 
-								highest_held_title_tier = tier_barony}
-					exists = scope:target.primary_title.barony}
-				scope:target.primary_title.barony = { squared_distance = { target = scope:owner.primary_title.title_capital_county value < $DISTANCE$}}
+				exists = scope:target.primary_title.title_capital_county
+			}
+			scope:target.primary_title.title_capital_county = {
+				squared_distance = {
+					target = scope:owner.primary_title.title_capital_county
+					value < $DISTANCE$
 				}
-		trigger_if = {
-			limit = {exists = scope:owner.primary_title.title_capital_county
-						scope:target = {
-								is_playable_character = no 
-								exists = court_owner}
-					exists = scope:target.court_owner.primary_title.title_capital_county}
-				scope:target.court_owner.primary_title.title_capital_county = { squared_distance = { target = scope:owner.primary_title.title_capital_county value < $DISTANCE$}}
-				}
+			}
 		}
+		trigger_if = {
+			limit = {
+				exists = scope:owner.primary_title.title_capital_county
+				scope:target = {
+					is_playable_character = yes
+					highest_held_title_tier = tier_barony
+				}
+				exists = scope:target.primary_title.barony
+			}
+			scope:target.primary_title.barony = {
+				squared_distance = {
+					target = scope:owner.primary_title.title_capital_county
+					value < $DISTANCE$
+				}
+			}
+		}
+		trigger_if = {
+			limit = {
+				exists = scope:owner.primary_title.title_capital_county
+				scope:target = {
+					is_playable_character = no
+					exists = court_owner
+				}
+				exists = scope:target.court_owner.primary_title.title_capital_county
+			}
+			scope:target.court_owner.primary_title.title_capital_county = {
+				squared_distance = {
+					target = scope:owner.primary_title.title_capital_county
+					value < $DISTANCE$
+				}
+			}
+		}
+	}
 }
 
 distance_from_owner_to_target_more_than = {
-		scope:owner = {is_alive = yes}
-		scope:target = {is_alive = yes}
-		OR = {
+	scope:owner = {
+		is_alive = yes
+	}
+	scope:target = {
+		is_alive = yes
+	}
+	OR = {
 		# === 1.184 ljl新增：无地冒险者豁免 ===
-		scope:owner = { is_landless_adventurer = yes }
-		scope:target = { is_landless_adventurer = yes }
+		scope:owner = {
+			is_landless_adventurer = yes
+		}
+		scope:target = {
+			is_landless_adventurer = yes
+		}
 		# ==========================
 		trigger_if = {
-			limit = {exists = scope:owner.primary_title.title_capital_county
-						scope:target = {
-								is_playable_character = yes
-								highest_held_title_tier >= tier_county}
-					exists = scope:target.primary_title.title_capital_county}
-				scope:target.primary_title.title_capital_county = { squared_distance = { target = scope:owner.primary_title.title_capital_county value >= $DISTANCE$}}
+			limit = {
+				exists = scope:owner.primary_title.title_capital_county
+				scope:target = {
+					is_playable_character = yes
+					highest_held_title_tier >= tier_county
 				}
-		trigger_if = {
-			limit = {exists = scope:owner.primary_title.title_capital_county
-						scope:target = {
-								is_playable_character = yes 
-								highest_held_title_tier = tier_barony}
-					exists = scope:target.primary_title.barony}
-				scope:target.primary_title.barony = { squared_distance = { target = scope:owner.primary_title.title_capital_county value >= $DISTANCE$}}
+				exists = scope:target.primary_title.title_capital_county
+			}
+			scope:target.primary_title.title_capital_county = {
+				squared_distance = {
+					target = scope:owner.primary_title.title_capital_county
+					value >= $DISTANCE$
 				}
-		trigger_if = {
-			limit = {exists = scope:owner.primary_title.title_capital_county
-						scope:target = {
-								is_playable_character = no
-								exists = court_owner}
-					exists = scope:target.court_owner.primary_title.title_capital_county}
-				scope:target.court_owner.primary_title.title_capital_county = { squared_distance = { target = scope:owner.primary_title.title_capital_county value >= $DISTANCE$}}
-				}
+			}
 		}
+		trigger_if = {
+			limit = {
+				exists = scope:owner.primary_title.title_capital_county
+				scope:target = {
+					is_playable_character = yes
+					highest_held_title_tier = tier_barony
+				}
+				exists = scope:target.primary_title.barony
+			}
+			scope:target.primary_title.barony = {
+				squared_distance = {
+					target = scope:owner.primary_title.title_capital_county
+					value >= $DISTANCE$
+				}
+			}
+		}
+		trigger_if = {
+			limit = {
+				exists = scope:owner.primary_title.title_capital_county
+				scope:target = {
+					is_playable_character = no
+					exists = court_owner
+				}
+				exists = scope:target.court_owner.primary_title.title_capital_county
+			}
+			scope:target.court_owner.primary_title.title_capital_county = {
+				squared_distance = {
+					target = scope:owner.primary_title.title_capital_county
+					value >= $DISTANCE$
+				}
+			}
+		}
+	}
 }
 
 befriend_had_interaction = {
-#befriend
-OR = {
-				
-				has_opinion_modifier = {
-						modifier = ambitious_vs_content_befriend_opinion
-						target = scope:owner}
-				has_opinion_modifier = {
-						modifier = gluttonous_vs_temperate_befriend_opinion
-						target = scope:owner}
-				has_opinion_modifier = {
-						modifier = gregarious_vs_depressed_befriend_opinion
-						target = scope:owner}
-				has_opinion_modifier = {
-						modifier = trusting_vs_cynical_befriend_opinion
-						target = scope:owner}
-				has_opinion_modifier = {
-						modifier = cynical_vs_zealous_befriend_opinion
-						target = scope:owner}
-				has_opinion_modifier = {
-						target = scope:owner
-						modifier = faction_common_goals_opinion}
-				has_opinion_modifier = {
-						target = scope:owner
-						modifier = comrades_in_arms_opinion}
-				has_opinion_modifier = {
-						target = scope:target
-						modifier = faction_common_goals_opinion}
-				has_opinion_modifier = {
-						target = scope:owner
-						modifier = comrades_in_arms_opinion}
-				
-				scope:scheme = {has_scheme_modifier = auspicious_offering_modifier}
-				scope:scheme = {has_scheme_modifier = helpful_hand_modifier}
+	#befriend
+	OR = {
+		has_opinion_modifier = {
+			modifier = ambitious_vs_content_befriend_opinion
+			target = scope:owner
 		}
-				
+		has_opinion_modifier = {
+			modifier = gluttonous_vs_temperate_befriend_opinion
+			target = scope:owner
+		}
+		has_opinion_modifier = {
+			modifier = gregarious_vs_depressed_befriend_opinion
+			target = scope:owner
+		}
+		has_opinion_modifier = {
+			modifier = trusting_vs_cynical_befriend_opinion
+			target = scope:owner
+		}
+		has_opinion_modifier = {
+			modifier = cynical_vs_zealous_befriend_opinion
+			target = scope:owner
+		}
+		has_opinion_modifier = {
+			target = scope:owner
+			modifier = faction_common_goals_opinion
+		}
+		has_opinion_modifier = {
+			target = scope:owner
+			modifier = comrades_in_arms_opinion
+		}
+		has_opinion_modifier = {
+			target = scope:target
+			modifier = faction_common_goals_opinion
+		}
+		has_opinion_modifier = {
+			target = scope:owner
+			modifier = comrades_in_arms_opinion
+		}
+		scope:scheme = {
+			has_scheme_modifier = auspicious_offering_modifier
+		}
+		scope:scheme = {
+			has_scheme_modifier = helpful_hand_modifier
+		}
+	}
 }
+
 befriend_had_contact = {
-#befriend
-OR = {
-				
-				has_opinion_modifier = {
-						target = scope:owner
-						modifier = shared_interests_opinion}
-				has_opinion_modifier = {
-						target = scope:owner
-						modifier = pleased_opinion}
-				has_opinion_modifier = {
-						target = scope:owner
-						modifier = befriend_common_enemy_opinion}
-				has_opinion_modifier = {
-					modifier = sent_charming_envoy_opinion
-					target = scope:owner}
-				has_opinion_modifier = {
-						target = scope:target
-						modifier = shared_interests_opinion}
-				scope:scheme = {has_scheme_modifier = befriend_offered_leniency_modifier}
-				scope:scheme = {has_scheme_modifier = offered_favor_modifier}	
-				scope:scheme = {has_scheme_modifier = befriend_indebted_myself_modifier}
-				scope:scheme = {has_scheme_modifier = befriend_gregarious_target_modifier}
-				scope:scheme = {has_scheme_modifier = befriend_bonding_over_rival_modifier}
-				scope:scheme = {has_scheme_modifier = settled_differences_modifier}
-				scope:scheme = {has_variable = had_gregarious_target_event}
+	#befriend
+	OR = {
+		has_opinion_modifier = {
+			target = scope:owner
+			modifier = shared_interests_opinion
 		}
-				
+		has_opinion_modifier = {
+			target = scope:owner
+			modifier = pleased_opinion
+		}
+		has_opinion_modifier = {
+			target = scope:owner
+			modifier = befriend_common_enemy_opinion
+		}
+		has_opinion_modifier = {
+			modifier = sent_charming_envoy_opinion
+			target = scope:owner
+		}
+		has_opinion_modifier = {
+			target = scope:target
+			modifier = shared_interests_opinion
+		}
+		scope:scheme = {
+			has_scheme_modifier = befriend_offered_leniency_modifier
+		}
+		scope:scheme = {
+			has_scheme_modifier = offered_favor_modifier
+		}
+		scope:scheme = {
+			has_scheme_modifier = befriend_indebted_myself_modifier
+		}
+		scope:scheme = {
+			has_scheme_modifier = befriend_gregarious_target_modifier
+		}
+		scope:scheme = {
+			has_scheme_modifier = befriend_bonding_over_rival_modifier
+		}
+		scope:scheme = {
+			has_scheme_modifier = settled_differences_modifier
+		}
+		scope:scheme = {
+			has_variable = had_gregarious_target_event
+		}
+	}
 }
 
 befriend_has_met = {
-#befriend
-OR = {
-				has_opinion_modifier = {
-					target = scope:owner
-					modifier = softening_disposition_opinion}
-				has_opinion_modifier = {
-					target = scope:owner
-					modifier = disappointed_opinion}
-				has_opinion_modifier = {
-					target = scope:target
-					modifier = disappointed_opinion}
-				scope:scheme = {has_scheme_modifier = befriend_making_effort_modifier}
-				scope:scheme = {has_scheme_modifier = befriend_envoy_working_modifier}
+	#befriend
+	OR = {
+		has_opinion_modifier = {
+			target = scope:owner
+			modifier = softening_disposition_opinion
+		}
+		has_opinion_modifier = {
+			target = scope:owner
+			modifier = disappointed_opinion
+		}
+		has_opinion_modifier = {
+			target = scope:target
+			modifier = disappointed_opinion
+		}
+		scope:scheme = {
+			has_scheme_modifier = befriend_making_effort_modifier
+		}
+		scope:scheme = {
+			has_scheme_modifier = befriend_envoy_working_modifier
+		}
 	}
-				
 }
-feast_had_interaction = {
-#feast
-OR = {
-		
-		has_opinion_modifier = {
-			target = root
-			modifier = feast_saved_my_life_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = feast_had_good_time_together_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = friendly_interaction}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = feast_saved_my_life_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = feast_had_good_time_together_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = friendly_interaction}
-		
-		}
-				
-}
-feast_had_contact = {
-#feast
-OR = {
-		
-		has_opinion_modifier = {
-			target = root
-			modifier = feast_life_of_the_party_opinion}	
-		has_opinion_modifier = {
-			target = root
-			modifier = annoyed_opinion}	
-		has_opinion_modifier = {
-			target = root
-			modifier = angry_opinion}
-		
-		has_opinion_modifier = {
-			target = root
-			modifier = kindness_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = rude_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = feast_common_burden_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = grateful_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = feast_sided_with_me_in_my_fight_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = feast_sided_against_me_in_my_fight_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = cruelty_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = falsely_accused}
-		has_opinion_modifier = {
-			target = root
-			modifier = shamed_me_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = relieved_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = disgusted_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = bored_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = humiliated_opinion}
-		
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = learned_at_feast_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = feast_life_of_the_party_opinion}	
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = annoyed_opinion}	
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = angry_opinion}
-		
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = kindness_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = rude_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = feast_common_burden_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = grateful_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = feast_sided_with_me_in_my_fight_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = feast_sided_against_me_in_my_fight_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = cruelty_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = falsely_accused}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = shamed_me_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = relieved_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = disgusted_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = bored_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = humiliated_opinion}
-		
 
+feast_had_interaction = {
+	#feast
+	OR = {
+		has_opinion_modifier = {
+			target = root
+			modifier = feast_saved_my_life_opinion
 		}
-				
+		has_opinion_modifier = {
+			target = root
+			modifier = feast_had_good_time_together_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = friendly_interaction
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = feast_saved_my_life_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = feast_had_good_time_together_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = friendly_interaction
+		}
+	}
+}
+
+feast_had_contact = {
+	#feast
+	OR = {
+		has_opinion_modifier = {
+			target = root
+			modifier = feast_life_of_the_party_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = annoyed_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = angry_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = kindness_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = rude_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = feast_common_burden_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = grateful_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = feast_sided_with_me_in_my_fight_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = feast_sided_against_me_in_my_fight_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = cruelty_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = falsely_accused
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = shamed_me_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = relieved_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = disgusted_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = bored_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = humiliated_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = learned_at_feast_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = feast_life_of_the_party_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = annoyed_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = angry_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = kindness_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = rude_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = feast_common_burden_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = grateful_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = feast_sided_with_me_in_my_fight_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = feast_sided_against_me_in_my_fight_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = cruelty_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = falsely_accused
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = shamed_me_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = relieved_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = disgusted_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = bored_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = humiliated_opinion
+		}
+	}
 }
 
 feast_slight_contact = {
-#feast
-OR = {
+	#feast
+	OR = {
 		has_opinion_modifier = {
 			target = root
-			modifier = learned_at_feast_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = feast_victimised_in_prank}
-		has_opinion_modifier = {
-			target = root
-			modifier = annoying_glutton_at_feast_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = feast_threw_up_on_me_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = learned_at_feast_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = feast_victimised_in_prank}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = annoying_glutton_at_feast_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = feast_threw_up_on_me_opinion}
+			modifier = learned_at_feast_opinion
 		}
+		has_opinion_modifier = {
+			target = root
+			modifier = feast_victimised_in_prank
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = annoying_glutton_at_feast_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = feast_threw_up_on_me_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = learned_at_feast_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = feast_victimised_in_prank
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = annoying_glutton_at_feast_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = feast_threw_up_on_me_opinion
+		}
+	}
 }
 
 wedding_had_interaction = {
-#wedding
-OR = {
-		
+	#wedding
+	OR = {
 		has_opinion_modifier = {
 			target = root
-			modifier = berated_child_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = opened_my_eyes_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = kept_my_secret_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = friendliness_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = unfriendly_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = berated_child_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = opened_my_eyes_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = kept_my_secret_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = friendliness_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = unfriendly_opinion}
-		
+			modifier = berated_child_opinion
 		}
-				
+		has_opinion_modifier = {
+			target = root
+			modifier = opened_my_eyes_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = kept_my_secret_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = friendliness_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = unfriendly_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = berated_child_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = opened_my_eyes_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = kept_my_secret_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = friendliness_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = unfriendly_opinion
+		}
+	}
 }
+
 wedding_had_contact = {
-#wedding
-OR = {
-		
+	#wedding
+	OR = {
 		has_opinion_modifier = {
 			target = root
-			modifier = hate_opinion}	
-		has_opinion_modifier = {
-			target = root
-			modifier = angry_opinion}	
-		has_opinion_modifier = {
-			target = root
-			modifier = love_opinion}
-		
-		has_opinion_modifier = {
-			target = root
-			modifier = forgiven_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = unforgiven_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = impressed_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = disappointed_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = annoyed_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = flattered_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = threatened_opinion}
-			
-		has_opinion_modifier = {
-			target = root
-			modifier = suspicion_opinion}
-			
-		has_opinion_modifier = {
-			target = root
-			modifier = grateful_opinion}
-
-		
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = hate_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = angry_opinion}	
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = love_opinion}	
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = forgiven_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = unforgiven_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = impressed_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = disappointed_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = annoyed_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = flattered_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = threatened_opinion}
-			
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = suspicion_opinion}
-			
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = grateful_opinion}
-
+			modifier = hate_opinion
 		}
-				
+		has_opinion_modifier = {
+			target = root
+			modifier = angry_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = love_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = forgiven_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = unforgiven_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = impressed_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = disappointed_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = annoyed_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = flattered_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = threatened_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = suspicion_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = grateful_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = hate_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = angry_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = love_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = forgiven_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = unforgiven_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = impressed_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = disappointed_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = annoyed_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = flattered_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = threatened_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = suspicion_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = grateful_opinion
+		}
+	}
 }
 
 wedding_slight_contact = {
-#wedding
-OR = {
+	#wedding
+	OR = {
 		has_opinion_modifier = {
 			target = root
-			modifier = insult_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = impressed_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = bored_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = pious_opinion}
-		has_opinion_modifier = {
-			target = root
-			modifier = weak_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = insult_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = impressed_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = bored_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = pious_opinion}
-		reverse_has_opinion_modifier = {
-			target = root
-			modifier = weak_opinion}
+			modifier = insult_opinion
 		}
+		has_opinion_modifier = {
+			target = root
+			modifier = impressed_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = bored_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = pious_opinion
+		}
+		has_opinion_modifier = {
+			target = root
+			modifier = weak_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = insult_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = impressed_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = bored_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = pious_opinion
+		}
+		reverse_has_opinion_modifier = {
+			target = root
+			modifier = weak_opinion
+		}
+	}
 }
 
-
 has_potential_for_not_negative_rumour_trigger = {
-NOR = {has_character_flag = had_rumour_spread
+	NOR = {
+		has_character_flag = had_rumour_spread
 		has_character_flag = partially_spied_2
-		has_character_flag = partially_spied_3}
-		is_capable_adult_ai = yes
-OR = { # The true good
-				
-		AND = { 
-		is_female = no
-		has_trait_rank = {
-					trait = education_martial
-					rank > 1
-				} 
-				martial >= 25}
-		AND = { 
-		is_female = no
-		obf_illusory_warrior = yes
-				martial >= 17}
-			
-				
-		AND = { has_trait_rank = {
-					trait = education_learning
-					rank > 2
-				} 
-				sum_of_all_skills_value >= 35
-				learning >= 25}
-		AND = { obf_illusory_scholar = yes
-				learning >= 17}
+		has_character_flag = partially_spied_3
+	}
+	is_capable_adult_ai = yes
+	OR = {
+		# The true good
 		AND = {
-		OR = {
-			has_trait = intellect_good_2
-			has_trait = intellect_good_3
-			has_trait = shrewd}
-			sum_of_all_skills_value >= 45}
-			
+			is_female = no
+			has_trait_rank = {
+				trait = education_martial
+				rank > 1
+			}
+			martial >= 25
+		}
+		AND = {
+			is_female = no
+			obf_illusory_warrior = yes
+			martial >= 17
+		}
+		AND = {
+			has_trait_rank = {
+				trait = education_learning
+				rank > 2
+			}
+			sum_of_all_skills_value >= 35
+			learning >= 25
+		}
+		AND = {
+			obf_illusory_scholar = yes
+			learning >= 17
+		}
+		AND = {
+			OR = {
+				has_trait = intellect_good_2
+				has_trait = intellect_good_3
+				has_trait = shrewd
+			}
+			sum_of_all_skills_value >= 45
+		}
 		likely_a_brave_fighter_trigger = yes
 		likely_pretend_brave_fighter_trigger = yes
-		
-				has_trait = beauty_good_3
-				has_trait = beauty_good_2
-				has_trait = beauty_bad_3
-
-	}	
-	
+		has_trait = beauty_good_3
+		has_trait = beauty_good_2
+		has_trait = beauty_bad_3
+	}
 }
 
 has_potencial_negative_rumour_to_spread = {
-OR = {
+	OR = {
 		any_secret = {
-				OR = {
+			OR = {
 				secret_type = secret_murder
 				secret_type = secret_deviant
 				secret_type = secret_homosexual
@@ -721,13 +1013,14 @@ OR = {
 				secret_type = secret_non_believer
 				secret_type = secret_witch
 				secret_type = secret_disputed_heritage
-				secret_type = secret_unmarried_illegitimate_child} 
-				}
-		
+				secret_type = secret_unmarried_illegitimate_child
 			}
+		}
+	}
 }
+
 has_potencial_false_negative_rumour_to_spread = {
-OR = {
+	OR = {
 		obf_capable_of_murder_trigger = yes
 		obf_likely_extramarital_affair_trigger = yes
 		obf_likely_hide_sexuality_trigger = yes
@@ -735,44 +1028,52 @@ OR = {
 		obf_likely_witch_trigger = yes
 		likely_cynic_non_believer_trigger = yes
 		likely_hide_heritage_trigger = yes
-			}
+	}
 }
 
 rumour_should_be_heard = {
-OR = {
-	scope:recipient = { has_character_flag = partially_spied_3}
-	scope:recipient = { has_relation_to = scope:actor}
-	scope:actor.top_liege = scope:recipient.top_liege
-	scope:actor = {
-		character_is_land_realm_neighbor = scope:recipient}
-	scope:actor.top_liege = {
-		character_is_land_realm_neighbor = scope:recipient.top_liege}
-	scope:actor.top_liege = {
-		character_is_land_realm_neighbor = scope:recipient.court_owner}
-	scope:actor.top_liege = {
-		top_liege = scope:recipient.court_owner.top_liege}
+	OR = {
+		scope:recipient = {
+			has_character_flag = partially_spied_3
+		}
+		scope:recipient = {
+			has_relation_to = scope:actor
+		}
+		scope:actor.top_liege = scope:recipient.top_liege
+		scope:actor = {
+			character_is_land_realm_neighbor = scope:recipient
+		}
+		scope:actor.top_liege = {
+			character_is_land_realm_neighbor = scope:recipient.top_liege
+		}
+		scope:actor.top_liege = {
+			character_is_land_realm_neighbor = scope:recipient.court_owner
+		}
+		scope:actor.top_liege = {
+			top_liege = scope:recipient.court_owner.top_liege
+		}
 	}
-
 }
-
 
 player_should_receive_warning = {
-	
 	OR = {
-	has_character_flag = partially_spied_3
-	any_player = {
-		has_relation_to = root}
-	any_player = {
-			top_liege = {
-		character_is_land_realm_neighbor = root.top_liege}
+		has_character_flag = partially_spied_3
+		any_player = {
+			has_relation_to = root
 		}
-	any_player = {
-		character_is_land_realm_neighbor = root}
-	any_player = {
-		top_liege = root.top_liege}}
-
+		any_player = {
+			top_liege = {
+				character_is_land_realm_neighbor = root.top_liege
+			}
+		}
+		any_player = {
+			character_is_land_realm_neighbor = root
+		}
+		any_player = {
+			top_liege = root.top_liege
+		}
+	}
 }
-
 
 does_not_like_character_trigger = {
 	OR = {
@@ -792,12 +1093,10 @@ does_not_like_character_trigger = {
 		has_relation_lover = $CHARACTER$
 		has_relation_friend = $CHARACTER$
 		has_relation_crush = $CHARACTER$
-		
 	}
 }
 
 ##NEW TRIGGERS FOR SCRIPTED GUIS
-
 ##### obf_has_relation_that_would_talk_about_him   ### mutual relations
 ##### obf_has_high_level_knowledge_flags			### flagged characters
 ##### obf_has_close_or_intimate_relation			#### Intimate relations (Best Friends, Soulmates, family, spouse)
@@ -815,9 +1114,6 @@ does_not_like_character_trigger = {
 ##### obf_has_guardian_or_ward_relation				
 ##### obf_has_near_intimate_or_close_relation		#### friends, lovers, crushes	
 ##### obf_has_rival_or_negative_relation			#### Rivals, grudges
-
-
-
 #obf_has_high_level_knowledge_flags = yes
 #obf_recently_made_relation = no
 #obf_has_close_or_intimate_relation = yes
@@ -838,341 +1134,327 @@ does_not_like_character_trigger = {
 #obf_is_ally_or_neighbor = yes
 #obf_has_relation_that_would_talk_about_him = yes  
 #obf_has_rival_or_negative_relation = yes
-			
-
 obf_has_relation_that_would_talk_about_him = {
-OR = {
+	OR = {
 		any_consort = {
-		is_physically_able_ai_adult = yes
-		obf_has_rival_or_negative_relation = no
-				OR = {
-					is_consort_of = root
-					is_child_of = root
-					is_parent_of = root
-					is_sibling_of = root
-					has_relation_lover = root
-					has_relation_friend = root
-					has_relation_best_friend = root
-					has_relation_blood_brother = root
-					has_relation_soldier_friend = root
-					
-					has_relation_soulmate = root
-
-					has_relation_elder = root
-					has_relation_disciple = root
-					has_relation_ward = root
-					has_relation_guardian = root
-					has_relation_mentor = root
-					has_relation_student = root
-				}
+			is_physically_able_ai_adult = yes
+			obf_has_rival_or_negative_relation = no
+			OR = {
+				is_consort_of = root
+				is_child_of = root
+				is_parent_of = root
+				is_sibling_of = root
+				has_relation_lover = root
+				has_relation_friend = root
+				has_relation_best_friend = root
+				has_relation_blood_brother = root
+				has_relation_soldier_friend = root
+				has_relation_soulmate = root
+				has_relation_elder = root
+				has_relation_disciple = root
+				has_relation_ward = root
+				has_relation_guardian = root
+				has_relation_mentor = root
+				has_relation_student = root
 			}
+		}
 		any_child = {
-		is_physically_able_ai_adult = yes
-		obf_has_rival_or_negative_relation = no
-				OR = {
-					is_consort_of = root
-					is_child_of = root
-					is_parent_of = root
-					is_sibling_of = root
-					has_relation_lover = root
-					has_relation_friend = root
-					has_relation_best_friend = root
-					has_relation_blood_brother = root
-					has_relation_soldier_friend = root
-					
-					has_relation_soulmate = root
-
-					has_relation_elder = root
-					has_relation_disciple = root
-					has_relation_ward = root
-					has_relation_guardian = root
-					has_relation_mentor = root
-					has_relation_student = root
-				}
+			is_physically_able_ai_adult = yes
+			obf_has_rival_or_negative_relation = no
+			OR = {
+				is_consort_of = root
+				is_child_of = root
+				is_parent_of = root
+				is_sibling_of = root
+				has_relation_lover = root
+				has_relation_friend = root
+				has_relation_best_friend = root
+				has_relation_blood_brother = root
+				has_relation_soldier_friend = root
+				has_relation_soulmate = root
+				has_relation_elder = root
+				has_relation_disciple = root
+				has_relation_ward = root
+				has_relation_guardian = root
+				has_relation_mentor = root
+				has_relation_student = root
 			}
+		}
 		any_parent = {
-		is_physically_able_ai_adult = yes
-		obf_has_rival_or_negative_relation = no
-				OR = {
-					is_consort_of = root
-					is_child_of = root
-					is_parent_of = root
-					is_sibling_of = root
-					has_relation_lover = root
-					has_relation_friend = root
-					has_relation_best_friend = root
-					has_relation_blood_brother = root
-					has_relation_soldier_friend = root
-					
-					has_relation_soulmate = root
-
-					has_relation_elder = root
-					has_relation_disciple = root
-					has_relation_ward = root
-					has_relation_guardian = root
-					has_relation_mentor = root
-					has_relation_student = root
-				}
+			is_physically_able_ai_adult = yes
+			obf_has_rival_or_negative_relation = no
+			OR = {
+				is_consort_of = root
+				is_child_of = root
+				is_parent_of = root
+				is_sibling_of = root
+				has_relation_lover = root
+				has_relation_friend = root
+				has_relation_best_friend = root
+				has_relation_blood_brother = root
+				has_relation_soldier_friend = root
+				has_relation_soulmate = root
+				has_relation_elder = root
+				has_relation_disciple = root
+				has_relation_ward = root
+				has_relation_guardian = root
+				has_relation_mentor = root
+				has_relation_student = root
 			}
+		}
 		any_sibling = {
-		is_physically_able_ai_adult = yes
-		obf_has_rival_or_negative_relation = no
-				OR = {
-					is_consort_of = root
-					is_child_of = root
-					is_parent_of = root
-					is_sibling_of = root
-					has_relation_lover = root
-					has_relation_friend = root
-					has_relation_best_friend = root
-					has_relation_blood_brother = root
-					has_relation_soldier_friend = root
-					
-					has_relation_soulmate = root
-
-					has_relation_elder = root
-					has_relation_disciple = root
-					has_relation_ward = root
-					has_relation_guardian = root
-					has_relation_mentor = root
-					has_relation_student = root
-				}
+			is_physically_able_ai_adult = yes
+			obf_has_rival_or_negative_relation = no
+			OR = {
+				is_consort_of = root
+				is_child_of = root
+				is_parent_of = root
+				is_sibling_of = root
+				has_relation_lover = root
+				has_relation_friend = root
+				has_relation_best_friend = root
+				has_relation_blood_brother = root
+				has_relation_soldier_friend = root
+				has_relation_soulmate = root
+				has_relation_elder = root
+				has_relation_disciple = root
+				has_relation_ward = root
+				has_relation_guardian = root
+				has_relation_mentor = root
+				has_relation_student = root
 			}
-			any_relation = {
-				type = lover
-				NOT = {	has_secret_relation_lover = prev}
-				is_physically_able_ai_adult = yes
-				obf_has_rival_or_negative_relation = no
-				OR = {
-					is_consort_of = root
-					is_child_of = root
-					is_parent_of = root
-					is_sibling_of = root
-					has_relation_lover = root
-					has_relation_friend = root
-					has_relation_best_friend = root
-					has_relation_blood_brother = root
-					has_relation_soldier_friend = root
-					
-					has_relation_soulmate = root
-
-					has_relation_elder = root
-					has_relation_disciple = root
-					has_relation_ward = root
-					has_relation_guardian = root
-					has_relation_mentor = root
-					has_relation_student = root
-				}
+		}
+		any_relation = {
+			type = lover
+			NOT = {
+				has_secret_relation_lover = prev
 			}
-			any_relation = {
+			is_physically_able_ai_adult = yes
+			obf_has_rival_or_negative_relation = no
+			OR = {
+				is_consort_of = root
+				is_child_of = root
+				is_parent_of = root
+				is_sibling_of = root
+				has_relation_lover = root
+				has_relation_friend = root
+				has_relation_best_friend = root
+				has_relation_blood_brother = root
+				has_relation_soldier_friend = root
+				has_relation_soulmate = root
+				has_relation_elder = root
+				has_relation_disciple = root
+				has_relation_ward = root
+				has_relation_guardian = root
+				has_relation_mentor = root
+				has_relation_student = root
+			}
+		}
+		any_relation = {
 			type = friend
-			NOT = {	has_secret_relation_friend = prev}
+			NOT = {
+				has_secret_relation_friend = prev
+			}
 			is_physically_able_ai_adult = yes
 			obf_has_rival_or_negative_relation = no
-				OR = {
-					is_consort_of = root
-					is_child_of = root
-					is_parent_of = root
-					is_sibling_of = root
-					has_relation_lover = root
-					has_relation_friend = root
-					has_relation_best_friend = root
-					has_relation_blood_brother = root
-					has_relation_soldier_friend = root
-					
-					has_relation_soulmate = root
-
-					has_relation_elder = root
-					has_relation_disciple = root
-					has_relation_ward = root
-					has_relation_guardian = root
-					has_relation_mentor = root
-					has_relation_student = root
-				}
+			OR = {
+				is_consort_of = root
+				is_child_of = root
+				is_parent_of = root
+				is_sibling_of = root
+				has_relation_lover = root
+				has_relation_friend = root
+				has_relation_best_friend = root
+				has_relation_blood_brother = root
+				has_relation_soldier_friend = root
+				has_relation_soulmate = root
+				has_relation_elder = root
+				has_relation_disciple = root
+				has_relation_ward = root
+				has_relation_guardian = root
+				has_relation_mentor = root
+				has_relation_student = root
 			}
-			any_relation = {
+		}
+		any_relation = {
 			type = soulmate
-			NOT = {	has_secret_relation_friend = prev}
+			NOT = {
+				has_secret_relation_friend = prev
+			}
 			is_physically_able_ai_adult = yes
 			obf_has_rival_or_negative_relation = no
-				OR = {
-					is_consort_of = root
-					is_child_of = root
-					is_parent_of = root
-					is_sibling_of = root
-					has_relation_lover = root
-					has_relation_friend = root
-					has_relation_best_friend = root
-					has_relation_blood_brother = root
-					has_relation_soldier_friend = root
-					
-					has_relation_soulmate = root
-
-					has_relation_elder = root
-					has_relation_disciple = root
-					has_relation_ward = root
-					has_relation_guardian = root
-					has_relation_mentor = root
-					has_relation_student = root
-				}
+			OR = {
+				is_consort_of = root
+				is_child_of = root
+				is_parent_of = root
+				is_sibling_of = root
+				has_relation_lover = root
+				has_relation_friend = root
+				has_relation_best_friend = root
+				has_relation_blood_brother = root
+				has_relation_soldier_friend = root
+				has_relation_soulmate = root
+				has_relation_elder = root
+				has_relation_disciple = root
+				has_relation_ward = root
+				has_relation_guardian = root
+				has_relation_mentor = root
+				has_relation_student = root
 			}
-			any_relation = {
-				type = disciple
-				#NOT = {has_secret_relation_disciple = prev}
-				is_physically_able_ai_adult = yes
-				obf_has_rival_or_negative_relation = no
-				OR = {
-					is_consort_of = root
-					is_child_of = root
-					is_parent_of = root
-					is_sibling_of = root
-					has_relation_lover = root
-					has_relation_friend = root
-					has_relation_best_friend = root
-					has_relation_blood_brother = root
-					has_relation_soldier_friend = root
-					
-					has_relation_soulmate = root
-
-					has_relation_elder = root
-					has_relation_disciple = root
-					has_relation_ward = root
-					has_relation_guardian = root
-					has_relation_mentor = root
-					has_relation_student = root
-				}
+		}
+		any_relation = {
+			type = disciple
+			#NOT = {has_secret_relation_disciple = prev}
+			is_physically_able_ai_adult = yes
+			obf_has_rival_or_negative_relation = no
+			OR = {
+				is_consort_of = root
+				is_child_of = root
+				is_parent_of = root
+				is_sibling_of = root
+				has_relation_lover = root
+				has_relation_friend = root
+				has_relation_best_friend = root
+				has_relation_blood_brother = root
+				has_relation_soldier_friend = root
+				has_relation_soulmate = root
+				has_relation_elder = root
+				has_relation_disciple = root
+				has_relation_ward = root
+				has_relation_guardian = root
+				has_relation_mentor = root
+				has_relation_student = root
 			}
-			any_relation = {
+		}
+		any_relation = {
 			type = elder
 			#NOT = {has_secret_relation_elder = prev}
 			is_physically_able_ai_adult = yes
 			obf_has_rival_or_negative_relation = no
-				OR = {
-					is_consort_of = root
-					is_child_of = root
-					is_parent_of = root
-					is_sibling_of = root
-					has_relation_lover = root
-					has_relation_friend = root
-					has_relation_best_friend = root
-					has_relation_blood_brother = root
-					has_relation_soldier_friend = root
-					
-					has_relation_soulmate = root
-
-					has_relation_elder = root
-					has_relation_disciple = root
-					has_relation_ward = root
-					has_relation_guardian = root
-					has_relation_mentor = root
-					has_relation_student = root
-				}
-			}
-			any_relation = {
-			type = guardian
-			NOT = {has_secret_relation_rival = prev}
-			is_physically_able_ai_adult = yes
-			obf_has_rival_or_negative_relation = no
-				OR = {
-					is_consort_of = root
-					is_child_of = root
-					is_parent_of = root
-					is_sibling_of = root
-					has_relation_lover = root
-					has_relation_friend = root
-					has_relation_best_friend = root
-					has_relation_blood_brother = root
-					has_relation_soldier_friend = root
-					
-					has_relation_soulmate = root
-
-					has_relation_elder = root
-					has_relation_disciple = root
-					has_relation_ward = root
-					has_relation_guardian = root
-					has_relation_mentor = root
-					has_relation_student = root
-				}
-			}
-			any_relation = {
-			type = ward
-			NOT = {has_secret_relation_rival = prev}
-			is_physically_able_ai_adult = yes
-			obf_has_rival_or_negative_relation = no
-				OR = {
-					is_consort_of = root
-					is_child_of = root
-					is_parent_of = root
-					is_sibling_of = root
-					has_relation_lover = root
-					has_relation_friend = root
-					has_relation_best_friend = root
-					has_relation_blood_brother = root
-					has_relation_soldier_friend = root
-					
-					has_relation_soulmate = root
-
-					has_relation_elder = root
-					has_relation_disciple = root
-					has_relation_ward = root
-					has_relation_guardian = root
-					has_relation_mentor = root
-					has_relation_student = root
-				}
-			}
-			any_relation = {
-			type = mentor
-			NOT = {has_secret_relation_rival = prev}
-			is_physically_able_ai_adult = yes
-			obf_has_rival_or_negative_relation = no
-				OR = {
-					is_consort_of = root
-					is_child_of = root
-					is_parent_of = root
-					is_sibling_of = root
-					has_relation_lover = root
-					has_relation_friend = root
-					has_relation_best_friend = root
-					has_relation_blood_brother = root
-					has_relation_soldier_friend = root
-					
-					has_relation_soulmate = root
-
-					has_relation_elder = root
-					has_relation_disciple = root
-					has_relation_ward = root
-					has_relation_guardian = root
-					has_relation_mentor = root
-					has_relation_student = root
-				}
-			}
-			any_relation = {
-			type = student
-			NOT = {has_secret_relation_rival = prev}
-			is_physically_able_ai_adult = yes
-			obf_has_rival_or_negative_relation = no
-				OR = {
-					is_consort_of = root
-					is_child_of = root
-					is_parent_of = root
-					is_sibling_of = root
-					has_relation_lover = root
-					has_relation_friend = root
-					has_relation_best_friend = root
-					has_relation_blood_brother = root
-					has_relation_soldier_friend = root
-					
-					has_relation_soulmate = root
-
-					has_relation_elder = root
-					has_relation_disciple = root
-					has_relation_ward = root
-					has_relation_guardian = root
-					has_relation_mentor = root
-					has_relation_student = root
-				}
+			OR = {
+				is_consort_of = root
+				is_child_of = root
+				is_parent_of = root
+				is_sibling_of = root
+				has_relation_lover = root
+				has_relation_friend = root
+				has_relation_best_friend = root
+				has_relation_blood_brother = root
+				has_relation_soldier_friend = root
+				has_relation_soulmate = root
+				has_relation_elder = root
+				has_relation_disciple = root
+				has_relation_ward = root
+				has_relation_guardian = root
+				has_relation_mentor = root
+				has_relation_student = root
 			}
 		}
+		any_relation = {
+			type = guardian
+			NOT = {
+				has_secret_relation_rival = prev
+			}
+			is_physically_able_ai_adult = yes
+			obf_has_rival_or_negative_relation = no
+			OR = {
+				is_consort_of = root
+				is_child_of = root
+				is_parent_of = root
+				is_sibling_of = root
+				has_relation_lover = root
+				has_relation_friend = root
+				has_relation_best_friend = root
+				has_relation_blood_brother = root
+				has_relation_soldier_friend = root
+				has_relation_soulmate = root
+				has_relation_elder = root
+				has_relation_disciple = root
+				has_relation_ward = root
+				has_relation_guardian = root
+				has_relation_mentor = root
+				has_relation_student = root
+			}
+		}
+		any_relation = {
+			type = ward
+			NOT = {
+				has_secret_relation_rival = prev
+			}
+			is_physically_able_ai_adult = yes
+			obf_has_rival_or_negative_relation = no
+			OR = {
+				is_consort_of = root
+				is_child_of = root
+				is_parent_of = root
+				is_sibling_of = root
+				has_relation_lover = root
+				has_relation_friend = root
+				has_relation_best_friend = root
+				has_relation_blood_brother = root
+				has_relation_soldier_friend = root
+				has_relation_soulmate = root
+				has_relation_elder = root
+				has_relation_disciple = root
+				has_relation_ward = root
+				has_relation_guardian = root
+				has_relation_mentor = root
+				has_relation_student = root
+			}
+		}
+		any_relation = {
+			type = mentor
+			NOT = {
+				has_secret_relation_rival = prev
+			}
+			is_physically_able_ai_adult = yes
+			obf_has_rival_or_negative_relation = no
+			OR = {
+				is_consort_of = root
+				is_child_of = root
+				is_parent_of = root
+				is_sibling_of = root
+				has_relation_lover = root
+				has_relation_friend = root
+				has_relation_best_friend = root
+				has_relation_blood_brother = root
+				has_relation_soldier_friend = root
+				has_relation_soulmate = root
+				has_relation_elder = root
+				has_relation_disciple = root
+				has_relation_ward = root
+				has_relation_guardian = root
+				has_relation_mentor = root
+				has_relation_student = root
+			}
+		}
+		any_relation = {
+			type = student
+			NOT = {
+				has_secret_relation_rival = prev
+			}
+			is_physically_able_ai_adult = yes
+			obf_has_rival_or_negative_relation = no
+			OR = {
+				is_consort_of = root
+				is_child_of = root
+				is_parent_of = root
+				is_sibling_of = root
+				has_relation_lover = root
+				has_relation_friend = root
+				has_relation_best_friend = root
+				has_relation_blood_brother = root
+				has_relation_soldier_friend = root
+				has_relation_soulmate = root
+				has_relation_elder = root
+				has_relation_disciple = root
+				has_relation_ward = root
+				has_relation_guardian = root
+				has_relation_mentor = root
+				has_relation_student = root
+			}
+		}
+	}
 }
 
 obf_has_high_level_knowledge_flags = {
@@ -1188,40 +1470,48 @@ obf_has_high_level_knowledge_flags = {
 }
 
 # Scripted trigger for close or intimate relations
-
 obf_has_close_or_intimate_relation = {
-obf_has_rival_or_negative_relation = no
-    OR = {
-        is_consort_of = root
-        is_child_of = root
+	obf_has_rival_or_negative_relation = no
+	OR = {
+		is_consort_of = root
+		is_child_of = root
 		is_parent_of = root
 		is_sibling_of = root
-        has_relation_soulmate = root
-        has_relation_best_friend = root
+		has_relation_soulmate = root
+		has_relation_best_friend = root
 		has_relation_soldier_friend = root
-    }
+	}
 }
 
 ####Fellow vassals 
 obf_is_fellow_vassal_or_liege_councillor = {
-	And = { ### And added by ljl 
+	And = {
+		### And added by ljl 
 		exists = liege
 		exists = root.liege
 		liege = root.liege
-		NOT = {liege = root}
-				OR = {is_councillor_of = liege
-						is_ruler = yes}
+		NOT = {
+			liege = root
+		}
+		OR = {
+			is_councillor_of = liege
+			is_ruler = yes
+		}
 	}
 }
 
 ##WORKS ON SAME COURT 
 obf_works_in_same_court = {
-	And = { ### And added by ljl 
+	And = {
+		### And added by ljl 
 		exists = root.liege
-		root = {OR = {
-			is_knight = yes
-			is_councillor = yes}}
-		OR = {	
+		root = {
+			OR = {
+				is_knight = yes
+				is_councillor = yes
+			}
+		}
+		OR = {
 			is_knight_of = root.liege
 			is_courtier_of = root.liege
 			is_pool_guest_of = root.liege
@@ -1230,74 +1520,76 @@ obf_works_in_same_court = {
 }
 
 # Scripted trigger for extended family members # Directly from code is_extended_family_of 
-
 # Scripted trigger for direct vassals and liege connections
 obf_has_vassal_or_liege_relation = {
-    OR = {
-        is_vassal_of = root
-		AND = {exists = root.liege
-		this = root.liege}
+	OR = {
+		is_vassal_of = root
+		AND = {
+			exists = root.liege
+			this = root.liege
+		}
 		is_contact_of = root
-        #is_liege_or_above_of = root
-        #is_vassal_or_below_of = root
-        #is_primary_heir_of = root
-        #is_heir_of = root
-    }
+		#is_liege_or_above_of = root
+		#is_vassal_or_below_of = root
+		#is_primary_heir_of = root
+		#is_heir_of = root
+	}
 }
 
-obf_has_tributary_or_suzerain_relation = { #added by ljl
-    OR = {
-        is_tributary_of = root
-		AND = {exists = root.suzerain
-		this = root.suzerain}
+obf_has_tributary_or_suzerain_relation = {
+	#added by ljl
+	OR = {
+		is_tributary_of = root
+		AND = {
+			exists = root.suzerain
+			this = root.suzerain
+		}
 		is_contact_of = root
-        #is_liege_or_above_of = root
-        #is_vassal_or_below_of = root
-        #is_primary_heir_of = root
-        #is_heir_of = root
-    }
+		#is_liege_or_above_of = root
+		#is_vassal_or_below_of = root
+		#is_primary_heir_of = root
+		#is_heir_of = root
+	}
 }
 
 ### ROOT IS EMPLOYER. # Directly from code is_employer_of	 
 obf_has_important_court_position = {
-is_ruler = no
-    OR = {
+	is_ruler = no
+	OR = {
 		has_relation_antiquarian = root
-        has_relation_court_physician = root
+		has_relation_court_physician = root
 		is_knight_of = root
 		is_councillor_of = root
-
-    }
+	}
 }
 
 ### Hostile presence on court ### directly from code is_imprisoned_by
-
 # Scripted trigger for court presence and roles
 obf_courtier_or_guest_has_just_joined_court = {
-    days_since_joined_court < 180
-    OR = {
-        is_courtier_of = root
-        is_pool_guest_of = root
-    }
+	days_since_joined_court < 180
+	OR = {
+		is_courtier_of = root
+		is_pool_guest_of = root
+	}
 }
 
 # Scripted trigger for court presence and roles
 obf_is_courtier_or_guest = {
-   OR = {
-        is_courtier_of = root
-        is_pool_guest_of = root
-    }
+	OR = {
+		is_courtier_of = root
+		is_pool_guest_of = root
+	}
 }
 
 # Scripted trigger for allies or neighboring realms
 obf_is_ally_or_neighbor = {
-    OR = {
-        is_allied_to = root
-        any_county = {
-		holder = prev
-			is_neighbor_to_realm = root	
+	OR = {
+		is_allied_to = root
+		any_county = {
+			holder = prev
+			is_neighbor_to_realm = root
 		}
-    }
+	}
 }
 
 # obf_is_in_same_confederation_as_root = { ## added by ljl
@@ -1305,7 +1597,6 @@ obf_is_ally_or_neighbor = {
 #     # 如果当前角色不在邦联中，这个代码块将不会被执行，触发器直接返回 false。
 #     ### confederation = {
 #         # 代码执行到这里时，上下文（this）已经变成了当前角色所在的“邦联对象”。
-        
 #         # 现在，我们在这个邦联中查找是否存在一个成员（any_confederation_member），
 #         # 这个成员（member's this）正好等于 root（玩家）。
 #         # 如果找到，说明玩家和原角色在同一个邦联中，此条件为真。
@@ -1314,53 +1605,61 @@ obf_is_ally_or_neighbor = {
 #         }
 #     }
 # }
-
-
 # Scripted trigger for ward and guardian relationships
 obf_has_guardian_or_ward_relation = {
-    OR = {
-        has_relation_guardian = root
-        has_relation_ward = root
-    }
+	OR = {
+		has_relation_guardian = root
+		has_relation_ward = root
+	}
 }
-
-
 
 # Scripted trigger for friendships and mentorships
 obf_has_near_intimate_or_close_relation = {
-    OR = {
-        has_relation_friend = root
-        has_relation_mentor = root
-        has_relation_student = root
-        has_relation_intrigue_mentor = root
-        has_relation_intrigue_student = root
-        has_relation_potential_friend = root
-		 has_relation_lover = root
-        has_relation_crush = root
-        has_relation_potential_lover = root
-		root = {has_relation_crush = prev}
-    }
+	OR = {
+		has_relation_friend = root
+		has_relation_mentor = root
+		has_relation_student = root
+		has_relation_intrigue_mentor = root
+		has_relation_intrigue_student = root
+		has_relation_potential_friend = root
+		has_relation_lover = root
+		has_relation_crush = root
+		has_relation_potential_lover = root
+		root = {
+			has_relation_crush = prev
+		}
+	}
 }
 
 # Scripted trigger for rivalries and negative relations
 obf_has_rival_or_negative_relation = {
-    OR = {
-        has_relation_rival = root
-        has_relation_bully = root
-        has_relation_victim = root
-        has_relation_nemesis = root
-		root = {has_relation_grudge = prev}
-    }
-}
-
-obf_can_be_hired_as_mercenary = {
-OR = {
-	AND = { exists = primary_title
-		OR = {primary_title = { is_mercenary_company = yes }
-		primary_title = { is_holy_order = yes }}}
-       AND = {has_government = landless_adventurer_government
-				current_military_strength >= 100}
-
+	OR = {
+		has_relation_rival = root
+		has_relation_bully = root
+		has_relation_victim = root
+		has_relation_nemesis = root
+		root = {
+			has_relation_grudge = prev
+		}
 	}
 }
 
+obf_can_be_hired_as_mercenary = {
+	OR = {
+		AND = {
+			exists = primary_title
+			OR = {
+				primary_title = {
+					is_mercenary_company = yes
+				}
+				primary_title = {
+					is_holy_order = yes
+				}
+			}
+		}
+		AND = {
+			has_government = landless_adventurer_government
+			current_military_strength >= 100
+		}
+	}
+}

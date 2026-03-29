@@ -1,9 +1,8 @@
 ﻿acquaintance = {
 	hidden = yes
 	corresponding = acquaintance
-	
 }
+
 spied = {
 	opinion = 0
 }
-
