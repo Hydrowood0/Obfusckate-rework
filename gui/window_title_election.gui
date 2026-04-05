@@ -660,7 +660,7 @@ window = {
 																icon_trait = {
 																	#Changed by ObfusCKate: Start
 																	# visible = "[Trait.IsValid]"
-																	#visible = "[And(Trait.IsValid, GetScriptedGui('gui_show_traits_in_lists').IsValid( GuiScope.SetRoot( #GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
+																	#visible = "[And(Trait.IsValid, GetScriptedGui('gui_rule_obf_traits_familiarity_in_lists').IsValid( GuiScope.SetRoot( #GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))]"
 																	#Changed by ObfusCKate: End
 
 																	blockoverride "icon_size"

@@ -507,7 +507,7 @@ types GuestListWindow
 						dynamicgridbox = {
 							name = "traits_grid"
 
-							#visible = "[GetScriptedGui('gui_show_traits_in_lists').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End )]"
+							#visible = "[GetScriptedGui('gui_rule_obf_traits_familiarity_in_lists').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End )]"
 							#changed by obfusCKate: End
 							datamodel = "[CharacterListItem.GetTraits]"
 							datamodel_reuse_widgets = no

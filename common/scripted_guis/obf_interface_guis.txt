@@ -304,8 +304,8 @@ gui_show_known_kill_list = {
 		}
 		scope:character ?= {
 			OR = {
-				prestige_level >= 4
-				highest_held_title_tier >= tier_empire
+				# prestige_level >= 4
+				# highest_held_title_tier >= tier_empire
 				AND = {
 					in_diplomatic_range = root
 					OR = {
@@ -386,8 +386,8 @@ gui_show_approx_age = {
 		exists = root
 		scope:character ?= {
 			OR = {
-				prestige_level >= 4
-				highest_held_title_tier >= tier_empire
+				# prestige_level >= 4
+				# highest_held_title_tier >= tier_empire
 				AND = {
 					in_diplomatic_range = root
 					OR = {
@@ -470,8 +470,8 @@ gui_show_health = {
 						has_character_flag = partially_spied_2
 					}
 				}
-				prestige_level >= 4
-				highest_held_title_tier >= tier_empire
+				# prestige_level >= 4
+				# highest_held_title_tier >= tier_empire
 				AND = {
 					in_diplomatic_range = root
 					OR = {
@@ -535,8 +535,8 @@ gui_prowess_known = {
 						has_character_flag = partially_spied_2
 					}
 				}
-				prestige_level >= 4
-				highest_held_title_tier >= tier_empire
+				# prestige_level >= 4
+				# highest_held_title_tier >= tier_empire
 				obf_can_be_hired_as_mercenary = yes
 				AND = {
 					in_diplomatic_range = root
@@ -578,8 +578,8 @@ gui_show_efficiency = {
 			scope:character ?= {
 				OR = {
 					this ?= root
-					prestige_level >= 4
-					highest_held_title_tier >= tier_empire
+					# prestige_level >= 4
+					# highest_held_title_tier >= tier_empire
 					AND = {
 						in_diplomatic_range = root
 						OR = {
@@ -647,7 +647,7 @@ gui_personality_is_known = {
 				}
 				AND = {
 					OR = {
-						prestige_level >= 4
+						# prestige_level >= 4
 						highest_held_title_tier >= tier_empire
 						AND = {
 							in_diplomatic_range = root
@@ -705,7 +705,7 @@ gui_basic_personality_is_known = {
 				}
 				AND = {
 					OR = {
-						prestige_level >= 4
+						# prestige_level >= 4
 						AND = {
 							in_diplomatic_range = root
 							prestige_level >= 3
@@ -733,7 +733,7 @@ gui_first_impression_is_known = {
 		}
 		scope:character ?= {
 			OR = {
-				prestige_level >= 4
+				# prestige_level >= 4
 				AND = {
 					in_diplomatic_range = root
 					prestige_level >= 3
@@ -971,8 +971,8 @@ gui_prestige_shown = {
 					top_liege = root.top_liege
 					influence_level >= 1
 				}
-				prestige_level >= 4
-				highest_held_title_tier >= tier_empire
+				# prestige_level >= 4
+				# highest_held_title_tier >= tier_empire
 				AND = {
 					in_diplomatic_range = root
 					OR = {
@@ -1120,8 +1120,8 @@ gui_piety_shown = {
 			OR = {
 				this ?= root
 				obf_is_fellow_vassal_or_liege_councillor = yes
-				prestige_level >= 4
-				highest_held_title_tier >= tier_empire
+				# prestige_level >= 4
+				# highest_held_title_tier >= tier_empire
 				AND = {
 					in_diplomatic_range = root
 					OR = {
@@ -1184,8 +1184,8 @@ gui_influence_shown = {
 						top_liege = root.top_liege
 						influence_level >= 2
 					}
-					prestige_level >= 4
-					highest_held_title_tier >= tier_empire
+					# prestige_level >= 4
+					# highest_held_title_tier >= tier_empire
 					AND = {
 						in_diplomatic_range = root
 						OR = {
@@ -1267,8 +1267,8 @@ gui_legitimacy_shown = {
 			OR = {
 				this ?= root
 				obf_is_fellow_vassal_or_liege_councillor = yes
-				prestige_level >= 4
-				highest_held_title_tier >= tier_empire
+				# prestige_level >= 4
+				# highest_held_title_tier >= tier_empire
 				AND = {
 					in_diplomatic_range = root
 					OR = {
@@ -1316,8 +1316,8 @@ gui_dread_shown = {
 			is_alive = yes
 			OR = {
 				obf_is_fellow_vassal_or_liege_councillor = yes
-				prestige_level >= 4
-				highest_held_title_tier >= tier_empire
+				# prestige_level >= 4
+				# highest_held_title_tier >= tier_empire
 				AND = {
 					in_diplomatic_range = root
 					OR = {
@@ -1509,9 +1509,9 @@ gui_faith_and_culture_known = {
 		scope:character ?= {
 			OR = {
 				this ?= root
-				prestige_level >= 4
-				piety_level >= 4
-				highest_held_title_tier >= tier_empire
+				# prestige_level >= 4
+				# piety_level >= 4
+				# highest_held_title_tier >= tier_empire
 				AND = {
 					in_diplomatic_range = root
 					OR = {
@@ -1598,10 +1598,10 @@ gui_house_known = {
 			OR = {
 				this ?= root
 				matchmaker.highest_held_title_tier >= tier_kingdom
-				highest_held_title_tier >= tier_empire
-				prestige_level >= 4
-				piety_level >= 4
-				dynasty.dynasty_prestige_level >= 4
+				# highest_held_title_tier >= tier_empire
+				# prestige_level >= 4
+				# piety_level >= 4
+				# dynasty.dynasty_prestige_level >= 4
 				AND = {
 					in_diplomatic_range = root
 					OR = {
@@ -1667,9 +1667,9 @@ gui_show_domain = {
 			scope:character ?= {
 				OR = {
 					this ?= root
-					highest_held_title_tier >= tier_empire
-					prestige_level >= 4
-					piety_level >= 4
+					# highest_held_title_tier >= tier_empire
+					# prestige_level >= 4
+					# piety_level >= 4
 					AND = {
 						in_diplomatic_range = root
 						OR = {
@@ -1715,8 +1715,8 @@ gui_show_titles_and_claims = {
 		scope:character ?= {
 			OR = {
 				this ?= root
-				prestige_level >= 4
-				highest_held_title_tier >= tier_empire
+				# prestige_level >= 4
+				# highest_held_title_tier >= tier_empire
 				AND = {
 					in_diplomatic_range = root
 					OR = {
@@ -1779,8 +1779,8 @@ gui_show_diplomacy_items = {
 			is_alive = yes
 			OR = {
 				this ?= root
-				prestige_level >= 4
-				highest_held_title_tier >= tier_empire
+				# prestige_level >= 4
+				# highest_held_title_tier >= tier_empire
 				AND = {
 					in_diplomatic_range = root
 					OR = {
@@ -1867,8 +1867,8 @@ gui_tab_count_estimate_known = {
 		}
 		scope:character ?= {
 			OR = {
-				prestige_level >= 4
-				highest_held_title_tier >= tier_empire
+				# prestige_level >= 4
+				# highest_held_title_tier >= tier_empire
 				AND = {
 					in_diplomatic_range = root
 					OR = {
@@ -1897,8 +1897,8 @@ gui_show_family_tab = {
 		scope:character ?= {
 			OR = {
 				this ?= root
-				prestige_level >= 4
-				highest_held_title_tier >= tier_empire
+				# prestige_level >= 4
+				# highest_held_title_tier >= tier_empire
 				AND = {
 					in_diplomatic_range = root
 					OR = {
@@ -1946,8 +1946,8 @@ gui_show_relations_tab = {
 		scope:character ?= {
 			OR = {
 				this ?= root
-				prestige_level >= 4
-				highest_held_title_tier >= tier_empire
+				# prestige_level >= 4
+				# highest_held_title_tier >= tier_empire
 				AND = {
 					in_diplomatic_range = root
 					OR = {
@@ -2029,8 +2029,8 @@ gui_show_intimate_relations = {
 		scope:character ?= {
 			OR = {
 				this ?= root
-				prestige_level >= 4
-				highest_held_title_tier >= tier_empire
+				# prestige_level >= 4
+				# highest_held_title_tier >= tier_empire
 				AND = {
 					in_diplomatic_range = root
 					OR = {
@@ -2091,8 +2091,8 @@ gui_show_courtiers_tab = {
 		scope:character ?= {
 			OR = {
 				this ?= root
-				prestige_level >= 4
-				highest_held_title_tier >= tier_empire
+				# prestige_level >= 4
+				# highest_held_title_tier >= tier_empire
 				AND = {
 					in_diplomatic_range = root
 					OR = {
@@ -2137,8 +2137,8 @@ gui_show_vassals_tab = {
 		scope:character ?= {
 			OR = {
 				this ?= root
-				prestige_level >= 4
-				highest_held_title_tier >= tier_empire
+				# prestige_level >= 4
+				# highest_held_title_tier >= tier_empire
 				AND = {
 					in_diplomatic_range = root
 					OR = {
@@ -2204,7 +2204,7 @@ gui_show_chars_in_list = {
 			}
 			this ?= scope:player.liege
 			is_at_same_location = scope:player
-			prestige_level >= 4
+			# prestige_level >= 4
 			AND = {
 				in_diplomatic_range = root
 				prestige_level >= 3
@@ -2239,9 +2239,9 @@ gui_show_allies_declare_war = {
 				}
 			}
 			this ?= scope:player
-			influence_level >= 3
-			prestige_level >= 4
-			highest_held_title_tier >= tier_empire
+			# influence_level >= 3
+			# prestige_level >= 4
+			# highest_held_title_tier >= tier_empire
 			AND = {
 				in_diplomatic_range = scope:player
 				OR = {
@@ -2393,9 +2393,9 @@ gui_show_allies_declare_war = {
 						}
 					}
 					this ?= scope:player
-					influence_level >= 3
-					prestige_level >= 4
-					highest_held_title_tier >= tier_empire
+					# influence_level >= 3
+					# prestige_level >= 4
+					# highest_held_title_tier >= tier_empire
 					AND = {
 						in_diplomatic_range = scope:player
 						OR = {
@@ -3301,7 +3301,7 @@ gui_opinion_breakdown_shown = {
 	}
 }
 
-# gui_show_traits_in_lists = { # CURRENTLY NOT USED
+# gui_rule_obf_traits_familiarity_in_lists = { # CURRENTLY NOT USED
 # saved_scopes = {
 # character
 # }
@@ -3309,7 +3309,7 @@ gui_opinion_breakdown_shown = {
 # 	exists = scope:character
 # 	exists = root
 # 	NOT = {scope:character ?= root}
-# 	NOT = {has_game_rule = hide_traits}
+# 	NOT = {has_game_rule = rule_hide_all_traits}
 # 	scope:character ?= {
 # 	OR = {
 # 	is_spouse_of_even_if_dead = root
@@ -3340,11 +3340,11 @@ gui_opinion_breakdown_shown = {
 # 		age >= 6
 # 	}
 # 	# NOT = {scope:character ?= root} ##vanilla
-# 	# NOT = {has_game_rule = hide_traits} ## vanilla
+# 	# NOT = {has_game_rule = rule_hide_all_traits} ## vanilla
 # 	# 核心逻辑：要么没开隐藏规则，要么开了规则但满足豁免条件
 #         OR = {
 #             # 情况 A: 根本没开启隐藏特质的规则，直接通过（原有逻辑）
-#             NOT = { has_game_rule = hide_traits }
+#             NOT = { has_game_rule = rule_hide_all_traits }
 #             # # 情况 B: 即使开启了隐藏规则，如果是自己（ROOT），也要显示
 #             # scope:character = { 
 #             #     save_temporary_scope_as = target ##ljl added
@@ -3393,51 +3393,98 @@ gui_show_personality_traits = {
 			is_incapable = no
 			age >= 6
 		}
-		# NOT = {scope:character ?= root} ##vanilla
-		# NOT = {has_game_rule = hide_traits} ## vanilla
-		# 核心逻辑：要么没开隐藏规则，要么开了规则但满足豁免条件
+		
+		# 核心逻辑：满足以下三种情况之一，就显示性格
 		OR = {
-			# 情况 A: 根本没开启隐藏特质的规则，直接通过（原有逻辑）
-			NOT = {
-				has_game_rule = hide_traits
+			# 情况 1: 玩家选择了“全显”规则，无条件通过
+			has_game_rule = rule_show_all_traits
+
+			# 情况 2: 玩家选择了“极致隐藏”规则，则只判断是不是自己
+			AND = {
+				has_game_rule = rule_hide_all_traits
+				scope:character ?= {
+					is_same_value = root
+				}
 			}
-			# # 情况 B: 即使开启了隐藏规则，如果是自己（ROOT），也要显示
-			# scope:character = { 
-			#     save_temporary_scope_as = target ##ljl added
-			# }
-			# root = { is_same_value = scope:target } ##ljl added
-			# ## scope:character ?= root ##ljl added
-			# 情况 C: 开启了规则，但满足特定的情报/关系门槛
-			scope:character ?= {
-				OR = {
-					is_same_value = root					##ljl added, fix bug: When I hide personality in the settings, my personality is also hidden.
-					is_spouse_of_even_if_dead = root
-					obf_has_close_or_intimate_relation = yes
-					has_character_flag = has_been_spied
-					has_character_flag = had_high_level_report
-					AND = {
-						revelation_score >= 37.5
-						OR = {
-							obf_is_fellow_vassal_or_liege_councillor = yes
-							obf_has_high_level_knowledge_flags = yes
-							obf_has_guardian_or_ward_relation = yes
-							obf_has_important_court_position = yes
-							obf_has_near_intimate_or_close_relation = yes
+
+			# 情况 3: 玩家选择了“按熟知度隐藏”规则，则启动情报网判定
+			AND = {
+				has_game_rule = rule_obf_traits_familiarity
+				scope:character ?= {
+					OR = {
+						is_same_value = root	# 自己能看自己
+						is_spouse_of_even_if_dead = root
+						obf_has_close_or_intimate_relation = yes
+						has_character_flag = has_been_spied
+						has_character_flag = had_high_level_report
+						AND = {
+							revelation_score >= 37.5
+							OR = {
+								obf_is_fellow_vassal_or_liege_councillor = yes
+								obf_has_high_level_knowledge_flags = yes
+								obf_has_guardian_or_ward_relation = yes
+								obf_has_important_court_position = yes
+								obf_has_near_intimate_or_close_relation = yes
+							}
 						}
-					}
-					AND = {
-						OR = {
-							has_character_flag = emissary_sent
-							has_character_flag = had_medium_level_report
-							has_character_flag = partially_spied_2
+						AND = {
+							OR = {
+								has_character_flag = emissary_sent
+								has_character_flag = had_medium_level_report
+								has_character_flag = partially_spied_2
+							}
+							revelation_score >= 75
 						}
-						revelation_score >= 75
 					}
 				}
 			}
 		}
 	}
 }
+# gui_show_education_traits = {
+# 	saved_scopes = {
+# 		character
+# 	}
+# 	is_valid = {
+# 		exists = scope:character
+# 		exists = root
+# 		root ?= {
+# 			is_incapable = no
+# 			age >= 6
+# 		}
+# 		NOT = {
+# 			scope:character ?= root
+# 		}
+# 		NOT = {
+# 			has_game_rule = rule_hide_all_traits
+# 		}
+# 		scope:character ?= {
+# 			OR = {
+# 				AND = {
+# 					OR = {
+# 						is_courtier_of = root
+# 						is_pool_guest_of = root
+# 					}
+# 					OR = {
+# 						has_trait = education_diplomacy_3
+# 						has_trait = education_martial_3
+# 						has_trait = education_stewardship_3
+# 						has_trait = education_intrigue_3
+# 						has_trait = education_learning_3
+# 						has_trait = education_diplomacy_4
+# 						has_trait = education_martial_4
+# 						has_trait = education_stewardship_4
+# 						has_trait = education_intrigue_4
+# 						has_trait = education_learning_4
+# 					}
+# 				}
+# 				has_character_flag = has_been_spied
+# 				has_character_flag = had_high_level_report
+# 				has_character_flag = had_medium_level_report
+# 			}
+# 		}
+# 	}
+# }
 
 gui_show_education_traits = {
 	saved_scopes = {
@@ -3450,35 +3497,54 @@ gui_show_education_traits = {
 			is_incapable = no
 			age >= 6
 		}
-		NOT = {
-			scope:character ?= root
-		}
-		NOT = {
-			has_game_rule = hide_traits
-		}
-		scope:character ?= {
-			OR = {
-				AND = {
+		
+		# 核心逻辑：缝合三种规则，满足其一即显示
+		OR = {
+			# 情况 1: 全显规则 (原版体验)
+			has_game_rule = rule_show_all_traits
+
+			# 情况 2: 极致隐藏规则 (只显示自己)
+			AND = {
+				has_game_rule = rule_hide_all_traits
+				scope:character ?= {
+					is_same_value = root
+				}
+			}
+
+			# 情况 3: 按熟知度隐藏 (ObfusCKate 核心体验)
+			AND = {
+				has_game_rule = rule_obf_traits_familiarity
+				scope:character ?= {
 					OR = {
-						is_courtier_of = root
-						is_pool_guest_of = root
-					}
-					OR = {
-						has_trait = education_diplomacy_3
-						has_trait = education_martial_3
-						has_trait = education_stewardship_3
-						has_trait = education_intrigue_3
-						has_trait = education_learning_3
-						has_trait = education_diplomacy_4
-						has_trait = education_martial_4
-						has_trait = education_stewardship_4
-						has_trait = education_intrigue_4
-						has_trait = education_learning_4
+						# 3.1 永远能看到自己的教育特质
+						is_same_value = root 
+
+						# 3.2 高等级（3级或4级）教育特质的廷臣/宾客会自动暴露
+						AND = {
+							OR = {
+								is_courtier_of = root
+								is_pool_guest_of = root
+							}
+							OR = {
+								has_trait = education_diplomacy_3
+								has_trait = education_martial_3
+								has_trait = education_stewardship_3
+								has_trait = education_intrigue_3
+								has_trait = education_learning_3
+								has_trait = education_diplomacy_4
+								has_trait = education_martial_4
+								has_trait = education_stewardship_4
+								has_trait = education_intrigue_4
+								has_trait = education_learning_4
+							}
+						}
+
+						# 3.3 满足特定的情报/间谍条件
+						has_character_flag = has_been_spied
+						has_character_flag = had_high_level_report
+						has_character_flag = had_medium_level_report
 					}
 				}
-				has_character_flag = has_been_spied
-				has_character_flag = had_high_level_report
-				has_character_flag = had_medium_level_report
 			}
 		}
 	}
@@ -3533,8 +3599,8 @@ gui_show_other_traits = {
 						has_character_flag = searching_for_physician
 					}
 				}
-				prestige_level >= 4
-				highest_held_title_tier >= tier_empire
+				# prestige_level >= 4
+				# highest_held_title_tier >= tier_empire
 				AND = {
 					in_diplomatic_range = root
 					OR = {
@@ -3587,8 +3653,8 @@ gui_show_physical_traits = {
 					}
 				}
 				is_spouse_of_even_if_dead = root
-				prestige_level >= 4
-				highest_held_title_tier >= tier_empire
+				# prestige_level >= 4
+				# highest_held_title_tier >= tier_empire
 				AND = {
 					in_diplomatic_range = root
 					OR = {

@@ -108,17 +108,41 @@ skill_masking = {
 	}
 }
 
+# personality_traits = {
+# 	categories = {
+# 		obfusCKate
+# 	}
+# 	default = rule_obf_traits_familiarity
+# 	rule_obf_traits_familiarity = {
+# 		flag = rule_obf_traits_familiarity
+# 		flag = GG_can_change_rule
+# 	}
+# 	rule_hide_all_traits = {
+# 		flag = rule_hide_all_traits
+# 		flag = GG_can_change_rule
+# 	}
+# }
 personality_traits = {
 	categories = {
 		obfusCKate
 	}
-	default = show_traits
-	show_traits = {
-		flag = show_traits
+	default = rule_obf_traits_familiarity  # 建议将默认项改为“按熟知度隐藏”，这符合这个Mod的初衷
+
+	# 选项1：全员显示 (等同于没打Mod)
+	rule_show_all_traits = { ##Ai原show_all_traits
+		flag = rule_show_all_traits
 		flag = GG_can_change_rule
 	}
-	hide_traits = {
-		flag = hide_traits
+	
+	# 选项2：按熟知度隐藏 (Mod特色)
+	rule_obf_traits_familiarity = { ##Ai原obf_familiarity
+		flag = rule_obf_traits_familiarity
+		flag = GG_can_change_rule
+	}
+
+	# 选项3：全隐藏，只看自己 (硬核模式)
+	rule_hide_all_traits = { ##Ai原hide_all_traits
+		flag = rule_hide_all_traits
 		flag = GG_can_change_rule
 	}
 }

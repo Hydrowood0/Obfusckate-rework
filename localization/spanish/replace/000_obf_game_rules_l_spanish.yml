@@ -45,10 +45,12 @@ setting_Show_age_disabled_desc: "follow the modding" #NT!
  setting_express_opinion_disabled: "Disable" #NT!
  setting_express_opinion_disabled_desc: "Default CKIII behaviour." #NT!
  rule_personality_traits: "Personality Traits" #NT!
- setting_show_traits: "Visible" #NT!
- setting_show_traits_desc: "Default mod behaviour (Personaltity traits visibility depends of your level of knowledge about the character)." #NT!
- setting_hide_traits: "Hidden" #NT!
- setting_hide_traits_desc: "Personality traits are hidden #N for all characters#! except you. Personality description is still visible depending of your level of knowledge about the character." #NT!
+ setting_rule_show_all_traits: "Visible for all" #NT!
+ setting_rule_show_all_traits_desc: "Everyone's personaltity traits are visible" #NT!
+ setting_rule_obf_traits_familiarity: "Visible" #NT!
+ setting_rule_obf_traits_familiarity_desc: "Default mod behaviour (Personaltity traits visibility depends of your level of knowledge about the character)." #NT!
+ setting_rule_hide_all_traits: "Hidden" #NT!
+ setting_rule_hide_all_traits_desc: "Personality traits are hidden #N for all characters#! except you. Personality description is still visible depending of your level of knowledge about the character." #NT!
   
  rule_meta_traits: "Hide Some or All [meta_traits|E]" #NT!
  setting_show_meta_traits: "Visible" #NT!

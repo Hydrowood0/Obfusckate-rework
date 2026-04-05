@@ -24,8 +24,11 @@ macro = {
     description = "Personality traits are visible condition"
 	definition = "PersonalityTraitsVisible"
     # 将原本的判断改为：或者是玩家自己，或者没开规则 changed by ljl，使得隐藏所有人的性格只显示自己的生效
-    # replace_with = "Not(GetGameRules.HasRuleWithFlag('hide_traits'))"
-	replace_with = "Or(Character.IsLocalPlayer, Not(GetGameRules.HasRuleWithFlag('hide_traits')) )"
+    # replace_with = "Not(GetGameRules.HasRuleWithFlag('rule_hide_all_traits'))"
+	replace_with = "Or(Character.IsLocalPlayer, Not(GetGameRules.HasRuleWithFlag('rule_hide_all_traits')) )" ##personality_traits三个规则下不对?
+	# 逻辑：只要游戏没开启“极致隐藏(只看自己)”规则，或者当前看的是玩家自己，总闸就打开。
+	# 注意：总闸打开不代表一定显示，而是把决定权往下交给 gui_show_personality_traits 脚本。
+	## replace_with = "Or(Character.IsLocalPlayer, GetGameRules.HasRuleWithFlag('rule_obf_traits_familiarity') )"
 }
 
 macro = {
@@ -34,7 +37,13 @@ macro = {
 	# 将原本的判断改为：或者是玩家自己，或者没开规则 changed by ljl，使得隐藏所有人的性格只显示自己的生效
 	# replace_with = "And(Not(Character.IsAdult), Not(GetGameRules.HasRuleWithFlag('hide_children_traits')))"
 	replace_with = "Or(Character.IsLocalPlayer, And(Not(Character.IsAdult), Not(GetGameRules.HasRuleWithFlag('hide_children_traits'))))"
+	# 逻辑：如果是个孩子，且游戏里没有单独开启“隐藏儿童特质”的通用规则，就允许显示。
+	# 这里不需要再判断是不是自己了，因为 GUI 代码里已经把这个宏和上面的 PersonalityTraitsVisible 绑在一起(AND)了。
+	# replace_with = "And( Not(Character.IsAdult), Not(GetGameRules.HasRuleWithFlag('hide_children_traits')) )"
+
 }
+
+
 
 macro = {
 	description = "Portraits are disabled"
@@ -114,6 +123,13 @@ macro = {
 }
 
 macro = {
+	description = "Some Meta Traits Are visible"
+	definition = "ShowMetaTraits"
+	replace_with = "Not(Or(GetGameRules.HasRuleWithFlag('hide_meta_traits'),GetGameRules.HasRuleWithFlag('hide_some_meta_traits')))"
+}
+
+
+macro = {
 	description = "Meta Traits Are visible"
 	definition = "HideSomeMetaTraits"
 	replace_with = "And(GetGameRules.HasRuleWithFlag('hide_some_meta_traits'), Not(Or(EqualTo_string( Trait.GetKey, 'disloyal' ),Or(EqualTo_string( Trait.GetKey, 'loyal' ),Or(EqualTo_string( Trait.GetKey, 'infertile' ),EqualTo_string( Trait.GetKey, 'fecund' ))))))"
@@ -168,12 +184,6 @@ macro = {
 }
 
 macro = {
-	description = "Some Meta Traits Are visible"
-	definition = "ShowMetaTraits"
-	replace_with = "Not(Or(GetGameRules.HasRuleWithFlag('hide_meta_traits'),GetGameRules.HasRuleWithFlag('hide_some_meta_traits')))"
-}
-
-macro = {
 	description = "Trait is beauty"
 	definition = "TraitIsFacialBeauty"
 	replace_with = "Or(EqualTo_string( Trait.GetKey, 'beauty_bad_1' ),Or(EqualTo_string( Trait.GetKey, 'beauty_bad_2' ),Or(EqualTo_string( Trait.GetKey, 'beauty_bad_3' ),Or(EqualTo_string( Trait.GetKey, 'beauty_good_1' ),Or(EqualTo_string( Trait.GetKey, 'beauty_good_2' ),EqualTo_string( Trait.GetKey, 'beauty_good_3' ))))))"
@@ -181,20 +191,20 @@ macro = {
 
 macro = {
 	description = "Trait is physical Beauty"
-	definition = "TraitIsPhysicallBeauty"
+	definition = "TraitIsPhysicalBeauty"
 	replace_with = "Or(EqualTo_string( Trait.GetKey, 'athletic' ),Or(EqualTo_string( Trait.GetKey, 'physique_bad_1'),Or(EqualTo_string( Trait.GetKey, 'physique_bad_2'),Or(EqualTo_string( Trait.GetKey, 'physique_bad_3'),Or(EqualTo_string( Trait.GetKey, 'physique_good_1'),Or(EqualTo_string( Trait.GetKey, 'physique_good_2'),EqualTo_string( Trait.GetKey, 'physique_good_3')))))))"
 }
 
 macro = {
-	description = "Trait is other physicall trait"
-	definition = "TraitIsOtherPhysicallTrait"
+	description = "Trait is other Physical trait"
+	definition = "TraitIsOtherPhysicalTrait"
 	replace_with = "Or(EqualTo_string( Trait.GetKey, 'disfigured' ),Or(EqualTo_string( Trait.GetKey, 'weak' ),Or(EqualTo_string( Trait.GetKey, 'strong' ),Or(EqualTo_string( Trait.GetKey, 'eunuch' ),Or(EqualTo_string( Trait.GetKey, 'one_legged'),Or(EqualTo_string( Trait.GetKey, 'one_eyed' ),Or(EqualTo_string( Trait.GetKey, 'scarred' ),Or(EqualTo_string( Trait.GetKey, 'bleeder' ), Or(EqualTo_string( Trait.GetKey, 'spindly' ),Or(EqualTo_string( Trait.GetKey, 'wheezing' ),Or(EqualTo_string( Trait.GetKey, 'hunchbacked' ),Or(EqualTo_string( Trait.GetKey, 'dwarf' ), Or(EqualTo_string( Trait.GetKey, 'clubfooted' ),Or(EqualTo_string( Trait.GetKey, 'scaly' ),Or(EqualTo_string( Trait.GetKey, 'giant' ),Or(EqualTo_string( Trait.GetKey, 'pure_blooded' ),Or(EqualTo_string( Trait.GetKey, 'stuttering' ),Or(EqualTo_string( Trait.GetKey, 'lisping' ),EqualTo_string( Trait.GetKey, 'albino' )))))))))))))))))))"
 }
 
 macro = {
-	description = "Trait is physicall trait"
-	definition = "TraitIsPhysicallTrait"
-	replace_with = "Or(TraitIsFacialBeauty, Or(TraitIsPhysicallBeauty,TraitIsOtherPhysicallTrait))"
+	description = "Trait is Physical trait"
+	definition = "TraitIsPhysicalTrait"
+	replace_with = "Or(TraitIsFacialBeauty, Or(TraitIsPhysicalBeauty,TraitIsOtherPhysicalTrait))"
 }
 
 
@@ -515,3 +525,228 @@ macro = {
 	definition = "ShowKillList"
 	replace_with = "GetScriptedGui('gui_show_known_kill_list').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )"
 }
+
+#不知道哪来的 "[Or(Or( Not(Character.IsValid), Character.IsLocalPlayer ),And(Or( Or( ShowMetaTraits, HideSomeMetaTraits ), HideMetaTraits ),Or(And( Trait.IsPersonality, GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End ) ),And( Trait.IsEducation, GetScriptedGui('gui_show_education_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End ) ),And( TraitIsPhysicalTrait, GetScriptedGui('gui_show_physical_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End ) ),And( Not( Or( Or( Trait.IsPersonality, Trait.IsEducation ), TraitIsPhysicalTrait ) ),GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End )))))]"
+			# 建议将此段逻辑封装为宏，或者直接替换原有的 visible 内容
+			# visible = "[Or(
+			# 	# 1. 基础豁免：角色无效（UI预览）或 本地玩家本人
+			# 	Or( Not(Character.IsValid), Character.IsLocalPlayer ),
+				
+			# 	# 2. 宏规则校验：基于游戏规则判断该特质是否允许被“看见”
+			# 	And(
+			# 		Or( Or( ShowMetaTraits, HideSomeMetaTraits ), HideMetaTraits ),
+			# 		Or(
+			# 			# 分流 A：性格特质 -> 脚本 GUI 判定
+			# 			And( Trait.IsPersonality, 
+			# 				GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End ) 
+			# 			),
+						
+			# 			# 分流 B：教育特质 -> 脚本 GUI 判定
+			# 			And( Trait.IsEducation, 
+			# 				GetScriptedGui('gui_show_education_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End ) 
+			# 			),
+						
+			# 			# 分流 C：身体特质 (Physical) -> 脚本 GUI 判定
+			# 			And( TraitIsPhysicalTrait, 
+			# 				GetScriptedGui('gui_show_physical_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End ) 
+			# 			),
+						
+			# 			# 分流 D：其他特质 -> 问“其他”脚本
+			# 			And( 
+			# 				Not( Or( Or( Trait.IsPersonality, Trait.IsEducation ), TraitIsPhysicalTrait ) ),
+			# 				GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End )
+			# 			)
+			# 		)
+			# 	)
+			# )]"
+macro = {
+	description = "show traits icon.gui?" ##macro本身不能直接当visible?就算用原版的代码进行macro替换也会出bug不显示
+	definition = "showTraitsIcon"
+	replace_with = "Or(And(And(Trait.IsPersonality,Or(And(PersonalityTraitsVisible,Character.IsAdult),And(PersonalityTraitsVisible,PersonalityTraitsVisibleForChildren))), Or(Character.IsLocalPlayer,GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))), And(Not(Or(And(Not(Or(Character.IsLocalPlayer,GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))),ShrewdOrDull),Or(And(Not(Or(Character.IsLocalPlayer,Or(GetScriptedGui('gui_show_education_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))),IsEducationTrait),Trait.IsPersonality))),Or(Character.IsLocalPlayer, Or(And(ShowMetaTraits,Or(And(GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Not(TraitIsPhysicalTrait)), And(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End), TraitIsPhysicalTrait))),Or(And(HideSomeMetaTraits,Or(And(GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Not(TraitIsPhysicalTrait)),And(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End), TraitIsPhysicalTrait))),And(HideMetaTraits,Or(And(GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Not(TraitIsPhysicalTrait)), And(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End), TraitIsPhysicalTrait))))))))))]" 
+}
+# 备份5个 Or(Not(Character.IsValid), Or(And(And(Trait.IsPersonality,Or(And(PersonalityTraitsVisible,Character.IsAdult),And(PersonalityTraitsVisible,PersonalityTraitsVisibleForChildren))), Or(Character.IsLocalPlayer,GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))), And(Not(Or(And(Not(Or(Character.IsLocalPlayer,GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))),ShrewdOrDull),Or(And(Not(Or(Character.IsLocalPlayer,Or(GetScriptedGui('gui_show_education_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))),IsEducationTrait),Trait.IsPersonality))),Or(Character.IsLocalPlayer, Or(And(ShowMetaTraits,Or(And(GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Not(TraitIsPhysicalTrait)), And(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End), TraitIsPhysicalTrait))),Or(And(HideSomeMetaTraits,Or(And(GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Not(TraitIsPhysicalTrait)),And(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End), TraitIsPhysicalTrait))),And(HideMetaTraits,Or(And(GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Not(TraitIsPhysicalTrait)), And(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End), TraitIsPhysicalTrait))))))))))]"
+# 备份原来的7个 ,Or(And(And(Trait.IsPersonality,Or(And(PersonalityTraitsVisible,Character.IsAdult),And(PersonalityTraitsVisible,PersonalityTraitsVisibleForChildren))), Or(Character.IsLocalPlayer,GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))), And(Not(Or(And(Not(Or(Character.IsLocalPlayer,GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))),ShrewdOrDull),Or(And(Not(Or(Character.IsLocalPlayer,Or(GetScriptedGui('gui_show_education_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))),IsEducationTrait),Trait.IsPersonality))),Or(Character.IsLocalPlayer, Or(And(ShowMetaTraits,Or(And(GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Not(TraitIsPhysicalTrait)), And(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End), TraitIsPhysicalTrait))),Or(And(HideSomeMetaTraits,Or(And(GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Not(TraitIsPhysicalTrait)),And(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End), TraitIsPhysicalTrait))),And(HideMetaTraits,Or(And(GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Not(TraitIsPhysicalTrait)), And(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End), TraitIsPhysicalTrait))))))))))]"
+## 2-3个replace的原版 "[Or(Not(Character.IsValid), Or(And(And(Trait.IsPersonality,Or(And(PersonalityTraitsVisible,Character.IsAdult),And(PersonalityTraitsVisible,PersonalityTraitsVisibleForChildren))), Or(Character.IsLocalPlayer,GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))), And(Not(Or(And(Not(Or(Character.IsLocalPlayer,GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))),ShrewdOrDull),Or(And(Not(Or(Character.IsLocalPlayer,Or(GetScriptedGui('gui_show_education_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))),IsEducationTrait),Trait.IsPersonality))),Or(Character.IsLocalPlayer, Or(And(ShowMetaTraits,Or(And(GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Not(TraitIsPhysicalTrait)), And(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End), TraitIsPhysicalTrait))),Or(And(HideSomeMetaTraits,Or(And(GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Not(TraitIsPhysicalTrait)),And(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End), TraitIsPhysicalTrait))),And(HideMetaTraits,Or(And(GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Not(TraitIsPhysicalTrait)), And(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End), TraitIsPhysicalTrait)))))))))]"
+
+# 不要ShrewdOrDull[Or(Or( Not(Character.IsValid), Character.IsLocalPlayer ),And(Or( Or( ShowMetaTraits, HideSomeMetaTraits ), HideMetaTraits ), Or(And( Trait.IsPersonality, And(Or(And(PersonalityTraitsVisible, Character.IsAdult),And(PersonalityTraitsVisible, PersonalityTraitsVisibleForChildren)),GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End ))), And( Trait.IsEducation, GetScriptedGui('gui_show_education_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End ) ),And( TraitIsPhysicalTrait, GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End ) ),And( Not( Or( Or( Trait.IsPersonality, Trait.IsEducation ), TraitIsPhysicalTrait ) ),GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End )))))]
+## 不要ShrewdOrDull
+# [Or(
+#     Or( 
+#         Not(Character.IsValid), 
+#         Character.IsLocalPlayer 
+#     ),
+#     And(
+#         Or( Or( ShowMetaTraits, HideSomeMetaTraits ), HideMetaTraits ),
+#         Or(
+#             # 1. 性格特质判定：增加成年/幼儿可见性判断
+#             And( 
+#                 Trait.IsPersonality, 
+#                 And(
+#                     Or(
+#                         And(PersonalityTraitsVisible, Character.IsAdult),
+#                         And(PersonalityTraitsVisible, PersonalityTraitsVisibleForChildren)
+#                     ),
+#                     GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End )
+#                 )
+#             ),
+#             # 2. 教育特质判定
+#             And( 
+#                 Trait.IsEducation, 
+#                 GetScriptedGui('gui_show_education_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End ) 
+#             ),
+#             # 3. 身体/遗传特质判定：关联原代码中的 gui_portrait_shown
+#             And( 
+#                 TraitIsPhysicalTrait, 
+#                 GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End ) 
+#             ),
+#             # 4. 其他特质判定：排除上述类型后，使用 gui_show_other_traits
+#             And( 
+#                 Not( Or( Or( Trait.IsPersonality, Trait.IsEducation ), TraitIsPhysicalTrait ) ),
+#                 GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End )
+#             )
+#         )
+#     )
+# )]
+
+## 加上ShrewdOrDull 
+## 叫gemini思考改7 Or(Or( Not(Character.IsValid), Character.IsLocalPlayer ),And(Or( Or( ShowMetaTraits, HideSomeMetaTraits ), HideMetaTraits ),Or(And(Trait.IsPersonality,And(Or(And(PersonalityTraitsVisible, Character.IsAdult),And(PersonalityTraitsVisible, PersonalityTraitsVisibleForChildren)),GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End ))), And(Not( Trait.IsPersonality ),And(Not(Or(And(ShrewdOrDull, Not(GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))),And(IsEducationTrait, Not(GetScriptedGui('gui_show_education_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))))),Or(And(TraitIsPhysicalTrait,GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End )),And(Not( TraitIsPhysicalTrait ),GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End ))))))))
+## 叫gemini思考改 [Or(Or( Not(Character.IsValid), Character.IsLocalPlayer ),And(Or( Or( ShowMetaTraits, HideSomeMetaTraits ), HideMetaTraits ),Or(And(Trait.IsPersonality,And(Or(And(PersonalityTraitsVisible, Character.IsAdult),And(PersonalityTraitsVisible, PersonalityTraitsVisibleForChildren)),GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End ))), And(Not( Trait.IsPersonality ),And(Not(Or(And(ShrewdOrDull, Not(GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))),And(IsEducationTrait, Not(GetScriptedGui('gui_show_education_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))))),Or(And(TraitIsPhysicalTrait,GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End )),And(Not( TraitIsPhysicalTrait ),GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End ))))))))]"
+# [Or(
+#     # 基础可见性：无效角色或玩家自己直接显示
+#     Or( Not(Character.IsValid), Character.IsLocalPlayer ),
+    
+#     # 核心判断逻辑
+#     And(
+#         # 第一层：元特质开关 (Meta Traits)
+#         Or( Or( ShowMetaTraits, HideSomeMetaTraits ), HideMetaTraits ),
+        
+#         # 第二层：根据特质类型进行复杂的显示判定
+#         Or(
+#             # 1. 核心性格特质判定 (Personality)
+#             And(
+#                 Trait.IsPersonality,
+#                 And(
+#                     Or(
+#                         And(PersonalityTraitsVisible, Character.IsAdult),
+#                         And(PersonalityTraitsVisible, PersonalityTraitsVisibleForChildren)
+#                     ),
+#                     GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End )
+#                 )
+#             ),
+            
+#             # 2. 非性格类特质的详细判定 (包含 Shrewd/Dull, 教育, 物理等)
+#             And(
+#                 # 排除掉已经被上面处理过的 Personality
+#                 Not( Trait.IsPersonality ),
+#                 And(
+#                     # 关键过滤：排除掉那些“因 GUI 开关关闭而应被隐藏”的特殊情况 (ShrewdOrDull 和 Education)
+#                     Not(Or(
+#                         And(ShrewdOrDull, Not(GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))),
+#                         And(IsEducationTrait, Not(GetScriptedGui('gui_show_education_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))
+#                     )),
+#                     # 映射到具体的物理或其它 GUI 开关
+#                     Or(
+#                         # A: 物理特质 -> 对应 gui_portrait_shown
+#                         And(
+#                             TraitIsPhysicalTrait,
+#                             GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End )
+#                         ),
+#                         # B: 非物理特质 (教育、精明、杂项等) -> 对应 gui_show_other_traits
+#                         And(
+#                             Not( TraitIsPhysicalTrait ),
+#                             GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'character', Character.MakeScope ).End )
+#                         )
+#                     )
+#                 )
+#             )
+#         )
+#     )
+# )]
+macro = {  ##tooltip_visible = "showTraitsIcon22" ##macro本身不能直接当visible?就算用原版的代码进行macro替换也会出bug不显示
+	description = "show traits icon.gui22?"
+	definition = "showTraitsIcon22"
+	replace_with = "[Or(Not(Character.IsValid), Or(And(And(Trait.IsPersonality,Or(And(PersonalityTraitsVisible,Character.IsAdult),And(PersonalityTraitsVisible,PersonalityTraitsVisibleForChildren))), Or(Character.IsLocalPlayer,GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))), And(Not(Or(And(Not(Or(Character.IsLocalPlayer,GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))),ShrewdOrDull),Or(And(Not(Or(Character.IsLocalPlayer,Or(GetScriptedGui('gui_show_education_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))),IsEducationTrait),Trait.IsPersonality))),Or(Character.IsLocalPlayer, Or(And(ShowMetaTraits,Or(And(GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Not(TraitIsPhysicalTrait)), And(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End), TraitIsPhysicalTrait))),Or(And(HideSomeMetaTraits,Or(And(GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Not(TraitIsPhysicalTrait)),And(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End), TraitIsPhysicalTrait))),And(HideMetaTraits,Or(And(GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Not(TraitIsPhysicalTrait)), And(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End), TraitIsPhysicalTrait)))))))))]"
+}
+
+## 2-3个replace的原版 "[Or(Not(Character.IsValid), Or(And(And(Trait.IsPersonality,Or(And(PersonalityTraitsVisible,Character.IsAdult),And(PersonalityTraitsVisible,PersonalityTraitsVisibleForChildren))), Or(Character.IsLocalPlayer,GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))), And(Not(Or(And(Not(Or(Character.IsLocalPlayer,GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))),ShrewdOrDull),Or(And(Not(Or(Character.IsLocalPlayer,Or(GetScriptedGui('gui_show_education_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))),IsEducationTrait),Trait.IsPersonality))),Or(Character.IsLocalPlayer, Or(And(ShowMetaTraits,Or(And(GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Not(TraitIsPhysicalTrait)), And(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End), TraitIsPhysicalTrait))),Or(And(HideSomeMetaTraits,Or(And(GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Not(TraitIsPhysicalTrait)),And(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End), TraitIsPhysicalTrait))),And(HideMetaTraits,Or(And(GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),Not(TraitIsPhysicalTrait)), And(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End), TraitIsPhysicalTrait)))))))))]"
+
+
+## 2-3个replace的逻辑1不采用不是pro visible = "[Or(Not(Character.IsValid), Or(And(Trait.IsPersonality, And(PersonalityTraitsVisible, And(Or(Character.IsAdult, PersonalityTraitsVisibleForChildren), Or(Character.IsLocalPlayer, GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))))), And(Not(Trait.IsPersonality), Or(Character.IsLocalPlayer, And(Or(And(TraitIsPhysicalTrait, GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End)), And(Not(TraitIsPhysicalTrait), GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))), And(Not(And(ShrewdOrDull, Not(GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))), Not(And(IsEducationTrait, Not(GetScriptedGui('gui_show_education_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))))))))))]"
+
+## 2-3个replace的逻辑2  visible = "[Or(Not(Character.IsValid), Or(And(And(Trait.IsPersonality, And(PersonalityTraitsVisible, Or(Character.IsAdult, PersonalityTraitsVisibleForChildren))), Or(Character.IsLocalPlayer, GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))), And(Not(Or(And(Not(Or(Character.IsLocalPlayer, GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))), ShrewdOrDull), Or(And(Not(Or(Character.IsLocalPlayer, Or(GetScriptedGui('gui_show_education_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ), GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))), IsEducationTrait), Trait.IsPersonality))), Or(Character.IsLocalPlayer, And(Or(ShowMetaTraits, Or(HideSomeMetaTraits, HideMetaTraits)), Or(And(GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ), Not(TraitIsPhysicalTrait)), And(GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End), TraitIsPhysicalTrait)))))))]"
+# visible = "[
+#     Or(
+#         # 1. 如果角色无效，直接返回（通常用作未加载完成时的防御性判断）
+#         Not(Character.IsValid),
+
+#         # 2. 核心特质显示逻辑分支
+#         Or(
+#             # ==============================
+#             # 分支 A：性格特质 (Personality Traits)
+#             # ==============================
+#             And(
+#                 And(
+#                     Trait.IsPersonality,
+#                     # 提取公因式：必须允许显示性格特质，且满足（成年人 或 允许儿童显示）
+#                     And(
+#                         PersonalityTraitsVisible, 
+#                         Or(Character.IsAdult, PersonalityTraitsVisibleForChildren)
+#                     )
+#                 ),
+#                 # 判定玩家控制权或 GUI 脚本条件
+#                 Or(
+#                     Character.IsLocalPlayer,
+#                     GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )
+#                 )
+#             ),
+
+#             # ==============================
+#             # 分支 B：非性格特质 (Other & Meta Traits)
+#             # ==============================
+#             And(
+#                 # B-1. 排除特定不可见状态的特质（如不满足条件的精明/迟钝、教育特质，以及性格特质本身）
+#                 Not(
+#                     Or(
+#                         And(
+#                             Not(Or(Character.IsLocalPlayer, GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ))),
+#                             ShrewdOrDull
+#                         ),
+#                         Or(
+#                             And(
+#                                 Not(Or(Character.IsLocalPlayer, Or(GetScriptedGui('gui_show_education_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ), GetScriptedGui('gui_show_personality_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End )))),
+#                                 IsEducationTrait
+#                             ),
+#                             Trait.IsPersonality
+#                         )
+#                     )
+#                 ),
+
+#                 # B-2. 常规特质与元特质显示逻辑
+#                 Or(
+#                     Character.IsLocalPlayer,
+#                     # 提取公因式：将原本重复三遍的 GUI 物理/非物理特质判断提取出来
+#                     And(
+#                         # 只要满足三种元特质选项中的任意一种
+#                         Or(
+#                             ShowMetaTraits,
+#                             Or(HideSomeMetaTraits, HideMetaTraits)
+#                         ),
+#                         # 则根据是否为身体特质(Physical Trait)进入对应的 GUI 判断
+#                         Or(
+#                             # 非身体特质 -> 调用 show_other_traits
+#                             And(
+#                                 GetScriptedGui('gui_show_other_traits').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End ),
+#                                 Not(TraitIsPhysicalTrait)
+#                             ),
+#                             # 身体特质 -> 调用 portrait_shown
+#                             And(
+#                                 GetScriptedGui('gui_portrait_shown').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', Character.MakeScope ).End),
+#                                 TraitIsPhysicalTrait
+#                             )
+#                         )
+#                     )
+#                 )
+#             )
+#         )
+#     )
+# ]"
