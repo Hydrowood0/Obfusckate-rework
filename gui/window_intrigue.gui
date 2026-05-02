@@ -90,49 +90,90 @@ window = {
 				hbox = {
 					name = "tabs"
 					layoutpolicy_horizontal = expanding
-					margin_left = 1
 
 					button_tab = {
 						name = "open_scheme_tab" #tutorial uses this
-						layoutpolicy_horizontal = expanding
-
-						text = "OPEN_SCHEMES_TAB"
-						default_format = "#low"
 						onclick = "[IntrigueWindow.SetTab( 'schemes' )]"
 						#AGOT Modified
 						# down = "[IntrigueWindow.IsTabShown( 'schemes' )]"
 						down = "[GetVariableSystem.HasValue( 'intrigue_view_tabs', 'schemes' )]"
 						onclick = "[GetVariableSystem.Set( 'intrigue_view_tabs', 'schemes' )]"
+						shortcut = "tab_1"
+						# layoutpolicy_horizontal = expanding
+
+						alwaystransparent = "[IntrigueWindow.IsTabShown( 'schemes' )]"
+
+						blockoverride "tab_label"
+						{
+						text = "OPEN_SCHEMES_TAB"
+							max_width = 220
+						}
+
+						blockoverride "icon_visible" {}
+
+						blockoverride "tab_icon"
+						{
+							texture = "gfx/interface/icons/flat_icons/scheme.dds"
+							down = "[IntrigueWindow.IsTabShown( 'schemes' )]"
+						}
 
 						using = tooltip_above
 					}
 
 					button_tab = {
 						name = "open_hooks_and_secrets_tab"
-						layoutpolicy_horizontal = expanding
-
-						text = "OPEN_HOOKS_AND_SECRETS_TAB"
-						default_format = "#low"
 						onclick = "[IntrigueWindow.SetTab( 'hooks_and_secrets' )]"
 						#AGOT Modified
 						# down = "[IntrigueWindow.IsTabShown( 'hooks_and_secrets' )]"
 						down = "[GetVariableSystem.HasValue( 'intrigue_view_tabs', 'hooks_and_secrets' )]"
 						onclick = "[GetVariableSystem.Set( 'intrigue_view_tabs', 'hooks_and_secrets' )]"
+						shortcut = "tab_2"
+
+						alwaystransparent = "[IntrigueWindow.IsTabShown( 'hooks_and_secrets' )]"
+
+						blockoverride "tab_label"
+						{
+						text = "OPEN_HOOKS_AND_SECRETS_TAB"
+							max_width = 220
+						}
+
+						blockoverride "icon_visible" {}
+
+						blockoverride "tab_icon"
+						{
+							texture = "gfx/interface/icons/flat_icons/hooks_and_secrets.dds"
+							down = "[IntrigueWindow.IsTabShown( 'hooks_and_secrets' )]"
+					}
 
 						using = tooltip_above
 					}
 					#AGOT Added; Spy Network Tab
 					button_tab = { ##merge mod: Sabotage and Subterfuge 3592971803
 						name = "open_spy_network_tab"
-						layoutpolicy_horizontal = expanding
+						# layoutpolicy_horizontal = expanding
 						# SAS Change
 						visible = "[GetScriptedGui('show_spies_window').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
 						# SAS Change End
+						onclick = "[IntrigueWindow.SetTab('schemes')]"
+						onclick = "[GetVariableSystem.Set('intrigue_view_tabs', 'spy_network')]"
+						down = "[GetVariableSystem.HasValue('intrigue_view_tabs', 'spy_network')]"
+						shortcut = "tab_3"
+
+						alwaystransparent = "[GetVariableSystem.HasValue('intrigue_view_tabs', 'spy_network')]"
+
+						blockoverride "tab_label"
+						{
 						text = "OPEN_SPY_NETWORK_TAB"
-						default_format = "#low"
-						onclick = "[IntrigueWindow.SetTab( 'schemes' )]"
-						onclick = "[GetVariableSystem.Set( 'intrigue_view_tabs', 'spy_network' )]"
-						down = "[GetVariableSystem.HasValue( 'intrigue_view_tabs', 'spy_network' )]"
+							max_width = 220
+						}
+
+						blockoverride "icon_visible" {}
+
+						blockoverride "tab_icon"
+						{
+							texture = "gfx/interface/icons/flat_icons/slander.dds"
+							down = "[GetVariableSystem.HasValue('intrigue_view_tabs', 'spy_network')]"
+						}
 						using = tooltip_above
 					}
 				}
@@ -1080,7 +1121,7 @@ types IntrigueWindow
 						text = "SCHEME_WINDOW_ITEM_NAME"
 						using = Font_Size_Medium
 						align = nobaseline
-						max_width = 480
+						max_width = 430
 						margin_left = 15
 					}
 

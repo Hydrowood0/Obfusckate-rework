@@ -42,6 +42,7 @@ window = {
 				blockoverride "header_text"
 				{
 					text = "[CharacterInteractionConfirmationWindow.GetSendName]"
+					align = nobaseline
 				}
 
 				blockoverride "button_close"
@@ -177,6 +178,7 @@ window = {
 
 		vbox = {
 			name = "marriage_info_and_send_offer"
+
 			visible = "[MatchmakerInteractionWindow.HasPickedCharacters]"
 			layoutpolicy_vertical = expanding
 			layoutpolicy_horizontal = expanding
@@ -348,20 +350,23 @@ window = {
 			}
 
 			vbox_character_list = {
+				name = "marriage_window_character_list" #used by lesson_china_marriage_window
 				datacontext = "[MatchmakerInteractionWindow.GetCharacterList]"
+				#changed by obfusCKate: code deleted for fertility_filter
+				# datacontext = "[CharacterSelectionList.GetFilterWithDefault('fertility_filter', '(int32)1')]"
 				#changed by obfusCKate: code deleted for fertility_filter
 				layoutpolicy_vertical = expanding
 				layoutpolicy_horizontal = expanding
 
 				blockoverride "container_implementation" {
 					fixedgridbox = {
-						addcolumn = 667
-						addrow = 110
 						name = "characters_grid"
+						visible = "[Not(CharacterSelectionList.IsBuildingList)]"
+						datamodel = "[CharacterSelectionList.GetList]"
 						datamodel_reuse_widgets = yes
 
-						datamodel = "[CharacterSelectionList.GetList]"
-						visible = "[Not(CharacterSelectionList.IsBuildingList)]"
+						addcolumn = 630
+						addrow = 110
 
 						item = {
 							widget_character_list_item = {
@@ -424,45 +429,49 @@ window = {
 					blockoverride "bottom_middle_box" {
 						hbox = {
 							layoutpolicy_horizontal = expanding
-						
 
 							# Religion & Culture
 							hbox = {
 								layoutpolicy_vertical = expanding
-								margin_left = 5
+								layoutpolicy_horizontal = expanding
+								margin_left = 2
 								##########changed by obfusCKate: Start
 								visible = "[ShowFaithCulture]"
 								##########changed by obfusCKate: End
 
 								# Faith
 								icon = {
-								
 									name = "faith_button"
-									size = { 35 35 }
 									datacontext = "[Character.GetFaith]"
-									tooltipwidget = { faith_tooltip = {} }
+									size = { 35 35 }
 									texture = "[Faith.GetIcon]"
+
+									tooltipwidget = {
+										faith_tooltip = {}
+									}
 								}
 
 								# Culture
 								widget = {
 									datacontext = "[Character.GetCulture]"
-									size = { 120 30 }
+									size = { 0 30 }
+									layoutpolicy_horizontal = expanding
 
 									hbox = {
+										layoutpolicy_horizontal = expanding
 										icon = {
 											name = "culture"
 											texture = "gfx/interface/icons/icon_culture.dds"
 											size = { 30 30 }
 										}
 
-										text_multi = {
+										text_single = {
 											layoutpolicy_horizontal = expanding
-											min_width = 90
-											max_width = 90
-											autoresize = yes
 											text = "CULTURE_LISTS_WINDOW"
+											autoresize = no
+											margin_right = 10
 										}
+										expand = {}
 									}
 
 									tooltipwidget = {
@@ -474,30 +483,47 @@ window = {
 							}
 
 							expand = {}
+							
+							spacing = 5
 
 							hbox = {
 								name = "alliances_grid"
 								datamodel = "[CharacterListItem.GetOtherCharacterItems]"
+								margin_right = 5
+								
 
 								item = {
-									container = {
-										button = {
-											parentanchor = center
-											position = { 0 -20 }
-											texture = "gfx/interface/icons/diplomatic_icons.dds"
-											frame = 2
-											framesize = { 120 120 }
+									hbox = {
+										spacing = 5
+										
+										tooltip = "MATCHMAKER_INTERACTION_ALLIANCE"
+										
+										hbox_alliance_strength = {
+											visible = "[LessThan_int32(GetDataModelSize(CharacterListItem.GetTraits), '(int32)7')]"
+										}							
+										
+										widget = {
 											size = { 30 30 }
-											tooltip_visible = no
-										}
 
 										coa_realm_tiny_crown = {
-											tooltip = "MATCHMAKER_INTERACTION_ALLIANCE"
+												parentanchor = center
+												position = { 0 -10 }
+											}
 										}
 									}
 								}
 							}
 						}
+					}
+					
+					blockoverride "horizontal_slots" {
+						maxhorizontalslots = 7
+					}
+
+					# Blockoverride to turn off scissor effect cutting the CoAs since it's not needed to do so in this list
+					blockoverride "scissor"
+					{
+						scissor = no
 					}
 				}
 
@@ -586,6 +612,7 @@ window = {
 					#changed by obfusCKate: End
 				}
 			}
+
 			vbox_filter_group = {
 				layoutpolicy_horizontal = expanding
 				datacontext = "[CharacterSelectionList.GetCategory('politics_filter_category')]"
@@ -614,6 +641,116 @@ window = {
 						datacontext = "[CharacterSelectionList.GetFilter('claim_filter')]"
 					}
 				}
+			}
+		}
+	}
+}
+
+types Marriage {
+	type hbox_alliance_strength = hbox {
+		hbox = {
+			spacing = 5
+			
+			tooltipwidget = {
+				container = {
+					alwaystransparent = no
+					using = DefaultTooltipBackground
+					
+					flowcontainer = {
+						ignoreinvisible = yes
+						direction = vertical
+						margin = { 20 15 }
+						margin_bottom = 20
+						spacing = 10
+						
+						flowcontainer = {
+							ignoreinvisible = yes
+							direction = vertical
+						
+							spacing = 2
+						
+							text_single = {
+								text = "MATCHMAKER_INTERACTION_ALLIANCE"
+							}
+							
+							flowcontainer = {
+								ignoreinvisible = yes
+								spacing = 3
+								
+								text_single = {
+									text = "MILITARY_STRENGTH"
+								}
+								text_single = {
+									default_format = "#high"
+									text = "[Character.GetMilitaryStrengthText]"
+								}
+								icon = {
+									name = "icon_combat_strength"
+									size = { 25 25 }
+									texture = "gfx/interface/icons/icon_soldier.dds"
+								}
+							}
+						}
+						
+						flowcontainer = {
+							ignoreinvisible = yes
+							direction = vertical
+						
+							spacing = 2
+							
+							flowcontainer = {
+								ignoreinvisible = yes
+								spacing = 5
+								
+								text_single = {
+									text = "[Character.GetShortUIName]"
+									format_override = { high medium }
+								}
+								
+								text_single = {
+									text = "[Character.GetOpinionOf(GetPlayer)|+=]"
+								}
+							}
+						
+							text_single = {
+								text = "[Character.GetRelationToString( GetPlayer )]"
+								format_override = { high medium }
+							}
+						}
+					}
+				}
+			}
+			
+			background = {
+				margin_left = 40
+				margin_right = 15
+				alpha = 0.7
+				
+				texture = "gfx/interface/component_tiles/tile_title_bg_01.dds"
+				spriteType = Corneredtiled
+				spriteborder = { 40 8 }
+				texture_density = 2
+				
+				modify_texture = {
+					name = "mask"
+					texture = "gfx/interface/component_masks/mask_fade_horizontal.dds"
+					spriteType = Corneredstretched
+					spriteborder = { 0 0 }
+					blend_mode = alphamultiply
+				}
+			}
+
+			text_single = {
+				text = "[Character.GetMilitaryStrengthText]"
+				max_width = 75
+				min_height = 22
+				align = nobaseline|right
+				alpha = "[Select_float( Or(Character.IsVassalOf(GetPlayer), Character.GetTopLiege.IsLocalPlayer), '(float)0.5', '(float)1.0' )]"
+			}
+			icon = {
+				name = "icon_combat_strength"
+				size = { 25 25 }
+				texture = "gfx/interface/icons/icon_soldier.dds"
 			}
 		}
 	}

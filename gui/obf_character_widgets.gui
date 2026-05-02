@@ -348,20 +348,20 @@
 		}
 	}
 
-	type obf_button_put_under_surveilance = button_round {
-		name = "put_under_surveilance"				
-		size = { 35 35 }
-		datacontext = "[Character]"
-		#onclick = "[GetScriptedGui('put_under_surveilance').Execute( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
-		tooltip = "INCREASE_SURVEILLANCE_OF_CHARACTER_TT"
-		using = tooltip_es
+	# type obf_button_put_under_surveilance = button_round {
+	# 	name = "put_under_surveilance"				
+	# 	size = { 35 35 }
+	# 	datacontext = "[Character]"
+	# 	#onclick = "[GetScriptedGui('put_under_surveilance').Execute( GuiScope.SetRoot( GetPlayer.MakeScope).End )]"
+	# 	tooltip = "INCREASE_SURVEILLANCE_OF_CHARACTER_TT"
+	# 	using = tooltip_es
 		
-		icon = {
-			texture = "gfx/interface/icons/scheme_types/debug_secret.dds"
-			size = { 25 25 }
-			parentanchor = center
-		}
-	}
+	# 	icon = {
+	# 		texture = "gfx/interface/icons/scheme_types/debug_secret.dds"
+	# 		size = { 25 25 }
+	# 		parentanchor = center
+	# 	}
+	# }
 	type obf_character_age_acquaintance = text_single {
 		visible = "[And(Or(PlayerKnowCharacterPortrait,ShowApproxAge),Not(ShowExactAge))]"
 		name = "character_age_acquaintance"

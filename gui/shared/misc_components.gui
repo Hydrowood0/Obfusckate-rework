@@ -358,6 +358,7 @@ types Miscelaneous
 		layoutpolicy_horizontal = expanding
 
 		datamodel = "[PdxGuiTabs.GetTabItems]"
+
 		item = {
 			button_tab = {
 				layoutpolicy_horizontal = expanding
@@ -365,6 +366,7 @@ types Miscelaneous
 				block "tab_name"
 				{
 					raw_text = "#D [PdxGuiTabItem.GetKey]#!"
+					default_format = "#clickable"
 				}
 
 				block "on_click"
@@ -372,7 +374,11 @@ types Miscelaneous
 				}
 
 				onclick = "[PdxGuiTabs.SetTab( PdxGuiTabItem.Self )]"
+
+				block "down"
+				{
 				down = "[PdxGuiTabs.IsTabItemSet( PdxGuiTabItem.Self )]"
+				}
 			}
 		}
 	}
@@ -525,7 +531,7 @@ types Miscelaneous
 	# 	spriteType = Corneredtiled
 	# 	spriteborder = { 2 2 }
 	# }
-}
+
 
 # template debug_square
 # {
@@ -536,9 +542,30 @@ types Miscelaneous
 # 		alpha = 0.5
 # 	}
 # }
+}
 
 template Create_Resetting_Fold_Out
 {
 	oncreate = "[BindFoldOutContext]"
 	oncreate = "[PdxGuiFoldOut.SetShownBehavior( 'unfolded' )]"
+}
+
+template VisibleArmyComposition
+{
+	icon = {
+		name = "icon_soldier"
+		texture = "gfx/interface/icons/icon_soldier.dds"
+		size = { 23 23 }
+	}
+
+	text_single = {
+		text = "[ArmyComposition.GetSoldierCountString]"
+		align = nobaseline
+	}
+
+	army_quality_icon = {
+		tooltip_visible = no
+	}
+
+	tooltip = "[ArmyComposition.GetArmyCompositionTooltip]"
 }

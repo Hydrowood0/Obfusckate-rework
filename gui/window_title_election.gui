@@ -6,7 +6,7 @@ window = {
 	name = "title_election"
 	movable = no
 	allow_outside = yes
-	layer = windows_layer
+	layer = middle
 
 	using = Window_Size_Sidebar
 	using = Window_Background_Sidebar
@@ -347,6 +347,7 @@ window = {
 			button_tab = {
 				name = "show_candidate_button"
 				layoutpolicy_horizontal = expanding
+				shortcut = "tab_1"
 				onclick = "[GetVariableSystem.Toggle('election_view_candidates')]"
 				down = "[Not(GetVariableSystem.Exists('election_view_candidates'))]"
 
@@ -362,6 +363,7 @@ window = {
 			button_tab = {
 				name = "show_electors_button"
 				layoutpolicy_horizontal = expanding
+				shortcut = "tab_2"
 				onclick = "[GetVariableSystem.Toggle('election_view_candidates')]"
 				down = "[GetVariableSystem.Exists('election_view_candidates')]"
 

@@ -7,7 +7,7 @@ window = {
 	filter_mouse = left|right
 	movable = no
 	layer = middle
-	allow_outside = yes #
+	allow_outside = yes 
 
 	background = {
 		texture = "gfx/interface/component_tiles/tile_window_background_subwindow.dds"
@@ -210,6 +210,25 @@ window = {
 						visible = "[GreaterThan_int32(GetDataModelSize(ArmyWindow.GetSelectedUnitItems), '(int32)1')]"
 
 						button_round = {
+							name = "halt_button"
+							visible = "[IsValidCommand( ArmyWindow.GetOrders.GetHalt )]"
+							onclick = "[PostCommand( ArmyWindow.GetOrders.GetHalt )]"
+							tooltip = "ARMY_HALT_ALL"
+							shortcut = army_halt
+							parentanchor = bottom
+
+							button_pause = {
+								parentanchor = center
+								alwaystransparent = yes
+							}
+						}
+					}
+
+					widget = {
+						size = { 42 45 }
+						visible = "[GreaterThan_int32(GetDataModelSize(ArmyWindow.GetSelectedUnitItems), '(int32)1')]"
+
+						button_round = {
 							name = "reorganize_button"
 							enabled = "[ArmyWindow.CanReorgSelected]"
 							tooltip = "[ArmyWindow.BuildReorgTooltip]"
@@ -233,12 +252,31 @@ window = {
 							tooltip = "[ArmyWindow.BuildMergeTooltip]"
 							using = tooltip_ne
 							parentanchor = bottom
+							onclick = "[ArmyWindow.MergeSelected]"
+							shortcut = "army_merge"
 
 							button_army_merge = {
 								parentanchor = center
-								onclick = "[ArmyWindow.MergeSelected]"
-								shortcut = "army_merge"
+								alwaystransparent = yes
 							}
+						}
+					}
+
+					hbox = {
+						min_height = 45 # so it doesn't shift up and down
+						layoutpolicy_vertical = expanding
+						button_back = {
+							enabled = "[ArmyWindow.CanGoToPreviousArmy]"
+							onclick = "[ArmyWindow.GoToPreviousArmy]"
+							tooltip = "YOUR_PREV_ARMY"
+							shortcut = go_back
+						}
+						button_back = {
+							mirror = horizontal
+							enabled = "[ArmyWindow.CanGoToNextArmy]"
+							onclick = "[ArmyWindow.GoToNextArmy]"
+							tooltip = "YOUR_NEXT_ARMY"
+							shortcut = go_next
 						}
 					}
 				}
@@ -286,7 +324,9 @@ window = {
 					
 					spacing = 8
 
-					icon_raider = {	}
+					icon_raider = {}
+
+					icon_barterer = {}
 
 					text_single = {
 						name = "name"
@@ -300,7 +340,7 @@ window = {
 				expand = {}
 
 				hbox = {
-					name = "loot"
+					name = "raid_loot"
 					visible = "[Army.IsRaidArmy]"
 					tooltip = "ARMY_RAID_LOOT_TOOLTIP"
 
@@ -313,6 +353,23 @@ window = {
 					text_single = {
 						name = "loot"
 						text = "[Army.GetRaidLoot|0]/[Army.GetLootCap|0]"
+					}
+				}
+
+				hbox = {
+					name = "barter_loot"
+					visible = "[Army.IsBarterArmy]"
+					tooltip = "ARMY_BARTER_LOOT_TOOLTIP"
+
+					icon = {
+						name = "loot_icon"
+						size = { 35 35 }
+						texture = "gfx/interface/icons/icon_loot.dds"
+					}
+
+					text_single = {
+						name = "loot"
+						text = "[Army.GetBarterLoot|0]/[Army.GetLootCap|0]"
 					}
 				}
 
@@ -517,7 +574,8 @@ window = {
 
 					background = {
 						visible = "[ObjectsEqual( Character.Self, GetPlayer )]"
-						texture = "gfx/interface/component_masks/patterns/mask_pattern_02.dds"
+						texture = "gfx/interface/skinned/mask_pattern.dds"
+						texture_density = 3
 						spriteType = Corneredtiled
 						alpha = 0.3
 
@@ -1037,6 +1095,7 @@ window = {
 							text_single = {
 								name = "status_text"
 								text = "[ArmyWindow.GetUnitItem.GetStatusDescription]"
+								tooltip = "[Army.GetMovementInfoForTooltip]"
 								default_format = "#high"
 								align = nobaseline
 							}
@@ -1046,6 +1105,13 @@ window = {
 								visible = "[Army.IsTakingRaidAction]"
 								datacontext = "[Army.GetRaid]"
 								using = raid_goto_template
+							}
+
+							container = {
+								name = "open_barter_button"
+								visible = "[Army.IsTakingBarterAction]"
+								datacontext = "[Army.GetBarterMission]"
+								using = barter_goto_template
 							}
 
 							vbox = {
@@ -1066,6 +1132,21 @@ window = {
 									tooltip = "STOP_GATHERING"
 								}
 							}
+							
+							button_round = {
+								name = "halt_button"
+								size = { 30 30 }
+								visible = "[And(Army.IsMoving, Not(Army.IsGathering))]"
+								enabled = "[IsValidCommand( Army.GetOrders.GetHalt )]"
+								tooltip = "ARMY_HALT"
+								shortcut = army_halt
+								onclick = "[PostCommand( Army.GetOrders.GetHalt )]"
+
+								button_pause = {
+									parentanchor = center
+									alwaystransparent = yes
+								}
+							}
 						}
 
 						hbox = {
@@ -1083,6 +1164,12 @@ window = {
 							}
 						}
 					}
+				}
+				button = {
+					# so the shortcut takes priority
+					visible = "[IsValidCommand( ArmyWindow.GetOrders.GetHalt )]"
+					onclick = "[PostCommand( ArmyWindow.GetOrders.GetHalt )]"
+					shortcut = army_halt
 				}
 			}
 
@@ -1198,6 +1285,7 @@ window = {
 
 						tooltip = "RAID_OPEN_INTENT_WINDOW"
 						tooltip_when_disabled = "RAID_OPEN_INTENT_WINDOW_DISABLED"
+						using = tooltip_ne
 
 						flowcontainer = {
 							parentanchor = vcenter
@@ -1310,10 +1398,10 @@ window = {
 					visible = "[Army.IsSieging]"
 					button_army_split_off_besiegers = {
 						parentanchor = center
-
-						onclick = [ArmyWindow.SplitSelectedForSiege]
-						shortcut = army_split_half
+						alwaystransparent = yes
 					}
+						onclick = [ArmyWindow.SplitSelectedForSiege]
+					shortcut = army_split_for_siege
 					enabled = [ArmyWindow.CanSplitSelectedForSiege]
 					tooltip = [ArmyWindow.BuildSplitForSiegeTooltip]
 				}
@@ -1352,6 +1440,27 @@ window = {
 				}
 
 				button_round = {
+					name = "toggle_bartering"
+
+					button_army_toggle_bartering = {
+						onclick = [ArmyWindow.ToggleBartering]
+						visible = "[Not(Army.IsBarterArmy)]"
+						parentanchor = center
+					}
+
+					button_army_details = {
+						onclick = "[ArmyWindow.ToggleBartering]"
+						visible = "[Army.IsBarterArmy]"
+						parentanchor = center
+					}
+
+					enabled = [ArmyWindow.CanToggleBartering]
+					tooltip = [ArmyWindow.BuildToggleBarteringTooltip]
+					using = tooltip_ne
+					visible = "[GetPlayer.HasBarterGoods]"
+				}
+
+				button_round = {
 					name = "disband_button"
 					using = tooltip_ne
 
@@ -1370,11 +1479,12 @@ window = {
 
 	widget = {
 		name = "expanded_armies_window"
-		visible = "[GetVariableSystem.Exists( 'expanded_armies_window' )]"
+		visible = "[And(GetVariableSystem.Exists( 'expanded_armies_window' ), GreaterThan_int32(GetDataModelSize(ArmyWindow.GetSelectedUnitItems), '(int32)1'))]"
 		parentanchor = top
 		widgetanchor = bottom
 		position = { 40 0 }
 		layer = top
+		visible_at_creation = no
 
 		allow_outside = yes
 
@@ -1390,11 +1500,13 @@ window = {
 			name = _hide
 			using = Animation_FadeOut_Quick
 			position_y = 50
+			on_finish = "[GetVariableSystem.Clear('expanded_armies_window')]"
 		}
 
 		vbox = {
 			alwaystransparent = no
 			set_parent_size_to_minimum = yes
+			min_width = 360
 
 			margin = { 5 5 }
 			using = Window_Background_Subwindow
@@ -2042,7 +2154,11 @@ types ArmyWindow
 
 			hbox = {
 				name = "soldiers"
-				tooltip = "[ArmyComposition.GetArmyCompositionTooltip]"
+				tooltip_offset = { -110 0 }
+				
+				tooltipwidget = {
+					using = Scrollable_Army_Composition_Tooltip
+				}
 
 				layoutpolicy_horizontal = expanding
 				spacing = 5
@@ -2073,7 +2189,6 @@ types ArmyWindow
 					text_single = {
 						name = "quality_label"
 						text = "[ArmyComposition.GetArmyQualityName]"
-						# tooltip = "[ArmyComposition.GetArmyCompositionTooltip]"
 						align = nobaseline
 					}
 				}
@@ -2105,18 +2220,14 @@ types ArmyWindow
 
 	type hbox_soldiers_and_quality_small_core = hbox
 	{
-		# tooltip = "[ArmyComposition.GetArmyCompositionTooltip]"
-		# spacing = 3
-		margin = {5 5}
-		spacing = 5
-		
-		#changed by obfusCKate: Start
-		tooltip_visible = no
-		#changed by obfusCKate: End
-
-		expand = {
-			layoutpolicy_horizontal = expanding
+		tooltipwidget = {
+			#changed by obfusCKate: Start
+			#tooltip_visible = no
+			visible = no
+			#changed by obfusCKate: End
+			using = Scrollable_Army_Composition_Tooltip
 		}
+		spacing = 3
 
 		icon = {
 			name = "icon_soldier"
@@ -2125,26 +2236,16 @@ types ArmyWindow
 		}
 
 		vbox = {
-		
-			# text_single = {
-			# 	name = "strength"
-			# 	# name = "strength_player"
-			# 	# visible = "[Character.IsLocalPlayer]"
-			# 	text = "[ArmyComposition.GetSoldierCountString]"
-			# 	default_format = "#high"
-			# 	align = left|nobaseline
-			# 	using = Font_Size_Medium
-			# }
-
 			text_single = {
 				name = "strength"
 				#Changed by ObfusCKate: Start
 				text = "WINDOW_ARMY_CHECK_CHARACTER"
 				visible = "[Not(Character.IsLocalPlayer)]"
-				default_format = "#low"
-				align = left|nobaseline
-				using = Font_Size_Small
+				#text = "[ArmyComposition.GetSoldierCountString]"
 				#Changed by ObfusCKate: End
+				default_format = "#high"
+				align = left|nobaseline
+				using = Font_Size_Medium
 			}
 
 			progressbar_standard = {
@@ -2176,15 +2277,11 @@ types ArmyWindow
 		margin = {5 5}
 		spacing = 5
 
-		tooltip = "[ArmyComposition.GetArmyCompositionTooltip]"
-
 		expand = {
 			layoutpolicy_horizontal = expanding
 		}
 
-		hbox_soldiers_and_quality_small_core = {
-			tooltip = ""
-		}
+		hbox_soldiers_and_quality_small_core = {}
 
 		expand = {
 			layoutpolicy_horizontal = expanding
@@ -2280,6 +2377,60 @@ types ArmyWindow
 				min = 0
 				max = "[IntToFloat(RegimentReorgEntry.GetMaxSoldierCount)]"
 				value = "[IntToFloat(RegimentReorgEntry.GetSoldierCount)]"
+			}
+		}
+	}
+}
+
+template Scrollable_Army_Composition_Tooltip {
+	scrolltip = {
+		blockoverride "scrolltip_size" {
+			size = { 330 0 }
+		}
+		blockoverride "scrolltip_header" {
+			
+			hbox = {
+				layoutpolicy_horizontal = expanding
+				margin = { 5 10 }
+				margin_bottom = 0
+				spacing = 5
+				icon = {
+					name = "icon_soldier"
+					texture = "gfx/interface/icons/icon_soldier.dds"
+					size = { 40 40 }
+				}
+				
+				text_single = {
+					name = "strength"
+					text = "[ArmyComposition.GetSoldierCountString]"
+					using = Font_Size_Big
+					default_format = "#high"
+					align = nobaseline
+				}
+				
+				spacer = {
+					size = { 5 5 }
+				}
+				
+				vbox = {
+					layoutpolicy_vertical = expanding
+					margin_bottom = 7
+					expand = {}
+					
+					text_single = {
+						name = "quality_label"
+						text = "[ArmyComposition.GetArmyQualityName]"
+						align = nobaseline
+					}
+				}
+				
+				expand = {}
+			}
+		}
+		blockoverride "scrolltip_content" {
+			cooltip_paragraph = {
+				text = "[ArmyComposition.GetArmyCompositionTooltip]"
+				max_width = 440
 			}
 		}
 	}

@@ -402,13 +402,13 @@ widget = {
 
 					state = {
 						name = units_fade_in
-						trigger_when = "[LessThan_int32( GetZoomLevel, '(int32)9' )]"
+						trigger_when = "[LessThan_int32( GetZoomLevel, '(int32)17' )]"
 						using = Animation_FadeIn_Standard
 					}
 
 					state = {
 						name = units_fade_out
-						trigger_when = "[GreaterThan_int32( GetZoomLevel, '(int32)8' )]"
+						trigger_when = "[GreaterThan_int32( GetZoomLevel, '(int32)16' )]"
 						using = Animation_FadeOut_Standard
 					}
 
@@ -701,8 +701,8 @@ widget = {
 flowcontainer = {
 	name = "holy_site_widget"
 	widgetanchor = center
-	datacontext = "[HolySiteIcon.GetHolySite]"
-	datacontext = "[GuiHolySiteItem.GetHolySite]"
+	datacontext = "[HolySiteIcon.GetHolySiteItem]"
+	datacontext = "[HolySiteItem.GetHolySite]"
 	direction = vertical
 
 	ignoreinvisible = yes
@@ -711,7 +711,7 @@ flowcontainer = {
 		parentanchor = hcenter
 		background = {
 			alpha = 0
-			visible = "[GuiHolySiteItem.IsHeldByFaith]"
+			visible = "[HolySiteItem.IsHeldByFaith]"
 			texture = "gfx/interface/component_masks/mask_circle.dds"
 			margin = { -10 -10 }
 			glow = {
@@ -729,7 +729,7 @@ flowcontainer = {
 
 		background = {
 			alpha = 0
-			visible = "[Not( GuiHolySiteItem.IsHeldByFaith )]"
+			visible = "[Not( HolySiteItem.IsHeldByFaith )]"
 			texture = "gfx/interface/component_masks/mask_circle.dds"
 
 			glow = {
@@ -746,7 +746,7 @@ flowcontainer = {
 		}
 
 		name = "faith_icon"
-		texture = "[GuiHolySiteItem.GetFaith.GetIcon]"
+		texture = "[HolySiteItem.GetFaith.GetIcon]"
 		size = { 60 60 }
 		onclick = "[HolySite.GetBarony.SelectTitle]"
 		tooltip = "FAITH_WINDOW_HOLY_SITE_TOOLTIP"
@@ -754,14 +754,14 @@ flowcontainer = {
 
 	text_label_center = {
 		parentanchor = hcenter
-		visible = "[GuiHolySiteItem.IsHeldByFaith]"
+		visible = "[HolySiteItem.IsHeldByFaith]"
 		text = "[HolySite.GetBarony.GetNameNoTierNoTooltip]"
 		default_format = "#high"
 	}
 
 	text_label_center = {
 		parentanchor = hcenter
-		visible = "[Not( GuiHolySiteItem.IsHeldByFaith )]"
+		visible = "[Not( HolySiteItem.IsHeldByFaith )]"
 		text = "[HolySite.GetBarony.GetNameNoTierNoTooltip]"
 		default_format = "#medium"
 	}
@@ -3010,8 +3010,7 @@ types MapIcons
 					}
 				}
 			}
-			
-			#Changed by obfusCKate: End
+						#Changed by obfusCKate: End
 		}
 	}
 
@@ -4927,6 +4926,12 @@ types MapIcons
 			using = point_of_interest_tooltip
 		}
 
+		button = {
+			size = { 100% 100% }
+			button_ignore = none
+			onclick = "[TravelPointsOfInterestIconData.OnClick]"
+			onrightclick = "[TravelPointsOfInterestIconData.OnRightClick]"
+
 		icon = {
 			texture = "gfx/interface/icons/map_icons/point_of_interest_pin.dds"
 			parentanchor = bottom|hcenter
@@ -5040,6 +5045,7 @@ types MapIcons
 			visible = "[TravelPointsOfInterestIconData.HasMultiplePointsOfInterest]"
 			size = { 100% 100% }
 			texture = "gfx/interface/icons/map_icons/point_of_interest_multiple_bg.dds"
+			}
 		}
 	}
 
@@ -5668,7 +5674,7 @@ widget = {
 
 			widget = {
 				parentanchor = center
-				size = { 60 65 }
+				size = { 60 67 }
 
 				background = {
 					name = "map_pin_texture"
@@ -5693,7 +5699,7 @@ widget = {
 				text_single = {
 					parentanchor = center
 					size = { 100% 100% }
-					position = { -1 -6 }
+					position = { -1 -7 }
 
 					align = center
 					text = "MAP_ICON_DETAILED_RAID_LOOT"

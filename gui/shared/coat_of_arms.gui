@@ -863,8 +863,10 @@ types CoATypes
 	{
 		size = { 48 48 }
 
+		hbox = {
+			margin = { 4 4 }
+
 		coa_dynasty_lowborn_widget = {
-			parentanchor = center
 			size = { 40 40 }
 
 			blockoverride "icon_size"
@@ -876,7 +878,6 @@ types CoATypes
 		coa_dynasty_widget = {
 			size = { 40 40 }
 			using = CoA_Dynasty_Defaults
-			parentanchor = center
 
 			coat_of_arms_icon = {
 				parentanchor = center
@@ -895,18 +896,21 @@ types CoATypes
 			}
 
 			coa_dynasty_frame = {
-				size = { 48 48 }
+				size = { 40 40 }
 				texture = "[Dynasty.GetCulture.GetCultureDynastyCoAFrame]"
 			}
 		}
 	}
+	}
 
 	type coa_dynasty_small = widget
 	{
-		size = { 72 72 }
+		size = { 64 64 }
+
+		hbox = {
+			margin = { 4 4 }
 
 		coa_dynasty_lowborn_widget = {
-			parentanchor = center
 			size = { 56 56 }
 			blockoverride "icon_size"
 			{
@@ -917,7 +921,6 @@ types CoATypes
 		coa_dynasty_widget = {
 			size = { 56 56 }
 			using = CoA_Dynasty_Defaults
-			parentanchor = center
 
 			coat_of_arms_icon = {
 				parentanchor = center
@@ -936,10 +939,11 @@ types CoATypes
 			}
 
 			coa_dynasty_frame = {
-				size = { 64 64 }
+					size = { 56 56 }
 				texture = "[Dynasty.GetCulture.GetCultureDynastyCoAFrame]"
 			}
 		}
+	}
 	}
 
 	type coa_dynasty_medium = widget
@@ -985,25 +989,26 @@ types CoATypes
 
 	type coa_dynasty_big = widget
 	{
-		size = { 128 128 }
+		size = { 120 120 }
+
+		hbox = {
+			margin = { 3 5 }
 
 		coa_dynasty_lowborn_widget = {
-			parentanchor = center
 			size = { 112 112 }
 			blockoverride "icon_size"
 			{
-				size = { 88 88 }
+					size = { 86 86 }
 			}
 		}
 
 		coa_dynasty_widget = {
 			size = { 112 112 }
 			using = CoA_Dynasty_Defaults
-			parentanchor = center
 
 			coat_of_arms_icon = {
 				parentanchor = center
-				size = { 88 88 }
+					size = { 86 86 }
 				coat_of_arms = "[Dynasty.GetDynastyCoA.GetTexture('(int32)172','(int32)172')]"
 				coat_of_arms_slot = "[Dynasty.GetDynastyCoA.GetSlot('(int32)172','(int32)172')]"
 				coat_of_arms_mask = "[Dynasty.GetCulture.GetCultureDynastyCoAMask]"
@@ -1018,10 +1023,11 @@ types CoATypes
 			}
 
 			coa_dynasty_frame = {
-				size = { 128 128 }
+					size = { 112 112 }
 				texture = "[Dynasty.GetCulture.GetCultureDynastyCoAFrame]"
 			}
 		}
+	}
 	}
 
 	type coa_dynasty_huge = widget
@@ -2716,7 +2722,7 @@ types CoATypes
 
 		coa_house_widget = {
 			using = CoA_House_Defaults
-			visible = "[Character.HasSealCoA]"
+			visible = "[And(Character.HasSealCoA, Character.GetHouse.IsValid)]"
 			datacontext = "[Character.GetHouse]"
 			parentanchor = center
 

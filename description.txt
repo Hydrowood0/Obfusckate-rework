@@ -8,7 +8,7 @@ Change Notes[/url])[/u][/i][/b] based on [url=https://steamcommunity.com/sharedf
 1. Make a version with just the congenital traits hidden.
 2. Add the possibility of being able to see the portrait of those who died, and you already knew what they looked like.
 3. [u][b]The "Network Development" mechanic hasn't worked properly ever since I first took over this mod. Someone told me a rough fix, and I will let AI tell me how to implement it specifically.[/b][/u]
-4. Fix "When you hide all other people's personality traits in the rule settings, you also hide yourself."
+4. Add education traits, reputation traits, general traits, health traits, and setting switch
 
 [h3]"bugs" will not be fixed:[/h3]
 1. "Seems there is a graphical bug w/e entering the culture view, the culture head portrait/placeholder flashes constantly; I'm getting flickering. Unknown character portraits flicker with a white box when moving the mouse. " [url=https://forum.paradoxplaza.com/forum/threads/gui-and-hud-flickering.1867948] It looks like a paradox bug. [/url] I also encountered it, I guess it is related to the system configuration (VRAM/GPU/RAM/CPU) & driver (DX11/Vulkan).

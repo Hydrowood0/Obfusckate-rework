@@ -150,7 +150,7 @@ types Lists
 
 		hbox = {
 			margin = { 0 5 }
-			spacing = 15
+			spacing = 10
 
 			portrait_head_small = {}
 
@@ -416,13 +416,15 @@ types Lists
 										## visible = "[Not( IsDataModelEmpty( CharacterListItem.GetTitleItems ) )]"
 										visible = "[And(Not( IsDataModelEmpty( CharacterListItem.GetTitleItems ) ),ShowTitlesClaims)]"
 										##########changed by obfusCKate: End
-										size = { 55 58 }
+										size = { 55 44 }
 
 										block "claims_visibility" {}
 
 										coa_title_tiny_crown = {
 											datacontext = "[Claim.GetTitle]"
 											using = tooltip_ne
+												parentanchor = vcenter
+												position = { 0 -3 }
 
 											highlight_icon = {
 												name = "pressed_claim"
@@ -459,7 +461,7 @@ types Lists
 											position = { 0 -6 }
 
 											text = "[CharacterListItem.GetTitleItemCount]"
-											align = right
+											align = center
 											minimumsize = { 15 0 }
 	
 											tooltip = "CHARACTER_LIST_CLAIM_TOOLTIP"
@@ -502,26 +504,56 @@ types Lists
 			}
 		}
 	}
+	
+	type fixedgrid_traits_list = fixedgridbox {
+		datamodel = "[CharacterListItem.GetTraits]"
+		flipdirection = yes
+		size = { 150 35 }
+		addcolumn = 30
+		addrow = 35
+		block "horizontal_slots"
+		{
+			maxhorizontalslots = 8
+		}
+		maxverticalslots = 1
+		
+		item = {
+			widget = {
+				visible = "[Trait.IsValid]"
+				size = { 35 35 }
+				
+				icon_trait = {
+					parentanchor = center
+					
+					blockoverride "icon_size"
+					{
+						size = { 30 30 }
+					}
+					
+					blockoverride "tooltip_placement"
+					{
+						using = tooltip_se
+					}
+					
+					blockoverride "glow_radius"
+					{
+						glow_radius = 3
+					}
+				}
+			}
+		}
+	}
 
 
 	type widget_character_list_item_finder = widget {
 		datacontext = "[CharacterListItem.GetCharacter]"
 		size = { 200 94 }
 
-		#background = {
-		#	visible = "[CharacterListItem.HasEvenOrderIndex]"
-		#	using = Background_Area_Dark
-		#	margin_top = -4
-		#	margin_bottom = 200
-		#	alpha = 0.5
-		#}
-
 		block "divider" {}
 
 		block "widget" {}
 
 		hbox = {
-			## margin_right = 15
 			vbox = {
 				layoutpolicy_vertical = expanding
 				margin_top = 4
@@ -569,49 +601,51 @@ types Lists
 								}
 							}
 
-							hbox = {
-								margin_left = 3
-								layoutpolicy_horizontal = expanding
-								maximumsize = { 338 -1 }
+							block "character_name_relationship" {
+								hbox = {
+									margin_left = 3
+									layoutpolicy_horizontal = expanding
+									maximumsize = { 338 -1 }
 
-								text_single = {
-									using = Font_Size_Medium
-									### layoutpolicy_horizontal = expanding
-									align = nobaseline
-									text = "[Character.GetUINameNoTooltip|U]"
-									autoresize = no
-									fontsize_min = 12 
-									max_width = 300
-	#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
-								}
+									text_single = {
+										using = Font_Size_Medium
+										### layoutpolicy_horizontal = expanding
+										align = nobaseline
+										text = "[Character.GetUINameNoTooltip|U]"
+											fontsize_min = 12
+											#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
+											block "character_name_width" {
+												max_width = 300
+											}
+									}
 
-								block "character_relation"
-								{
-									hbox = {
-										visible = "[And(Character.HasRelationTo( GetPlayer ), Not(Character.IsPlayer))]"
+									block "character_relation"
+									{
+										hbox = {
+											visible = "[And(Character.HasRelationTo( GetPlayer ), Not(Character.IsPlayer))]"
 
-										text_single = {
-											raw_text = "•"
-											align = nobaseline
-											margin = { 5 0 }
-										}
+											text_single = {
+												raw_text = "•"
+												align = nobaseline
+												margin = { 5 0 }
+											}
 
-										text_single = {
-											name = "character_relation"
-											text = "[Character.GetRelationToString( GetPlayer )]"
-											tooltip = "EXTENDED_RELATIONS_TOOLTIP"
-											default_format = "#low"
-											align = nobaseline
-												fontsize_min = 12 
-	#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
-											max_width = 180
+											text_single = {
+												name = "character_relation"
+												text = "[Character.GetRelationToString( GetPlayer )]"
+												tooltip = "EXTENDED_RELATIONS_TOOLTIP"
+												default_format = "#low"
+												align = nobaseline
+													fontsize_min = 12 
+		#14  [23:53:29][E][pdx_gui_gfxtype_textwidget.cpp:451]: gui/shared/buttons.gui:151 - Illegal Property Value: 'fontsize_min' should be greater than 0 and less than 12
+												max_width = 180
+											}
 										}
 									}
+
+									expand = {}
 								}
-
-								expand = {}
 							}
-
 							hbox = {
 								using = character_age_or_death_text
 							}
@@ -1153,6 +1187,8 @@ types Lists
 			margin_top = 5
 			spacing = 5
 		}
+		
+		block "pre_filters" {}
 
 		button_standard = {
 			name = "filters"
@@ -1960,7 +1996,8 @@ types Lists
 											text = "[Character.Custom('vassal_directive_icon')]"
 											align = nobaseline
 
-											tooltip = "[Character.Custom('vassal_directive_text')]"
+											tooltip = "VASSAL_DIRECTIVE_ICON_TOOLTIP"
+											# tooltip = "[Character.Custom('vassal_directive_text')]"
 											using = tooltip_se
 										}
 									}
@@ -2035,6 +2072,57 @@ types Lists
 			}
 
 			expand = {}
+		}
+	}
+	
+	type widget_compact_vassal_list_item = widget {
+		size = { 80 118 }
+		datacontext = "[CharacterListItem.GetCharacter]"
+		
+		widget = {
+			size = { 85 100% }
+			parentanchor = hcenter
+			
+			background = {
+				using = Background_Area_Border_Solid
+			}
+			background = {
+				using = Background_Frame
+			}
+		}
+		
+		widget = {
+			parentanchor = bottom|hcenter
+			size = { 100% 30 }
+			
+			hbox = {
+				layoutpolicy_horizontal = expanding
+				margin = { 5 0 }
+				margin_bottom = 5
+				# visible = "[Character.HasLandedTitles]"
+				#obfus start: 1.19
+				visible = "[And(Character.HasLandedTitles,ShowMilitaryStrength)]"		
+				#obfus end: 1.19	
+				
+				text_single = {
+					raw_text = "@soldier_icon!"
+					align = nobaseline
+					using = Font_Size_Tiny
+				}
+				
+				text_single = {
+					layoutpolicy_horizontal = expanding
+					align = nobaseline|center
+					autoresize = no
+					text = "[Character.GetCurrentMilitaryStrength]"
+					tooltip = "[CharacterListItem.GetMilitaryStrengthTooltip]"
+					default_format = "#low"
+				}
+			}
+		}
+		
+		portrait_head_small = {
+			parentanchor = hcenter
 		}
 	}
 
@@ -2305,19 +2393,9 @@ types Lists
 							datacontext = "[MyRealmWindowVassalItem.GetTaxBreakdown]"
 
 						}
-						blockoverride "levy_info_visible" { visible = no }
 						blockoverride "contribution_tooltip_header"
 						{
 							text = "MRW_TT_TAXES_TO_ME"
-						}
-
-						blockoverride "levy_info"
-						{
-							text_single = {
-								multiline = yes
-								maximumsize = { 250 -1 }
-								text = "[MyRealmWindowVassalItem.GetTaxTooltip]"
-							}
 						}
 					}
 				}
@@ -2352,18 +2430,9 @@ types Lists
 						{
 							datacontext = "[MyRealmWindowVassalItem.GetLeviesBreakdown]"
 						}
-						blockoverride "tax_info_visible" { visible = no }
 						blockoverride "contribution_tooltip_header"
 						{
 							text = "MRW_TT_LEVIES_TO_ME"
-						}
-						blockoverride "tax_info"
-						{
-							text_single = {
-								multiline = yes
-								maximumsize = { 250 -1 }
-								text = "[MyRealmWindowVassalItem.GetLevyTooltip]"
-							}
 						}
 					}
 				}
@@ -2379,11 +2448,18 @@ types Lists
 			### VASSAL GOLD
 			hbox = {
 				# Treasury Vassals don't pay in gold
-				visible = "[And( Not( SubjectContract.GetLiege.GetGovernment.HasGovernmentFlag( 'government_has_treasury' ) ), GreaterThan_CFixedPoint( MyRealmWindowVassalItem.GetContract.GetTaxRatioForLiege, '(CFixedPoint)0' ))]"
+				visible = "[GreaterThan_CFixedPoint( MyRealmWindowVassalItem.GetContract.GetTaxRatioForLiege, '(CFixedPoint)0' )]"
+				# visible = "[And( Not( SubjectContract.GetLiege.GetGovernment.HasGovernmentFlag( 'government_has_treasury' ) ), GreaterThan_CFixedPoint( MyRealmWindowVassalItem.GetContract.GetTaxRatioForLiege, '(CFixedPoint)0' ))]" #1.18
 
 				icon = {
 					size = { 25 25 }
 					texture = "gfx/interface/icons/icon_gold.dds"
+					visible = "[Not( SubjectContract.GetLiege.GetGovernment.HasGovernmentFlag( 'government_has_treasury' ) )]"
+				}
+				icon = {
+					size = { 25 25 }
+					texture = "gfx/interface/icons/icon_imperial_treasury.dds"
+					visible = "[SubjectContract.GetLiege.GetGovernment.HasGovernmentFlag( 'government_has_treasury' )]"
 				}
 
 				text_single = {
@@ -2397,24 +2473,9 @@ types Lists
 						{
 							datacontext = "[MyRealmWindowVassalItem.GetTaxBreakdown]"
 						}
-
-						blockoverride "levy_info_visible"
-						{
-							visible = no
-						}
-
 						blockoverride "contribution_tooltip_header"
 						{
 							text = "MRW_TT_TAXES_TO_ME"
-						}
-
-						blockoverride "levy_info"
-						{
-							text_single = {
-								multiline = yes
-								maximumsize = { 250 -1 }
-								text = "[MyRealmWindowVassalItem.GetTaxTooltip]"
-							}
 						}
 					}
 				}
@@ -2635,18 +2696,6 @@ types Lists
 
 					onclick = "[ToggleGameViewData( 'tax_slot_assign_vassal', Character.Self )]"
 
-					background = {
-						#TODO:this should only be visible if this character is not being taxed
-						visible = no
-						texture = "gfx/interface/colors/red.dds"
-						alpha = 0.3
-
-						modify_texture = {
-							texture = "gfx/interface/component_masks/mask_dlc.dds"
-							blend_mode = alphaMultiply
-						}
-					}
-
 					text_single = {
 						parentanchor = vcenter|left
 						margin_left = 10
@@ -2736,7 +2785,7 @@ types Lists
 					#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End #),LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)5'))]"
 					#changed by obfusCKate: End
 					flipdirection = yes
-					# addcolumn = 54
+					# addcolumn = 52
 					# addrow = 55
 					maxhorizontalslots = 5
 					maxverticalslots = 1
@@ -2759,7 +2808,7 @@ types Lists
 					#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End ), #And(GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)5'), #LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)7')))]"
 					#changed by obfusCKate: End
 					flipdirection = yes
-					# addcolumn = 39
+					# addcolumn = 37
 					# addrow = 40
 					maxhorizontalslots = 7
 					maxverticalslots = 1
@@ -2787,9 +2836,9 @@ types Lists
 					#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End ), #And(GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)7'), #LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)10')))]"
 					#changed by obfusCKate: End
 					flipdirection = yes
-					# addcolumn = 28
+					# addcolumn = 29
 					# addrow = 29
-					maxhorizontalslots = 10
+					maxhorizontalslots = 9
 					maxverticalslots = 1
 
 					item = {
@@ -2882,7 +2931,7 @@ types Lists
 					#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End #),LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)4'))]"
 					#changed by obfusCKate: End
 					flipdirection = yes
-					# addcolumn = 54
+					# addcolumn = 52
 					# addrow = 55
 					maxhorizontalslots = 5
 					maxverticalslots = 1
@@ -2905,7 +2954,7 @@ types Lists
 					#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End ), #And(GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)4'), #LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)6')))]"
 					#changed by obfusCKate: End
 					flipdirection = yes
-					# addcolumn = 39
+					# addcolumn = 35
 					# addrow = 40
 					maxhorizontalslots = 7
 					maxverticalslots = 1
@@ -2914,7 +2963,7 @@ types Lists
 						icon_trait = {
 							blockoverride "icon_size"
 							{
-								size = { 40 40 }
+								size = { 38 38 }
 							}
 
 							blockoverride "glow_radius"
@@ -2933,9 +2982,9 @@ types Lists
 					#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End ), #And(GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)6'), #LessThanOrEqualTo_int32(GetDataModelSize(TraitArrays.GetTraits), #'(int32)8')))]"
 					#changed by obfusCKate: End
 					flipdirection = yes
-					# addcolumn = 28
+					# addcolumn = 26
 					# addrow = 29
-					maxhorizontalslots = 10
+					maxhorizontalslots = 8
 					maxverticalslots = 1
 
 					item = {
@@ -2961,10 +3010,10 @@ types Lists
 					#visible = "[And(GetScriptedGui('gui_show_other_traits').IsValid( #GuiScope.SetRoot( GetPlayer.MakeScope).AddScope( 'character', #Character.MakeScope ).End ), #GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)8'))]"
 					#changed by obfusCKate: End
 					flipdirection = yes
-					# addcolumn = 24
+					# addcolumn = 25
 					# addrow = 25
-					maxhorizontalslots = 9
-					datamodel_wrap = 9
+					maxhorizontalslots = 8
+					datamodel_wrap = 8
 					maxverticalslots = 2
 
 					item = {
@@ -3402,6 +3451,7 @@ template Scrollbar_Vertical
 				spriteborder = { 0 3 }
 				framesize = { 12 40 }
 				minimumsize = { -1 40 }
+				block "vertical_scrollbar_size" {}
 
 				upframe = 1
 				overframe = 2
